@@ -1,0 +1,12 @@
+<section id="app-c1" style="background:#ffffff;color:#1a1a1a;font-family:Arial, Helvetica, sans-serif;padding:88px 112px 120px;display:flex;flex-direction:column;gap:24px">
+<h2 style="font-size:44px;font-weight:700;line-height:1.15">Appendix C1: Data Analysis Plan</h2>
+<table style="width:100%;font-size:24px;color:#1a1a1a;border:1px solid #8a8a8a">
+<tr><th style="width:10%;text-align:left">Objective</th><th style="width:40%;text-align:left">Primary metrics</th><th style="width:50%;text-align:left">Statistical treatment</th></tr>
+<tr><td><b>RO1</b></td><td>Change in F1 and AUROC between representations; share of ectopic vs normal beats removed; count discrepancy</td><td>DeLong test for AUROC; paired bootstrap for F1; mixed-effects logistic regression of PAC retention on burden (H1); Bland–Altman bias and limits</td></tr>
+<tr><td><b>RO2</b></td><td>Beat level: PAC sensitivity, PPV, F1. Patient level: MAE of the daily-equivalent count; calibration across burden</td><td>Subject-wise splits; seeds averaged; primary contrast (H2) by paired subject-level bootstrap 95% CI; other contrasts and ablations with Holm correction</td></tr>
+<tr><td><b>RO3</b></td><td>Proportion with ≥3 valid days (primary); analysable yield; computability; day-to-day agreement; ESVEA proportion</td><td>One-sided test against the red-zone boundary (50%); Wilson 95% CI; ICC(2,1); linear mixed-effects model for activity; plausibility against published cohorts</td></tr>
+<tr><td><b>RO4a</b></td><td>Reclassification of ESVEA status; sensitivity and specificity of wearable ESVEA</td><td>Rates with Wilson 95% CI across a severity sweep per degradation operator; κ against ECG-derived status</td></tr>
+<tr><td><b>RO4b</b></td><td>Agreement and overlap at equal capacity (same number selected); association with atrial substrate (left atrial volume index, P-wave duration, NT-proBNP)</td><td>Cohen κ and Jaccard index; logistic regression and rank correlation with 95% CI; descriptive only</td></tr>
+</table>
+<p style="font-size:24px;line-height:1.3">Missing data are modelled rather than deleted: the per-beat quality flag and time since the last accepted beat enter the model, the retention correction reweights beats lost silently, and each 6-hour block is weighted by its length, with ESVEA from the count pooled by block.</p>
+</section>

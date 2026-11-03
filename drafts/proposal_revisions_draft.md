@@ -1,6 +1,6 @@
 # Draft revisions for the proposal defence (not yet applied)
 
-**Status:** approved by the candidate on 3 November 2026; E1 and E11 still to be confirmed with supervisors. Nothing here has been applied to `proposal/source/content.txt`, the docx or the slide deck.
+**Status:** approved by the candidate and **applied on 3 November 2026** to `proposal/source/content.txt`, `proposal/Ridhwan_Research_Proposal_UM.docx` and the slide deck (version 44). E1 and E11 still need supervisor reconfirmation: see `proposal/SUPERVISOR_RECONFIRMATION_E1_E11.md`.
 **Base version:** handover of 3 November 2026 (`content.txt`, 45-slide deck, version 34).
 **House rules followed:** APA 7th edition; no em dashes; main text kept at or under 7,000 words.
 

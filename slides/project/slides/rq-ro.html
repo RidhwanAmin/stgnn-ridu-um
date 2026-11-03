@@ -1,0 +1,25 @@
+<section id="rq-ro" style="background:#ffffff;color:#1a1a1a;font-family:Arial, Helvetica, sans-serif;padding:88px 112px 140px;display:flex;flex-direction:column;gap:20px">
+<h2 style="font-size:52px;font-weight:700;line-height:1.15">Aim, Research Questions and Objectives</h2>
+<p style="font-size:24px;line-height:1.3"><b>Aim:</b> to establish whether smartwatch beat intervals, analysed with an estimator that models signal quality and unobserved time, can yield a daily atrial ectopy estimate whose error is characterised against ECG labels under simulated smartwatch losses and whose coverage after stroke is adequate, as a step towards comparison with ECG-derived ESVEA thresholds.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div style="display:flex;flex-direction:column;gap:8px;padding:18px;border:1px solid #8a8a8a">
+<p style="font-size:23px;font-weight:700;line-height:1.25">RQ1: How much ectopy information is lost when a PPG waveform is reduced to a quality-filtered beat-interval series?</p>
+<p style="font-size:21px;line-height:1.25">RO1: To investigate the information lost when a PPG waveform is reduced to a filtered beat-interval series, separating the loss from absent pulse morphology from the loss due to beat rejection.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;padding:18px;border:1px solid #8a8a8a">
+<p style="font-size:23px;font-weight:700;line-height:1.25">RQ2: Can a two-scale beat-interval ST-GNN that uses per-beat quality flags as input estimate atrial ectopy rate more accurately than sequence-based baselines?</p>
+<p style="font-size:21px;line-height:1.25">RO2: To develop and evaluate a two-scale beat-interval ST-GNN (beat-graph and epoch-graph) that estimates atrial ectopy rate from interval sequences and their quality flags.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;padding:18px;border:1px solid #8a8a8a">
+<p style="font-size:23px;font-weight:700;line-height:1.25">RQ3: Can a 7-day smartwatch protocol in post-stroke survivors yield enough analysable and stable data to compute a per-day ESVEA classification?</p>
+<p style="font-size:21px;line-height:1.25">RO3: To evaluate the deployability of a 7-day smartwatch protocol in post-stroke survivors by analysing data yield, threshold computability and day-to-day stability against pre-specified progression criteria.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;padding:18px;border:1px solid #8a8a8a">
+<p style="font-size:23px;font-weight:700;line-height:1.25">RQ4: Does substituting a smartwatch-derived ectopy estimate for the ECG-derived count change ESVEA classification, and how do wearable-based selections compare with clinical risk scores?</p>
+<p style="font-size:21px;line-height:1.25">RO4: To evaluate and validate the substitution of a smartwatch-derived ectopy estimate for the ECG-derived count: (a) ESVEA reclassification under simulated device losses, and (b) agreement with score-based selections.</p>
+</div>
+</div>
+<p style="font-size:22px;line-height:1.3"><b>H1</b> in new Icentia11k patients, PAC retention after filtering varies with burden, so no single correction restores the count · <b>H2</b> the ST-GNN beats the best non-graph baseline on daily-equivalent count error · <b>H3</b> at least 75% of participants yield 3 valid days (null 50% or below) · RQ4 is descriptive</p>
+<p style="position:absolute;right:112px;bottom:56px;width:200px;text-align:right;font-size:24px;color:#6b6b6b">5</p>
+<aside>About 1.5 minutes. Walk the chain: RO1 measures what is lost, RO2 builds the estimator that uses the quality flag instead of deleting it, RO3 tests whether the protocol works in the real population, RO4 asks whether it changes clinical classification. H1 was reworded because the earlier version was true by construction; the new one is tested on patients not used in the preliminary analysis. The aim promises error under simulated losses, not on a real watch, because no objective has concurrent ECG on the Garmin. Note that RO4 is now split: 4a is a retrospective substitution test on Icentia11k where ECG truth exists; 4b is descriptive agreement in the cohort. This removes the earlier net reclassification improvement, which needs an outcome we do not collect.</aside>
+</section>

@@ -1,0 +1,24 @@
+<section id="ro1-ro2" style="background:#ffffff;color:#1a1a1a;font-family:Arial, Helvetica, sans-serif;padding:88px 112px 140px;display:flex;flex-direction:column;gap:24px">
+<h2 style="font-size:52px;font-weight:700;line-height:1.15">RO1 and RO2: Information Loss and the Two-Scale ST-GNN</h2>
+<div style="display:flex;flex-direction:row;gap:36px;align-items:start">
+<img src="/_blob/74d64a6b246c2a7b59dbfa8fde082517" alt="Two-scale ST-GNN architecture: (a) per-beat features and reliability; (b) window split with chain and similarity graphs; (c) local block with chain, self and similarity branches under gates, attention readout, and interval block with graph convolution and selective state space; (d) event head, rate head, frozen reliability correction and coverage gate producing an estimated rate and mask. Reliability bypasses both encoders." style="width:900px;height:780px;object-fit:contain">
+<div style="flex:1;display:flex;flex-direction:column;gap:14px">
+<h3 style="font-size:24px;font-weight:700">RO1: what is lost (Pulsewatch, Icentia11k)</h3>
+<ul style="font-size:19px;line-height:1.3;display:flex;flex-direction:column;gap:6px">
+<li>Morphology: waveform model vs interval model on the same recordings</li>
+<li>Filtering: share of ectopic beats removed by percent-deviation (Karlsson et al., 2012) and adaptive (Lipponen &amp; Tarvainen, 2019) filters</li>
+<li>Origin: all premature beats vs PAC-only count, by burden</li>
+</ul>
+<h3 style="font-size:24px;font-weight:700">RO2: the estimator (shown left)</h3>
+<ul style="font-size:19px;line-height:1.3;display:flex;flex-direction:column;gap:6px">
+<li>Beat-graph per window: temporal chain plus similarity edges</li>
+<li>Epoch-graph over the day: interval graph convolution and state space; on Icentia11k trained on pseudo-days (segments untimed), real order across days tested on Pulsewatch windows</li>
+<li>Quality flag enters as input (Garmin flags abnormal beats and marks gaps); retention corrects only silent loss: pulse deficit by coupling interval and motion (Pulsewatch, lag-corrected); coverage gate is a reporting rule (Equations 3.1 to 3.4, appendix)</li>
+<li>Benchmarks: logistic regression, SVM, random forest, Poincaré rule, BiLSTM, GRU-D, transformer; component ablations (Appendix B)</li>
+</ul>
+<p style="font-size:19px;line-height:1.3;color:#3a3a3a">Graph structure is tested, not assumed: an MLP slightly outperformed a GCN on visibility-graph beat features (EPMoghaddam et al., 2024).</p>
+</div>
+</div>
+<p style="position:absolute;right:112px;bottom:56px;width:200px;text-align:right;font-size:24px;color:#6b6b6b">14</p>
+<aside>Pending supervisor reconfirmation (E1): retention now corrects only silent loss; this replaces decision 6g. See proposal/SUPERVISOR_RECONFIRMATION_E1_E11.md. About 1.5 minutes. RO1 separates two losses: morphology (the P wave is gone in intervals) and filtering (rejection rules delete beats that look abnormal, which are often the ectopic ones; the Garmin flags these beats rather than deleting them, so the estimator keeps flagged beats as input and RO1's filter results justify that choice). RO2: the beat-graph sees local structure in a window; the epoch-graph aggregates across the day. The reliability pathway bypasses both encoders and is fitted separately, so its contribution is identifiable by ablation. The coverage gate is a fixed reporting rule, not a learned layer: it makes the model abstain rather than report a number on thin data. The rate head is an auxiliary training target and a cross-check; reported estimates use the event head. If asked how the epoch graph learns a day from 70-minute segments: on Icentia11k it trains on pseudo-days built from each patient's own segments, so it learns aggregation under gaps, not a diurnal pattern; real order across days is tested on Pulsewatch windows, using file-name local time. A precedent that an imperfect beat detector can still give a usable daily burden: Siejko et al. (2025), PVC burden from an implanted monitor, beat sensitivity 80.1% yet burden r = 0.95 against Holter.</aside>
+</section>
