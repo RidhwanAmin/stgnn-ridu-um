@@ -20,7 +20,7 @@ This index maps every markdown record, from the handover to the latest change, t
 | Proposal source and build | `proposal/source/` (`content.txt`, `build.js`, `framework.png`, `arch.png`) | Post-review revision | `node build.js` (npm `docx`) |
 | Slide deck (Claude Slides) | https://claude.ai/artifact/4RuYVim5WsRqG5aQLYJGas | Version id 1793687949-bd1f | 45 slides; shared with anyone with the link |
 | Slide sources (full copy) | `slides/project/` | Same version | Version history; the deck is the source of truth |
-| Research map page | `index.html` (+ `assets/`), https://claude.ai/artifact/1BnWNir54MvkSfH5uPfMiE | Version 8 (id 1793694860-0ea4) | Matches the post-review proposal; 17 figures (6 interactive) for methodology and preliminary results, revised after a second review (Day 6 abstains; E1 and E11 marked as awaiting confirmation); shared with anyone with the link |
+| Research map page | `index.html` (+ `assets/`), https://claude.ai/artifact/1BnWNir54MvkSfH5uPfMiE | Version 9 (id 1793724829-12f9) | Matches the post-review proposal; 19 figures (8 interactive), including what is counted (PAC vs motion artefact, PAC vs AF; 24 hours to an ESVEA call) and a step-by-step dependency chain; E1 and E11 marked as awaiting confirmation; shared with anyone with the link |
 
 ---
 

@@ -253,6 +253,31 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
 .hv{fill:var(--ink);font-family:var(--f-mono);font-size:11px} .hv.inv{fill:#ffffff}
 .okt{fill:var(--ok)} .badt{fill:var(--bad)}
 .trk{fill:var(--paper);stroke:var(--rule)}
+.fdetail{border:1px solid var(--rule);border-left:3px solid var(--layer-ink);border-radius:0 6px 6px 0;background:var(--surface);padding:12px 16px;margin:10px 0 18px;max-width:78ch;min-height:5.5em}
+.fdetail h4{margin:0 0 4px}
+.fdetail p{margin:0 0 6px}
+.fdetail dl{display:grid;grid-template-columns:max-content 1fr;gap:4px 14px;margin:6px 0 0;font-size:var(--s-1)}
+.fdetail dt{color:var(--muted)}
+.fdetail dd{margin:0}
+ol.chain{list-style:none;counter-reset:ch;padding:0;margin:12px 0 18px;max-width:78ch}
+ol.chain li{counter-increment:ch;position:relative;padding:10px 0 10px 46px;border-top:1px solid var(--rule)}
+ol.chain li::before{content:counter(ch);position:absolute;left:0;top:10px;width:30px;height:30px;border-radius:50%;background:var(--layer);color:var(--layer-ink);font-family:var(--f-mono);font-size:.85rem;display:flex;align-items:center;justify-content:center}
+.ppg{fill:none;stroke:var(--ink);stroke-width:1.8;stroke-linejoin:round}
+.ppg.pac{stroke:var(--c2);stroke-width:2.4}
+.ppg.af{stroke:var(--k1)}
+.ppg.mot{stroke:var(--muted)}
+.accl{fill:none;stroke:var(--muted);stroke-width:1.3}
+.motband{fill:var(--muted);fill-opacity:.12}
+.afband{fill:var(--k1);fill-opacity:.08}
+.pacband{fill:var(--c2);fill-opacity:.10}
+.btk{stroke:var(--ink);stroke-width:2} .btk.pac{stroke:var(--c2);stroke-width:3} .btk.af{stroke:var(--k1)} .btk.mot{stroke:var(--muted)}
+.flagm{fill:none;stroke:var(--warn);stroke-width:1.8}
+.hbar{fill:var(--c2)} .hbar.unobs{fill:var(--c2);fill-opacity:.22}
+.covsh{fill:var(--muted);fill-opacity:.16}
+.thr{stroke:var(--accent);stroke-width:2.5}
+.thrz{fill:var(--accent);fill-opacity:.10}
+.daym{fill:var(--ink)} .daym.pos{fill:var(--accent)}
+.naive{fill:var(--muted)}
 @media (prefers-reduced-motion: reduce){ .vtip{transition:none} }
 </style>
 
@@ -261,6 +286,7 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
   <p>Research map</p>
   <ol>
     <li><a href="#overview">Study in one page</a></li>
+    <li><a href="#signal">What is counted</a></li>
     <li><a href="#framework">Framework and design</a></li>
     <li><a href="#pipeline">Methodology pipeline</a></li>
     <li><a href="#ro1"><span class="ro">RO1</span>Information loss</a></li>
@@ -342,6 +368,38 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
   </div>
 </section>
 
+<!-- WHAT IS COUNTED -->
+<section id="signal">
+  <span class="eyebrow">Background · Chapter 1 and Section 3.3</span>
+  <h2>What the watch sees, and what is counted</h2>
+  <p>A smartwatch does not record the ECG. It records the pulse wave at the wrist (PPG), picks one peak per heartbeat, and reports the time between peaks: the beat intervals. Everything in this study is read from that list of intervals, the per-beat quality flag and the accelerometer. The difficulty is that three different things can make the intervals irregular, and only one of them is the event being counted.</p>
+
+  <div class="widget">
+    <h4>Telling a premature atrial beat apart <span class="chip warn">schematic waveforms, not device data</span></h4>
+    <div class="ctrls" role="group" aria-label="Comparison">
+      <button class="btn" data-sig="mot" aria-pressed="true">PAC vs motion artefact</button>
+      <button class="btn" data-sig="af" aria-pressed="false">PAC vs atrial fibrillation</button>
+    </div>
+    <div class="viz" id="v-sig" data-label="Two schematic recordings side by side. Each shows the accelerometer, the wrist pulse wave, the beats the watch reports, and the interval between beats. Left: a premature atrial beat, early and weaker, then a longer pause. Right: either a burst of wrist motion, where beats are missed or split and flagged, or atrial fibrillation, where every interval differs."></div>
+    <div class="tw"><table id="sig-table">
+      <thead><tr><th>What to look at</th><th>Premature atrial beat (PAC)</th><th id="sig-h2">Motion artefact</th></tr></thead>
+      <tbody id="sig-body"></tbody>
+    </table></div>
+    <p class="cap">The PAC column is what the model learns to score as p̂<sub>i</sub>. The accelerometer and the device flag are model inputs, so the model sees whether the wrist was moving when an interval looked abnormal; the proposal states the principle as "low-confidence beats at low motion are candidate rhythm events". How each loss is then handled is in <a href="#estimator">From beat probabilities to a daily count</a>.</p>
+  </div>
+
+  <div class="widget">
+    <h4>From one beat to an ESVEA call <span class="chip warn">illustrative day</span></h4>
+    <div class="ctrls">
+      <label for="cnt-n">PACs in 24 hours <input id="cnt-n" type="range" min="0" max="1500" step="10" value="620"><output id="cnt-n-o">620</output></label>
+      <label for="cnt-w"><input id="cnt-w" type="checkbox"> Show what a watch keeps</label>
+    </div>
+    <div class="viz" id="v-count" data-label="Three rows. The unit: one premature atrial beat in a row of normal beats counts as one. The window: PACs per hour across 24 hours, higher in the afternoon and evening. The threshold: the day's total on a scale from 0 to 1500, with ESVEA at 480 or more per day."></div>
+    <div class="vout" id="cnt-out" style="display:block"></div>
+    <p class="cap">ESVEA here is the primary definition used in the study: 480 or more supraventricular premature beats in 24 hours (Haeusler et al., 2025); the secondary definition, 30 or more per hour on average (Binici et al., 2010), equals 720 per day, and runs are reported separately. The hourly shape follows the block ratios of Larsen et al. (2016), 0.87, 0.63, 1.11 and 1.40 for 00–06, 06–12, 12–18 and 18–24 h, which the study uses only in a sensitivity analysis. The watch-coverage pattern is illustrative: usable time weighted to the night, as reported by Merschel and Reinhardt (2022).</p>
+  </div>
+</section>
+
 <!-- FRAMEWORK -->
 <section id="framework">
   <span class="eyebrow">Chapter 3.1 and 3.2</span>
@@ -395,8 +453,22 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
     <div class="phase"><span class="tag">PHASE 4 · RO4</span><h3>Substitute and validate</h3><p>4a: held-out Icentia11k degraded to smartwatch-like intervals. 4b: wearable vs score-based selections at equal capacity.</p><span class="feeds">→ reclassification; agreement</span></div>
   </div>
   <h3>Data and dependency flow</h3>
-  <p class="muted">Hover or focus a box to trace what feeds it and what it feeds. Blue boxes are the objectives. P0 to P3 are the disjoint Icentia11k patient sets of Table B.3 (<a href="#v-part">patient sets</a>): P0 preliminary RO1, P1 the H1 test, P2 RO2 development, P3 held out for RO4a.</p>
+  <p class="muted">Hover, focus or click a box to trace what feeds it and what it feeds, and to read what it brings. Blue boxes are the objectives. P0 to P3 are the disjoint Icentia11k patient sets of Table B.3 (<a href="#v-part">patient sets</a>): P0 preliminary RO1, P1 the H1 test, P2 RO2 development, P3 held out for RO4a.</p>
   <div class="viz" id="v-flow" data-label="Dependency diagram: Icentia11k feeds RO1, RO2 and the held-out RO4a set; Pulsewatch feeds RO1 and the motion retention in RO2; the Garmin specification fixes flag semantics for RO2; RO1 feeds RO2 and RO4a; the frozen RO2 model feeds RO4a; the RO3 cohort feeds RO3, which feeds RO4b and the RO4a coverage operator."></div>
+  <div class="fdetail" id="flow-detail" aria-live="polite"></div>
+
+  <h3>The chain, step by step</h3>
+  <p>No single dataset has everything the question needs. The one with true beat labels has no wrist pulse and no clock; the one with a wrist pulse has the wrong watch and merged labels; the stroke cohort has the right watch and the right patients but no ECG. Each step below takes what one source can show and hands it to the next, which is why the order is fixed.</p>
+  <ol class="chain">
+    <li><b>Icentia11k sets the truth.</b> About 11,000 patients wore a single-lead ECG patch for up to two weeks, and every beat is labelled by type: normal, premature atrial (PAC), premature ventricular or unclassifiable. It is the only source that says which beat is a PAC, so it supplies the answer key for RO1, the training labels for RO2 and the final test for RO4a. Its limits shape everything downstream: the intervals come from the ECG, not a wrist pulse, so watch-like losses must be added by simulation; and its segments carry no clock time, so a patient's reference is a rate per hour times 24, not a real calendar day. Its patients are split into four sets that never overlap (P0 to P3), so no patient used for building the model is used for judging it.</li>
+    <li><b>RO1 measures what is lost, before anything is built.</b> On Icentia11k (P0, then P1) it runs the filters that wearable software uses to clean intervals and counts which beats they throw away; on Pulsewatch it compares a model that sees the full pulse waveform with one that sees only intervals. The finding so far, that the filter removes 61% of PAC intervals but 9% of normal ones at 20%, decided the design of RO2: flagged beats must stay in as evidence instead of being deleted. Its loss rates also set how strongly RO4a later degrades the test records.</li>
+    <li><b>Pulsewatch links the wrist to the heart.</b> A Samsung watch recorded the wrist pulse and the accelerometer while a reference ECG recorded the true heartbeats. Matching the two shows how often a real heartbeat makes it into the watch's beat list at each level of movement. That curve, π̂(m), is the correction the estimator uses for beats the watch misses silently during movement. Its limits: it is a different watch from the Garmin (so the transfer is a stated assumption), its labels merge PACs with ventricular beats, and its timing needs a per-session lag correction.</li>
+    <li><b>The Garmin specification fixes the rules of the device.</b> Garmin's description of Enhanced beat-to-beat intervals says a doubtful beat is kept and flagged rather than deleted, and a stretch with no usable signal is marked as a gap. That tells the model what each signal means: a flag is evidence to weigh, a gap is time that was not observed. Because Icentia11k has no flags, the same rules are used to simulate flags for training.</li>
+    <li><b>RO2 builds the estimator from all of the above, then freezes it.</b> The graph network is trained on Icentia11k (P2) with simulated flags; π̂(m) comes from Pulsewatch; the coverage gate follows the Garmin gap rule. At milestone M4 the model, π̂(m) and the gate are frozen, and only then is the held-out set P3 opened. Freezing first is what makes the RO4a result an honest test rather than a tuned one.</li>
+    <li><b>The RO3 cohort shows whether the watch delivers after stroke.</b> About 40 stroke or TIA survivors wear a Garmin for 7 days. There is no ECG, so it cannot show accuracy; it shows how many days are usable, at which hours the watch is worn and readable, and how stable the daily estimate is. Those real coverage patterns feed RO4a's gap simulation, and the cohort's ESVEA calls are compared with clinical risk scores in RO4b.</li>
+    <li><b>RO4 asks whether the estimate changes the decision.</b> In RO4a, the frozen model reads the held-out Icentia11k records after they are degraded the way a watch degrades them (flags, gaps, missing pulses, timing noise), and its ESVEA calls are compared with the ECG truth. In RO4b, the wearable's selections are compared with score-based selections in the cohort. If the cohort cannot start in time, steps 1 to 5 and RO4a still run, with coverage modelled from Pulsewatch wear.</li>
+  </ol>
+
   <div class="note-box"><p><b>Fallback.</b> If ethics, the device or 24-hour interval logging is not secured by S4, RO3 becomes a device-verification study with coverage modelled from Pulsewatch wear data, RO4a proceeds unchanged, and RO4b is deferred. RO1, RO2 and RO4a do not depend on the cohort.</p></div>
 </section>
 
@@ -1051,6 +1123,18 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
       ['gm','r2','flag semantics'],['r1','r2','flag-as-input; flag simulator'],['ic','r4a','held-out patients (P3)','top'],['r2','r4a','frozen model (M4)'],
       ['r1','r4a','operator calibration'],['co','r3','Garmin intervals'],['r3','r4b','ESVEA calls'],['r3','r4a','coverage operator']
     ];
+    var pinned='ic';
+    var INFO={
+      ic:['Icentia11k: the answer key','About 11,000 patients wore a single-lead ECG patch for up to two weeks; every beat is labelled as normal, premature atrial (PAC), premature ventricular or unclassifiable.','Which beat is a PAC, for every beat. This is the only ground truth for counting.','What a wrist watch would have seen: the intervals come from the ECG, so watch-like losses are added by simulation. It has no clock time, so a patient&#39;s reference is a rate per hour times 24.','RO1 (patients P0 and P1), RO2 training (P2), and the final RO4a test (P3, kept unopened).','It comes first because every later accuracy figure is measured against its labels.'],
+      pw:['Pulsewatch: the wrist-to-heart link','A Samsung watch recorded the wrist pulse and the accelerometer while a reference ECG recorded the true heartbeats.','How often a real heartbeat reaches the watch&#39;s beat list at each level of movement: the retention curve π̂(m). Also a direct comparison of a model given the full pulse waveform with one given only intervals.','Garmin behaviour (it is a different watch, so transfer is assumed); PACs alone (its labels merge PACs with ventricular beats); exact beat timing without a per-session lag correction.','RO1 (what intervals lose against the waveform) and RO2 (the frozen retention correction).','It must be measured before RO2 is frozen, because the correction is fixed inside the estimator.'],
+      gm:['Garmin specification: the device rules','Garmin&#39;s description of its Enhanced beat-to-beat intervals.','What each device signal means: a doubtful beat is kept and flagged, not deleted; a stretch with no usable signal is marked as a gap.','Accuracy of any reading; it is a description, not data.','RO2: flags become model inputs and gaps become unobserved time; the same rules simulate flags on Icentia11k, which has none.','The model can only be built to match a device whose rules are known; the device itself is checked in RO3.'],
+      co:['RO3 cohort: the real patients and the real watch','About 40 adults after ischaemic stroke or TIA, consecutive at PPUM, wearing a Garmin for 7 days.','Real wear and coverage: how many days are usable, at which hours the watch is readable, how stable the daily estimate is.','Accuracy: there is no ECG, so no reading can be checked against truth.','RO3 outcomes, the realistic gap pattern used in RO4a, and the selections compared in RO4b.','It runs alongside RO2 because it needs ethics approval and the device; RO1, RO2 and RO4a do not wait for it.'],
+      r1:['RO1: measure what is lost','Runs the cleaning filters that wearable software uses, and compares waveform with intervals.','The size of the loss: at a 20% threshold the filter removed 61% of PAC intervals and 9% of normal ones, more so in patients with fewer PACs.','How to fix the loss; that is RO2&#39;s job.','RO2 (keep flagged beats as evidence; calibrate the flag simulator) and RO4a (how hard to degrade the test records).','It is first because it decides the design of the model.'],
+      r2:['RO2: build and freeze the estimator','A two-scale graph network that scores every beat, plus the retention correction and the coverage gate (Equations 3.1 to 3.4).','A daily PAC count with a rule for when not to report it.','Real-device accuracy; that needs RO4a&#39;s simulation and future device studies.','RO4a, frozen at milestone M4 before the held-out patients are opened.','Freezing before testing is what makes RO4a an honest test.'],
+      r3:['RO3: does the watch deliver after stroke?','Seven days of Garmin wear in the cohort.','Whether at least 75% of participants give 3 or more valid days, and when the watch is usable.','Whether any individual count is right.','RO4a (coverage pattern) and RO4b (wearable ESVEA calls).','It can only start once ethics, the device and 24-hour logging are confirmed (by S4).'],
+      r4a:['RO4a: does the estimate change the decision?','Held-out Icentia11k records degraded the way a watch degrades them, then read by the frozen model.','How often the ESVEA call differs from the ECG truth (reclassification, κ, sensitivity, specificity).','Performance on a real Garmin.','The thesis conclusion on substitution.','It comes last because it needs the frozen model and the loss rates from RO1.'],
+      r4b:['RO4b: wearable vs clinical scores','In the cohort, the wearable&#39;s ESVEA selections compared with selections by clinical risk scores at equal capacity.','Agreement and how the selected patients differ.','Which selection is better, as no outcome truth exists.','Discussion of clinical use.','It needs the RO3 cohort.']
+    };
     var defs=el('defs',{},s);var m=el('marker',{id:'arw',viewBox:'0 0 10 10',refX:9,refY:5,markerWidth:7,markerHeight:7,orient:'auto-start-reverse'},defs);el('path',{d:'M0,0 L10,5 L0,10 z','class':'arwh'},m);
     var eg=el('g',{},s),ng=el('g',{},s),eEls=[];
     edges.forEach(function(e){
@@ -1075,10 +1159,16 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
       var n=nodes[k],g=el('g',{'class':'fn'+(k.charAt(0)==='r'?' ro':'')},ng);
       el('rect',{x:n.x,y:n.y,width:n.w,height:n.h,rx:6},g);
       el('text',{x:n.x+12,y:n.y+26,'class':'fnt'},g,n.t);el('text',{x:n.x+12,y:n.y+46,'class':'fnd'},g,n.d);
-      function on(){eEls.forEach(function(e){var hit=e.a===k||e.b===k;e.p.classList.toggle('on',hit);e.t.classList.toggle('on',hit);e.p.classList.toggle('dim',!hit);e.bg.classList.toggle('dim',!hit);});}
-      function off(){eEls.forEach(function(e){e.p.classList.remove('on','dim');e.t.classList.remove('on');e.bg.classList.remove('dim');});}
-      g.setAttribute('tabindex','0');g.addEventListener('mouseenter',on);g.addEventListener('mouseleave',off);g.addEventListener('focus',on);g.addEventListener('blur',off);
+      function on(){eEls.forEach(function(e){var hit=e.a===k||e.b===k;e.p.classList.toggle('on',hit);e.t.classList.toggle('on',hit);e.p.classList.toggle('dim',!hit);e.bg.classList.toggle('dim',!hit);});showInfo(k);}
+      function off(){eEls.forEach(function(e){e.p.classList.remove('on','dim');e.t.classList.remove('on');e.bg.classList.remove('dim');});showInfo(pinned);}
+      g.setAttribute('tabindex','0');g.setAttribute('role','button');g.setAttribute('aria-label',n.t+': show what it brings');
+      g.addEventListener('mouseenter',on);g.addEventListener('mouseleave',off);g.addEventListener('focus',on);g.addEventListener('blur',off);
+      g.addEventListener('click',function(){pinned=k;on();});
+      g.addEventListener('keydown',function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();pinned=k;on();}});
     });
+    function showInfo(k){var d=$('flow-detail');if(!d)return;var f=INFO[k];if(!f)return;
+      d.innerHTML='<h4>'+f[0]+'</h4><p>'+f[1]+'</p><dl><dt>Brings</dt><dd>'+f[2]+'</dd><dt>Cannot show</dt><dd>'+f[3]+'</dd><dt>Goes to</dt><dd>'+f[4]+'</dd><dt>Why here in the order</dt><dd>'+f[5]+'</dd></dl>';}
+    showInfo(pinned);
   })();
 
   /* ---------- RO1 filter demo ---------- */
@@ -1404,6 +1494,153 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
     box(720,200,170,112,'RO4a (P3)',['degrade: flags, gaps,','pulse deficit, timing','noise; severity sweep','reclassification, κ,','sens., spec.'],'ro');
     arrow(670,215,720,240,'');arrow(420,283,720,283,'degraded records');
     el('text',{x:890,y:336,'class':'tk','text-anchor':'end'},s,'Other contrasts and ablations: Holm-corrected');
+  })();
+
+  /* ---------- What the watch sees: PAC vs motion / PAC vs AF ---------- */
+  (function(){
+    if(!$('v-sig'))return;
+    var ROWS={acc:[34,64],ppg:[84,170],tk:[184,206],rr:[226,336]};
+    var RRMIN=300,RRMAX=1700;
+    /* scenarios: beats as {rr (ms, interval ending at this beat), amp, kind, rep (reported), flag} */
+    var SC={
+      pac:{title:'Premature atrial beat',cls:'pac',acc:0.05,motion:null,beats:[
+        {rr:800},{rr:810},{rr:795},{rr:805},{rr:480,k:'pac',amp:0.55,flag:1},{rr:1060,k:'pause'},{rr:800},{rr:805},{rr:790},{rr:800}]},
+      mot:{title:'Motion artefact',cls:'mot',acc:1,motion:[2.9,7.25],spurAfter:6,beats:[
+        {rr:800},{rr:805},{rr:795},{rr:800},{rr:800,miss:1},{rr:800,k:'mot',flag:1,merged:1},{rr:800,k:'mot',flag:1},{rr:800,k:'mot',flag:1},{rr:800},{rr:795}]},
+      af:{title:'Atrial fibrillation',cls:'af',acc:0.05,motion:null,beats:[
+        {rr:620,k:'af',amp:0.8},{rr:900,k:'af',amp:1},{rr:540,k:'af',amp:0.62},{rr:770,k:'af',amp:0.9},{rr:1010,k:'af',amp:1},{rr:580,k:'af',amp:0.66},{rr:840,k:'af',amp:0.92},{rr:470,k:'af',amp:0.58},{rr:930,k:'af',amp:1},{rr:690,k:'af',amp:0.8},{rr:760,k:'af',amp:0.86}]}
+    };
+    var TABLE={
+      mot:[['Accelerometer','Quiet: the wrist is still','High: the wrist is moving'],
+           ['Pulse wave','One small pulse, arriving early','Distorted; peaks hard to place'],
+           ['Intervals','Short, then longer, then the old pace resumes','A missed beat gives one long interval (about twice normal) with no short one before it; a false peak splits one interval into two short ones'],
+           ['Device flag','May be flagged: the device flags intervals it judges abnormally short or long','Flagged as motion-affected'],
+           ['What the study does','Counts it: the model gives this beat a high p̂<sub>i</sub>','Not a PAC. The flag and motion are model inputs; beats the watch drops without a flag are corrected through π̂(m); a marked gap leaves observed time']],
+      af:[['Accelerometer','Quiet','Quiet'],
+          ['Pulse wave','One small early pulse; the others look alike','Pulse height varies from beat to beat'],
+          ['Intervals','One short-then-long pair inside a steady rhythm','No interval repeats and there is no steady pace to return to; it lasts minutes or more, not one beat'],
+          ['What it is','An ectopic event, counted towards ESVEA','A different finding: the arrhythmia that monitoring after stroke is looking for'],
+          ['What the study does','Counts it (p̂<sub>i</sub>)','Not counted as ectopy. In the pilot, a beat-graph classifier separated AF windows from PAC/PVC windows with AUROC 0.968 to 1.000 across three cohorts']]
+    };
+    function pulse(t,t0,amp){var d=(t-t0)*1000;if(d<-80||d>520)return 0;
+      return amp*(Math.exp(-Math.pow((d-90)/48,2))+0.32*Math.exp(-Math.pow((d-250)/55,2)));}
+    function panel(s,x0,w,sc,showLabels){
+      var T=8.6,px=function(t){return x0+12+t/T*(w-24);};
+      /* beat times: every scenario starts at 0.55 s */
+      var tt=0.55,beats=[];sc.beats.forEach(function(b){tt+=b.rr/1000;beats.push(Object.assign({t:tt},b));});
+      el('text',{x:x0+w/2,y:18,'class':'lbl','text-anchor':'middle'},s,sc.title);
+      if(sc.motion)el('rect',{x:px(sc.motion[0]),y:ROWS.acc[0]-6,width:px(sc.motion[1])-px(sc.motion[0]),height:ROWS.rr[1]-ROWS.acc[0]+10,rx:6,'class':'motband'},s);
+      if(sc.cls==='af')el('rect',{x:x0+4,y:ROWS.acc[0]-6,width:w-8,height:ROWS.rr[1]-ROWS.acc[0]+10,rx:6,'class':'afband'},s);
+      if(sc.cls==='pac'){var bp=beats[4],bq=beats[5];el('rect',{x:px(bp.t-0.22),y:ROWS.acc[0]-6,width:px(bq.t+0.18)-px(bp.t-0.22),height:ROWS.rr[1]-ROWS.acc[0]+10,rx:6,'class':'pacband'},s);}
+      /* accelerometer */
+      var a='';for(var i=0;i<=200;i++){var t=i/200*T,amp=sc.acc*0.12;
+        if(sc.motion&&t>sc.motion[0]&&t<sc.motion[1])amp=0.95;
+        var v=amp*(Math.sin(t*23)*0.6+Math.sin(t*41+1)*0.4);a+=(i?'L':'M')+px(t).toFixed(1)+','+((ROWS.acc[0]+ROWS.acc[1])/2-v*14).toFixed(1);}
+      el('path',{d:a,'class':'accl'},s);
+      /* PPG */
+      var base=ROWS.ppg[1]-6,hgt=ROWS.ppg[1]-ROWS.ppg[0]-12,pd='',cls='ppg'+(sc.cls==='af'?' af':'');
+      for(var j=0;j<=430;j++){var t2=j/430*T,v2=0;
+        beats.forEach(function(b){v2+=pulse(t2,b.t,(b.amp||1));});
+        if(sc.motion&&t2>sc.motion[0]&&t2<sc.motion[1])v2=v2*0.5+0.55*Math.sin(t2*9.3)+0.25*Math.sin(t2*31+2);
+        pd+=(j?'L':'M')+px(t2).toFixed(1)+','+(base-v2*hgt*0.85).toFixed(1);}
+      el('path',{d:pd,'class':cls+(sc.motion?' mot':'')},s);
+      if(sc.cls==='pac'){var b4=beats[4],pp='';for(var k=0;k<=40;k++){var t3=b4.t-0.08+k/40*0.6;pp+=(k?'L':'M')+px(t3).toFixed(1)+','+(base-pulse(t3,b4.t,b4.amp)*hgt*0.85).toFixed(1);}el('path',{d:pp,'class':'ppg pac'},s);}
+      /* reported beats and intervals */
+      var rrY=function(v){return ROWS.rr[1]-(v-RRMIN)/(RRMAX-RRMIN)*(ROWS.rr[1]-ROWS.rr[0]);};
+      el('line',{x1:x0+12,x2:x0+w-12,y1:rrY(800),y2:rrY(800),'class':'gl'},s);
+      if(showLabels)el('text',{x:x0+14,y:rrY(800)-4,'class':'tk'},s,'800 ms');
+      var prevT=0.55,rep=[];
+      beats.forEach(function(b,i){if(!b.miss)rep.push({t:b.t,b:b});if(sc.spurAfter===i)rep.push({t:b.t+0.36,b:{k:'mot',flag:1,spurious:1}});});
+      /* spurious peak: inserted reported beat; recompute intervals from reported times */
+      rep.sort(function(p,q){return p.t-q.t;});
+      rep.forEach(function(r,i){
+        var kind=r.b.k||'n',x=px(r.t);
+        el('line',{x1:x,x2:x,y1:ROWS.tk[0],y2:ROWS.tk[1],'class':'btk'+(kind==='pac'?' pac':kind==='af'?' af':kind==='mot'?' mot':'')},s);
+        if(r.b.flag)el('circle',{cx:x,cy:ROWS.tk[0]-6,r:4,'class':'flagm'},s);
+        if(i===0)return;var iv=(r.t-rep[i-1].t)*1000,g=el('g',{},s);
+        var c=kind==='pac'?'c2':kind==='pause'?'c2':kind==='af'?'k1':kind==='mot'?'mot':'n';
+        var cy=rrY(Math.max(RRMIN,Math.min(RRMAX,iv)));
+        el('circle',{cx:x,cy:cy,r:5,'class':'pt '+(c==='mot'?'hollow':c==='n'?'':c+(kind==='pause'?' hollow':'')),style:c==='n'?'fill:var(--ink)':c==='mot'?'stroke:var(--muted);fill:var(--surface)':''},g);
+        el('circle',{cx:x,cy:cy,r:12,'class':'hit'},g);
+        var why=kind==='pac'?'premature: early beat':kind==='pause'?'the pause after the PAC':kind==='af'?'AF: no two intervals alike':r.b.merged?'missed beat: two intervals merged into one':r.b.spurious?'false peak: one interval split in two':kind==='mot'?'reported during motion, flagged':'normal';
+        hover(g,Math.round(iv)+' ms<br>'+why);
+      });
+      if(sc.cls==='pac'){var xb=px(beats[4].t),xc=px(beats[5].t);
+        el('text',{x:xb,y:rrY(480)+20,'class':'dl','text-anchor':'middle'},s,'early');
+        el('text',{x:xc,y:rrY(1060)-10,'class':'dl','text-anchor':'middle'},s,'pause');}
+      if(sc.motion){var mid=(px(sc.motion[0])+px(sc.motion[1]))/2;el('text',{x:mid,y:ROWS.rr[1]+18,'class':'dl','text-anchor':'middle'},s,'wrist moving: beats missed, split and flagged');
+        var mg=rep.filter(function(r){return r.b.merged;})[0];if(mg)el('text',{x:px(mg.t),y:rrY(1600)-8,'class':'dl','text-anchor':'middle'},s,'missed beat');}
+      if(sc.cls==='af')el('text',{x:x0+w/2,y:ROWS.rr[1]+18,'class':'dl','text-anchor':'middle'},s,'every interval different; no steady pace');
+    }
+    function draw(mode){
+      var s=svgIn('v-sig',900,372);if(!s)return;
+      var lab=[['Accelerometer',(ROWS.acc[0]+ROWS.acc[1])/2],['Wrist pulse (PPG)',(ROWS.ppg[0]+ROWS.ppg[1])/2],['Beats reported',(ROWS.tk[0]+ROWS.tk[1])/2],['Interval to the',ROWS.rr[0]+40],['previous beat',ROWS.rr[0]+56]];
+      lab.forEach(function(l){el('text',{x:0,y:l[1]+4,'class':'tk'},s,l[0]);});
+      panel(s,120,380,SC.pac,true);panel(s,516,380,SC[mode],false);
+      el('circle',{cx:126,cy:362,r:4,'class':'flagm'},s);el('text',{x:136,y:366,'class':'tk'},s,'device flag (low confidence)');
+      $('sig-h2').textContent=mode==='mot'?'Motion artefact':'Atrial fibrillation';
+      $('sig-body').innerHTML=TABLE[mode].map(function(r){return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td></tr>';}).join('');
+      document.querySelectorAll('[data-sig]').forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute('data-sig')===mode?'true':'false');});
+    }
+    document.querySelectorAll('[data-sig]').forEach(function(b){b.addEventListener('click',function(){draw(b.getAttribute('data-sig'));});});
+    draw('mot');
+  })();
+
+  /* ---------- From one beat to an ESVEA call ---------- */
+  (function(){
+    if(!$('v-count'))return;
+    var BLOCK=[0.87,0.63,1.11,1.40],VAR=[1.04,0.95,1.02,0.98,1.05,0.96];
+    var COV=[0.95,0.95,0.92,0.92,0.9,0.85, 0.6,0.55,0.5,0.45,0.45,0.45, 0.3,0.25,0.2,0.25,0.25,0.3, 0.3,0.3,0.3,0.35,0.5,0.8];
+    function hourly(total){var w=[],sw=0;for(var h=0;h<24;h++){var v=BLOCK[Math.floor(h/6)]*VAR[h%6];w.push(v);sw+=v;}
+      var c=w.map(function(v){return total*v/sw;});return c;}
+    function draw(){
+      var total=+$('cnt-n').value,watch=$('cnt-w').checked;$('cnt-n-o').textContent=total;
+      var s=svgIn('v-count',900,430);if(!s)return;
+      /* row 1: the unit */
+      el('text',{x:0,y:20,'class':'lbl'},s,'The unit: one premature atrial beat');
+      var xs=[30,90,150,210,250,330,390,450,510];xs.forEach(function(x,i){var pac=i===4;
+        el('line',{x1:x,x2:x,y1:pac?40:48,y2:80,'class':'btk'+(pac?' pac':' mot')},s);if(pac)el('circle',{cx:x,cy:38,r:5,'class':'c2'},s);});
+      el('line',{x1:20,x2:530,y1:80,y2:80,'class':'gl'},s);
+      el('text',{x:250,y:100,'class':'dl','text-anchor':'middle'},s,'counts as 1');
+      el('text',{x:560,y:58,'class':'dl'},s,'Early, then a pause. Normal beats are not counted,');
+      el('text',{x:560,y:76,'class':'dl'},s,'and neither are AF beats or motion artefacts.');
+      /* row 2: the window */
+      el('text',{x:0,y:142,'class':'lbl'},s,'The window: 24 hours, about 100,000 beats');
+      var c=hourly(total),L=50,R=880,B=278,Tp=160,mx=Math.max(40,Math.max.apply(null,c)*1.15),bw=(R-L)/24;
+      var y=function(v){return B-v/mx*(B-Tp);};
+      [0,6,12,18,24].forEach(function(h){el('text',{x:L+h*bw,y:B+16,'class':'tk','text-anchor':'middle'},s,(h<10?'0':'')+h+':00');});
+      el('line',{x1:L,x2:R,y1:B,y2:B,'class':'gl'},s);
+      el('text',{x:L-6,y:Tp+4,'class':'tk','text-anchor':'end'},s,Math.round(mx));el('text',{x:L-6,y:B,'class':'tk','text-anchor':'end'},s,'0');
+      el('text',{x:L,y:Tp-6,'class':'tk'},s,'PACs per hour'+(watch?' (solid: seen by the watch; pale: missed)':''));
+      if(watch)el('text',{x:L-6,y:B+33,'class':'tk','text-anchor':'end'},s,'usable');
+      var obsP=0,obsH=0,blkRate=[0,0,0,0],blkH=[0,0,0,0];
+      c.forEach(function(v,h){var x=L+h*bw+2,g=el('g',{},s),f=COV[h];
+        if(watch){el('rect',{x:x-2,y:B+24,width:bw,height:10,'class':'hbar','style':'fill:var(--layer-ink);fill-opacity:'+(0.1+0.8*f).toFixed(2)},g);
+          el('rect',{x:x,y:y(v),width:bw-4,height:B-y(v),rx:2,'class':'hbar unobs'},g);
+          el('rect',{x:x,y:y(v*f),width:bw-4,height:B-y(v*f),rx:2,'class':'hbar'},g);
+          obsP+=v*f;obsH+=f;blkRate[Math.floor(h/6)]+=v*f;blkH[Math.floor(h/6)]+=f;}
+        else el('rect',{x:x,y:y(v),width:bw-4,height:B-y(v),rx:2,'class':'hbar'},g);
+        el('rect',{x:x-2,y:Tp,width:bw,height:B-Tp,'class':'hit'},g);
+        hover(g,(h<10?'0':'')+h+':00 to '+(h+1<10?'0':'')+(h+1)+':00<br>'+Math.round(v)+' PACs'+(watch?'<br>watch usable '+Math.round(f*60)+' of 60 min; sees about '+Math.round(v*f):''));});
+      /* row 3: the threshold */
+      el('text',{x:0,y:330,'class':'lbl'},s,'The threshold: excessive supraventricular ectopic activity (ESVEA)');
+      var X0=50,X1=880,MAX=1500,xx=function(v){return X0+Math.min(v,MAX)/MAX*(X1-X0);},ly=378;
+      el('rect',{x:xx(480),y:ly-10,width:X1-xx(480),height:20,'class':'thrz'},s);
+      el('line',{x1:X0,x2:X1,y1:ly,y2:ly,'class':'gl'},s);
+      [0,250,500,750,1000,1250,1500].forEach(function(v){el('line',{x1:xx(v),x2:xx(v),y1:ly-4,y2:ly+4,'class':'gl'},s);el('text',{x:xx(v),y:ly+22,'class':'tk','text-anchor':'middle'},s,v);});
+      el('line',{x1:xx(480),x2:xx(480),y1:ly-18,y2:ly+12,'class':'thr'},s);el('text',{x:xx(480),y:ly-22,'class':'tk','text-anchor':'middle'},s,'480');
+      el('text',{x:xx(1000),y:ly-16,'class':'dl','text-anchor':'middle'},s,'480 or more per 24 h: ESVEA');
+      var pos=total>=480,g2=el('g',{},s);
+      el('path',{d:'M'+xx(total)+','+(ly-2)+' l-8,-14 h16 z','class':'daym'+(pos?' pos':'')},g2);
+      hover(g2,'True count '+total+' per 24 h');
+      var msg='<b>'+total+'</b> PACs in 24 h · '+(pos?'<b style="color:var(--accent)">ESVEA</b> (480 or more)':'<b>below 480</b>: not ESVEA')+(total>=720?' · also meets 30 per hour on average':'');
+      if(watch&&obsH>0){var naive=Math.round(obsP/obsH*24),blk=0;for(var k=0;k<4;k++)blk+=6/24*(blkH[k]>0?blkRate[k]/blkH[k]:0);blk=Math.round(blk*24);
+        el('path',{d:'M'+xx(naive)+','+(ly+2)+' l-7,13 h14 z','class':'naive'},s);
+        el('text',{x:xx(naive),y:ly+46,'class':'tk','text-anchor':'middle'},s,'naive');
+        msg+='<br>The watch is usable for '+obsH.toFixed(1)+' of 24 h, mostly at night. Scaling what it sees to 24 h gives <b>'+naive+'</b> (grey marker)'+((naive>=480)!==pos?', which flips the ESVEA call':'')+'. Dividing each 6-hour block by its own observed hours first (Equation 3.2) gives <b>'+blk+'</b>.';}
+      $('cnt-out').innerHTML=msg;
+    }
+    $('cnt-n').addEventListener('input',draw);$('cnt-w').addEventListener('change',draw);draw();
   })();
 
   var cc=$('calc');if(cc)cc.dispatchEvent(new Event('input'));
