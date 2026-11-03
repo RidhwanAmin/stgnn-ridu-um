@@ -87,19 +87,68 @@ Table 4.1 does not need it. If you want to say these are patients with diagnosed
 
 ---
 
-## 6. Fill in and send back
+## 6. How to send the result back
 
-| Item | Result |
-|---|---|
-| Cohort codes used | |
-| Windows | |
-| Subjects | |
-| Subjects with ≥ 1 AF window | |
-| Windows by label | |
-| Any subject with zero AF windows (ID not needed, just yes or no) | |
-| Decision (pass / fail) | |
+Reply with **one message** in exactly this structure. Copy the template, fill in every field, and keep the headings and their order. Write "none" rather than deleting a section. This is the same shape as your E2 and E11 results, so it can go straight into the draft.
 
-Paste the raw console output as well. Subject IDs can be left out.
+````markdown
+# Check E11b result: AF-trial holdout subjects
+
+**Run:** YYYY-MM-DD HH:MM (+08:00)
+**Script and data:** <script name>; 3 November rerun test set (v2 checkpoint, re-curated external labels)
+**Rule:** Section 4 of the check file, unchanged / changed (if changed, say what and when)
+
+## 1. Results
+| Item | Expected | Result | Met? |
+|---|---|---|---|
+| Cohort codes used | 4xx, 3xx (confirm) | | |
+| Windows | 5,483 | | |
+| Subjects | 8 | | |
+| Subjects with ≥ 1 AF window | 8 | | |
+| Labels present | AF only | | |
+| Any subject with zero AF windows | No | | |
+
+## 2. Windows by label
+| Label | Windows |
+|---|---:|
+| AF | |
+| NSR | |
+| PAC/PVC | |
+| Other or noise | |
+| **Total** | |
+
+## 3. Per-subject counts (no subject IDs)
+| Subject | AF windows | Non-AF windows |
+|---|---:|---:|
+| S1 | | |
+| S2 | | |
+| S3 | | |
+| S4 | | |
+| S5 | | |
+| S6 | | |
+| S7 | | |
+| S8 | | |
+
+## 4. Console output
+```
+<paste the raw printout here, with subject IDs replaced by S1 to S8>
+```
+
+## 5. Decision
+Pass / Fail. If fail, which item failed and what you did (see Section 4 "If it fails").
+
+## 6. Deviations from the instructions
+none / list each change to the snippet, filters or cohort codes, and why.
+
+## 7. Optional: clinical diagnosis source
+none / the document and the sentence that says whether 3xx and 4xx enrolled people with known AF.
+````
+
+**Rules for the reply**
+- Replace subject IDs with S1 to S8 everywhere, including the console output.
+- Report numbers exactly as printed; do not round.
+- If anything was seen before the run (for example, an earlier printout), say so under "Rule".
+- If the window count is not 5,483, stop after Section 2 and send what you have.
 
 ## 7. What changes after a pass
 - E11d in `proposal_revisions_draft.md`: "8; 5,483, all AF" → "8 (8); 5,483" (same word count).
