@@ -49,7 +49,7 @@ This section keeps the review that prompted these drafts, word for word, so each
 | 1 | Equation 3.1 contradicts the preliminary finding on burden | Critical | E1, revised after the Garmin whitepaper: retention corrects only silent loss; RO1 filter loss moves to RQ2.4 | Drafted; inform supervisors |
 | 2 | Epoch-scale encoder has no day-long training data | Critical | E2 (option b, pseudo-days); option c kept as an optional clause | Drafted; verify Pulsewatch timestamps for option c |
 | 3 | "Daily-count MAE" is not daily | Critical | E3 | Drafted |
-| 4 | Flag as input plus inverse weighting can double-count; p̂ must be calibrated | Critical | E4 | Drafted; check Guo et al. (2017) page range |
+| 4 | Flag as input plus inverse weighting can double-count; p̂ must be calibrated | Critical | E4 | Drafted; Guo et al. (2017) reference verified against PMLR (see `Verification_Guo_H1_H2.md`) |
 | 5 | No PPG timing-noise operator | Important | E5 | Drafted; jitter spread to be measured on Pulsewatch |
 | 6 | Motion term is the weakest link | Important | E6 | Drafted |
 | 7 | Title does not match the claimed contribution | Important | Section 4, prepared answer (title kept) | Answer drafted; no text change |
@@ -60,8 +60,8 @@ This section keeps the review that prompted these drafts, word for word, so each
 | 12 | Pilot weight chosen on the test cohorts | Important | E11 | Drafted; blocked on a rerun at weight 0.5 |
 | F1 | Device not arrived; S3 crowded | Feasibility | Not drafted: one fallback slide, from Section 3.9 last paragraph | Open |
 | F2 | Scope: which RO to drop first | Feasibility | Not drafted: prepared answer is RO4b, as Section 3.9 already defers it in the fallback | Open |
-| H1 | "First" claims: IEEE Xplore and arXiv search | Housekeeping | Section 3 checklist | Open |
-| H2 | Bhurane 93.96% | Housekeeping | Section 3 checklist | Open |
+| H1 | "First" claims: IEEE Xplore and arXiv search | Housekeeping | `Verification_Guo_H1_H2.md` | Both claims hold; run IEEE Xplore's native search before naming it in Section 2.7 (optional +5 words) |
+| H2 | Bhurane 93.96% | Housekeeping | `Verification_Guo_H1_H2.md` | Confirmed from the IEEE Xplore abstract (PAC/PVC sensitivity 93.96%; split not reported) |
 | H3 | Supervisor approval of the final docx | Housekeeping | Decisions list in Section 0 | Open |
 | H4 | Ethics committee name | Housekeeping | Section 3 checklist | Open |
 | H5 | Pulsewatch permitted use | Housekeeping | Section 3 checklist | Open |
@@ -285,7 +285,7 @@ Daily-equivalent count | 24 times a patient-level rate of ectopic beats per anal
 **Proposed**
 > Methodologically, the study treats the quality flag as evidence: a frozen retention model corrects for beats the device never reports, and a coverage gate decides when a daily value can be reported (Section 3.4, Equations 3.1 to 3.4).
 
-#### E4d · New reference (APA 7; check the page range against the PMLR record before adding)
+#### E4d · New reference (APA 7; verified against the PMLR record on 3 November 2026)
 ```
 REF|Guo, C., Pleiss, G., Sun, Y., & Weinberger, K. Q. (2017). On calibration of modern neural networks. In D. Precup & Y. W. Teh (Eds.), *Proceedings of the 34th International Conference on Machine Learning* (Vol. 70, pp. 1321–1330). PMLR.
 ```
@@ -527,7 +527,7 @@ Slide numbers follow the handover order. Only text is given; keep the existing H
 ## 3. Consistency checks after applying
 
 - [ ] Zero em dashes (U+2014) in `content.txt` and changed slides.
-- [ ] Guo et al. (2017) added to References; Kapsecker & Jonas (2025) removed (and Montanaro, Ye, Abedi if T5 is used).
+- [ ] Guo et al. (2017) added to References (details verified); Kapsecker & Jonas (2025) removed (and Montanaro, Ye, Abedi if T5 is used).
 - [ ] Equation 3.1 fits on one line in the docx.
 - [ ] Tables 3.1, 3.3, 3.4 and B.2 still consistent with Section 3.4 (handover rule); Table 3.1 RO2 "Cannot claim" unchanged.
 - [ ] Figure 3.2 caption still accurate (rate head kept or removed per E8).
@@ -536,8 +536,8 @@ Slide numbers follow the handover order. Only text is given; keep the existing H
 - [ ] Research map page (`index.html`) updated to match whatever is applied.
 
 **Housekeeping from the review (H1 to H8)**
-- [ ] H1: targeted IEEE Xplore and arXiv search for the "first" claims, especially "no GNN applied to PPG or inter-beat intervals".
-- [ ] H2: confirm Bhurane et al. (2026) 93.96% is PAC/PVC sensitivity (Table 2.1), or drop it.
+- [x] H1: targeted search done (`Verification_Guo_H1_H2.md`); both claims hold. Remaining: run IEEE Xplore's native search (Section 3.4 of that file).
+- [x] H2: Bhurane et al. (2026) 93.96% confirmed as PAC/PVC sensitivity (IEEE Xplore abstract).
 - [ ] H3: supervisor approval of the final docx.
 - [ ] H4: confirm the ethics committee name (PPUM MREC or UMMC MREC).
 - [ ] H5: written confirmation of Pulsewatch permitted use from the data contact.
