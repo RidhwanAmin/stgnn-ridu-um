@@ -20,7 +20,7 @@ This index maps every markdown record, from the handover to the latest change, t
 | Proposal source and build | `proposal/source/` (`content.txt`, `build.js`, `framework.png`, `arch.png`) | Post-review revision | `node build.js` (npm `docx`) |
 | Slide deck (Claude Slides) | https://claude.ai/artifact/4RuYVim5WsRqG5aQLYJGas | Version id 1793687949-bd1f | 45 slides; shared with anyone with the link |
 | Slide sources (full copy) | `slides/project/` | Same version | Version history; the deck is the source of truth |
-| Research map page | `index.html` (+ `assets/`), https://claude.ai/artifact/1BnWNir54MvkSfH5uPfMiE | Version 5 (id 1793692809-013b) | Matches the post-review proposal (E1, E2, E3, E7, E8 wording); shared with anyone with the link |
+| Research map page | `index.html` (+ `assets/`), https://claude.ai/artifact/1BnWNir54MvkSfH5uPfMiE | Version 6 (id 1793692869-c914) | Matches the post-review proposal (E1, E2, E3, E6 to E9 wording); shared with anyone with the link |
 
 ---
 
