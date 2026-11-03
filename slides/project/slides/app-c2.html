@@ -4,7 +4,7 @@
 <table style="width:960px;font-size:24px;color:#1a1a1a;border:1px solid #8a8a8a">
 <tr><th style="width:28%;text-align:left">Field (Garmin)</th><th style="width:72%;text-align:left">What it provides</th></tr>
 <tr><td>Enhanced BBI series</td><td>Beat-level intervals; a PAC appears as a short interval then a longer pause</td></tr>
-<tr><td>Per-beat confidence</td><td>Binary flag; abnormally short beats are marked low, so they are retained and reweighted, not deleted</td></tr>
+<tr><td>Per-beat confidence</td><td>Binary flag; motion-affected beats and intervals judged abnormally short or long are marked low; they stay as model input, not deleted and not reweighted</td></tr>
 <tr><td>Beat timestamp</td><td>Places each beat in time and relative to the index stroke; enables time-of-day weighting</td></tr>
 <tr><td>Gap indicator</td><td>Separates “not recording” from “recording, no beat”; defines the coverage denominator</td></tr>
 <tr><td>Accelerometer</td><td>Separates true ectopy from movement artefact; RQ3.4</td></tr>
