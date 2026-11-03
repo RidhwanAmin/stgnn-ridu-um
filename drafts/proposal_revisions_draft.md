@@ -8,22 +8,22 @@
 
 ## 0. Summary
 
-| ID | Problem | Where | Main-text words |
-|---|---|---|---:|
-| E1 | Equation 3.1 ignores the burden dependence that Section 4.2 reports | 3.4 text, Eq. 3.1, 3.2, 3.4 | +33 |
-| E2 | The epoch scale has no day-long training data on Icentia11k | 3.4 para 1 | +31 |
-| E3 | "Daily-count MAE" is not daily on Icentia11k | H2, Table 3.5, Table B.1 | +8 |
-| E4 | Flag-as-input plus inverse weighting can count a beat twice; p̂ must be calibrated | 3.4 text, 2.8 | +49 |
-| E5 | No PPG timing-noise operator in RO4a | 3.6, Table 3.4 | +21 |
-| E6 | No Garmin-side check of the motion term | 3.5 | +11 |
-| E7 | Coverage gate described as a model component | 3.4, Table 3.2 | +12 |
-| E8 | Role of the rate head undefined | 3.4 para 1 | +19 |
-| E9 | RO3 primary can pass while ESVEA is rarely computable | 3.5, Appendix C | +26 |
-| E10 | Icentia11k patient sets not shown as disjoint | Table 3.1, new Table B.3 | +2 |
-| E11 | Pilot weight 0.9 chosen on test cohorts | 4.1, Table 4.1 | +12 |
-| | **Subtotal before trims** | | **+224** |
-| T1 to T8 | Trims | 1.1, 2.1, 2.4, 3.4, 4.1, 4.2, 5.1 | -189 |
-| | **Net change** (current main text 6,958; limit 7,000) | | **+35 → 6,993** |
+| ID | Review issue | Problem | Where | Main-text words |
+|---|---|---|---|---:|
+| E1 | #1 | Equation 3.1 ignores the burden dependence that Section 4.2 reports | 3.4 text, Eq. 3.1, 3.2, 3.4 | +33 |
+| E2 | #2 | The epoch scale has no day-long training data on Icentia11k | 3.4 para 1 | +31 |
+| E3 | #3 | "Daily-count MAE" is not daily on Icentia11k | H2, Table 3.5, Table B.1 | +8 |
+| E4 | #4 | Flag-as-input plus inverse weighting can count a beat twice; p̂ must be calibrated | 3.4 text, 2.8 | +49 |
+| E5 | #5 | No PPG timing-noise operator in RO4a | 3.6, Table 3.4 | +21 |
+| E6 | #6 | No Garmin-side check of the motion term | 3.5 | +11 |
+| E7 | #8 | Coverage gate described as a model component | 3.4, Table 3.2 | +12 |
+| E8 | #9 | Role of the rate head undefined | 3.4 para 1 | +19 |
+| E9 | #10 | RO3 primary can pass while ESVEA is rarely computable | 3.5, Appendix C | +26 |
+| E10 | #11 | Icentia11k patient sets not shown as disjoint | Table 3.1, new Table B.3 | +2 |
+| E11 | #12 | Pilot weight 0.9 chosen on test cohorts | 4.1, Table 4.1 | +12 |
+| | | **Subtotal before trims** | | **+224** |
+| T1 to T8 | (word limit) | Trims | 1.1, 2.1, 2.4, 3.4, 4.1, 4.2, 5.1 | -189 |
+| | | **Net change** (current main text 6,958; limit 7,000) | | **+35 → 6,993** |
 
 All eight trims are needed to stay under the limit. T5 also adds 3 words where PPV is next defined (Section 2.6), giving about 6,996. If supervisors reject a trim, the fallback is the E8 removal alternative (saves 19 words).
 
@@ -38,9 +38,120 @@ Word counts follow the handover rule: Chapter 1 to the start of References, tabl
 
 ---
 
+## Review issues and where each is addressed
+
+This section keeps the review that prompted these drafts, word for word, so each issue can be traced to its revision. Issue numbers match the review; draft IDs (E1 to E11, T1 to T8) match the sections below.
+
+### Issue map
+
+| # | Review issue | Priority | Addressed by | Status |
+|---|---|---|---|---|
+| 1 | Equation 3.1 contradicts the preliminary finding on burden | Critical | E1 (recommended) or E1 alternative | Drafted; supervisor decision |
+| 2 | Epoch-scale encoder has no day-long training data | Critical | E2 (option b, pseudo-days); option c kept as an optional clause | Drafted; verify Pulsewatch timestamps for option c |
+| 3 | "Daily-count MAE" is not daily | Critical | E3 | Drafted |
+| 4 | Flag as input plus inverse weighting can double-count; p̂ must be calibrated | Critical | E4 | Drafted; check Guo et al. (2017) page range |
+| 5 | No PPG timing-noise operator | Important | E5 | Drafted; jitter spread to be measured on Pulsewatch |
+| 6 | Motion term is the weakest link | Important | E6 | Drafted |
+| 7 | Title does not match the claimed contribution | Important | Section 4, prepared answer (title kept) | Answer drafted; no text change |
+| 8 | Coverage gate is not a model component | Important | E7 | Drafted |
+| 9 | Role of the rate head undefined | Important | E8 (keep as auxiliary) or E8 alternative (remove) | Drafted; supervisor decision |
+| 10 | RO3 primary can pass while ESVEA stays uncomputable | Important | E9 (key secondary, not co-primary, to keep H3 and the sample size unchanged) | Drafted |
+| 11 | Patient partitions should appear in one place | Important | E10 (Table 3.1 pointer and new Table B.3) | Drafted; set sizes and seeds when splits are drawn |
+| 12 | Pilot weight chosen on the test cohorts | Important | E11 | Drafted; blocked on a rerun at weight 0.5 |
+| F1 | Device not arrived; S3 crowded | Feasibility | Not drafted: one fallback slide, from Section 3.9 last paragraph | Open |
+| F2 | Scope: which RO to drop first | Feasibility | Not drafted: prepared answer is RO4b, as Section 3.9 already defers it in the fallback | Open |
+| H1 | "First" claims: IEEE Xplore and arXiv search | Housekeeping | Section 3 checklist | Open |
+| H2 | Bhurane 93.96% | Housekeeping | Section 3 checklist | Open |
+| H3 | Supervisor approval of the final docx | Housekeeping | Decisions list in Section 0 | Open |
+| H4 | Ethics committee name | Housekeeping | Section 3 checklist | Open |
+| H5 | Pulsewatch permitted use | Housekeeping | Section 3 checklist | Open |
+| H6 | Whether tables count towards 7,000 words | Housekeeping | Word budget in Section 0 (measured 6,958 before edits, about 6,996 after) | Open |
+| H7 | Slide inconsistencies, especially `app-b3.html` | Housekeeping | Section 2 slide table (app-b3 row) | Partly drafted |
+| H8 | Mock defence | Housekeeping | Section 4 prepared answers | Open |
+
+Note on the word count: the review quoted "about 6,980" from the handover; counting `content.txt` with the handover rule gives 6,958, which is the base used in this draft.
+
+### Original review (verbatim)
+
+> A panel reading closely will find each of them in Section 3.4 and Chapter 4. After those come some tightening and a few housekeeping items.
+>
+> **Critical: fix these in the proposal text**
+>
+> **1. Equation 3.1 contradicts your own preliminary finding.**
+>
+> * Section 4.2 shows PAC removal depends on burden (78.5% in ESVEA-negative patients vs 60.0% in ESVEA-positive), and concludes that "a single correction factor cannot restore the count."
+> * Equation 3.1 then uses one fixed class retention (39.1%) multiplied by a motion term, with no burden or context term.
+> * A sharp examiner will put those two sentences side by side.
+> * Fix: either make π̂ depend on local ectopy density (for example, the PAC share of the preceding reference window, which is the mechanism you describe), or state plainly that the network handles burden dependence and the frozen π̂ only corrects device-side loss. H1 then becomes the justification for that design, rather than a finding the equation ignores.
+>
+> **2. The epoch-scale encoder has no day-long training data.**
+>
+> * The interval block runs "across windows within the day." Icentia11k gives at most 50 random 70-minute segments per patient with no clock time.
+> * Nothing contiguous lasts longer than about 70 minutes. So RQ2.2 (epoch-graph vs summation for the daily rate) has no day-level sequence to train on and no day-level truth to test against.
+> * Fix: say explicitly what the second scale trains on. Options:
+>    * (a) Windows within a 70-minute segment, so the "epoch" scale is sub-hour.
+>    * (b) Pseudo-days stitched from segments, as RO4a already uses. If you choose this, say the diurnal structure is synthetic.
+>    * (c) Pulsewatch multi-day sessions for the epoch scale, at window level.
+> * Without this, the second scale's evaluation is undefined.
+>
+> **3. "Daily-count MAE" is not daily.**
+>
+> * The RO2 reference is a patient-level rate × 24 from random segments. H2's metric name promises something the data can't measure.
+> * Fix: rename it "patient-level daily-equivalent rate MAE", or similar, in H2, Table 3.5 and the slides. It's a cheap change that removes an easy attack.
+>
+> **4. "Flag as input" and inverse-probability reweighting can double-count.**
+>
+> * If flagged beats are kept and fed to the model, which beats were not "retained"? Equation 3.2 reweights by 1/π̂ as if beats had been deleted.
+> * Fix: add one paragraph separating two kinds of loss:
+>    * Device-side, unrecoverable: beats the watch never reports, gaps, pulse deficit. These are the only losses π̂ should correct.
+>    * Analysis-side: flagged beats. The model sees these, so they should not be reweighted.
+> * Also say that p̂ᵢ must be calibrated (for example, temperature-scaled on validation subjects) before summing. A supraventricular PPV of 36.8% (Dias et al.) shows how summed probabilities inflate a count.
+>
+> **Important: strengthen these**
+>
+> 5. There is no PPG timing-noise operator. RO4a degrades ECG RR intervals by rejection, gaps and pulse deficit, but not by the jitter of PPG peak timing, which is the main ECG-to-PPG difference (Theurl: rMSSD agreement only moderate). You already have paired PPG peaks and lag-corrected ECG R-peaks from the Pulsewatch pre-check, so you can estimate the jitter distribution and add it as a fourth operator. This is the most defensible answer to "your simulation is optimistic."
+> 6. The motion term is the weakest link. It comes from a Samsung signal and an offline detector, and the pre-check failed its detector criterion. Add a Garmin-side check that needs no ECG: in RO3, plot the flagged-beat fraction against accelerometer motion. That doesn't validate π̂, but it shows whether the Garmin's loss-versus-motion curve has the same shape as Pulsewatch's.
+> 7. The title doesn't match the claimed contribution. The title leads with the ST-GNN, but Section 2.8 says "the graph architecture is a means, not a claimed contribution." Expect "so why is it in the title?" Either reframe the title around the coverage-aware estimator, or prepare a one-sentence answer.
+> 8. The coverage gate isn't really a model component. Equation 3.3 is a threshold rule, not a learned layer, yet it sits in the architecture figure and in the ablation list. Call it a reporting rule. Ablating it then means comparing abstention against always reporting.
+> 9. The role of the rate head is undefined. Equations 3.2 and 3.4 use only the event head's p̂ᵢ. State what the rate head is for (an auxiliary loss? a cross-check?) or drop it.
+> 10. The RO3 primary outcome can pass while ESVEA stays uncomputable.
+>    * Your own simulation shows the problem. With poor coverage, about 60% of participants have three or more day/night-valid days, but only about 20% have three or more days valid under the per-block rule.
+>    * H3 could therefore go green while ESVEA is rarely computable.
+>    * Make "pooled ESVEA computable (≥1 h per block across the week)" a co-primary outcome or a pre-specified key secondary.
+> 11. Patient partitions should appear in one diagram. Icentia11k is used for:
+>    * the RO1 preliminary sample (298 patients)
+>    * the H1 new patients
+>    * RO2 train, validation and test
+>    * RO4a held-out
+>
+>    Show all four as disjoint sets. Examiners check this for leakage, and right now it is spread across several sentences.
+> 12. The pilot weight was chosen on the test cohorts. Report w = 0.5 as primary, since its thresholds weren't touched by test data, and give 0.9 as a sensitivity result. Clinical held-out AUROCs at w = 0.5 are actually higher (1.000 and 0.998). Only Simband drops, to 0.891, so you lose little and remove a criticism.
+>
+> **Feasibility questions to prepare for**
+>
+> * The device hasn't arrived and S3 is crowded (device verification, ethics, RO1 paper). Have the fallback ready as a single slide.
+> * Scope: four ROs, three datasets and a prospective cohort. Be ready to say which RO you would drop first. The proposal's own logic points to RO4b.
+>
+> **Housekeeping before submission**
+>
+> * "First" claims: run the targeted IEEE Xplore and arXiv search. "No GNN applied to PPG or inter-beat intervals" is the claim most likely to be false outside PubMed, Consensus and Wiley.
+> * Bhurane 93.96%: confirm it is the PAC/PVC sensitivity cited in Table 2.1, or drop it.
+> * Supervisor approval: get it on the final docx, since a lot has changed since they last saw it.
+> * Ethics committee name: confirm whether it is PPUM MREC or UMMC MREC.
+> * Pulsewatch: get written confirmation of permitted use.
+> * Postgraduate Office: ask in writing whether tables count toward the 7,000 words. You are at about 6,980, so the fixes above need trims elsewhere.
+> * Slide inconsistencies from the handover: fix these, especially `app-b3.html`, which still describes the old "Stage 1 fits the retention curve" approach.
+> * Mock defence: run one using the caveats list.
+>
+> Points 1 to 4 are the ones most likely to cause trouble on the day, and each can be fixed in roughly 50 to 150 words in Section 3.4. I can draft the replacement text within the word limit, and turn this list into a shareable checklist page for your supervisors.
+
+---
+
 ## 1. Proposal text (Chapter 1 to Chapter 4)
 
 ### E1 · Burden-dependent retention (Section 3.4)
+
+*Responds to review issue #1 (see the issue register below the summary).*
 
 RO1 found PAC coupling-interval removal of 78.5% in ESVEA-negative patients against 60.0% in ESVEA-positive patients, and Section 4.2 concludes that "a single correction factor therefore cannot restore the count". Equation 3.1 then applies one fixed class retention. The fix makes class retention a function of the local ectopic share, which is the mechanism Section 4.2 gives (frequent PACs enter the running reference of the five preceding accepted intervals).
 
@@ -77,6 +188,8 @@ Check after the build that Equation 3.1 still fits on one line (handover rule).
 
 ### E2 · What the epoch scale trains on (Section 3.4, paragraph 1)
 
+*Responds to review issue #2 (see the issue register below the summary).*
+
 The interval block runs "across windows to aggregate the day", but Icentia11k segments last about 70 minutes and carry no clock time, so there is no real day to train or test on.
 
 #### E2a · Section 3.4, paragraph 1 [main]
@@ -91,6 +204,8 @@ The interval block runs "across windows to aggregate the day", but Icentia11k se
 ---
 
 ### E3 · Rename the H2 metric
+
+*Responds to review issue #3 (see the issue register below the summary).*
 
 #### E3a · Section 1.3, H2 [main]
 **Current**
@@ -114,6 +229,8 @@ Daily-equivalent count | 24 times a patient-level rate of ectopic beats per anal
 ---
 
 ### E4 · No double counting, and calibrated probabilities (Section 3.4 and 2.8)
+
+*Responds to review issue #4 (see the issue register below the summary).*
 
 #### E4a · Section 3.4, paragraph 2, sentence after E1a [main, new sentence]
 **Current**
@@ -147,6 +264,8 @@ REF|Guo, C., Pleiss, G., Sun, Y., & Weinberger, K. Q. (2017). On calibration of 
 
 ### E5 · Fourth degradation operator: PPG timing noise (Section 3.6)
 
+*Responds to review issue #5 (see the issue register below the summary).*
+
 The strongest answer to "your simulation is optimistic because Icentia11k is ECG RR" is to inject the timing error between PPG peaks and ECG R-peaks, measured on the paired Pulsewatch data you already have.
 
 #### E5a · Section 3.6, paragraph 1 [main]
@@ -167,6 +286,8 @@ The strongest answer to "your simulation is optimistic because Icentia11k is ECG
 
 ### E6 · Garmin-side check of the motion term (Section 3.5)
 
+*Responds to review issue #6 (see the issue register below the summary).*
+
 #### E6a · Section 3.5, secondary questions sentence [main]
 **Current**
 > Secondary questions cover yield (RQ3.1), computability of the daily ESVEA denominator (RQ3.2), day-to-day stability (RQ3.3), activity (RQ3.4) and the ESVEA proportion as a plausibility check (Haeusler et al., 2025; Teare et al., 2014) (RQ3.5).
@@ -177,6 +298,8 @@ The strongest answer to "your simulation is optimistic because Icentia11k is ECG
 ---
 
 ### E7 · Coverage gate is a reporting rule
+
+*Responds to review issue #8 (see the issue register below the summary).*
 
 #### E7a · Section 3.4, paragraph 2, last sentence [main]
 **Current**
@@ -196,6 +319,8 @@ The strongest answer to "your simulation is optimistic because Icentia11k is ECG
 
 ### E8 · Role of the rate head (Section 3.4, paragraph 1)
 
+*Responds to review issue #9 (see the issue register below the summary).*
+
 #### E8a · Section 3.4, paragraph 1, last sentence [main]
 **Current**
 > An event head and a rate head produce beat-level and window-level estimates.
@@ -208,6 +333,8 @@ The strongest answer to "your simulation is optimistic because Icentia11k is ECG
 ---
 
 ### E9 · Make pooled computability a key secondary outcome (Section 3.5)
+
+*Responds to review issue #10 (see the issue register below the summary).*
 
 Appendix C shows that under poor coverage 58% to 61% of simulated participants had three or more day/night-valid days, but only 20% to 21% had three or more days meeting the per-block rule. H3 could go green while per-day ESVEA is rarely computable.
 
@@ -224,6 +351,8 @@ Appendix C shows that under poor coverage 58% to 61% of simulated participants h
 ---
 
 ### E10 · Disjoint Icentia11k patient sets
+
+*Responds to review issue #11 (see the issue register below the summary).*
 
 #### E10a · Table 3.1, RO4a row, "Data" cell [main, table row]
 **Current**
@@ -248,6 +377,8 @@ Fix the P1 to P3 sizes and seeds when the split lists are drawn (post-defence ta
 ---
 
 ### E11 · Report the pilot at the untuned weight (Section 4.1)
+
+*Responds to review issue #12 (see the issue register below the summary).*
 
 **Blocked on a rerun.** The handover has weight 0.5 values only for the Pulsewatch clinical cohort (AF vs rest 1.000; AF vs PAC/PVC 0.998) and Simband AF vs rest (0.891). Rerun `pilot_auroc_check` at weight 0.5 for Simband AF vs PAC/PVC, MIMIC-III and recall, then fill Table 4.1.
 
@@ -372,6 +503,17 @@ Slide numbers follow the handover order. Only text is given; keep the existing H
 - [ ] Main-text word count ≤ 7,000 using the handover rule.
 - [ ] Research map page (`index.html`) updated to match whatever is applied.
 
+**Housekeeping from the review (H1 to H8)**
+- [ ] H1: targeted IEEE Xplore and arXiv search for the "first" claims, especially "no GNN applied to PPG or inter-beat intervals".
+- [ ] H2: confirm Bhurane et al. (2026) 93.96% is PAC/PVC sensitivity (Table 2.1), or drop it.
+- [ ] H3: supervisor approval of the final docx.
+- [ ] H4: confirm the ethics committee name (PPUM MREC or UMMC MREC).
+- [ ] H5: written confirmation of Pulsewatch permitted use from the data contact.
+- [ ] H6: Postgraduate Office, in writing: do tables count towards 7,000 words?
+- [ ] H7: remaining handover slide inconsistencies (`problem.html`, `gaps.html`, `app-a3.html`, `refs-1.html`) besides `app-b3.html`.
+- [ ] H8: mock defence using the caveats list and Section 4 answers.
+- [ ] F1: one fallback slide (device or ethics not secured by S4).
+
 ---
 
 ## 4. Prepared answers (not for the manuscript)
@@ -384,3 +526,6 @@ Slide numbers follow the handover order. Only text is given; keep the existing H
 
 **"Your retention pre-check failed. Why keep the motion term?"**
 > It failed only on the detector criterion. Matching was above chance at high motion and fell with motion in 8 of 8 subjects. Absolute retention depends on the detector, so I report the motion term with a detector sensitivity analysis and claim no retention value. RO3 adds a Garmin-side check of whether flagging rises with motion in the same way.
+
+**"Four ROs and a prospective cohort is a lot. What goes first?" (review F2)**
+> RO4b. It is descriptive, has no ground truth, and depends on the cohort. RO1, RO2 and RO4a use existing data and carry the methodological contribution, and the fallback in Section 3.9 already defers RO4b if the device or ethics slips.
