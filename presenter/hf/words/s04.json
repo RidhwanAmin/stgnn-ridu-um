@@ -1,0 +1,386 @@
+[
+  {
+    "text": "Objective",
+    "start": 0.04,
+    "end": 0.66,
+    "id": "w0"
+  },
+  {
+    "text": "1",
+    "start": 0.66,
+    "end": 0.88,
+    "id": "w1"
+  },
+  {
+    "text": "starts",
+    "start": 0.88,
+    "end": 1.3,
+    "id": "w2"
+  },
+  {
+    "text": "with",
+    "start": 1.39,
+    "end": 1.46,
+    "id": "w3"
+  },
+  {
+    "text": "filtering.",
+    "start": 1.63,
+    "end": 2.5,
+    "id": "w4"
+  },
+  {
+    "text": "A",
+    "start": 2.53,
+    "end": 2.57,
+    "id": "w5"
+  },
+  {
+    "text": "common",
+    "start": 2.57,
+    "end": 3.01,
+    "id": "w6"
+  },
+  {
+    "text": "rule",
+    "start": 3.01,
+    "end": 3.3,
+    "id": "w7"
+  },
+  {
+    "text": "rejects",
+    "start": 3.3,
+    "end": 3.8,
+    "id": "w8"
+  },
+  {
+    "text": "any",
+    "start": 3.8,
+    "end": 4.01,
+    "id": "w9"
+  },
+  {
+    "text": "interval",
+    "start": 4.14,
+    "end": 4.57,
+    "id": "w10"
+  },
+  {
+    "text": "that",
+    "start": 4.61,
+    "end": 4.68,
+    "id": "w11"
+  },
+  {
+    "text": "deviates",
+    "start": 4.97,
+    "end": 5.3,
+    "id": "w12"
+  },
+  {
+    "text": "from",
+    "start": 5.3,
+    "end": 5.44,
+    "id": "w13"
+  },
+  {
+    "text": "the",
+    "start": 5.45,
+    "end": 5.64,
+    "id": "w14"
+  },
+  {
+    "text": "median",
+    "start": 5.64,
+    "end": 6,
+    "id": "w15"
+  },
+  {
+    "text": "of",
+    "start": 6,
+    "end": 6.12,
+    "id": "w16"
+  },
+  {
+    "text": "the",
+    "start": 6.16,
+    "end": 6.23,
+    "id": "w17"
+  },
+  {
+    "text": "five",
+    "start": 6.37,
+    "end": 6.63,
+    "id": "w18"
+  },
+  {
+    "text": "preceding",
+    "start": 6.64,
+    "end": 7.16,
+    "id": "w19"
+  },
+  {
+    "text": "accepted",
+    "start": 7.16,
+    "end": 7.7,
+    "id": "w20"
+  },
+  {
+    "text": "intervals",
+    "start": 7.78,
+    "end": 8.42,
+    "id": "w21"
+  },
+  {
+    "text": "by",
+    "start": 8.42,
+    "end": 8.57,
+    "id": "w22"
+  },
+  {
+    "text": "more",
+    "start": 8.57,
+    "end": 8.87,
+    "id": "w23"
+  },
+  {
+    "text": "than",
+    "start": 8.87,
+    "end": 9.17,
+    "id": "w24"
+  },
+  {
+    "text": "a",
+    "start": 9.17,
+    "end": 9.24,
+    "id": "w25"
+  },
+  {
+    "text": "threshold,",
+    "start": 9.24,
+    "end": 9.93,
+    "id": "w26"
+  },
+  {
+    "text": "usually",
+    "start": 10.24,
+    "end": 10.6,
+    "id": "w27"
+  },
+  {
+    "text": "20%.",
+    "start": 10.6,
+    "end": 11.36,
+    "id": "w28"
+  },
+  {
+    "text": "A",
+    "start": 11.43,
+    "end": 11.48,
+    "id": "w29"
+  },
+  {
+    "text": "premature",
+    "start": 11.48,
+    "end": 12.19,
+    "id": "w30"
+  },
+  {
+    "text": "beat",
+    "start": 12.19,
+    "end": 12.5,
+    "id": "w31"
+  },
+  {
+    "text": "is",
+    "start": 12.5,
+    "end": 12.63,
+    "id": "w32"
+  },
+  {
+    "text": "short",
+    "start": 12.68,
+    "end": 12.85,
+    "id": "w33"
+  },
+  {
+    "text": "by",
+    "start": 13.04,
+    "end": 13.18,
+    "id": "w34"
+  },
+  {
+    "text": "definition,",
+    "start": 13.18,
+    "end": 14.13,
+    "id": "w35"
+  },
+  {
+    "text": "and",
+    "start": 14.13,
+    "end": 14.36,
+    "id": "w36"
+  },
+  {
+    "text": "its",
+    "start": 14.36,
+    "end": 14.58,
+    "id": "w37"
+  },
+  {
+    "text": "pause",
+    "start": 14.58,
+    "end": 14.98,
+    "id": "w38"
+  },
+  {
+    "text": "is",
+    "start": 14.98,
+    "end": 15.13,
+    "id": "w39"
+  },
+  {
+    "text": "long,",
+    "start": 15.27,
+    "end": 15.59,
+    "id": "w40"
+  },
+  {
+    "text": "so",
+    "start": 15.59,
+    "end": 15.73,
+    "id": "w41"
+  },
+  {
+    "text": "both",
+    "start": 15.74,
+    "end": 15.98,
+    "id": "w42"
+  },
+  {
+    "text": "are",
+    "start": 16.04,
+    "end": 16.28,
+    "id": "w43"
+  },
+  {
+    "text": "rejected.",
+    "start": 16.28,
+    "end": 17.28,
+    "id": "w44"
+  },
+  {
+    "text": "In",
+    "start": 17.32,
+    "end": 17.38,
+    "id": "w45"
+  },
+  {
+    "text": "this",
+    "start": 17.38,
+    "end": 17.56,
+    "id": "w46"
+  },
+  {
+    "text": "illustrative",
+    "start": 17.66,
+    "end": 18.19,
+    "id": "w47"
+  },
+  {
+    "text": "series,",
+    "start": 18.2,
+    "end": 18.58,
+    "id": "w48"
+  },
+  {
+    "text": "you",
+    "start": 18.6,
+    "end": 18.75,
+    "id": "w49"
+  },
+  {
+    "text": "can",
+    "start": 18.75,
+    "end": 18.92,
+    "id": "w50"
+  },
+  {
+    "text": "see",
+    "start": 18.92,
+    "end": 19.06,
+    "id": "w51"
+  },
+  {
+    "text": "the",
+    "start": 19.06,
+    "end": 19.2,
+    "id": "w52"
+  },
+  {
+    "text": "band",
+    "start": 19.2,
+    "end": 19.4,
+    "id": "w53"
+  },
+  {
+    "text": "around",
+    "start": 19.4,
+    "end": 19.42,
+    "id": "w54"
+  },
+  {
+    "text": "the",
+    "start": 19.78,
+    "end": 19.83,
+    "id": "w55"
+  },
+  {
+    "text": "running",
+    "start": 19.88,
+    "end": 20.22,
+    "id": "w56"
+  },
+  {
+    "text": "reference",
+    "start": 20.23,
+    "end": 20.68,
+    "id": "w57"
+  },
+  {
+    "text": "and",
+    "start": 20.7,
+    "end": 20.85,
+    "id": "w58"
+  },
+  {
+    "text": "the",
+    "start": 20.85,
+    "end": 21.01,
+    "id": "w59"
+  },
+  {
+    "text": "crosses",
+    "start": 21.14,
+    "end": 21.57,
+    "id": "w60"
+  },
+  {
+    "text": "on",
+    "start": 21.57,
+    "end": 21.7,
+    "id": "w61"
+  },
+  {
+    "text": "rejected",
+    "start": 21.7,
+    "end": 22.24,
+    "id": "w62"
+  },
+  {
+    "text": "intervals.",
+    "start": 22.24,
+    "end": 23.07,
+    "id": "w63"
+  }
+]

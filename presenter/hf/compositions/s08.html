@@ -1,0 +1,66 @@
+<template>
+  <style>
+
+#root{position:absolute;inset:0;font-family:'Lato',sans-serif;color:var(--color-ink)}
+.chap{position:absolute;left:120px;top:80px;font-family:'IBM Plex Mono',monospace;font-size:28px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent)}
+.ttl{position:absolute;left:120px;top:122px;width:1680px;font-family:'EB Garamond',serif;font-weight:400;font-size:84px;line-height:1.05;color:var(--color-ink);letter-spacing:-.01em}
+.ttl span{display:inline-block;margin-right:.24em}
+.stage{position:absolute;left:120px;top:262px;width:1680px;height:622px;overflow:hidden;border-radius:14px}
+.cam{position:absolute;left:0;top:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.card{position:relative;background:#fff;border-radius:14px;box-shadow:0 18px 50px rgba(24,34,44,.12),0 0 0 1px rgba(24,34,44,.08);overflow:hidden}
+.card img{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:contain}
+.hl{position:absolute;border:5px solid var(--color-accent);border-radius:12px;box-shadow:0 0 0 9999px rgba(246,247,245,.0),0 0 24px rgba(163,33,79,.35)}
+.pill{position:absolute;left:0;width:100%;text-align:center;pointer-events:none}
+.pill b{display:inline-block;font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:30px;line-height:1.3;color:var(--color-ink);background:#fff;border:2px solid var(--color-accent);border-left-width:10px;border-radius:10px;padding:10px 22px;box-shadow:0 10px 30px rgba(24,34,44,.14)}
+.pill.warn b{border-color:#A86200;color:#6b3f00}
+
+#s08-cam{transform-origin:50% 50%}
+  </style>
+  <div id="root" data-composition-id="s08" data-width="1920" data-height="1080" data-start="0" data-duration="27.81">
+    <div class="chap" id="s08-chap">RO2 · Local block</div>
+    <h1 class="ttl" id="s08-ttl"><span id="s08-t0">One</span><span id="s08-t1">local</span><span id="s08-t2">layer,</span><span id="s08-t3">three</span><span id="s08-t4">branches</span></h1>
+
+    <div class="stage" id="s08-stage">
+      <div class="cam" id="s08-cam">
+        <div class="card" id="s08-card" style="width:1680px;height:451px">
+          <img id="s08-img0" src="assets/fig/step.png" alt="">
+          <img id="s08-img1" src="assets/fig/step_b.png" alt="">
+          <div class="hl" id="s08-hl0" style="left:0%;top:0%;width:17%;height:100%"></div>
+          <div class="hl" id="s08-hl1" style="left:17%;top:0%;width:17%;height:100%"></div>
+          <div class="hl" id="s08-hl2" style="left:34%;top:0%;width:17%;height:100%"></div>
+          <div class="hl" id="s08-hl3" style="left:51%;top:0%;width:49%;height:100%"></div>
+        </div>
+      </div>
+      <div class="pill" id="s08-p0" style="top:calc(8% - 28px)"><b>α = 0.3, β = 1.5: the similarity branch dominates</b></div>
+      <div class="pill" id="s08-p1" style="top:calc(92% - 28px)"><b>RQ2.3: remove each component in turn</b></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#s08-chap", {opacity:0, filter:"blur(6px)"}, {opacity:1, filter:"blur(0px)", duration:0.25, ease:"power4.out"}, 0.15);
+    tl.fromTo("#s08-t0", {opacity:0, filter:"blur(6px)"}, {opacity:1, filter:"blur(0px)", duration:0.16, ease:"power4.out"}, 0.300);
+    tl.fromTo("#s08-t1", {opacity:0, filter:"blur(6px)"}, {opacity:1, filter:"blur(0px)", duration:0.16, ease:"power4.out"}, 0.375);
+    tl.fromTo("#s08-t2", {opacity:0, filter:"blur(6px)"}, {opacity:1, filter:"blur(0px)", duration:0.16, ease:"power4.out"}, 0.450);
+    tl.fromTo("#s08-t3", {opacity:0, filter:"blur(6px)"}, {opacity:1, filter:"blur(0px)", duration:0.16, ease:"power4.out"}, 0.525);
+    tl.fromTo("#s08-t4", {opacity:0, filter:"blur(6px)"}, {opacity:1, filter:"blur(0px)", duration:0.16, ease:"power4.out"}, 0.600);
+    tl.to(["#s08-chap", "#s08-ttl"], {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power3.in"}, 27.51);
+    tl.fromTo("#s08-card", {opacity:0, y:40, filter:"blur(10px)"}, {opacity:1, y:0, filter:"blur(0px)", duration:0.7, ease:"expo.out"}, 0.55);
+    tl.set("#s08-img1", {opacity:0}, 0);
+    tl.to("#s08-img0", {opacity:0, filter:"blur(8px)", duration:0.2, ease:"power2.in"}, 17.94);
+    tl.fromTo("#s08-img1", {opacity:0, filter:"blur(8px)"}, {opacity:1, filter:"blur(0px)", duration:0.3, ease:"power3.out"}, 18.06);
+    tl.fromTo("#s08-hl0", {opacity:0, scale:1.06}, {opacity:1, scale:1, duration:0.35, ease:"expo.out"}, 3.29);
+    tl.to("#s08-hl0", {opacity:0, duration:0.18, ease:"power2.in"}, 6.55);
+    tl.fromTo("#s08-hl1", {opacity:0, scale:1.06}, {opacity:1, scale:1, duration:0.35, ease:"expo.out"}, 6.67);
+    tl.to("#s08-hl1", {opacity:0, duration:0.18, ease:"power2.in"}, 7.49);
+    tl.fromTo("#s08-hl2", {opacity:0, scale:1.06}, {opacity:1, scale:1, duration:0.35, ease:"expo.out"}, 7.61);
+    tl.to("#s08-hl2", {opacity:0, duration:0.18, ease:"power2.in"}, 11.39);
+    tl.fromTo("#s08-hl3", {opacity:0, scale:1.06}, {opacity:1, scale:1, duration:0.35, ease:"expo.out"}, 11.51);
+    tl.to("#s08-hl3", {opacity:0, duration:0.18, ease:"power2.in"}, 17.82);
+    tl.fromTo("#s08-p0 b", {opacity:0, y:12, filter:"blur(6px)"}, {opacity:1, y:0, filter:"blur(0px)", duration:0.4, ease:"expo.out"}, 17.94);
+    tl.to("#s08-p0 b", {opacity:0, filter:"blur(6px)", duration:0.18, ease:"power3.in"}, 27.34);
+    tl.fromTo("#s08-p1 b", {opacity:0, y:12, filter:"blur(6px)"}, {opacity:1, y:0, filter:"blur(0px)", duration:0.4, ease:"expo.out"}, 23.25);
+    tl.to("#s08-p1 b", {opacity:0, filter:"blur(6px)", duration:0.18, ease:"power3.in"}, 27.34);
+    tl.to("#s08-stage", {opacity:0, filter:"blur(10px)", duration:0.25, ease:"power3.in"}, 27.51);
+    window.__timelines["s08"] = tl;
+  </script>
+</template>

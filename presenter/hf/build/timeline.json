@@ -1,0 +1,104 @@
+[
+ [
+  "s01",
+  0.0,
+  45.89,
+  "Counting atrial ectopy on a smartwatch"
+ ],
+ [
+  "s02",
+  45.89,
+  39.26,
+  "Four questions, four objectives"
+ ],
+ [
+  "s03",
+  85.15,
+  40.38,
+  "A chain of dependencies"
+ ],
+ [
+  "s04",
+  125.53,
+  24.47,
+  "The filter that hides premature beats"
+ ],
+ [
+  "s05",
+  150.0,
+  34.14,
+  "Filtering removes PACs, not normal beats"
+ ],
+ [
+  "s06",
+  184.14,
+  37.17,
+  "Two scales: beats, then the day"
+ ],
+ [
+  "s07",
+  221.31,
+  23.66,
+  "Two graphs inside every window"
+ ],
+ [
+  "s08",
+  244.97,
+  27.81,
+  "One local layer, three branches"
+ ],
+ [
+  "s09",
+  272.78,
+  32.93,
+  "Every loss goes to one place"
+ ],
+ [
+  "s10",
+  305.71,
+  32.39,
+  "From beat probabilities to a daily rate"
+ ],
+ [
+  "s11",
+  338.1,
+  30.69,
+  "A worked example"
+ ],
+ [
+  "s12",
+  368.79,
+  33.25,
+  "Pool the week, not the day"
+ ],
+ [
+  "s13",
+  402.04,
+  42.21,
+  "Patients never cross sets"
+ ],
+ [
+  "s14",
+  444.25,
+  27.19,
+  "Seven days of wear after stroke"
+ ],
+ [
+  "s15",
+  471.44,
+  31.65,
+  "Ranking transfers; the threshold does not"
+ ],
+ [
+  "s16",
+  503.09,
+  15.0,
+  "The retention check did not pass"
+ ],
+ [
+  "s17",
+  518.09,
+  31.58,
+  "The contribution is the observation model"
+ ]
+]

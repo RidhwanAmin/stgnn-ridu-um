@@ -1,0 +1,368 @@
+[
+  {
+    "text": "Inside",
+    "start": 0.05,
+    "end": 0.42,
+    "id": "w0"
+  },
+  {
+    "text": "each",
+    "start": 0.44,
+    "end": 0.73,
+    "id": "w1"
+  },
+  {
+    "text": "window,",
+    "start": 0.73,
+    "end": 1.29,
+    "id": "w2"
+  },
+  {
+    "text": "there",
+    "start": 1.32,
+    "end": 1.57,
+    "id": "w3"
+  },
+  {
+    "text": "are",
+    "start": 1.67,
+    "end": 1.89,
+    "id": "w4"
+  },
+  {
+    "text": "two",
+    "start": 1.89,
+    "end": 2.11,
+    "id": "w5"
+  },
+  {
+    "text": "graphs.",
+    "start": 2.11,
+    "end": 2.79,
+    "id": "w6"
+  },
+  {
+    "text": "The",
+    "start": 2.85,
+    "end": 2.98,
+    "id": "w7"
+  },
+  {
+    "text": "temporal",
+    "start": 2.98,
+    "end": 3.45,
+    "id": "w8"
+  },
+  {
+    "text": "chain",
+    "start": 3.49,
+    "end": 3.78,
+    "id": "w9"
+  },
+  {
+    "text": "links",
+    "start": 3.78,
+    "end": 4.08,
+    "id": "w10"
+  },
+  {
+    "text": "each",
+    "start": 4.08,
+    "end": 4.33,
+    "id": "w11"
+  },
+  {
+    "text": "beat",
+    "start": 4.33,
+    "end": 4.58,
+    "id": "w12"
+  },
+  {
+    "text": "to",
+    "start": 4.6,
+    "end": 4.69,
+    "id": "w13"
+  },
+  {
+    "text": "its",
+    "start": 4.69,
+    "end": 4.83,
+    "id": "w14"
+  },
+  {
+    "text": "neighbors",
+    "start": 4.83,
+    "end": 5.19,
+    "id": "w15"
+  },
+  {
+    "text": "in",
+    "start": 5.19,
+    "end": 5.6,
+    "id": "w16"
+  },
+  {
+    "text": "time,",
+    "start": 5.6,
+    "end": 6.18,
+    "id": "w17"
+  },
+  {
+    "text": "capturing",
+    "start": 6.18,
+    "end": 6.7,
+    "id": "w18"
+  },
+  {
+    "text": "the",
+    "start": 6.71,
+    "end": 6.78,
+    "id": "w19"
+  },
+  {
+    "text": "short,",
+    "start": 6.91,
+    "end": 7.27,
+    "id": "w20"
+  },
+  {
+    "text": "then",
+    "start": 7.27,
+    "end": 7.44,
+    "id": "w21"
+  },
+  {
+    "text": "long",
+    "start": 7.49,
+    "end": 7.75,
+    "id": "w22"
+  },
+  {
+    "text": "signature",
+    "start": 7.75,
+    "end": 8.45,
+    "id": "w23"
+  },
+  {
+    "text": "of",
+    "start": 8.45,
+    "end": 8.6,
+    "id": "w24"
+  },
+  {
+    "text": "a",
+    "start": 8.6,
+    "end": 8.66,
+    "id": "w25"
+  },
+  {
+    "text": "premature",
+    "start": 8.67,
+    "end": 9.36,
+    "id": "w26"
+  },
+  {
+    "text": "beat.",
+    "start": 9.36,
+    "end": 9.89,
+    "id": "w27"
+  },
+  {
+    "text": "The",
+    "start": 9.99,
+    "end": 10.13,
+    "id": "w28"
+  },
+  {
+    "text": "similarity",
+    "start": 10.14,
+    "end": 10.82,
+    "id": "w29"
+  },
+  {
+    "text": "graph",
+    "start": 10.82,
+    "end": 11.15,
+    "id": "w30"
+  },
+  {
+    "text": "links",
+    "start": 11.15,
+    "end": 11.5,
+    "id": "w31"
+  },
+  {
+    "text": "each",
+    "start": 11.5,
+    "end": 11.77,
+    "id": "w32"
+  },
+  {
+    "text": "beat",
+    "start": 11.77,
+    "end": 12.04,
+    "id": "w33"
+  },
+  {
+    "text": "to",
+    "start": 12.04,
+    "end": 12.08,
+    "id": "w34"
+  },
+  {
+    "text": "its",
+    "start": 12.21,
+    "end": 12.37,
+    "id": "w35"
+  },
+  {
+    "text": "Knearest",
+    "start": 12.37,
+    "end": 12.9,
+    "id": "w36"
+  },
+  {
+    "text": "neighbors",
+    "start": 12.9,
+    "end": 13.51,
+    "id": "w37"
+  },
+  {
+    "text": "in",
+    "start": 13.51,
+    "end": 13.64,
+    "id": "w38"
+  },
+  {
+    "text": "feature",
+    "start": 13.64,
+    "end": 14.11,
+    "id": "w39"
+  },
+  {
+    "text": "space.",
+    "start": 14.11,
+    "end": 14.72,
+    "id": "w40"
+  },
+  {
+    "text": "So",
+    "start": 14.79,
+    "end": 14.9,
+    "id": "w41"
+  },
+  {
+    "text": "recurring",
+    "start": 14.9,
+    "end": 15.62,
+    "id": "w42"
+  },
+  {
+    "text": "PACs",
+    "start": 15.62,
+    "end": 15.93,
+    "id": "w43"
+  },
+  {
+    "text": "share",
+    "start": 15.94,
+    "end": 16.31,
+    "id": "w44"
+  },
+  {
+    "text": "evidence",
+    "start": 16.41,
+    "end": 16.88,
+    "id": "w45"
+  },
+  {
+    "text": "wherever",
+    "start": 17.01,
+    "end": 17.62,
+    "id": "w46"
+  },
+  {
+    "text": "they",
+    "start": 17.64,
+    "end": 17.94,
+    "id": "w47"
+  },
+  {
+    "text": "occur.",
+    "start": 17.94,
+    "end": 18.62,
+    "id": "w48"
+  },
+  {
+    "text": "Both",
+    "start": 18.67,
+    "end": 18.86,
+    "id": "w49"
+  },
+  {
+    "text": "graphs",
+    "start": 18.89,
+    "end": 19.27,
+    "id": "w50"
+  },
+  {
+    "text": "are",
+    "start": 19.27,
+    "end": 19.48,
+    "id": "w51"
+  },
+  {
+    "text": "built",
+    "start": 19.48,
+    "end": 19.8,
+    "id": "w52"
+  },
+  {
+    "text": "once",
+    "start": 19.81,
+    "end": 20.07,
+    "id": "w53"
+  },
+  {
+    "text": "per",
+    "start": 20.07,
+    "end": 20.19,
+    "id": "w54"
+  },
+  {
+    "text": "window",
+    "start": 20.29,
+    "end": 20.67,
+    "id": "w55"
+  },
+  {
+    "text": "and",
+    "start": 20.67,
+    "end": 20.83,
+    "id": "w56"
+  },
+  {
+    "text": "reused",
+    "start": 20.88,
+    "end": 21.08,
+    "id": "w57"
+  },
+  {
+    "text": "in",
+    "start": 21.08,
+    "end": 21.42,
+    "id": "w58"
+  },
+  {
+    "text": "every",
+    "start": 21.42,
+    "end": 21.7,
+    "id": "w59"
+  },
+  {
+    "text": "layer.",
+    "start": 21.76,
+    "end": 22.14,
+    "id": "w60"
+  }
+]

@@ -1,0 +1,494 @@
+[
+  {
+    "text": "On",
+    "start": 0.03,
+    "end": 0.16,
+    "id": "w0"
+  },
+  {
+    "text": "298",
+    "start": 0.21,
+    "end": 1.05,
+    "id": "w1"
+  },
+  {
+    "text": "Isensia",
+    "start": 1.05,
+    "end": 1.71,
+    "id": "w2"
+  },
+  {
+    "text": "11k",
+    "start": 1.71,
+    "end": 2.37,
+    "id": "w3"
+  },
+  {
+    "text": "patients,",
+    "start": 2.37,
+    "end": 3.21,
+    "id": "w4"
+  },
+  {
+    "text": "the",
+    "start": 3.42,
+    "end": 3.56,
+    "id": "w5"
+  },
+  {
+    "text": "effect",
+    "start": 3.65,
+    "end": 4.19,
+    "id": "w6"
+  },
+  {
+    "text": "is",
+    "start": 4.2,
+    "end": 4.38,
+    "id": "w7"
+  },
+  {
+    "text": "large.",
+    "start": 4.38,
+    "end": 5.14,
+    "id": "w8"
+  },
+  {
+    "text": "At",
+    "start": 5.17,
+    "end": 5.29,
+    "id": "w9"
+  },
+  {
+    "text": "the",
+    "start": 5.29,
+    "end": 5.52,
+    "id": "w10"
+  },
+  {
+    "text": "common",
+    "start": 5.52,
+    "end": 5.98,
+    "id": "w11"
+  },
+  {
+    "text": "20%",
+    "start": 5.98,
+    "end": 6.51,
+    "id": "w12"
+  },
+  {
+    "text": "threshold,",
+    "start": 6.51,
+    "end": 7.35,
+    "id": "w13"
+  },
+  {
+    "text": "the",
+    "start": 7.35,
+    "end": 7.56,
+    "id": "w14"
+  },
+  {
+    "text": "filter",
+    "start": 7.59,
+    "end": 8.01,
+    "id": "w15"
+  },
+  {
+    "text": "removed",
+    "start": 8.03,
+    "end": 8.57,
+    "id": "w16"
+  },
+  {
+    "text": "61%",
+    "start": 8.57,
+    "end": 9.1,
+    "id": "w17"
+  },
+  {
+    "text": "of",
+    "start": 9.1,
+    "end": 9.25,
+    "id": "w18"
+  },
+  {
+    "text": "PAC",
+    "start": 9.25,
+    "end": 9.48,
+    "id": "w19"
+  },
+  {
+    "text": "coupling",
+    "start": 9.48,
+    "end": 9.8,
+    "id": "w20"
+  },
+  {
+    "text": "intervals,",
+    "start": 10.2,
+    "end": 10.94,
+    "id": "w21"
+  },
+  {
+    "text": "but",
+    "start": 10.94,
+    "end": 11.24,
+    "id": "w22"
+  },
+  {
+    "text": "only",
+    "start": 11.24,
+    "end": 11.62,
+    "id": "w23"
+  },
+  {
+    "text": "9%",
+    "start": 11.62,
+    "end": 11.99,
+    "id": "w24"
+  },
+  {
+    "text": "of",
+    "start": 12.07,
+    "end": 12.19,
+    "id": "w25"
+  },
+  {
+    "text": "normal",
+    "start": 12.19,
+    "end": 12.65,
+    "id": "w26"
+  },
+  {
+    "text": "intervals.",
+    "start": 12.65,
+    "end": 13.6,
+    "id": "w27"
+  },
+  {
+    "text": "And",
+    "start": 13.63,
+    "end": 13.84,
+    "id": "w28"
+  },
+  {
+    "text": "the",
+    "start": 13.84,
+    "end": 14.08,
+    "id": "w29"
+  },
+  {
+    "text": "loss",
+    "start": 14.08,
+    "end": 14.4,
+    "id": "w30"
+  },
+  {
+    "text": "depends",
+    "start": 14.4,
+    "end": 14.88,
+    "id": "w31"
+  },
+  {
+    "text": "on",
+    "start": 14.97,
+    "end": 15.11,
+    "id": "w32"
+  },
+  {
+    "text": "burden.",
+    "start": 15.11,
+    "end": 15.84,
+    "id": "w33"
+  },
+  {
+    "text": "Patients",
+    "start": 15.87,
+    "end": 16.33,
+    "id": "w34"
+  },
+  {
+    "text": "with",
+    "start": 16.33,
+    "end": 16.57,
+    "id": "w35"
+  },
+  {
+    "text": "ESVEA",
+    "start": 16.57,
+    "end": 16.87,
+    "id": "w36"
+  },
+  {
+    "text": "lose",
+    "start": 16.87,
+    "end": 17.08,
+    "id": "w37"
+  },
+  {
+    "text": "a",
+    "start": 17.11,
+    "end": 17.12,
+    "id": "w38"
+  },
+  {
+    "text": "smaller",
+    "start": 17.21,
+    "end": 17.6,
+    "id": "w39"
+  },
+  {
+    "text": "share",
+    "start": 17.6,
+    "end": 17.91,
+    "id": "w40"
+  },
+  {
+    "text": "of",
+    "start": 17.91,
+    "end": 18.03,
+    "id": "w41"
+  },
+  {
+    "text": "their",
+    "start": 18.03,
+    "end": 18.26,
+    "id": "w42"
+  },
+  {
+    "text": "PAC",
+    "start": 18.36,
+    "end": 18.5,
+    "id": "w43"
+  },
+  {
+    "text": "intervals",
+    "start": 18.52,
+    "end": 19.05,
+    "id": "w44"
+  },
+  {
+    "text": "than",
+    "start": 19.26,
+    "end": 19.31,
+    "id": "w45"
+  },
+  {
+    "text": "patients",
+    "start": 19.31,
+    "end": 19.8,
+    "id": "w46"
+  },
+  {
+    "text": "without",
+    "start": 19.8,
+    "end": 20.31,
+    "id": "w47"
+  },
+  {
+    "text": "it,",
+    "start": 20.35,
+    "end": 20.56,
+    "id": "w48"
+  },
+  {
+    "text": "probably",
+    "start": 20.56,
+    "end": 21.07,
+    "id": "w49"
+  },
+  {
+    "text": "because",
+    "start": 21.07,
+    "end": 21.52,
+    "id": "w50"
+  },
+  {
+    "text": "frequent",
+    "start": 21.52,
+    "end": 22.03,
+    "id": "w51"
+  },
+  {
+    "text": "PACs",
+    "start": 22.03,
+    "end": 22.28,
+    "id": "w52"
+  },
+  {
+    "text": "enter",
+    "start": 22.28,
+    "end": 22.59,
+    "id": "w53"
+  },
+  {
+    "text": "the",
+    "start": 22.6,
+    "end": 22.74,
+    "id": "w54"
+  },
+  {
+    "text": "running",
+    "start": 22.84,
+    "end": 23.23,
+    "id": "w55"
+  },
+  {
+    "text": "reference",
+    "start": 23.23,
+    "end": 23.82,
+    "id": "w56"
+  },
+  {
+    "text": "and",
+    "start": 23.82,
+    "end": 24.01,
+    "id": "w57"
+  },
+  {
+    "text": "are",
+    "start": 24.01,
+    "end": 24.2,
+    "id": "w58"
+  },
+  {
+    "text": "then",
+    "start": 24.2,
+    "end": 24.45,
+    "id": "w59"
+  },
+  {
+    "text": "accepted.",
+    "start": 24.45,
+    "end": 25.01,
+    "id": "w60"
+  },
+  {
+    "text": "So",
+    "start": 25.27,
+    "end": 25.39,
+    "id": "w61"
+  },
+  {
+    "text": "a",
+    "start": 25.39,
+    "end": 25.46,
+    "id": "w62"
+  },
+  {
+    "text": "single",
+    "start": 25.46,
+    "end": 25.93,
+    "id": "w63"
+  },
+  {
+    "text": "correction",
+    "start": 25.93,
+    "end": 26.71,
+    "id": "w64"
+  },
+  {
+    "text": "factor",
+    "start": 26.73,
+    "end": 27.18,
+    "id": "w65"
+  },
+  {
+    "text": "is",
+    "start": 27.19,
+    "end": 27.34,
+    "id": "w66"
+  },
+  {
+    "text": "unlikely",
+    "start": 27.34,
+    "end": 27.9,
+    "id": "w67"
+  },
+  {
+    "text": "to",
+    "start": 27.97,
+    "end": 28.11,
+    "id": "w68"
+  },
+  {
+    "text": "restore",
+    "start": 28.11,
+    "end": 28.67,
+    "id": "w69"
+  },
+  {
+    "text": "the",
+    "start": 28.67,
+    "end": 28.9,
+    "id": "w70"
+  },
+  {
+    "text": "count.",
+    "start": 28.9,
+    "end": 29.6,
+    "id": "w71"
+  },
+  {
+    "text": "This",
+    "start": 29.63,
+    "end": 29.86,
+    "id": "w72"
+  },
+  {
+    "text": "one",
+    "start": 29.89,
+    "end": 30.09,
+    "id": "w73"
+  },
+  {
+    "text": "tests",
+    "start": 30.09,
+    "end": 30.44,
+    "id": "w74"
+  },
+  {
+    "text": "this",
+    "start": 30.44,
+    "end": 30.72,
+    "id": "w75"
+  },
+  {
+    "text": "at",
+    "start": 30.72,
+    "end": 30.84,
+    "id": "w76"
+  },
+  {
+    "text": "patient",
+    "start": 30.87,
+    "end": 31.35,
+    "id": "w77"
+  },
+  {
+    "text": "level,",
+    "start": 31.35,
+    "end": 31.87,
+    "id": "w78"
+  },
+  {
+    "text": "in",
+    "start": 31.88,
+    "end": 31.98,
+    "id": "w79"
+  },
+  {
+    "text": "new",
+    "start": 31.98,
+    "end": 32.13,
+    "id": "w80"
+  },
+  {
+    "text": "patients.",
+    "start": 32.13,
+    "end": 32.71,
+    "id": "w81"
+  }
+]

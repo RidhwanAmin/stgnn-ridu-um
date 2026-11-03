@@ -1,0 +1,458 @@
+[
+  {
+    "text": "This",
+    "start": 0.03,
+    "end": 0.24,
+    "id": "w0"
+  },
+  {
+    "text": "worked",
+    "start": 0.32,
+    "end": 0.73,
+    "id": "w1"
+  },
+  {
+    "text": "example",
+    "start": 0.73,
+    "end": 1.24,
+    "id": "w2"
+  },
+  {
+    "text": "uses",
+    "start": 1.24,
+    "end": 1.44,
+    "id": "w3"
+  },
+  {
+    "text": "illustrative",
+    "start": 1.53,
+    "end": 2.38,
+    "id": "w4"
+  },
+  {
+    "text": "numbers.",
+    "start": 2.41,
+    "end": 3.24,
+    "id": "w5"
+  },
+  {
+    "text": "Most",
+    "start": 3.31,
+    "end": 3.52,
+    "id": "w6"
+  },
+  {
+    "text": "observed",
+    "start": 3.6,
+    "end": 4.1,
+    "id": "w7"
+  },
+  {
+    "text": "time",
+    "start": 4.1,
+    "end": 4.35,
+    "id": "w8"
+  },
+  {
+    "text": "falls",
+    "start": 4.39,
+    "end": 4.7,
+    "id": "w9"
+  },
+  {
+    "text": "at",
+    "start": 4.71,
+    "end": 4.84,
+    "id": "w10"
+  },
+  {
+    "text": "night",
+    "start": 4.84,
+    "end": 5.18,
+    "id": "w11"
+  },
+  {
+    "text": "and",
+    "start": 5.18,
+    "end": 5.38,
+    "id": "w12"
+  },
+  {
+    "text": "most",
+    "start": 5.38,
+    "end": 5.63,
+    "id": "w13"
+  },
+  {
+    "text": "ectopy",
+    "start": 5.63,
+    "end": 5.92,
+    "id": "w14"
+  },
+  {
+    "text": "in",
+    "start": 5.92,
+    "end": 6.3,
+    "id": "w15"
+  },
+  {
+    "text": "the",
+    "start": 6.3,
+    "end": 6.38,
+    "id": "w16"
+  },
+  {
+    "text": "afternoon",
+    "start": 6.38,
+    "end": 6.92,
+    "id": "w17"
+  },
+  {
+    "text": "and",
+    "start": 7,
+    "end": 7.2,
+    "id": "w18"
+  },
+  {
+    "text": "evening.",
+    "start": 7.2,
+    "end": 7.99,
+    "id": "w19"
+  },
+  {
+    "text": "The",
+    "start": 8.03,
+    "end": 8.24,
+    "id": "w20"
+  },
+  {
+    "text": "naive",
+    "start": 8.32,
+    "end": 8.75,
+    "id": "w21"
+  },
+  {
+    "text": "count",
+    "start": 8.75,
+    "end": 9.22,
+    "id": "w22"
+  },
+  {
+    "text": "divides",
+    "start": 9.22,
+    "end": 9.88,
+    "id": "w23"
+  },
+  {
+    "text": "all",
+    "start": 9.88,
+    "end": 10.16,
+    "id": "w24"
+  },
+  {
+    "text": "PACs",
+    "start": 10.16,
+    "end": 10.53,
+    "id": "w25"
+  },
+  {
+    "text": "by",
+    "start": 10.53,
+    "end": 10.63,
+    "id": "w26"
+  },
+  {
+    "text": "all",
+    "start": 10.63,
+    "end": 11.02,
+    "id": "w27"
+  },
+  {
+    "text": "observed",
+    "start": 11.02,
+    "end": 11.75,
+    "id": "w28"
+  },
+  {
+    "text": "hours.",
+    "start": 11.75,
+    "end": 12.56,
+    "id": "w29"
+  },
+  {
+    "text": "Retention",
+    "start": 12.59,
+    "end": 13.1,
+    "id": "w30"
+  },
+  {
+    "text": "waiting",
+    "start": 13.1,
+    "end": 13.53,
+    "id": "w31"
+  },
+  {
+    "text": "raises",
+    "start": 13.53,
+    "end": 13.89,
+    "id": "w32"
+  },
+  {
+    "text": "it.",
+    "start": 13.89,
+    "end": 14.22,
+    "id": "w33"
+  },
+  {
+    "text": "Block",
+    "start": 14.25,
+    "end": 14.46,
+    "id": "w34"
+  },
+  {
+    "text": "waiting",
+    "start": 14.54,
+    "end": 14.92,
+    "id": "w35"
+  },
+  {
+    "text": "then",
+    "start": 14.92,
+    "end": 15.16,
+    "id": "w36"
+  },
+  {
+    "text": "gives",
+    "start": 15.16,
+    "end": 15.45,
+    "id": "w37"
+  },
+  {
+    "text": "each",
+    "start": 15.45,
+    "end": 15.66,
+    "id": "w38"
+  },
+  {
+    "text": "six-hour",
+    "start": 15.75,
+    "end": 16.15,
+    "id": "w39"
+  },
+  {
+    "text": "block",
+    "start": 16.15,
+    "end": 16.44,
+    "id": "w40"
+  },
+  {
+    "text": "a",
+    "start": 16.44,
+    "end": 16.5,
+    "id": "w41"
+  },
+  {
+    "text": "quarter",
+    "start": 16.5,
+    "end": 16.84,
+    "id": "w42"
+  },
+  {
+    "text": "of",
+    "start": 16.84,
+    "end": 17.04,
+    "id": "w43"
+  },
+  {
+    "text": "the",
+    "start": 17.04,
+    "end": 17.24,
+    "id": "w44"
+  },
+  {
+    "text": "day,",
+    "start": 17.24,
+    "end": 17.45,
+    "id": "w45"
+  },
+  {
+    "text": "however",
+    "start": 17.52,
+    "end": 17.86,
+    "id": "w46"
+  },
+  {
+    "text": "few",
+    "start": 17.94,
+    "end": 18.09,
+    "id": "w47"
+  },
+  {
+    "text": "hours",
+    "start": 18.09,
+    "end": 18.38,
+    "id": "w48"
+  },
+  {
+    "text": "were",
+    "start": 18.38,
+    "end": 18.72,
+    "id": "w49"
+  },
+  {
+    "text": "observed",
+    "start": 18.75,
+    "end": 19.53,
+    "id": "w50"
+  },
+  {
+    "text": "in",
+    "start": 19.53,
+    "end": 19.73,
+    "id": "w51"
+  },
+  {
+    "text": "it.",
+    "start": 19.73,
+    "end": 20.16,
+    "id": "w52"
+  },
+  {
+    "text": "Equation",
+    "start": 20.27,
+    "end": 20.77,
+    "id": "w53"
+  },
+  {
+    "text": "3.3,",
+    "start": 20.77,
+    "end": 21.5,
+    "id": "w54"
+  },
+  {
+    "text": "the",
+    "start": 21.5,
+    "end": 21.68,
+    "id": "w55"
+  },
+  {
+    "text": "coverage",
+    "start": 21.77,
+    "end": 22.23,
+    "id": "w56"
+  },
+  {
+    "text": "gate,",
+    "start": 22.23,
+    "end": 22.62,
+    "id": "w57"
+  },
+  {
+    "text": "reports",
+    "start": 22.62,
+    "end": 22.87,
+    "id": "w58"
+  },
+  {
+    "text": "the",
+    "start": 23.26,
+    "end": 23.3,
+    "id": "w59"
+  },
+  {
+    "text": "daily",
+    "start": 23.3,
+    "end": 23.62,
+    "id": "w60"
+  },
+  {
+    "text": "value",
+    "start": 23.62,
+    "end": 23.88,
+    "id": "w61"
+  },
+  {
+    "text": "only",
+    "start": 23.96,
+    "end": 24.23,
+    "id": "w62"
+  },
+  {
+    "text": "if",
+    "start": 24.23,
+    "end": 24.27,
+    "id": "w63"
+  },
+  {
+    "text": "every",
+    "start": 24.38,
+    "end": 24.69,
+    "id": "w64"
+  },
+  {
+    "text": "block",
+    "start": 24.69,
+    "end": 24.98,
+    "id": "w65"
+  },
+  {
+    "text": "reaches",
+    "start": 25.07,
+    "end": 25.49,
+    "id": "w66"
+  },
+  {
+    "text": "a",
+    "start": 25.49,
+    "end": 25.64,
+    "id": "w67"
+  },
+  {
+    "text": "minimum",
+    "start": 25.67,
+    "end": 26.18,
+    "id": "w68"
+  },
+  {
+    "text": "of",
+    "start": 26.18,
+    "end": 26.31,
+    "id": "w69"
+  },
+  {
+    "text": "observed",
+    "start": 26.33,
+    "end": 26.95,
+    "id": "w70"
+  },
+  {
+    "text": "hours.",
+    "start": 26.95,
+    "end": 27.59,
+    "id": "w71"
+  },
+  {
+    "text": "Otherwise,",
+    "start": 27.63,
+    "end": 28.2,
+    "id": "w72"
+  },
+  {
+    "text": "the",
+    "start": 28.2,
+    "end": 28.36,
+    "id": "w73"
+  },
+  {
+    "text": "model",
+    "start": 28.36,
+    "end": 28.63,
+    "id": "w74"
+  },
+  {
+    "text": "abstains.",
+    "start": 28.63,
+    "end": 29.26,
+    "id": "w75"
+  }
+]

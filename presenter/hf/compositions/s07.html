@@ -1,0 +1,67 @@
+<template>
+  <style>
+
+#root{position:absolute;inset:0;font-family:'Lato',sans-serif;color:var(--color-ink)}
+.chap{position:absolute;left:120px;top:80px;font-family:'IBM Plex Mono',monospace;font-size:28px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent)}
+.ttl{position:absolute;left:120px;top:122px;width:1680px;font-family:'EB Garamond',serif;font-weight:400;font-size:84px;line-height:1.05;color:var(--color-ink);letter-spacing:-.01em}
+.ttl span{display:inline-block;margin-right:.24em}
+.stage{position:absolute;left:120px;top:262px;width:1680px;height:622px;overflow:hidden;border-radius:14px}
+.cam{position:absolute;left:0;top:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.card{position:relative;background:#fff;border-radius:14px;box-shadow:0 18px 50px rgba(24,34,44,.12),0 0 0 1px rgba(24,34,44,.08);overflow:hidden}
+.card img{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:contain}
+.hl{position:absolute;border:5px solid var(--color-accent);border-radius:12px;box-shadow:0 0 0 9999px rgba(246,247,245,.0),0 0 24px rgba(163,33,79,.35)}
+.pill{position:absolute;left:0;width:100%;text-align:center;pointer-events:none}
+.pill b{display:inline-block;font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:30px;line-height:1.3;color:var(--color-ink);background:#fff;border:2px solid var(--color-accent);border-left-width:10px;border-radius:10px;padding:10px 22px;box-shadow:0 10px 30px rgba(24,34,44,.14)}
+.pill.warn b{border-color:#A86200;color:#6b3f00}
+
+#s07-cam{transform-origin:50% 50%}
+  </style>
+  <div id="root" data-composition-id="s07" data-width="1920" data-height="1080" data-start="0" data-duration="23.66">
+    <div class="chap" id="s07-chap">RO2 · Beat graph</div>
+    <h1 class="ttl" id="s07-ttl"><span id="s07-t0">Two</span><span id="s07-t1">graphs</span><span id="s07-t2">inside</span><span id="s07-t3">every</span><span id="s07-t4">window</span></h1>
+
+    <div class="stage" id="s07-stage">
+      <div class="cam" id="s07-cam">
+        <div class="card" id="s07-card" style="width:1388px;height:582px">
+          <img id="s07-img0" src="assets/fig/graph.png" alt="">
+          <img id="s07-img1" src="assets/fig/graph_sel.png" alt="">
+          <img id="s07-img2" src="assets/fig/heatmaps.png" alt="">
+          <div class="hl" id="s07-hl0" style="left:0%;top:66%;width:100%;height:22%"></div>
+          <div class="hl" id="s07-hl1" style="left:0%;top:2%;width:100%;height:50%"></div>
+        </div>
+      </div>
+      <div class="pill" id="s07-p0" style="top:calc(94% - 28px)"><b>Â_adj: banded temporal chain (below)</b></div>
+      <div class="pill" id="s07-p1" style="top:calc(6% - 28px)"><b>Â_sim: k nearest neighbours in feature space (above)</b></div>
+      <div class="pill" id="s07-p2" style="top:calc(94% - 28px)"><b>built once per window, reused in all L layers</b></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#s07-chap", {opacity:0, filter:"blur(6px)"}, {opacity:1, filter:"blur(0px)", duration:0.25, ease:"power4.out"}, 0.15);
+    tl.fromTo("#s07-t0", {opacity:0, filter:"blur(6px)"}, {opacity:1, filter:"blur(0px)", duration:0.16, ease:"power4.out"}, 0.300);
+    tl.fromTo("#s07-t1", {opacity:0, filter:"blur(6px)"}, {opacity:1, filter:"blur(0px)", duration:0.16, ease:"power4.out"}, 0.375);
+    tl.fromTo("#s07-t2", {opacity:0, filter:"blur(6px)"}, {opacity:1, filter:"blur(0px)", duration:0.16, ease:"power4.out"}, 0.450);
+    tl.fromTo("#s07-t3", {opacity:0, filter:"blur(6px)"}, {opacity:1, filter:"blur(0px)", duration:0.16, ease:"power4.out"}, 0.525);
+    tl.fromTo("#s07-t4", {opacity:0, filter:"blur(6px)"}, {opacity:1, filter:"blur(0px)", duration:0.16, ease:"power4.out"}, 0.600);
+    tl.to(["#s07-chap", "#s07-ttl"], {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power3.in"}, 23.36);
+    tl.fromTo("#s07-card", {opacity:0, y:40, filter:"blur(10px)"}, {opacity:1, y:0, filter:"blur(0px)", duration:0.7, ease:"expo.out"}, 0.55);
+    tl.set("#s07-img1", {opacity:0}, 0);
+    tl.set("#s07-img2", {opacity:0}, 0);
+    tl.to("#s07-img0", {opacity:0, filter:"blur(8px)", duration:0.2, ease:"power2.in"}, 3.43);
+    tl.fromTo("#s07-img1", {opacity:0, filter:"blur(8px)"}, {opacity:1, filter:"blur(0px)", duration:0.3, ease:"power3.out"}, 3.55);
+    tl.to("#s07-img1", {opacity:0, filter:"blur(8px)", duration:0.2, ease:"power2.in"}, 19.12);
+    tl.fromTo("#s07-img2", {opacity:0, filter:"blur(8px)"}, {opacity:1, filter:"blur(0px)", duration:0.3, ease:"power3.out"}, 19.24);
+    tl.fromTo("#s07-hl0", {opacity:0, scale:1.06}, {opacity:1, scale:1, duration:0.35, ease:"expo.out"}, 3.43);
+    tl.to("#s07-hl0", {opacity:0, duration:0.18, ease:"power2.in"}, 10.47);
+    tl.fromTo("#s07-hl1", {opacity:0, scale:1.06}, {opacity:1, scale:1, duration:0.35, ease:"expo.out"}, 10.59);
+    tl.to("#s07-hl1", {opacity:0, duration:0.18, ease:"power2.in"}, 19.00);
+    tl.fromTo("#s07-p0 b", {opacity:0, y:12, filter:"blur(6px)"}, {opacity:1, y:0, filter:"blur(0px)", duration:0.4, ease:"expo.out"}, 3.43);
+    tl.to("#s07-p0 b", {opacity:0, filter:"blur(6px)", duration:0.18, ease:"power3.in"}, 19.00);
+    tl.fromTo("#s07-p1 b", {opacity:0, y:12, filter:"blur(6px)"}, {opacity:1, y:0, filter:"blur(0px)", duration:0.4, ease:"expo.out"}, 10.59);
+    tl.to("#s07-p1 b", {opacity:0, filter:"blur(6px)", duration:0.18, ease:"power3.in"}, 23.19);
+    tl.fromTo("#s07-p2 b", {opacity:0, y:12, filter:"blur(6px)"}, {opacity:1, y:0, filter:"blur(0px)", duration:0.4, ease:"expo.out"}, 19.12);
+    tl.to("#s07-p2 b", {opacity:0, filter:"blur(6px)", duration:0.18, ease:"power3.in"}, 23.19);
+    tl.to("#s07-stage", {opacity:0, filter:"blur(10px)", duration:0.25, ease:"power3.in"}, 23.36);
+    window.__timelines["s07"] = tl;
+  </script>
+</template>

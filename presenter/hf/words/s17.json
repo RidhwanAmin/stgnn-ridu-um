@@ -1,0 +1,470 @@
+[
+  {
+    "text": "To",
+    "start": 0.06,
+    "end": 0.16,
+    "id": "w0"
+  },
+  {
+    "text": "close,",
+    "start": 0.16,
+    "end": 0.7,
+    "id": "w1"
+  },
+  {
+    "text": "the",
+    "start": 0.7,
+    "end": 0.73,
+    "id": "w2"
+  },
+  {
+    "text": "limits",
+    "start": 1.01,
+    "end": 1.41,
+    "id": "w3"
+  },
+  {
+    "text": "are",
+    "start": 1.41,
+    "end": 1.65,
+    "id": "w4"
+  },
+  {
+    "text": "stated",
+    "start": 1.65,
+    "end": 2.12,
+    "id": "w5"
+  },
+  {
+    "text": "plainly.",
+    "start": 2.12,
+    "end": 2.96,
+    "id": "w6"
+  },
+  {
+    "text": "Error",
+    "start": 3.03,
+    "end": 3.33,
+    "id": "w7"
+  },
+  {
+    "text": "is",
+    "start": 3.33,
+    "end": 3.47,
+    "id": "w8"
+  },
+  {
+    "text": "characterized",
+    "start": 3.48,
+    "end": 4.44,
+    "id": "w9"
+  },
+  {
+    "text": "on",
+    "start": 4.44,
+    "end": 4.6,
+    "id": "w10"
+  },
+  {
+    "text": "ECG-labeled",
+    "start": 4.6,
+    "end": 5.43,
+    "id": "w11"
+  },
+  {
+    "text": "data",
+    "start": 5.43,
+    "end": 5.56,
+    "id": "w12"
+  },
+  {
+    "text": "under",
+    "start": 6.02,
+    "end": 6.08,
+    "id": "w13"
+  },
+  {
+    "text": "simulated",
+    "start": 6.08,
+    "end": 6.89,
+    "id": "w14"
+  },
+  {
+    "text": "losses,",
+    "start": 6.89,
+    "end": 7.6,
+    "id": "w15"
+  },
+  {
+    "text": "not",
+    "start": 7.6,
+    "end": 7.83,
+    "id": "w16"
+  },
+  {
+    "text": "on",
+    "start": 7.87,
+    "end": 8.01,
+    "id": "w17"
+  },
+  {
+    "text": "a",
+    "start": 8.01,
+    "end": 8.09,
+    "id": "w18"
+  },
+  {
+    "text": "real",
+    "start": 8.09,
+    "end": 8.37,
+    "id": "w19"
+  },
+  {
+    "text": "device.",
+    "start": 8.46,
+    "end": 9.2,
+    "id": "w20"
+  },
+  {
+    "text": "Pulse",
+    "start": 9.27,
+    "end": 9.5,
+    "id": "w21"
+  },
+  {
+    "text": "deficit",
+    "start": 9.5,
+    "end": 9.91,
+    "id": "w22"
+  },
+  {
+    "text": "cannot",
+    "start": 10.21,
+    "end": 10.28,
+    "id": "w23"
+  },
+  {
+    "text": "be",
+    "start": 10.28,
+    "end": 10.4,
+    "id": "w24"
+  },
+  {
+    "text": "corrected",
+    "start": 10.4,
+    "end": 10.92,
+    "id": "w25"
+  },
+  {
+    "text": "by",
+    "start": 10.99,
+    "end": 11.06,
+    "id": "w26"
+  },
+  {
+    "text": "weighting,",
+    "start": 11.06,
+    "end": 11.71,
+    "id": "w27"
+  },
+  {
+    "text": "so",
+    "start": 11.76,
+    "end": 11.82,
+    "id": "w28"
+  },
+  {
+    "text": "its",
+    "start": 11.82,
+    "end": 12.26,
+    "id": "w29"
+  },
+  {
+    "text": "bias",
+    "start": 12.26,
+    "end": 12.53,
+    "id": "w30"
+  },
+  {
+    "text": "is",
+    "start": 12.53,
+    "end": 12.7,
+    "id": "w31"
+  },
+  {
+    "text": "measured.",
+    "start": 12.7,
+    "end": 13.63,
+    "id": "w32"
+  },
+  {
+    "text": "Transfer",
+    "start": 13.75,
+    "end": 14.22,
+    "id": "w33"
+  },
+  {
+    "text": "from",
+    "start": 14.22,
+    "end": 14.4,
+    "id": "w34"
+  },
+  {
+    "text": "Samsung",
+    "start": 14.69,
+    "end": 14.98,
+    "id": "w35"
+  },
+  {
+    "text": "to",
+    "start": 14.98,
+    "end": 15.11,
+    "id": "w36"
+  },
+  {
+    "text": "Garmin",
+    "start": 15.11,
+    "end": 15.52,
+    "id": "w37"
+  },
+  {
+    "text": "is",
+    "start": 15.52,
+    "end": 15.65,
+    "id": "w38"
+  },
+  {
+    "text": "an",
+    "start": 15.65,
+    "end": 15.78,
+    "id": "w39"
+  },
+  {
+    "text": "assumption.",
+    "start": 15.78,
+    "end": 16.72,
+    "id": "w40"
+  },
+  {
+    "text": "The",
+    "start": 16.78,
+    "end": 16.91,
+    "id": "w41"
+  },
+  {
+    "text": "contribution",
+    "start": 16.91,
+    "end": 17.43,
+    "id": "w42"
+  },
+  {
+    "text": "is",
+    "start": 17.73,
+    "end": 17.79,
+    "id": "w43"
+  },
+  {
+    "text": "the",
+    "start": 17.79,
+    "end": 17.98,
+    "id": "w44"
+  },
+  {
+    "text": "observation",
+    "start": 17.98,
+    "end": 18.67,
+    "id": "w45"
+  },
+  {
+    "text": "model.",
+    "start": 18.67,
+    "end": 19.19,
+    "id": "w46"
+  },
+  {
+    "text": "The",
+    "start": 19.27,
+    "end": 19.4,
+    "id": "w47"
+  },
+  {
+    "text": "flag",
+    "start": 19.4,
+    "end": 19.67,
+    "id": "w48"
+  },
+  {
+    "text": "is",
+    "start": 19.67,
+    "end": 19.76,
+    "id": "w49"
+  },
+  {
+    "text": "evidence,",
+    "start": 19.8,
+    "end": 20.52,
+    "id": "w50"
+  },
+  {
+    "text": "a",
+    "start": 20.52,
+    "end": 20.53,
+    "id": "w51"
+  },
+  {
+    "text": "frozen",
+    "start": 20.59,
+    "end": 20.92,
+    "id": "w52"
+  },
+  {
+    "text": "retention",
+    "start": 20.99,
+    "end": 21.58,
+    "id": "w53"
+  },
+  {
+    "text": "correction,",
+    "start": 21.58,
+    "end": 22.35,
+    "id": "w54"
+  },
+  {
+    "text": "and",
+    "start": 22.35,
+    "end": 22.48,
+    "id": "w55"
+  },
+  {
+    "text": "a",
+    "start": 22.48,
+    "end": 22.53,
+    "id": "w56"
+  },
+  {
+    "text": "coverage",
+    "start": 22.53,
+    "end": 22.96,
+    "id": "w57"
+  },
+  {
+    "text": "gate",
+    "start": 22.96,
+    "end": 23.2,
+    "id": "w58"
+  },
+  {
+    "text": "that",
+    "start": 23.2,
+    "end": 23.37,
+    "id": "w59"
+  },
+  {
+    "text": "knows",
+    "start": 23.37,
+    "end": 23.6,
+    "id": "w60"
+  },
+  {
+    "text": "when",
+    "start": 23.6,
+    "end": 23.9,
+    "id": "w61"
+  },
+  {
+    "text": "not",
+    "start": 23.9,
+    "end": 24.12,
+    "id": "w62"
+  },
+  {
+    "text": "to",
+    "start": 24.12,
+    "end": 24.28,
+    "id": "w63"
+  },
+  {
+    "text": "report.",
+    "start": 24.28,
+    "end": 25.19,
+    "id": "w64"
+  },
+  {
+    "text": "The",
+    "start": 25.27,
+    "end": 25.4,
+    "id": "w65"
+  },
+  {
+    "text": "graph",
+    "start": 25.4,
+    "end": 25.74,
+    "id": "w66"
+  },
+  {
+    "text": "architecture",
+    "start": 25.74,
+    "end": 26.54,
+    "id": "w67"
+  },
+  {
+    "text": "is",
+    "start": 26.6,
+    "end": 26.68,
+    "id": "w68"
+  },
+  {
+    "text": "a",
+    "start": 26.68,
+    "end": 26.74,
+    "id": "w69"
+  },
+  {
+    "text": "means,",
+    "start": 26.74,
+    "end": 27.2,
+    "id": "w70"
+  },
+  {
+    "text": "tested",
+    "start": 27.21,
+    "end": 27.61,
+    "id": "w71"
+  },
+  {
+    "text": "against",
+    "start": 27.61,
+    "end": 27.78,
+    "id": "w72"
+  },
+  {
+    "text": "baselines,",
+    "start": 28.26,
+    "end": 28.81,
+    "id": "w73"
+  },
+  {
+    "text": "not",
+    "start": 28.81,
+    "end": 29,
+    "id": "w74"
+  },
+  {
+    "text": "the",
+    "start": 29.09,
+    "end": 29.21,
+    "id": "w75"
+  },
+  {
+    "text": "claim",
+    "start": 29.21,
+    "end": 29.55,
+    "id": "w76"
+  },
+  {
+    "text": "itself.",
+    "start": 29.55,
+    "end": 30.24,
+    "id": "w77"
+  }
+]

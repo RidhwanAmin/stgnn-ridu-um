@@ -1,0 +1,51 @@
+<template>
+  <style>
+#root{position:absolute;inset:0}
+#track{position:absolute;left:120px;top:48px;width:1680px;height:4px;background:#D8DDDD;border-radius:2px}
+#bar{position:absolute;left:120px;top:48px;width:1680px;height:4px;background:#A3214F;border-radius:2px;transform-origin:0 50%}
+#marks i{position:absolute;top:44px;width:2px;height:12px;background:#F6F7F5}
+.cnt{position:absolute;right:120px;top:72px;font-family:'IBM Plex Mono',monospace;font-size:28px;color:#5A6570;opacity:0}
+  </style>
+  <div id="root" data-composition-id="chrome" data-width="1920" data-height="1080" data-start="0" data-duration="549.67">
+    <div id="track"></div><div id="bar"></div><div id="marks"><i style="left:260.3px"></i><i style="left:380.3px"></i><i style="left:503.7px"></i><i style="left:578.5px"></i><i style="left:682.8px"></i><i style="left:796.4px"></i><i style="left:868.7px"></i><i style="left:953.7px"></i><i style="left:1054.4px"></i><i style="left:1153.4px"></i><i style="left:1247.2px"></i><i style="left:1348.8px"></i><i style="left:1477.8px"></i><i style="left:1560.9px"></i><i style="left:1657.6px"></i><i style="left:1703.5px"></i></div>
+    <div class="cnt" id="cnt0">01 / 17</div>
+    <div class="cnt" id="cnt1">02 / 17</div>
+    <div class="cnt" id="cnt2">03 / 17</div>
+    <div class="cnt" id="cnt3">04 / 17</div>
+    <div class="cnt" id="cnt4">05 / 17</div>
+    <div class="cnt" id="cnt5">06 / 17</div>
+    <div class="cnt" id="cnt6">07 / 17</div>
+    <div class="cnt" id="cnt7">08 / 17</div>
+    <div class="cnt" id="cnt8">09 / 17</div>
+    <div class="cnt" id="cnt9">10 / 17</div>
+    <div class="cnt" id="cnt10">11 / 17</div>
+    <div class="cnt" id="cnt11">12 / 17</div>
+    <div class="cnt" id="cnt12">13 / 17</div>
+    <div class="cnt" id="cnt13">14 / 17</div>
+    <div class="cnt" id="cnt14">15 / 17</div>
+    <div class="cnt" id="cnt15">16 / 17</div>
+    <div class="cnt" id="cnt16">17 / 17</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#bar", {scaleX:0}, {scaleX:1, duration:549.67, ease:"none"}, 0);
+    tl.set("#cnt0", {opacity:1}, 0.00); tl.set("#cnt0", {opacity:0}, 45.88);
+    tl.set("#cnt1", {opacity:1}, 45.89); tl.set("#cnt1", {opacity:0}, 85.14);
+    tl.set("#cnt2", {opacity:1}, 85.15); tl.set("#cnt2", {opacity:0}, 125.52);
+    tl.set("#cnt3", {opacity:1}, 125.53); tl.set("#cnt3", {opacity:0}, 149.99);
+    tl.set("#cnt4", {opacity:1}, 150.00); tl.set("#cnt4", {opacity:0}, 184.13);
+    tl.set("#cnt5", {opacity:1}, 184.14); tl.set("#cnt5", {opacity:0}, 221.30);
+    tl.set("#cnt6", {opacity:1}, 221.31); tl.set("#cnt6", {opacity:0}, 244.96);
+    tl.set("#cnt7", {opacity:1}, 244.97); tl.set("#cnt7", {opacity:0}, 272.77);
+    tl.set("#cnt8", {opacity:1}, 272.78); tl.set("#cnt8", {opacity:0}, 305.70);
+    tl.set("#cnt9", {opacity:1}, 305.71); tl.set("#cnt9", {opacity:0}, 338.09);
+    tl.set("#cnt10", {opacity:1}, 338.10); tl.set("#cnt10", {opacity:0}, 368.78);
+    tl.set("#cnt11", {opacity:1}, 368.79); tl.set("#cnt11", {opacity:0}, 402.03);
+    tl.set("#cnt12", {opacity:1}, 402.04); tl.set("#cnt12", {opacity:0}, 444.24);
+    tl.set("#cnt13", {opacity:1}, 444.25); tl.set("#cnt13", {opacity:0}, 471.43);
+    tl.set("#cnt14", {opacity:1}, 471.44); tl.set("#cnt14", {opacity:0}, 503.08);
+    tl.set("#cnt15", {opacity:1}, 503.09); tl.set("#cnt15", {opacity:0}, 518.08);
+    tl.set("#cnt16", {opacity:1}, 518.09); tl.set("#cnt16", {opacity:0}, 549.66);
+    window.__timelines["chrome"] = tl;
+  </script>
+</template>

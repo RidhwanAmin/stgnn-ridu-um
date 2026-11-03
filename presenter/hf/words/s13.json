@@ -1,0 +1,602 @@
+[
+  {
+    "text": "Evaluation",
+    "start": 0.04,
+    "end": 0.79,
+    "id": "w0"
+  },
+  {
+    "text": "keeps",
+    "start": 0.98,
+    "end": 1.45,
+    "id": "w1"
+  },
+  {
+    "text": "patients",
+    "start": 1.45,
+    "end": 2.17,
+    "id": "w2"
+  },
+  {
+    "text": "apart.",
+    "start": 2.72,
+    "end": 2.76,
+    "id": "w3"
+  },
+  {
+    "text": "Essentia",
+    "start": 2.8,
+    "end": 3.4,
+    "id": "w4"
+  },
+  {
+    "text": "11K",
+    "start": 3.4,
+    "end": 3.94,
+    "id": "w5"
+  },
+  {
+    "text": "is",
+    "start": 4.01,
+    "end": 4.17,
+    "id": "w6"
+  },
+  {
+    "text": "split",
+    "start": 4.17,
+    "end": 4.59,
+    "id": "w7"
+  },
+  {
+    "text": "into",
+    "start": 4.59,
+    "end": 4.91,
+    "id": "w8"
+  },
+  {
+    "text": "four",
+    "start": 4.91,
+    "end": 5.02,
+    "id": "w9"
+  },
+  {
+    "text": "disjoint",
+    "start": 5.5,
+    "end": 5.91,
+    "id": "w10"
+  },
+  {
+    "text": "sets,",
+    "start": 5.91,
+    "end": 6.32,
+    "id": "w11"
+  },
+  {
+    "text": "P0",
+    "start": 6.35,
+    "end": 6.63,
+    "id": "w12"
+  },
+  {
+    "text": "for",
+    "start": 6.63,
+    "end": 6.87,
+    "id": "w13"
+  },
+  {
+    "text": "the",
+    "start": 6.87,
+    "end": 7.11,
+    "id": "w14"
+  },
+  {
+    "text": "preliminary",
+    "start": 7.11,
+    "end": 7.98,
+    "id": "w15"
+  },
+  {
+    "text": "analysis,",
+    "start": 7.98,
+    "end": 8.8,
+    "id": "w16"
+  },
+  {
+    "text": "P1",
+    "start": 8.83,
+    "end": 9.13,
+    "id": "w17"
+  },
+  {
+    "text": "for",
+    "start": 9.13,
+    "end": 9.37,
+    "id": "w18"
+  },
+  {
+    "text": "the",
+    "start": 9.38,
+    "end": 9.59,
+    "id": "w19"
+  },
+  {
+    "text": "hypothesis",
+    "start": 9.61,
+    "end": 10.48,
+    "id": "w20"
+  },
+  {
+    "text": "one",
+    "start": 10.48,
+    "end": 10.73,
+    "id": "w21"
+  },
+  {
+    "text": "test,",
+    "start": 10.73,
+    "end": 11.07,
+    "id": "w22"
+  },
+  {
+    "text": "P2",
+    "start": 11.31,
+    "end": 11.59,
+    "id": "w23"
+  },
+  {
+    "text": "for",
+    "start": 11.59,
+    "end": 11.83,
+    "id": "w24"
+  },
+  {
+    "text": "model",
+    "start": 11.83,
+    "end": 12.2,
+    "id": "w25"
+  },
+  {
+    "text": "development,",
+    "start": 12.22,
+    "end": 13.12,
+    "id": "w26"
+  },
+  {
+    "text": "and",
+    "start": 13.16,
+    "end": 13.4,
+    "id": "w27"
+  },
+  {
+    "text": "P3",
+    "start": 13.4,
+    "end": 13.76,
+    "id": "w28"
+  },
+  {
+    "text": "held",
+    "start": 13.76,
+    "end": 14.15,
+    "id": "w29"
+  },
+  {
+    "text": "out",
+    "start": 14.15,
+    "end": 14.43,
+    "id": "w30"
+  },
+  {
+    "text": "untouched",
+    "start": 14.43,
+    "end": 15.29,
+    "id": "w31"
+  },
+  {
+    "text": "until",
+    "start": 15.29,
+    "end": 15.38,
+    "id": "w32"
+  },
+  {
+    "text": "the",
+    "start": 15.38,
+    "end": 15.73,
+    "id": "w33"
+  },
+  {
+    "text": "model",
+    "start": 15.86,
+    "end": 16,
+    "id": "w34"
+  },
+  {
+    "text": "is",
+    "start": 16,
+    "end": 16.12,
+    "id": "w35"
+  },
+  {
+    "text": "frozen",
+    "start": 16.12,
+    "end": 16.62,
+    "id": "w36"
+  },
+  {
+    "text": "at",
+    "start": 16.68,
+    "end": 16.85,
+    "id": "w37"
+  },
+  {
+    "text": "milestone",
+    "start": 16.85,
+    "end": 17.78,
+    "id": "w38"
+  },
+  {
+    "text": "M4.",
+    "start": 17.78,
+    "end": 18.54,
+    "id": "w39"
+  },
+  {
+    "text": "Hypothesis",
+    "start": 18.58,
+    "end": 19.33,
+    "id": "w40"
+  },
+  {
+    "text": "two",
+    "start": 19.33,
+    "end": 19.58,
+    "id": "w41"
+  },
+  {
+    "text": "is",
+    "start": 19.58,
+    "end": 19.72,
+    "id": "w42"
+  },
+  {
+    "text": "the",
+    "start": 19.79,
+    "end": 19.98,
+    "id": "w43"
+  },
+  {
+    "text": "single",
+    "start": 19.98,
+    "end": 20.46,
+    "id": "w44"
+  },
+  {
+    "text": "primary",
+    "start": 20.46,
+    "end": 20.72,
+    "id": "w45"
+  },
+  {
+    "text": "contrast,",
+    "start": 21.28,
+    "end": 21.72,
+    "id": "w46"
+  },
+  {
+    "text": "the",
+    "start": 21.76,
+    "end": 21.94,
+    "id": "w47"
+  },
+  {
+    "text": "graph",
+    "start": 21.94,
+    "end": 22.29,
+    "id": "w48"
+  },
+  {
+    "text": "model",
+    "start": 22.29,
+    "end": 22.64,
+    "id": "w49"
+  },
+  {
+    "text": "against",
+    "start": 22.66,
+    "end": 23.17,
+    "id": "w50"
+  },
+  {
+    "text": "the",
+    "start": 23.17,
+    "end": 23.39,
+    "id": "w51"
+  },
+  {
+    "text": "best",
+    "start": 23.39,
+    "end": 23.68,
+    "id": "w52"
+  },
+  {
+    "text": "non-graph",
+    "start": 23.68,
+    "end": 23.99,
+    "id": "w53"
+  },
+  {
+    "text": "baseline",
+    "start": 24.47,
+    "end": 24.96,
+    "id": "w54"
+  },
+  {
+    "text": "on",
+    "start": 24.99,
+    "end": 25.07,
+    "id": "w55"
+  },
+  {
+    "text": "the",
+    "start": 25.11,
+    "end": 25.26,
+    "id": "w56"
+  },
+  {
+    "text": "mean",
+    "start": 25.26,
+    "end": 25.5,
+    "id": "w57"
+  },
+  {
+    "text": "absolute",
+    "start": 25.5,
+    "end": 25.99,
+    "id": "w58"
+  },
+  {
+    "text": "error",
+    "start": 25.99,
+    "end": 26.32,
+    "id": "w59"
+  },
+  {
+    "text": "of",
+    "start": 26.32,
+    "end": 26.43,
+    "id": "w60"
+  },
+  {
+    "text": "the",
+    "start": 26.45,
+    "end": 26.62,
+    "id": "w61"
+  },
+  {
+    "text": "daily",
+    "start": 26.62,
+    "end": 26.93,
+    "id": "w62"
+  },
+  {
+    "text": "equivalent",
+    "start": 26.93,
+    "end": 27.14,
+    "id": "w63"
+  },
+  {
+    "text": "count",
+    "start": 27.7,
+    "end": 27.88,
+    "id": "w64"
+  },
+  {
+    "text": "with",
+    "start": 27.92,
+    "end": 28.14,
+    "id": "w65"
+  },
+  {
+    "text": "a",
+    "start": 28.14,
+    "end": 28.2,
+    "id": "w66"
+  },
+  {
+    "text": "paired",
+    "start": 28.2,
+    "end": 28.6,
+    "id": "w67"
+  },
+  {
+    "text": "subject",
+    "start": 28.6,
+    "end": 29.06,
+    "id": "w68"
+  },
+  {
+    "text": "level",
+    "start": 29.13,
+    "end": 29.4,
+    "id": "w69"
+  },
+  {
+    "text": "bootstrap.",
+    "start": 29.4,
+    "end": 30.1,
+    "id": "w70"
+  },
+  {
+    "text": "In",
+    "start": 30.27,
+    "end": 30.35,
+    "id": "w71"
+  },
+  {
+    "text": "objective",
+    "start": 30.39,
+    "end": 30.97,
+    "id": "w72"
+  },
+  {
+    "text": "four,",
+    "start": 30.97,
+    "end": 31.38,
+    "id": "w73"
+  },
+  {
+    "text": "the",
+    "start": 31.38,
+    "end": 31.54,
+    "id": "w74"
+  },
+  {
+    "text": "held",
+    "start": 31.54,
+    "end": 31.75,
+    "id": "w75"
+  },
+  {
+    "text": "out",
+    "start": 31.75,
+    "end": 31.91,
+    "id": "w76"
+  },
+  {
+    "text": "patients",
+    "start": 31.91,
+    "end": 32.36,
+    "id": "w77"
+  },
+  {
+    "text": "are",
+    "start": 32.36,
+    "end": 32.46,
+    "id": "w78"
+  },
+  {
+    "text": "degraded",
+    "start": 32.98,
+    "end": 33.04,
+    "id": "w79"
+  },
+  {
+    "text": "with",
+    "start": 33.08,
+    "end": 33.33,
+    "id": "w80"
+  },
+  {
+    "text": "flags,",
+    "start": 33.33,
+    "end": 33.83,
+    "id": "w81"
+  },
+  {
+    "text": "gaps,",
+    "start": 33.83,
+    "end": 34.22,
+    "id": "w82"
+  },
+  {
+    "text": "pulse",
+    "start": 34.29,
+    "end": 34.6,
+    "id": "w83"
+  },
+  {
+    "text": "deficit,",
+    "start": 34.61,
+    "end": 35.23,
+    "id": "w84"
+  },
+  {
+    "text": "and",
+    "start": 35.23,
+    "end": 35.78,
+    "id": "w85"
+  },
+  {
+    "text": "timing",
+    "start": 35.78,
+    "end": 36.02,
+    "id": "w86"
+  },
+  {
+    "text": "noise,",
+    "start": 36.02,
+    "end": 36.42,
+    "id": "w87"
+  },
+  {
+    "text": "and",
+    "start": 36.46,
+    "end": 36.66,
+    "id": "w88"
+  },
+  {
+    "text": "the",
+    "start": 36.66,
+    "end": 36.9,
+    "id": "w89"
+  },
+  {
+    "text": "frozen",
+    "start": 36.9,
+    "end": 37.21,
+    "id": "w90"
+  },
+  {
+    "text": "model's",
+    "start": 37.37,
+    "end": 37.94,
+    "id": "w91"
+  },
+  {
+    "text": "ESVEA",
+    "start": 37.94,
+    "end": 38.34,
+    "id": "w92"
+  },
+  {
+    "text": "calls",
+    "start": 38.34,
+    "end": 38.6,
+    "id": "w93"
+  },
+  {
+    "text": "are",
+    "start": 38.6,
+    "end": 39.16,
+    "id": "w94"
+  },
+  {
+    "text": "compared",
+    "start": 39.16,
+    "end": 39.44,
+    "id": "w95"
+  },
+  {
+    "text": "with",
+    "start": 39.48,
+    "end": 39.71,
+    "id": "w96"
+  },
+  {
+    "text": "the",
+    "start": 39.71,
+    "end": 39.91,
+    "id": "w97"
+  },
+  {
+    "text": "ECG",
+    "start": 39.91,
+    "end": 40.09,
+    "id": "w98"
+  },
+  {
+    "text": "reference.",
+    "start": 40.09,
+    "end": 40.96,
+    "id": "w99"
+  }
+]

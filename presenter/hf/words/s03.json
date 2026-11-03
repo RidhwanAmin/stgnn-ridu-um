@@ -1,0 +1,584 @@
+[
+  {
+    "text": "The",
+    "start": 0.08,
+    "end": 0.17,
+    "id": "w0"
+  },
+  {
+    "text": "four",
+    "start": 0.28,
+    "end": 0.54,
+    "id": "w1"
+  },
+  {
+    "text": "objectives",
+    "start": 0.54,
+    "end": 1.33,
+    "id": "w2"
+  },
+  {
+    "text": "form",
+    "start": 1.33,
+    "end": 1.61,
+    "id": "w3"
+  },
+  {
+    "text": "a",
+    "start": 1.64,
+    "end": 1.7,
+    "id": "w4"
+  },
+  {
+    "text": "dependency",
+    "start": 1.72,
+    "end": 2.49,
+    "id": "w5"
+  },
+  {
+    "text": "chain.",
+    "start": 2.5,
+    "end": 2.94,
+    "id": "w6"
+  },
+  {
+    "text": "Ascentia",
+    "start": 3.01,
+    "end": 3.65,
+    "id": "w7"
+  },
+  {
+    "text": "11k,",
+    "start": 3.77,
+    "end": 4.47,
+    "id": "w8"
+  },
+  {
+    "text": "a",
+    "start": 4.48,
+    "end": 4.57,
+    "id": "w9"
+  },
+  {
+    "text": "large",
+    "start": 4.58,
+    "end": 5.05,
+    "id": "w10"
+  },
+  {
+    "text": "ECG",
+    "start": 5.05,
+    "end": 5.33,
+    "id": "w11"
+  },
+  {
+    "text": "dataset",
+    "start": 5.33,
+    "end": 6.04,
+    "id": "w12"
+  },
+  {
+    "text": "with",
+    "start": 6.04,
+    "end": 6.34,
+    "id": "w13"
+  },
+  {
+    "text": "beat",
+    "start": 6.34,
+    "end": 6.64,
+    "id": "w14"
+  },
+  {
+    "text": "labels,",
+    "start": 6.64,
+    "end": 7.12,
+    "id": "w15"
+  },
+  {
+    "text": "supplies",
+    "start": 7.21,
+    "end": 7.58,
+    "id": "w16"
+  },
+  {
+    "text": "truth",
+    "start": 7.58,
+    "end": 7.83,
+    "id": "w17"
+  },
+  {
+    "text": "for",
+    "start": 7.95,
+    "end": 8.04,
+    "id": "w18"
+  },
+  {
+    "text": "the",
+    "start": 8.04,
+    "end": 8.21,
+    "id": "w19"
+  },
+  {
+    "text": "information",
+    "start": 8.31,
+    "end": 8.86,
+    "id": "w20"
+  },
+  {
+    "text": "loss",
+    "start": 8.86,
+    "end": 9.12,
+    "id": "w21"
+  },
+  {
+    "text": "analysis,",
+    "start": 9.12,
+    "end": 9.9,
+    "id": "w22"
+  },
+  {
+    "text": "for",
+    "start": 9.98,
+    "end": 10.07,
+    "id": "w23"
+  },
+  {
+    "text": "model",
+    "start": 10.18,
+    "end": 10.44,
+    "id": "w24"
+  },
+  {
+    "text": "training,",
+    "start": 10.44,
+    "end": 11.11,
+    "id": "w25"
+  },
+  {
+    "text": "and",
+    "start": 11.11,
+    "end": 11.28,
+    "id": "w26"
+  },
+  {
+    "text": "for",
+    "start": 11.28,
+    "end": 11.43,
+    "id": "w27"
+  },
+  {
+    "text": "a",
+    "start": 11.46,
+    "end": 11.52,
+    "id": "w28"
+  },
+  {
+    "text": "held-out",
+    "start": 11.52,
+    "end": 12.07,
+    "id": "w29"
+  },
+  {
+    "text": "substitution",
+    "start": 12.12,
+    "end": 12.96,
+    "id": "w30"
+  },
+  {
+    "text": "test.",
+    "start": 12.96,
+    "end": 13.5,
+    "id": "w31"
+  },
+  {
+    "text": "PulseWatch,",
+    "start": 13.58,
+    "end": 14.19,
+    "id": "w32"
+  },
+  {
+    "text": "which",
+    "start": 14.19,
+    "end": 14.46,
+    "id": "w33"
+  },
+  {
+    "text": "pairs",
+    "start": 14.49,
+    "end": 14.77,
+    "id": "w34"
+  },
+  {
+    "text": "wrist",
+    "start": 14.77,
+    "end": 15.03,
+    "id": "w35"
+  },
+  {
+    "text": "pulse",
+    "start": 15.07,
+    "end": 15.38,
+    "id": "w36"
+  },
+  {
+    "text": "signals,",
+    "start": 15.38,
+    "end": 15.94,
+    "id": "w37"
+  },
+  {
+    "text": "motion",
+    "start": 16.03,
+    "end": 16.48,
+    "id": "w38"
+  },
+  {
+    "text": "and",
+    "start": 16.48,
+    "end": 16.65,
+    "id": "w39"
+  },
+  {
+    "text": "reference",
+    "start": 16.77,
+    "end": 17.57,
+    "id": "w40"
+  },
+  {
+    "text": "ECG,",
+    "start": 17.64,
+    "end": 17.86,
+    "id": "w41"
+  },
+  {
+    "text": "supplies",
+    "start": 17.95,
+    "end": 18.36,
+    "id": "w42"
+  },
+  {
+    "text": "the",
+    "start": 18.36,
+    "end": 18.55,
+    "id": "w43"
+  },
+  {
+    "text": "motion",
+    "start": 18.55,
+    "end": 18.92,
+    "id": "w44"
+  },
+  {
+    "text": "term",
+    "start": 18.92,
+    "end": 19.17,
+    "id": "w45"
+  },
+  {
+    "text": "of",
+    "start": 19.17,
+    "end": 19.28,
+    "id": "w46"
+  },
+  {
+    "text": "the",
+    "start": 19.29,
+    "end": 19.47,
+    "id": "w47"
+  },
+  {
+    "text": "retention",
+    "start": 19.48,
+    "end": 20.03,
+    "id": "w48"
+  },
+  {
+    "text": "model.",
+    "start": 20.03,
+    "end": 20.42,
+    "id": "w49"
+  },
+  {
+    "text": "The",
+    "start": 20.65,
+    "end": 20.75,
+    "id": "w50"
+  },
+  {
+    "text": "Garmin",
+    "start": 20.86,
+    "end": 21.13,
+    "id": "w51"
+  },
+  {
+    "text": "specification",
+    "start": 21.13,
+    "end": 21.94,
+    "id": "w52"
+  },
+  {
+    "text": "fixes",
+    "start": 21.94,
+    "end": 22.28,
+    "id": "w53"
+  },
+  {
+    "text": "how",
+    "start": 22.31,
+    "end": 22.57,
+    "id": "w54"
+  },
+  {
+    "text": "flags",
+    "start": 22.57,
+    "end": 23,
+    "id": "w55"
+  },
+  {
+    "text": "and",
+    "start": 23,
+    "end": 23.11,
+    "id": "w56"
+  },
+  {
+    "text": "gaps",
+    "start": 23.55,
+    "end": 23.63,
+    "id": "w57"
+  },
+  {
+    "text": "behave.",
+    "start": 23.63,
+    "end": 24.46,
+    "id": "w58"
+  },
+  {
+    "text": "Objective",
+    "start": 24.55,
+    "end": 25.07,
+    "id": "w59"
+  },
+  {
+    "text": "1",
+    "start": 25.07,
+    "end": 25.17,
+    "id": "w60"
+  },
+  {
+    "text": "feeds",
+    "start": 25.29,
+    "end": 25.55,
+    "id": "w61"
+  },
+  {
+    "text": "the",
+    "start": 25.65,
+    "end": 25.81,
+    "id": "w62"
+  },
+  {
+    "text": "model",
+    "start": 25.81,
+    "end": 26.07,
+    "id": "w63"
+  },
+  {
+    "text": "design.",
+    "start": 26.16,
+    "end": 26.74,
+    "id": "w64"
+  },
+  {
+    "text": "The",
+    "start": 26.86,
+    "end": 26.95,
+    "id": "w65"
+  },
+  {
+    "text": "frozen",
+    "start": 27.06,
+    "end": 27.38,
+    "id": "w66"
+  },
+  {
+    "text": "model",
+    "start": 27.38,
+    "end": 27.71,
+    "id": "w67"
+  },
+  {
+    "text": "feeds",
+    "start": 27.71,
+    "end": 28.04,
+    "id": "w68"
+  },
+  {
+    "text": "the",
+    "start": 28.04,
+    "end": 28.24,
+    "id": "w69"
+  },
+  {
+    "text": "substitution",
+    "start": 28.24,
+    "end": 29.04,
+    "id": "w70"
+  },
+  {
+    "text": "test,",
+    "start": 29.04,
+    "end": 29.34,
+    "id": "w71"
+  },
+  {
+    "text": "and",
+    "start": 29.41,
+    "end": 29.51,
+    "id": "w72"
+  },
+  {
+    "text": "the",
+    "start": 29.62,
+    "end": 29.72,
+    "id": "w73"
+  },
+  {
+    "text": "stroke",
+    "start": 29.72,
+    "end": 30.05,
+    "id": "w74"
+  },
+  {
+    "text": "cohort",
+    "start": 30.17,
+    "end": 30.43,
+    "id": "w75"
+  },
+  {
+    "text": "feeds",
+    "start": 30.53,
+    "end": 30.79,
+    "id": "w76"
+  },
+  {
+    "text": "deployability",
+    "start": 30.79,
+    "end": 31.61,
+    "id": "w77"
+  },
+  {
+    "text": "and",
+    "start": 31.71,
+    "end": 31.81,
+    "id": "w78"
+  },
+  {
+    "text": "the",
+    "start": 31.92,
+    "end": 32.02,
+    "id": "w79"
+  },
+  {
+    "text": "real-world",
+    "start": 32.02,
+    "end": 32.64,
+    "id": "w80"
+  },
+  {
+    "text": "coverage",
+    "start": 32.64,
+    "end": 33.14,
+    "id": "w81"
+  },
+  {
+    "text": "profile.",
+    "start": 33.14,
+    "end": 33.8,
+    "id": "w82"
+  },
+  {
+    "text": "If",
+    "start": 33.87,
+    "end": 33.93,
+    "id": "w83"
+  },
+  {
+    "text": "the",
+    "start": 33.93,
+    "end": 34.13,
+    "id": "w84"
+  },
+  {
+    "text": "cohort",
+    "start": 34.13,
+    "end": 34.51,
+    "id": "w85"
+  },
+  {
+    "text": "cannot",
+    "start": 34.53,
+    "end": 34.89,
+    "id": "w86"
+  },
+  {
+    "text": "start",
+    "start": 34.99,
+    "end": 35.26,
+    "id": "w87"
+  },
+  {
+    "text": "in",
+    "start": 35.26,
+    "end": 35.39,
+    "id": "w88"
+  },
+  {
+    "text": "time,",
+    "start": 35.39,
+    "end": 35.82,
+    "id": "w89"
+  },
+  {
+    "text": "objectives",
+    "start": 35.93,
+    "end": 36.55,
+    "id": "w90"
+  },
+  {
+    "text": "1,",
+    "start": 36.67,
+    "end": 36.93,
+    "id": "w91"
+  },
+  {
+    "text": "2,",
+    "start": 37.03,
+    "end": 37.36,
+    "id": "w92"
+  },
+  {
+    "text": "and",
+    "start": 37.37,
+    "end": 37.6,
+    "id": "w93"
+  },
+  {
+    "text": "4",
+    "start": 37.6,
+    "end": 37.83,
+    "id": "w94"
+  },
+  {
+    "text": "still",
+    "start": 37.83,
+    "end": 38.21,
+    "id": "w95"
+  },
+  {
+    "text": "proceed.",
+    "start": 38.21,
+    "end": 39,
+    "id": "w96"
+  }
+]

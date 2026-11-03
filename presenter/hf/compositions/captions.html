@@ -1,0 +1,805 @@
+<template>
+  <style>
+#root{position:absolute;inset:0}
+.cg{position:absolute;left:0;bottom:62px;width:100%;text-align:center;visibility:hidden;opacity:0}
+.cg span{display:inline-block;font-family:'Lato',sans-serif;font-weight:700;font-size:40px;line-height:1.25;color:#18222C;background:rgba(255,255,255,.88);padding:8px 20px;border-radius:10px;max-width:1500px}
+</style>
+  <div id="root" data-composition-id="captions" data-width="1920" data-height="1080" data-start="0" data-duration="549.67" data-layout-allow-caption-zone>
+    <div class="cg" id="cap0"><span>This walkthrough presents a PhD proposal</span></div>
+    <div class="cg" id="cap1"><span>from Universiti Malaya:</span></div>
+    <div class="cg" id="cap2"><span>estimating atrial ectopy from smartwatch beat</span></div>
+    <div class="cg" id="cap3"><span>intervals after stroke.</span></div>
+    <div class="cg" id="cap4"><span>Excessive supraventricular ectopic activity,</span></div>
+    <div class="cg" id="cap5"><span>or ESVEA, helps</span></div>
+    <div class="cg" id="cap6"><span>decide which stroke survivors get prolonged</span></div>
+    <div class="cg" id="cap7"><span>rhythm monitoring. But every ESVEA threshold</span></div>
+    <div class="cg" id="cap8"><span>was derived on Holter ECG,</span></div>
+    <div class="cg" id="cap9"><span>the very resource being rationed.</span></div>
+    <div class="cg" id="cap10"><span>Smartwatches report beat-to-beat intervals with a</span></div>
+    <div class="cg" id="cap11"><span>per-beat quality flag,</span></div>
+    <div class="cg" id="cap12"><span>yet nobody knows the error</span></div>
+    <div class="cg" id="cap13"><span>of a daily ectopic count built</span></div>
+    <div class="cg" id="cap14"><span>from them. Two problems stand out.</span></div>
+    <div class="cg" id="cap15"><span>Filtering removes ectopic beats preferentially,</span></div>
+    <div class="cg" id="cap16"><span>and the data a watch keeps</span></div>
+    <div class="cg" id="cap17"><span>are weighted towards the night,</span></div>
+    <div class="cg" id="cap18"><span>while premature atrial contractions,</span></div>
+    <div class="cg" id="cap19"><span>or PACs, peak in the afternoon</span></div>
+    <div class="cg" id="cap20"><span>and evening.</span></div>
+    <div class="cg" id="cap21"><span>The study asks four questions.</span></div>
+    <div class="cg" id="cap22"><span>First, how much ectopy information</span></div>
+    <div class="cg" id="cap23"><span>is lost when a pulse waveform</span></div>
+    <div class="cg" id="cap24"><span>becomes a quality-filtered interval series.</span></div>
+    <div class="cg" id="cap25"><span>Second, whether a two-scale spatio-temporal graph</span></div>
+    <div class="cg" id="cap26"><span>neural network, using the quality flag</span></div>
+    <div class="cg" id="cap27"><span>as input, estimates the ectopy rate</span></div>
+    <div class="cg" id="cap28"><span>better than non-graph baselines.</span></div>
+    <div class="cg" id="cap29"><span>Third, whether a seven-day smartwatch protocol</span></div>
+    <div class="cg" id="cap30"><span>after stroke yields enough usable data.</span></div>
+    <div class="cg" id="cap31"><span>And fourth, whether substituting</span></div>
+    <div class="cg" id="cap32"><span>the smartwatch estimate for the ECG</span></div>
+    <div class="cg" id="cap33"><span>count changes ESVEA classification.</span></div>
+    <div class="cg" id="cap34"><span>The primary definition of ESVEA is</span></div>
+    <div class="cg" id="cap35"><span>four hundred and eighty or more</span></div>
+    <div class="cg" id="cap36"><span>supraventricular beats per day.</span></div>
+    <div class="cg" id="cap37"><span>The four objectives form a dependency</span></div>
+    <div class="cg" id="cap38"><span>chain. Icentia11k, a large ECG dataset</span></div>
+    <div class="cg" id="cap39"><span>with beat labels,</span></div>
+    <div class="cg" id="cap40"><span>supplies truth for the information-loss analysis,</span></div>
+    <div class="cg" id="cap41"><span>for model training,</span></div>
+    <div class="cg" id="cap42"><span>and for a held-out substitution test.</span></div>
+    <div class="cg" id="cap43"><span>Pulsewatch, which pairs wrist pulse signals,</span></div>
+    <div class="cg" id="cap44"><span>motion and reference ECG,</span></div>
+    <div class="cg" id="cap45"><span>supplies the motion term of the</span></div>
+    <div class="cg" id="cap46"><span>retention model. The Garmin specification fixes</span></div>
+    <div class="cg" id="cap47"><span>how flags and</span></div>
+    <div class="cg" id="cap48"><span>gaps behave. Objective one feeds the</span></div>
+    <div class="cg" id="cap49"><span>model design, the frozen model feeds</span></div>
+    <div class="cg" id="cap50"><span>the substitution test,</span></div>
+    <div class="cg" id="cap51"><span>and the stroke cohort feeds deployability</span></div>
+    <div class="cg" id="cap52"><span>and the real-world coverage profile.</span></div>
+    <div class="cg" id="cap53"><span>If the cohort cannot start in</span></div>
+    <div class="cg" id="cap54"><span>time, objectives one,</span></div>
+    <div class="cg" id="cap55"><span>two and four still proceed.</span></div>
+    <div class="cg" id="cap56"><span>Objective one starts with</span></div>
+    <div class="cg" id="cap57"><span>filtering. A common rule rejects any</span></div>
+    <div class="cg" id="cap58"><span>interval that deviates from the median</span></div>
+    <div class="cg" id="cap59"><span>of the five preceding accepted intervals</span></div>
+    <div class="cg" id="cap60"><span>by more than a threshold,</span></div>
+    <div class="cg" id="cap61"><span>usually twenty percent.</span></div>
+    <div class="cg" id="cap62"><span>A premature beat is short</span></div>
+    <div class="cg" id="cap63"><span>by definition, and its pause is</span></div>
+    <div class="cg" id="cap64"><span>long, so both are rejected.</span></div>
+    <div class="cg" id="cap65"><span>In this illustrative series you can</span></div>
+    <div class="cg" id="cap66"><span>see the band around</span></div>
+    <div class="cg" id="cap67"><span>the running reference and the crosses</span></div>
+    <div class="cg" id="cap68"><span>on rejected intervals.</span></div>
+    <div class="cg" id="cap69"><span>On two hundred and ninety-eight Icentia11k</span></div>
+    <div class="cg" id="cap70"><span>patients, the effect is large.</span></div>
+    <div class="cg" id="cap71"><span>At the common twenty percent threshold,</span></div>
+    <div class="cg" id="cap72"><span>the filter removed sixty-one percent of</span></div>
+    <div class="cg" id="cap73"><span>PAC coupling intervals but only nine</span></div>
+    <div class="cg" id="cap74"><span>percent of normal intervals.</span></div>
+    <div class="cg" id="cap75"><span>And the loss depends on burden:</span></div>
+    <div class="cg" id="cap76"><span>patients with ESVEA lose a smaller</span></div>
+    <div class="cg" id="cap77"><span>share of their PAC intervals</span></div>
+    <div class="cg" id="cap78"><span>than patients without it,</span></div>
+    <div class="cg" id="cap79"><span>probably because frequent PACs enter the</span></div>
+    <div class="cg" id="cap80"><span>running reference and are then accepted.</span></div>
+    <div class="cg" id="cap81"><span>So a single correction factor is</span></div>
+    <div class="cg" id="cap82"><span>unlikely to restore the count.</span></div>
+    <div class="cg" id="cap83"><span>Hypothesis one tests this at patient</span></div>
+    <div class="cg" id="cap84"><span>level, in new patients.</span></div>
+    <div class="cg" id="cap85"><span>Objective two builds the estimator.</span></div>
+    <div class="cg" id="cap86"><span>The model works at two scales.</span></div>
+    <div class="cg" id="cap87"><span>At the beat scale,</span></div>
+    <div class="cg" id="cap88"><span>the stream of reported beats is</span></div>
+    <div class="cg" id="cap89"><span>cut into windows of N beats,</span></div>
+    <div class="cg" id="cap90"><span>so a gap shortens the</span></div>
+    <div class="cg" id="cap91"><span>day rather than creating</span></div>
+    <div class="cg" id="cap92"><span>empty windows. An attention readout</span></div>
+    <div class="cg" id="cap93"><span>pools each window into one embedding,</span></div>
+    <div class="cg" id="cap94"><span>giving more weight to informative</span></div>
+    <div class="cg" id="cap95"><span>beats such as</span></div>
+    <div class="cg" id="cap96"><span>a PAC and its pause.</span></div>
+    <div class="cg" id="cap97"><span>At the epoch scale,</span></div>
+    <div class="cg" id="cap98"><span>the window embeddings form a graph</span></div>
+    <div class="cg" id="cap99"><span>across the day,</span></div>
+    <div class="cg" id="cap100"><span>processed by graph convolution</span></div>
+    <div class="cg" id="cap101"><span>and a selective state-space layer.</span></div>
+    <div class="cg" id="cap102"><span>Because Icentia11k segments have no clock</span></div>
+    <div class="cg" id="cap103"><span>time, training uses pseudo-days built from</span></div>
+    <div class="cg" id="cap104"><span>one patient&#x27;s segments.</span></div>
+    <div class="cg" id="cap105"><span>Inside each window there are two</span></div>
+    <div class="cg" id="cap106"><span>graphs. The temporal chain links each</span></div>
+    <div class="cg" id="cap107"><span>beat to its neighbours in time,</span></div>
+    <div class="cg" id="cap108"><span>capturing the short-then-long signature of a</span></div>
+    <div class="cg" id="cap109"><span>premature beat. The similarity graph links</span></div>
+    <div class="cg" id="cap110"><span>each beat to its k nearest</span></div>
+    <div class="cg" id="cap111"><span>neighbours in feature space,</span></div>
+    <div class="cg" id="cap112"><span>so recurring PACs share evidence wherever</span></div>
+    <div class="cg" id="cap113"><span>they occur. Both graphs are built</span></div>
+    <div class="cg" id="cap114"><span>once per window and reused in</span></div>
+    <div class="cg" id="cap115"><span>every layer.</span></div>
+    <div class="cg" id="cap116"><span>One local layer sums</span></div>
+    <div class="cg" id="cap117"><span>three branches: the chain neighbours scaled</span></div>
+    <div class="cg" id="cap118"><span>by a learned gate</span></div>
+    <div class="cg" id="cap119"><span>alpha, the beat&#x27;s own features,</span></div>
+    <div class="cg" id="cap120"><span>and the similarity neighbours scaled by</span></div>
+    <div class="cg" id="cap121"><span>a learned gate beta.</span></div>
+    <div class="cg" id="cap122"><span>The sum is normalised and</span></div>
+    <div class="cg" id="cap123"><span>passed through a ReLU.</span></div>
+    <div class="cg" id="cap124"><span>The self branch keeps a single</span></div>
+    <div class="cg" id="cap125"><span>premature beat from</span></div>
+    <div class="cg" id="cap126"><span>being averaged away,</span></div>
+    <div class="cg" id="cap127"><span>and because alpha and beta are</span></div>
+    <div class="cg" id="cap128"><span>reported, the weight</span></div>
+    <div class="cg" id="cap129"><span>given to each kind of evidence</span></div>
+    <div class="cg" id="cap130"><span>can be inspected.</span></div>
+    <div class="cg" id="cap131"><span>Every component is then tested</span></div>
+    <div class="cg" id="cap132"><span>against simpler alternatives by ablation.</span></div>
+    <div class="cg" id="cap133"><span>The Garmin quality</span></div>
+    <div class="cg" id="cap134"><span>flag marks both motion-affected beats and</span></div>
+    <div class="cg" id="cap135"><span>any interval it judges abnormally short</span></div>
+    <div class="cg" id="cap136"><span>or long, so a premature beat</span></div>
+    <div class="cg" id="cap137"><span>tends to be flagged.</span></div>
+    <div class="cg" id="cap138"><span>Deleting flagged beats would delete the</span></div>
+    <div class="cg" id="cap139"><span>very events being counted.</span></div>
+    <div class="cg" id="cap140"><span>Instead, the flag enters the model</span></div>
+    <div class="cg" id="cap141"><span>as an input.</span></div>
+    <div class="cg" id="cap142"><span>Each kind of loss then goes</span></div>
+    <div class="cg" id="cap143"><span>to one place:</span></div>
+    <div class="cg" id="cap144"><span>flagged beats stay as input,</span></div>
+    <div class="cg" id="cap145"><span>marked gaps go to observed time,</span></div>
+    <div class="cg" id="cap146"><span>beats silently missed at motion are</span></div>
+    <div class="cg" id="cap147"><span>corrected by inverse retention weighting,</span></div>
+    <div class="cg" id="cap148"><span>and a premature beat with no</span></div>
+    <div class="cg" id="cap149"><span>wrist pulse cannot be corrected and</span></div>
+    <div class="cg" id="cap150"><span>is measured instead.</span></div>
+    <div class="cg" id="cap151"><span>Equation 3.1 defines retention,</span></div>
+    <div class="cg" id="cap152"><span>pi hat of m:</span></div>
+    <div class="cg" id="cap153"><span>the probability that a beat outside</span></div>
+    <div class="cg" id="cap154"><span>a gap is reported at motion</span></div>
+    <div class="cg" id="cap155"><span>level m, fitted</span></div>
+    <div class="cg" id="cap156"><span>on Pulsewatch. Equation 3.2 turns calibrated</span></div>
+    <div class="cg" id="cap157"><span>beat probabilities into a daily</span></div>
+    <div class="cg" id="cap158"><span>rate. Each reported beat is weighted</span></div>
+    <div class="cg" id="cap159"><span>by one over its</span></div>
+    <div class="cg" id="cap160"><span>retention, each six-hour block is divided</span></div>
+    <div class="cg" id="cap161"><span>by its own observed</span></div>
+    <div class="cg" id="cap162"><span>hours, and the four blocks are</span></div>
+    <div class="cg" id="cap163"><span>combined by length,</span></div>
+    <div class="cg" id="cap164"><span>so a night-heavy recording no longer</span></div>
+    <div class="cg" id="cap165"><span>biases the day.</span></div>
+    <div class="cg" id="cap166"><span>This revised form of Equation 3.1</span></div>
+    <div class="cg" id="cap167"><span>awaits supervisor confirmation.</span></div>
+    <div class="cg" id="cap168"><span>This worked example uses illustrative numbers.</span></div>
+    <div class="cg" id="cap169"><span>Most observed time falls at night</span></div>
+    <div class="cg" id="cap170"><span>and most ectopy in the afternoon</span></div>
+    <div class="cg" id="cap171"><span>and evening. The naive count divides</span></div>
+    <div class="cg" id="cap172"><span>all PACs by all observed hours.</span></div>
+    <div class="cg" id="cap173"><span>Retention weighting raises it.</span></div>
+    <div class="cg" id="cap174"><span>Block weighting then gives each six-hour</span></div>
+    <div class="cg" id="cap175"><span>block a quarter of the day,</span></div>
+    <div class="cg" id="cap176"><span>however few hours were observed in</span></div>
+    <div class="cg" id="cap177"><span>it. Equation 3.3,</span></div>
+    <div class="cg" id="cap178"><span>the coverage gate,</span></div>
+    <div class="cg" id="cap179"><span>reports the daily value only if</span></div>
+    <div class="cg" id="cap180"><span>every block reaches a minimum of</span></div>
+    <div class="cg" id="cap181"><span>observed hours; otherwise the model abstains.</span></div>
+    <div class="cg" id="cap182"><span>Over a week,</span></div>
+    <div class="cg" id="cap183"><span>single days often abstain.</span></div>
+    <div class="cg" id="cap184"><span>Here day two and day seven</span></div>
+    <div class="cg" id="cap185"><span>fail the gate,</span></div>
+    <div class="cg" id="cap186"><span>day five was</span></div>
+    <div class="cg" id="cap187"><span>not worn, and day six clears</span></div>
+    <div class="cg" id="cap188"><span>every block but fails the day</span></div>
+    <div class="cg" id="cap189"><span>and night validity rule,</span></div>
+    <div class="cg" id="cap190"><span>so it also abstains.</span></div>
+    <div class="cg" id="cap191"><span>ESVEA status therefore uses Equation</span></div>
+    <div class="cg" id="cap192"><span>3.4, which pools each</span></div>
+    <div class="cg" id="cap193"><span>block across valid days.</span></div>
+    <div class="cg" id="cap194"><span>In the simulation</span></div>
+    <div class="cg" id="cap195"><span>in Appendix C,</span></div>
+    <div class="cg" id="cap196"><span>under poor coverage,</span></div>
+    <div class="cg" id="cap197"><span>pooling kept the count computable for</span></div>
+    <div class="cg" id="cap198"><span>about eighty-eight percent of participants,</span></div>
+    <div class="cg" id="cap199"><span>against about eighty-one percent for the</span></div>
+    <div class="cg" id="cap200"><span>per-day rule, with lower misclassification.</span></div>
+    <div class="cg" id="cap201"><span>Evaluation keeps patients</span></div>
+    <div class="cg" id="cap202"><span>apart. Icentia11k is split into four</span></div>
+    <div class="cg" id="cap203"><span>disjoint sets: P zero for the</span></div>
+    <div class="cg" id="cap204"><span>preliminary analysis, P one for the</span></div>
+    <div class="cg" id="cap205"><span>hypothesis one test,</span></div>
+    <div class="cg" id="cap206"><span>P two for model development,</span></div>
+    <div class="cg" id="cap207"><span>and P three,</span></div>
+    <div class="cg" id="cap208"><span>held out untouched until the model</span></div>
+    <div class="cg" id="cap209"><span>is frozen at milestone M4.</span></div>
+    <div class="cg" id="cap210"><span>Hypothesis two is the single primary</span></div>
+    <div class="cg" id="cap211"><span>contrast: the graph model against the</span></div>
+    <div class="cg" id="cap212"><span>best non-graph baseline,</span></div>
+    <div class="cg" id="cap213"><span>on the mean absolute error of</span></div>
+    <div class="cg" id="cap214"><span>the daily-equivalent count,</span></div>
+    <div class="cg" id="cap215"><span>with a paired subject-level bootstrap.</span></div>
+    <div class="cg" id="cap216"><span>In objective four,</span></div>
+    <div class="cg" id="cap217"><span>the held-out patients are</span></div>
+    <div class="cg" id="cap218"><span>degraded with flags,</span></div>
+    <div class="cg" id="cap219"><span>gaps, pulse deficit and timing noise,</span></div>
+    <div class="cg" id="cap220"><span>and the frozen</span></div>
+    <div class="cg" id="cap221"><span>model&#x27;s ESVEA calls are compared with</span></div>
+    <div class="cg" id="cap222"><span>the ECG reference.</span></div>
+    <div class="cg" id="cap223"><span>Objective three recruits about forty adults</span></div>
+    <div class="cg" id="cap224"><span>after ischaemic stroke or TIA for</span></div>
+    <div class="cg" id="cap225"><span>seven days of Garmin wear.</span></div>
+    <div class="cg" id="cap226"><span>The primary outcome is the proportion</span></div>
+    <div class="cg" id="cap227"><span>with at least three valid days,</span></div>
+    <div class="cg" id="cap228"><span>with a traffic-light rule:</span></div>
+    <div class="cg" id="cap229"><span>green at seventy-five percent or more,</span></div>
+    <div class="cg" id="cap230"><span>red at fifty or below.</span></div>
+    <div class="cg" id="cap231"><span>Device verification on non-participant wear comes</span></div>
+    <div class="cg" id="cap232"><span>first, including twenty-four-hour interval logging,</span></div>
+    <div class="cg" id="cap233"><span>which Garmin has so far</span></div>
+    <div class="cg" id="cap234"><span>confirmed only by personal communication.</span></div>
+    <div class="cg" id="cap235"><span>Preliminary evidence from a cross-device pilot</span></div>
+    <div class="cg" id="cap236"><span>shows that the interval representation carries</span></div>
+    <div class="cg" id="cap237"><span>rhythm information. Ranking transferred across devices,</span></div>
+    <div class="cg" id="cap238"><span>with AUROC of 0.995 or higher</span></div>
+    <div class="cg" id="cap239"><span>wherever non-AF windows existed.</span></div>
+    <div class="cg" id="cap240"><span>But the operating point did not</span></div>
+    <div class="cg" id="cap241"><span>transfer: AF recall fell to forty-five</span></div>
+    <div class="cg" id="cap242"><span>percent on MIMIC-III fingertip signals.</span></div>
+    <div class="cg" id="cap243"><span>Each external cohort has only one</span></div>
+    <div class="cg" id="cap244"><span>AF subject, so these results show</span></div>
+    <div class="cg" id="cap245"><span>feasibility, not accuracy.</span></div>
+    <div class="cg" id="cap246"><span>These pilot values await supervisor confirmation.</span></div>
+    <div class="cg" id="cap247"><span>To close, the</span></div>
+    <div class="cg" id="cap248"><span>limits are stated plainly.</span></div>
+    <div class="cg" id="cap249"><span>Error is characterised on ECG-labelled data</span></div>
+    <div class="cg" id="cap250"><span>under simulated losses,</span></div>
+    <div class="cg" id="cap251"><span>not on a real device.</span></div>
+    <div class="cg" id="cap252"><span>Pulse deficit cannot be corrected by</span></div>
+    <div class="cg" id="cap253"><span>weighting, so its bias is measured.</span></div>
+    <div class="cg" id="cap254"><span>Transfer from Samsung to Garmin is</span></div>
+    <div class="cg" id="cap255"><span>an assumption. The contribution</span></div>
+    <div class="cg" id="cap256"><span>is the observation model:</span></div>
+    <div class="cg" id="cap257"><span>the flag as evidence,</span></div>
+    <div class="cg" id="cap258"><span>a frozen retention correction,</span></div>
+    <div class="cg" id="cap259"><span>and a coverage gate that knows</span></div>
+    <div class="cg" id="cap260"><span>when not to report.</span></div>
+    <div class="cg" id="cap261"><span>The graph architecture is a means,</span></div>
+    <div class="cg" id="cap262"><span>tested against baselines,</span></div>
+    <div class="cg" id="cap263"><span>not the claim itself.</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.set("#cap0", {visibility:"visible"}, 0.46); tl.fromTo("#cap0", {opacity:0}, {opacity:1, duration:0.1}, 0.46);
+    tl.to("#cap0", {opacity:0, duration:0.1, ease:"power2.in"}, 2.88); tl.set("#cap0", {opacity:0, visibility:"hidden"}, 2.98);
+    tl.set("#cap1", {visibility:"visible"}, 3.00); tl.fromTo("#cap1", {opacity:0}, {opacity:1, duration:0.1}, 3.00);
+    tl.to("#cap1", {opacity:0, duration:0.1, ease:"power2.in"}, 4.48); tl.set("#cap1", {opacity:0, visibility:"hidden"}, 4.58);
+    tl.set("#cap2", {visibility:"visible"}, 4.60); tl.fromTo("#cap2", {opacity:0}, {opacity:1, duration:0.1}, 4.60);
+    tl.to("#cap2", {opacity:0, duration:0.1, ease:"power2.in"}, 7.46); tl.set("#cap2", {opacity:0, visibility:"hidden"}, 7.56);
+    tl.set("#cap3", {visibility:"visible"}, 7.58); tl.fromTo("#cap3", {opacity:0}, {opacity:1, duration:0.1}, 7.58);
+    tl.to("#cap3", {opacity:0, duration:0.1, ease:"power2.in"}, 9.40); tl.set("#cap3", {opacity:0, visibility:"hidden"}, 9.50);
+    tl.set("#cap4", {visibility:"visible"}, 9.62); tl.fromTo("#cap4", {opacity:0}, {opacity:1, duration:0.1}, 9.62);
+    tl.to("#cap4", {opacity:0, duration:0.1, ease:"power2.in"}, 12.38); tl.set("#cap4", {opacity:0, visibility:"hidden"}, 12.48);
+    tl.set("#cap5", {visibility:"visible"}, 12.50); tl.fromTo("#cap5", {opacity:0}, {opacity:1, duration:0.1}, 12.50);
+    tl.to("#cap5", {opacity:0, duration:0.1, ease:"power2.in"}, 13.33); tl.set("#cap5", {opacity:0, visibility:"hidden"}, 13.43);
+    tl.set("#cap6", {visibility:"visible"}, 13.75); tl.fromTo("#cap6", {opacity:0}, {opacity:1, duration:0.1}, 13.75);
+    tl.to("#cap6", {opacity:0, duration:0.1, ease:"power2.in"}, 16.06); tl.set("#cap6", {opacity:0, visibility:"hidden"}, 16.16);
+    tl.set("#cap7", {visibility:"visible"}, 16.18); tl.fromTo("#cap7", {opacity:0}, {opacity:1, duration:0.1}, 16.18);
+    tl.to("#cap7", {opacity:0, duration:0.1, ease:"power2.in"}, 19.41); tl.set("#cap7", {opacity:0, visibility:"hidden"}, 19.51);
+    tl.set("#cap8", {visibility:"visible"}, 19.53); tl.fromTo("#cap8", {opacity:0}, {opacity:1, duration:0.1}, 19.53);
+    tl.to("#cap8", {opacity:0, duration:0.1, ease:"power2.in"}, 21.53); tl.set("#cap8", {opacity:0, visibility:"hidden"}, 21.63);
+    tl.set("#cap9", {visibility:"visible"}, 21.65); tl.fromTo("#cap9", {opacity:0}, {opacity:1, duration:0.1}, 21.65);
+    tl.to("#cap9", {opacity:0, duration:0.1, ease:"power2.in"}, 24.62); tl.set("#cap9", {opacity:0, visibility:"hidden"}, 24.72);
+    tl.set("#cap10", {visibility:"visible"}, 24.74); tl.fromTo("#cap10", {opacity:0}, {opacity:1, duration:0.1}, 24.74);
+    tl.to("#cap10", {opacity:0, duration:0.1, ease:"power2.in"}, 26.96); tl.set("#cap10", {opacity:0, visibility:"hidden"}, 27.06);
+    tl.set("#cap11", {visibility:"visible"}, 27.08); tl.fromTo("#cap11", {opacity:0}, {opacity:1, duration:0.1}, 27.08);
+    tl.to("#cap11", {opacity:0, duration:0.1, ease:"power2.in"}, 28.10); tl.set("#cap11", {opacity:0, visibility:"hidden"}, 28.20);
+    tl.set("#cap12", {visibility:"visible"}, 28.22); tl.fromTo("#cap12", {opacity:0}, {opacity:1, duration:0.1}, 28.22);
+    tl.to("#cap12", {opacity:0, duration:0.1, ease:"power2.in"}, 29.59); tl.set("#cap12", {opacity:0, visibility:"hidden"}, 29.69);
+    tl.set("#cap13", {visibility:"visible"}, 29.72); tl.fromTo("#cap13", {opacity:0}, {opacity:1, duration:0.1}, 29.72);
+    tl.to("#cap13", {opacity:0, duration:0.1, ease:"power2.in"}, 31.32); tl.set("#cap13", {opacity:0, visibility:"hidden"}, 31.42);
+    tl.set("#cap14", {visibility:"visible"}, 31.44); tl.fromTo("#cap14", {opacity:0}, {opacity:1, duration:0.1}, 31.44);
+    tl.to("#cap14", {opacity:0, duration:0.1, ease:"power2.in"}, 33.69); tl.set("#cap14", {opacity:0, visibility:"hidden"}, 33.79);
+    tl.set("#cap15", {visibility:"visible"}, 33.81); tl.fromTo("#cap15", {opacity:0}, {opacity:1, duration:0.1}, 33.81);
+    tl.to("#cap15", {opacity:0, duration:0.1, ease:"power2.in"}, 36.40); tl.set("#cap15", {opacity:0, visibility:"hidden"}, 36.50);
+    tl.set("#cap16", {visibility:"visible"}, 36.52); tl.fromTo("#cap16", {opacity:0}, {opacity:1, duration:0.1}, 36.52);
+    tl.to("#cap16", {opacity:0, duration:0.1, ease:"power2.in"}, 37.61); tl.set("#cap16", {opacity:0, visibility:"hidden"}, 37.71);
+    tl.set("#cap17", {visibility:"visible"}, 37.95); tl.fromTo("#cap17", {opacity:0}, {opacity:1, duration:0.1}, 37.95);
+    tl.to("#cap17", {opacity:0, duration:0.1, ease:"power2.in"}, 39.63); tl.set("#cap17", {opacity:0, visibility:"hidden"}, 39.73);
+    tl.set("#cap18", {visibility:"visible"}, 39.75); tl.fromTo("#cap18", {opacity:0}, {opacity:1, duration:0.1}, 39.75);
+    tl.to("#cap18", {opacity:0, duration:0.1, ease:"power2.in"}, 41.94); tl.set("#cap18", {opacity:0, visibility:"hidden"}, 42.04);
+    tl.set("#cap19", {visibility:"visible"}, 42.06); tl.fromTo("#cap19", {opacity:0}, {opacity:1, duration:0.1}, 42.06);
+    tl.to("#cap19", {opacity:0, duration:0.1, ease:"power2.in"}, 43.66); tl.set("#cap19", {opacity:0, visibility:"hidden"}, 43.76);
+    tl.set("#cap20", {visibility:"visible"}, 43.78); tl.fromTo("#cap20", {opacity:0}, {opacity:1, duration:0.1}, 43.78);
+    tl.to("#cap20", {opacity:0, duration:0.1, ease:"power2.in"}, 44.81); tl.set("#cap20", {opacity:0, visibility:"hidden"}, 44.91);
+    tl.set("#cap21", {visibility:"visible"}, 46.37); tl.fromTo("#cap21", {opacity:0}, {opacity:1, duration:0.1}, 46.37);
+    tl.to("#cap21", {opacity:0, duration:0.1, ease:"power2.in"}, 48.29); tl.set("#cap21", {opacity:0, visibility:"hidden"}, 48.39);
+    tl.set("#cap22", {visibility:"visible"}, 48.55); tl.fromTo("#cap22", {opacity:0}, {opacity:1, duration:0.1}, 48.55);
+    tl.to("#cap22", {opacity:0, duration:0.1, ease:"power2.in"}, 50.43); tl.set("#cap22", {opacity:0, visibility:"hidden"}, 50.53);
+    tl.set("#cap23", {visibility:"visible"}, 50.80); tl.fromTo("#cap23", {opacity:0}, {opacity:1, duration:0.1}, 50.80);
+    tl.to("#cap23", {opacity:0, duration:0.1, ease:"power2.in"}, 52.47); tl.set("#cap23", {opacity:0, visibility:"hidden"}, 52.57);
+    tl.set("#cap24", {visibility:"visible"}, 52.59); tl.fromTo("#cap24", {opacity:0}, {opacity:1, duration:0.1}, 52.59);
+    tl.to("#cap24", {opacity:0, duration:0.1, ease:"power2.in"}, 55.35); tl.set("#cap24", {opacity:0, visibility:"hidden"}, 55.45);
+    tl.set("#cap25", {visibility:"visible"}, 55.47); tl.fromTo("#cap25", {opacity:0}, {opacity:1, duration:0.1}, 55.47);
+    tl.to("#cap25", {opacity:0, duration:0.1, ease:"power2.in"}, 58.16); tl.set("#cap25", {opacity:0, visibility:"hidden"}, 58.26);
+    tl.set("#cap26", {visibility:"visible"}, 58.46); tl.fromTo("#cap26", {opacity:0}, {opacity:1, duration:0.1}, 58.46);
+    tl.to("#cap26", {opacity:0, duration:0.1, ease:"power2.in"}, 60.62); tl.set("#cap26", {opacity:0, visibility:"hidden"}, 60.72);
+    tl.set("#cap27", {visibility:"visible"}, 60.74); tl.fromTo("#cap27", {opacity:0}, {opacity:1, duration:0.1}, 60.74);
+    tl.to("#cap27", {opacity:0, duration:0.1, ease:"power2.in"}, 62.67); tl.set("#cap27", {opacity:0, visibility:"hidden"}, 62.77);
+    tl.set("#cap28", {visibility:"visible"}, 63.02); tl.fromTo("#cap28", {opacity:0}, {opacity:1, duration:0.1}, 63.02);
+    tl.to("#cap28", {opacity:0, duration:0.1, ease:"power2.in"}, 65.03); tl.set("#cap28", {opacity:0, visibility:"hidden"}, 65.13);
+    tl.set("#cap29", {visibility:"visible"}, 65.15); tl.fromTo("#cap29", {opacity:0}, {opacity:1, duration:0.1}, 65.15);
+    tl.to("#cap29", {opacity:0, duration:0.1, ease:"power2.in"}, 67.74); tl.set("#cap29", {opacity:0, visibility:"hidden"}, 67.84);
+    tl.set("#cap30", {visibility:"visible"}, 68.14); tl.fromTo("#cap30", {opacity:0}, {opacity:1, duration:0.1}, 68.14);
+    tl.to("#cap30", {opacity:0, duration:0.1, ease:"power2.in"}, 70.79); tl.set("#cap30", {opacity:0, visibility:"hidden"}, 70.89);
+    tl.set("#cap31", {visibility:"visible"}, 70.91); tl.fromTo("#cap31", {opacity:0}, {opacity:1, duration:0.1}, 70.91);
+    tl.to("#cap31", {opacity:0, duration:0.1, ease:"power2.in"}, 72.82); tl.set("#cap31", {opacity:0, visibility:"hidden"}, 72.92);
+    tl.set("#cap32", {visibility:"visible"}, 73.18); tl.fromTo("#cap32", {opacity:0}, {opacity:1, duration:0.1}, 73.18);
+    tl.to("#cap32", {opacity:0, duration:0.1, ease:"power2.in"}, 75.18); tl.set("#cap32", {opacity:0, visibility:"hidden"}, 75.28);
+    tl.set("#cap33", {visibility:"visible"}, 75.30); tl.fromTo("#cap33", {opacity:0}, {opacity:1, duration:0.1}, 75.30);
+    tl.to("#cap33", {opacity:0, duration:0.1, ease:"power2.in"}, 77.93); tl.set("#cap33", {opacity:0, visibility:"hidden"}, 78.03);
+    tl.set("#cap34", {visibility:"visible"}, 78.05); tl.fromTo("#cap34", {opacity:0}, {opacity:1, duration:0.1}, 78.05);
+    tl.to("#cap34", {opacity:0, duration:0.1, ease:"power2.in"}, 80.20); tl.set("#cap34", {opacity:0, visibility:"hidden"}, 80.30);
+    tl.set("#cap35", {visibility:"visible"}, 80.32); tl.fromTo("#cap35", {opacity:0}, {opacity:1, duration:0.1}, 80.32);
+    tl.to("#cap35", {opacity:0, duration:0.1, ease:"power2.in"}, 81.43); tl.set("#cap35", {opacity:0, visibility:"hidden"}, 81.53);
+    tl.set("#cap36", {visibility:"visible"}, 81.55); tl.fromTo("#cap36", {opacity:0}, {opacity:1, duration:0.1}, 81.55);
+    tl.to("#cap36", {opacity:0, duration:0.1, ease:"power2.in"}, 84.12); tl.set("#cap36", {opacity:0, visibility:"hidden"}, 84.22);
+    tl.set("#cap37", {visibility:"visible"}, 85.63); tl.fromTo("#cap37", {opacity:0}, {opacity:1, duration:0.1}, 85.63);
+    tl.to("#cap37", {opacity:0, duration:0.1, ease:"power2.in"}, 87.93); tl.set("#cap37", {opacity:0, visibility:"hidden"}, 88.03);
+    tl.set("#cap38", {visibility:"visible"}, 88.05); tl.fromTo("#cap38", {opacity:0}, {opacity:1, duration:0.1}, 88.05);
+    tl.to("#cap38", {opacity:0, duration:0.1, ease:"power2.in"}, 91.47); tl.set("#cap38", {opacity:0, visibility:"hidden"}, 91.57);
+    tl.set("#cap39", {visibility:"visible"}, 91.59); tl.fromTo("#cap39", {opacity:0}, {opacity:1, duration:0.1}, 91.59);
+    tl.to("#cap39", {opacity:0, duration:0.1, ease:"power2.in"}, 92.64); tl.set("#cap39", {opacity:0, visibility:"hidden"}, 92.74);
+    tl.set("#cap40", {visibility:"visible"}, 92.76); tl.fromTo("#cap40", {opacity:0}, {opacity:1, duration:0.1}, 92.76);
+    tl.to("#cap40", {opacity:0, duration:0.1, ease:"power2.in"}, 95.41); tl.set("#cap40", {opacity:0, visibility:"hidden"}, 95.51);
+    tl.set("#cap41", {visibility:"visible"}, 95.53); tl.fromTo("#cap41", {opacity:0}, {opacity:1, duration:0.1}, 95.53);
+    tl.to("#cap41", {opacity:0, duration:0.1, ease:"power2.in"}, 96.54); tl.set("#cap41", {opacity:0, visibility:"hidden"}, 96.64);
+    tl.set("#cap42", {visibility:"visible"}, 96.66); tl.fromTo("#cap42", {opacity:0}, {opacity:1, duration:0.1}, 96.66);
+    tl.to("#cap42", {opacity:0, duration:0.1, ease:"power2.in"}, 99.01); tl.set("#cap42", {opacity:0, visibility:"hidden"}, 99.11);
+    tl.set("#cap43", {visibility:"visible"}, 99.13); tl.fromTo("#cap43", {opacity:0}, {opacity:1, duration:0.1}, 99.13);
+    tl.to("#cap43", {opacity:0, duration:0.1, ease:"power2.in"}, 101.46); tl.set("#cap43", {opacity:0, visibility:"hidden"}, 101.56);
+    tl.set("#cap44", {visibility:"visible"}, 101.58); tl.fromTo("#cap44", {opacity:0}, {opacity:1, duration:0.1}, 101.58);
+    tl.to("#cap44", {opacity:0, duration:0.1, ease:"power2.in"}, 103.38); tl.set("#cap44", {opacity:0, visibility:"hidden"}, 103.48);
+    tl.set("#cap45", {visibility:"visible"}, 103.50); tl.fromTo("#cap45", {opacity:0}, {opacity:1, duration:0.1}, 103.50);
+    tl.to("#cap45", {opacity:0, duration:0.1, ease:"power2.in"}, 104.91); tl.set("#cap45", {opacity:0, visibility:"hidden"}, 105.01);
+    tl.set("#cap46", {visibility:"visible"}, 105.03); tl.fromTo("#cap46", {opacity:0}, {opacity:1, duration:0.1}, 105.03);
+    tl.to("#cap46", {opacity:0, duration:0.1, ease:"power2.in"}, 107.74); tl.set("#cap46", {opacity:0, visibility:"hidden"}, 107.84);
+    tl.set("#cap47", {visibility:"visible"}, 107.86); tl.fromTo("#cap47", {opacity:0}, {opacity:1, duration:0.1}, 107.86);
+    tl.to("#cap47", {opacity:0, duration:0.1, ease:"power2.in"}, 108.69); tl.set("#cap47", {opacity:0, visibility:"hidden"}, 108.79);
+    tl.set("#cap48", {visibility:"visible"}, 109.10); tl.fromTo("#cap48", {opacity:0}, {opacity:1, duration:0.1}, 109.10);
+    tl.to("#cap48", {opacity:0, duration:0.1, ease:"power2.in"}, 111.24); tl.set("#cap48", {opacity:0, visibility:"hidden"}, 111.34);
+    tl.set("#cap49", {visibility:"visible"}, 111.36); tl.fromTo("#cap49", {opacity:0}, {opacity:1, duration:0.1}, 111.36);
+    tl.to("#cap49", {opacity:0, duration:0.1, ease:"power2.in"}, 113.47); tl.set("#cap49", {opacity:0, visibility:"hidden"}, 113.57);
+    tl.set("#cap50", {visibility:"visible"}, 113.59); tl.fromTo("#cap50", {opacity:0}, {opacity:1, duration:0.1}, 113.59);
+    tl.to("#cap50", {opacity:0, duration:0.1, ease:"power2.in"}, 114.84); tl.set("#cap50", {opacity:0, visibility:"hidden"}, 114.94);
+    tl.set("#cap51", {visibility:"visible"}, 114.96); tl.fromTo("#cap51", {opacity:0}, {opacity:1, duration:0.1}, 114.96);
+    tl.to("#cap51", {opacity:0, duration:0.1, ease:"power2.in"}, 117.14); tl.set("#cap51", {opacity:0, visibility:"hidden"}, 117.24);
+    tl.set("#cap52", {visibility:"visible"}, 117.26); tl.fromTo("#cap52", {opacity:0}, {opacity:1, duration:0.1}, 117.26);
+    tl.to("#cap52", {opacity:0, duration:0.1, ease:"power2.in"}, 119.30); tl.set("#cap52", {opacity:0, visibility:"hidden"}, 119.40);
+    tl.set("#cap53", {visibility:"visible"}, 119.42); tl.fromTo("#cap53", {opacity:0}, {opacity:1, duration:0.1}, 119.42);
+    tl.to("#cap53", {opacity:0, duration:0.1, ease:"power2.in"}, 120.82); tl.set("#cap53", {opacity:0, visibility:"hidden"}, 120.92);
+    tl.set("#cap54", {visibility:"visible"}, 120.94); tl.fromTo("#cap54", {opacity:0}, {opacity:1, duration:0.1}, 120.94);
+    tl.to("#cap54", {opacity:0, duration:0.1, ease:"power2.in"}, 122.39); tl.set("#cap54", {opacity:0, visibility:"hidden"}, 122.49);
+    tl.set("#cap55", {visibility:"visible"}, 122.51); tl.fromTo("#cap55", {opacity:0}, {opacity:1, duration:0.1}, 122.51);
+    tl.to("#cap55", {opacity:0, duration:0.1, ease:"power2.in"}, 124.58); tl.set("#cap55", {opacity:0, visibility:"hidden"}, 124.68);
+    tl.set("#cap56", {visibility:"visible"}, 125.97); tl.fromTo("#cap56", {opacity:0}, {opacity:1, duration:0.1}, 125.97);
+    tl.to("#cap56", {opacity:0, duration:0.1, ease:"power2.in"}, 127.42); tl.set("#cap56", {opacity:0, visibility:"hidden"}, 127.52);
+    tl.set("#cap57", {visibility:"visible"}, 127.56); tl.fromTo("#cap57", {opacity:0}, {opacity:1, duration:0.1}, 127.56);
+    tl.to("#cap57", {opacity:0, duration:0.1, ease:"power2.in"}, 129.95); tl.set("#cap57", {opacity:0, visibility:"hidden"}, 130.05);
+    tl.set("#cap58", {visibility:"visible"}, 130.07); tl.fromTo("#cap58", {opacity:0}, {opacity:1, duration:0.1}, 130.07);
+    tl.to("#cap58", {opacity:0, duration:0.1, ease:"power2.in"}, 131.81); tl.set("#cap58", {opacity:0, visibility:"hidden"}, 131.91);
+    tl.set("#cap59", {visibility:"visible"}, 131.93); tl.fromTo("#cap59", {opacity:0}, {opacity:1, duration:0.1}, 131.93);
+    tl.to("#cap59", {opacity:0, duration:0.1, ease:"power2.in"}, 134.23); tl.set("#cap59", {opacity:0, visibility:"hidden"}, 134.33);
+    tl.set("#cap60", {visibility:"visible"}, 134.35); tl.fromTo("#cap60", {opacity:0}, {opacity:1, duration:0.1}, 134.35);
+    tl.to("#cap60", {opacity:0, duration:0.1, ease:"power2.in"}, 135.89); tl.set("#cap60", {opacity:0, visibility:"hidden"}, 135.99);
+    tl.set("#cap61", {visibility:"visible"}, 136.17); tl.fromTo("#cap61", {opacity:0}, {opacity:1, duration:0.1}, 136.17);
+    tl.to("#cap61", {opacity:0, duration:0.1, ease:"power2.in"}, 137.24); tl.set("#cap61", {opacity:0, visibility:"hidden"}, 137.34);
+    tl.set("#cap62", {visibility:"visible"}, 137.36); tl.fromTo("#cap62", {opacity:0}, {opacity:1, duration:0.1}, 137.36);
+    tl.to("#cap62", {opacity:0, duration:0.1, ease:"power2.in"}, 138.81); tl.set("#cap62", {opacity:0, visibility:"hidden"}, 138.91);
+    tl.set("#cap63", {visibility:"visible"}, 138.97); tl.fromTo("#cap63", {opacity:0}, {opacity:1, duration:0.1}, 138.97);
+    tl.to("#cap63", {opacity:0, duration:0.1, ease:"power2.in"}, 141.08); tl.set("#cap63", {opacity:0, visibility:"hidden"}, 141.18);
+    tl.set("#cap64", {visibility:"visible"}, 141.20); tl.fromTo("#cap64", {opacity:0}, {opacity:1, duration:0.1}, 141.20);
+    tl.to("#cap64", {opacity:0, duration:0.1, ease:"power2.in"}, 143.13); tl.set("#cap64", {opacity:0, visibility:"hidden"}, 143.23);
+    tl.set("#cap65", {visibility:"visible"}, 143.25); tl.fromTo("#cap65", {opacity:0}, {opacity:1, duration:0.1}, 143.25);
+    tl.to("#cap65", {opacity:0, duration:0.1, ease:"power2.in"}, 144.73); tl.set("#cap65", {opacity:0, visibility:"hidden"}, 144.83);
+    tl.set("#cap66", {visibility:"visible"}, 144.85); tl.fromTo("#cap66", {opacity:0}, {opacity:1, duration:0.1}, 144.85);
+    tl.to("#cap66", {opacity:0, duration:0.1, ease:"power2.in"}, 145.38); tl.set("#cap66", {opacity:0, visibility:"hidden"}, 145.48);
+    tl.set("#cap67", {visibility:"visible"}, 145.71); tl.fromTo("#cap67", {opacity:0}, {opacity:1, duration:0.1}, 145.71);
+    tl.to("#cap67", {opacity:0, duration:0.1, ease:"power2.in"}, 147.38); tl.set("#cap67", {opacity:0, visibility:"hidden"}, 147.48);
+    tl.set("#cap68", {visibility:"visible"}, 147.50); tl.fromTo("#cap68", {opacity:0}, {opacity:1, duration:0.1}, 147.50);
+    tl.to("#cap68", {opacity:0, duration:0.1, ease:"power2.in"}, 149.03); tl.set("#cap68", {opacity:0, visibility:"hidden"}, 149.13);
+    tl.set("#cap69", {visibility:"visible"}, 150.43); tl.fromTo("#cap69", {opacity:0}, {opacity:1, duration:0.1}, 150.43);
+    tl.to("#cap69", {opacity:0, duration:0.1, ease:"power2.in"}, 152.65); tl.set("#cap69", {opacity:0, visibility:"hidden"}, 152.75);
+    tl.set("#cap70", {visibility:"visible"}, 152.77); tl.fromTo("#cap70", {opacity:0}, {opacity:1, duration:0.1}, 152.77);
+    tl.to("#cap70", {opacity:0, duration:0.1, ease:"power2.in"}, 155.45); tl.set("#cap70", {opacity:0, visibility:"hidden"}, 155.55);
+    tl.set("#cap71", {visibility:"visible"}, 155.57); tl.fromTo("#cap71", {opacity:0}, {opacity:1, duration:0.1}, 155.57);
+    tl.to("#cap71", {opacity:0, duration:0.1, ease:"power2.in"}, 157.63); tl.set("#cap71", {opacity:0, visibility:"hidden"}, 157.73);
+    tl.set("#cap72", {visibility:"visible"}, 157.75); tl.fromTo("#cap72", {opacity:0}, {opacity:1, duration:0.1}, 157.75);
+    tl.to("#cap72", {opacity:0, duration:0.1, ease:"power2.in"}, 159.53); tl.set("#cap72", {opacity:0, visibility:"hidden"}, 159.63);
+    tl.set("#cap73", {visibility:"visible"}, 159.65); tl.fromTo("#cap73", {opacity:0}, {opacity:1, duration:0.1}, 159.65);
+    tl.to("#cap73", {opacity:0, duration:0.1, ease:"power2.in"}, 162.12); tl.set("#cap73", {opacity:0, visibility:"hidden"}, 162.22);
+    tl.set("#cap74", {visibility:"visible"}, 162.24); tl.fromTo("#cap74", {opacity:0}, {opacity:1, duration:0.1}, 162.24);
+    tl.to("#cap74", {opacity:0, duration:0.1, ease:"power2.in"}, 163.91); tl.set("#cap74", {opacity:0, visibility:"hidden"}, 164.01);
+    tl.set("#cap75", {visibility:"visible"}, 164.03); tl.fromTo("#cap75", {opacity:0}, {opacity:1, duration:0.1}, 164.03);
+    tl.to("#cap75", {opacity:0, duration:0.1, ease:"power2.in"}, 166.15); tl.set("#cap75", {opacity:0, visibility:"hidden"}, 166.25);
+    tl.set("#cap76", {visibility:"visible"}, 166.27); tl.fromTo("#cap76", {opacity:0}, {opacity:1, duration:0.1}, 166.27);
+    tl.to("#cap76", {opacity:0, duration:0.1, ease:"power2.in"}, 167.88); tl.set("#cap76", {opacity:0, visibility:"hidden"}, 167.98);
+    tl.set("#cap77", {visibility:"visible"}, 168.00); tl.fromTo("#cap77", {opacity:0}, {opacity:1, duration:0.1}, 168.00);
+    tl.to("#cap77", {opacity:0, duration:0.1, ease:"power2.in"}, 169.48); tl.set("#cap77", {opacity:0, visibility:"hidden"}, 169.58);
+    tl.set("#cap78", {visibility:"visible"}, 169.66); tl.fromTo("#cap78", {opacity:0}, {opacity:1, duration:0.1}, 169.66);
+    tl.to("#cap78", {opacity:0, duration:0.1, ease:"power2.in"}, 170.84); tl.set("#cap78", {opacity:0, visibility:"hidden"}, 170.94);
+    tl.set("#cap79", {visibility:"visible"}, 170.96); tl.fromTo("#cap79", {opacity:0}, {opacity:1, duration:0.1}, 170.96);
+    tl.to("#cap79", {opacity:0, duration:0.1, ease:"power2.in"}, 173.12); tl.set("#cap79", {opacity:0, visibility:"hidden"}, 173.22);
+    tl.set("#cap80", {visibility:"visible"}, 173.24); tl.fromTo("#cap80", {opacity:0}, {opacity:1, duration:0.1}, 173.24);
+    tl.to("#cap80", {opacity:0, duration:0.1, ease:"power2.in"}, 175.44); tl.set("#cap80", {opacity:0, visibility:"hidden"}, 175.54);
+    tl.set("#cap81", {visibility:"visible"}, 175.67); tl.fromTo("#cap81", {opacity:0}, {opacity:1, duration:0.1}, 175.67);
+    tl.to("#cap81", {opacity:0, duration:0.1, ease:"power2.in"}, 177.62); tl.set("#cap81", {opacity:0, visibility:"hidden"}, 177.72);
+    tl.set("#cap82", {visibility:"visible"}, 177.74); tl.fromTo("#cap82", {opacity:0}, {opacity:1, duration:0.1}, 177.74);
+    tl.to("#cap82", {opacity:0, duration:0.1, ease:"power2.in"}, 179.88); tl.set("#cap82", {opacity:0, visibility:"hidden"}, 179.98);
+    tl.set("#cap83", {visibility:"visible"}, 180.00); tl.fromTo("#cap83", {opacity:0}, {opacity:1, duration:0.1}, 180.00);
+    tl.to("#cap83", {opacity:0, duration:0.1, ease:"power2.in"}, 181.63); tl.set("#cap83", {opacity:0, visibility:"hidden"}, 181.73);
+    tl.set("#cap84", {visibility:"visible"}, 181.75); tl.fromTo("#cap84", {opacity:0}, {opacity:1, duration:0.1}, 181.75);
+    tl.to("#cap84", {opacity:0, duration:0.1, ease:"power2.in"}, 183.14); tl.set("#cap84", {opacity:0, visibility:"hidden"}, 183.24);
+    tl.set("#cap85", {visibility:"visible"}, 184.57); tl.fromTo("#cap85", {opacity:0}, {opacity:1, duration:0.1}, 184.57);
+    tl.to("#cap85", {opacity:0, duration:0.1, ease:"power2.in"}, 187.37); tl.set("#cap85", {opacity:0, visibility:"hidden"}, 187.47);
+    tl.set("#cap86", {visibility:"visible"}, 187.49); tl.fromTo("#cap86", {opacity:0}, {opacity:1, duration:0.1}, 187.49);
+    tl.to("#cap86", {opacity:0, duration:0.1, ease:"power2.in"}, 189.50); tl.set("#cap86", {opacity:0, visibility:"hidden"}, 189.60);
+    tl.set("#cap87", {visibility:"visible"}, 189.62); tl.fromTo("#cap87", {opacity:0}, {opacity:1, duration:0.1}, 189.62);
+    tl.to("#cap87", {opacity:0, duration:0.1, ease:"power2.in"}, 190.65); tl.set("#cap87", {opacity:0, visibility:"hidden"}, 190.75);
+    tl.set("#cap88", {visibility:"visible"}, 190.77); tl.fromTo("#cap88", {opacity:0}, {opacity:1, duration:0.1}, 190.77);
+    tl.to("#cap88", {opacity:0, duration:0.1, ease:"power2.in"}, 192.46); tl.set("#cap88", {opacity:0, visibility:"hidden"}, 192.56);
+    tl.set("#cap89", {visibility:"visible"}, 192.58); tl.fromTo("#cap89", {opacity:0}, {opacity:1, duration:0.1}, 192.58);
+    tl.to("#cap89", {opacity:0, duration:0.1, ease:"power2.in"}, 194.05); tl.set("#cap89", {opacity:0, visibility:"hidden"}, 194.15);
+    tl.set("#cap90", {visibility:"visible"}, 194.17); tl.fromTo("#cap90", {opacity:0}, {opacity:1, duration:0.1}, 194.17);
+    tl.to("#cap90", {opacity:0, duration:0.1, ease:"power2.in"}, 195.54); tl.set("#cap90", {opacity:0, visibility:"hidden"}, 195.64);
+    tl.set("#cap91", {visibility:"visible"}, 195.75); tl.fromTo("#cap91", {opacity:0}, {opacity:1, duration:0.1}, 195.75);
+    tl.to("#cap91", {opacity:0, duration:0.1, ease:"power2.in"}, 196.98); tl.set("#cap91", {opacity:0, visibility:"hidden"}, 197.08);
+    tl.set("#cap92", {visibility:"visible"}, 197.46); tl.fromTo("#cap92", {opacity:0}, {opacity:1, duration:0.1}, 197.46);
+    tl.to("#cap92", {opacity:0, duration:0.1, ease:"power2.in"}, 199.24); tl.set("#cap92", {opacity:0, visibility:"hidden"}, 199.34);
+    tl.set("#cap93", {visibility:"visible"}, 199.44); tl.fromTo("#cap93", {opacity:0}, {opacity:1, duration:0.1}, 199.44);
+    tl.to("#cap93", {opacity:0, duration:0.1, ease:"power2.in"}, 201.08); tl.set("#cap93", {opacity:0, visibility:"hidden"}, 201.18);
+    tl.set("#cap94", {visibility:"visible"}, 201.20); tl.fromTo("#cap94", {opacity:0}, {opacity:1, duration:0.1}, 201.20);
+    tl.to("#cap94", {opacity:0, duration:0.1, ease:"power2.in"}, 202.84); tl.set("#cap94", {opacity:0, visibility:"hidden"}, 202.94);
+    tl.set("#cap95", {visibility:"visible"}, 203.05); tl.fromTo("#cap95", {opacity:0}, {opacity:1, duration:0.1}, 203.05);
+    tl.to("#cap95", {opacity:0, duration:0.1, ease:"power2.in"}, 204.00); tl.set("#cap95", {opacity:0, visibility:"hidden"}, 204.10);
+    tl.set("#cap96", {visibility:"visible"}, 204.20); tl.fromTo("#cap96", {opacity:0}, {opacity:1, duration:0.1}, 204.20);
+    tl.to("#cap96", {opacity:0, duration:0.1, ease:"power2.in"}, 206.02); tl.set("#cap96", {opacity:0, visibility:"hidden"}, 206.12);
+    tl.set("#cap97", {visibility:"visible"}, 206.14); tl.fromTo("#cap97", {opacity:0}, {opacity:1, duration:0.1}, 206.14);
+    tl.to("#cap97", {opacity:0, duration:0.1, ease:"power2.in"}, 207.08); tl.set("#cap97", {opacity:0, visibility:"hidden"}, 207.18);
+    tl.set("#cap98", {visibility:"visible"}, 207.27); tl.fromTo("#cap98", {opacity:0}, {opacity:1, duration:0.1}, 207.27);
+    tl.to("#cap98", {opacity:0, duration:0.1, ease:"power2.in"}, 208.65); tl.set("#cap98", {opacity:0, visibility:"hidden"}, 208.75);
+    tl.set("#cap99", {visibility:"visible"}, 208.99); tl.fromTo("#cap99", {opacity:0}, {opacity:1, duration:0.1}, 208.99);
+    tl.to("#cap99", {opacity:0, duration:0.1, ease:"power2.in"}, 209.60); tl.set("#cap99", {opacity:0, visibility:"hidden"}, 209.70);
+    tl.set("#cap100", {visibility:"visible"}, 209.72); tl.fromTo("#cap100", {opacity:0}, {opacity:1, duration:0.1}, 209.72);
+    tl.to("#cap100", {opacity:0, duration:0.1, ease:"power2.in"}, 211.47); tl.set("#cap100", {opacity:0, visibility:"hidden"}, 211.57);
+    tl.set("#cap101", {visibility:"visible"}, 211.69); tl.fromTo("#cap101", {opacity:0}, {opacity:1, duration:0.1}, 211.69);
+    tl.to("#cap101", {opacity:0, duration:0.1, ease:"power2.in"}, 213.85); tl.set("#cap101", {opacity:0, visibility:"hidden"}, 213.95);
+    tl.set("#cap102", {visibility:"visible"}, 213.97); tl.fromTo("#cap102", {opacity:0}, {opacity:1, duration:0.1}, 213.97);
+    tl.to("#cap102", {opacity:0, duration:0.1, ease:"power2.in"}, 216.34); tl.set("#cap102", {opacity:0, visibility:"hidden"}, 216.44);
+    tl.set("#cap103", {visibility:"visible"}, 216.77); tl.fromTo("#cap103", {opacity:0}, {opacity:1, duration:0.1}, 216.77);
+    tl.to("#cap103", {opacity:0, duration:0.1, ease:"power2.in"}, 218.80); tl.set("#cap103", {opacity:0, visibility:"hidden"}, 218.90);
+    tl.set("#cap104", {visibility:"visible"}, 218.92); tl.fromTo("#cap104", {opacity:0}, {opacity:1, duration:0.1}, 218.92);
+    tl.to("#cap104", {opacity:0, duration:0.1, ease:"power2.in"}, 220.31); tl.set("#cap104", {opacity:0, visibility:"hidden"}, 220.41);
+    tl.set("#cap105", {visibility:"visible"}, 221.76); tl.fromTo("#cap105", {opacity:0}, {opacity:1, duration:0.1}, 221.76);
+    tl.to("#cap105", {opacity:0, duration:0.1, ease:"power2.in"}, 223.70); tl.set("#cap105", {opacity:0, visibility:"hidden"}, 223.80);
+    tl.set("#cap106", {visibility:"visible"}, 223.82); tl.fromTo("#cap106", {opacity:0}, {opacity:1, duration:0.1}, 223.82);
+    tl.to("#cap106", {opacity:0, duration:0.1, ease:"power2.in"}, 225.92); tl.set("#cap106", {opacity:0, visibility:"hidden"}, 226.02);
+    tl.set("#cap107", {visibility:"visible"}, 226.04); tl.fromTo("#cap107", {opacity:0}, {opacity:1, duration:0.1}, 226.04);
+    tl.to("#cap107", {opacity:0, duration:0.1, ease:"power2.in"}, 227.77); tl.set("#cap107", {opacity:0, visibility:"hidden"}, 227.87);
+    tl.set("#cap108", {visibility:"visible"}, 227.89); tl.fromTo("#cap108", {opacity:0}, {opacity:1, duration:0.1}, 227.89);
+    tl.to("#cap108", {opacity:0, duration:0.1, ease:"power2.in"}, 230.26); tl.set("#cap108", {opacity:0, visibility:"hidden"}, 230.36);
+    tl.set("#cap109", {visibility:"visible"}, 230.38); tl.fromTo("#cap109", {opacity:0}, {opacity:1, duration:0.1}, 230.38);
+    tl.to("#cap109", {opacity:0, duration:0.1, ease:"power2.in"}, 233.09); tl.set("#cap109", {opacity:0, visibility:"hidden"}, 233.19);
+    tl.set("#cap110", {visibility:"visible"}, 233.21); tl.fromTo("#cap110", {opacity:0}, {opacity:1, duration:0.1}, 233.21);
+    tl.to("#cap110", {opacity:0, duration:0.1, ease:"power2.in"}, 234.72); tl.set("#cap110", {opacity:0, visibility:"hidden"}, 234.82);
+    tl.set("#cap111", {visibility:"visible"}, 234.84); tl.fromTo("#cap111", {opacity:0}, {opacity:1, duration:0.1}, 234.84);
+    tl.to("#cap111", {opacity:0, duration:0.1, ease:"power2.in"}, 236.38); tl.set("#cap111", {opacity:0, visibility:"hidden"}, 236.48);
+    tl.set("#cap112", {visibility:"visible"}, 236.50); tl.fromTo("#cap112", {opacity:0}, {opacity:1, duration:0.1}, 236.50);
+    tl.to("#cap112", {opacity:0, duration:0.1, ease:"power2.in"}, 239.23); tl.set("#cap112", {opacity:0, visibility:"hidden"}, 239.33);
+    tl.set("#cap113", {visibility:"visible"}, 239.35); tl.fromTo("#cap113", {opacity:0}, {opacity:1, duration:0.1}, 239.35);
+    tl.to("#cap113", {opacity:0, duration:0.1, ease:"power2.in"}, 241.40); tl.set("#cap113", {opacity:0, visibility:"hidden"}, 241.50);
+    tl.set("#cap114", {visibility:"visible"}, 241.52); tl.fromTo("#cap114", {opacity:0}, {opacity:1, duration:0.1}, 241.52);
+    tl.to("#cap114", {opacity:0, duration:0.1, ease:"power2.in"}, 243.01); tl.set("#cap114", {opacity:0, visibility:"hidden"}, 243.11);
+    tl.set("#cap115", {visibility:"visible"}, 243.13); tl.fromTo("#cap115", {opacity:0}, {opacity:1, duration:0.1}, 243.13);
+    tl.to("#cap115", {opacity:0, duration:0.1, ease:"power2.in"}, 243.88); tl.set("#cap115", {opacity:0, visibility:"hidden"}, 243.98);
+    tl.set("#cap116", {visibility:"visible"}, 245.41); tl.fromTo("#cap116", {opacity:0}, {opacity:1, duration:0.1}, 245.41);
+    tl.to("#cap116", {opacity:0, duration:0.1, ease:"power2.in"}, 246.69); tl.set("#cap116", {opacity:0, visibility:"hidden"}, 246.79);
+    tl.set("#cap117", {visibility:"visible"}, 246.88); tl.fromTo("#cap117", {opacity:0}, {opacity:1, duration:0.1}, 246.88);
+    tl.to("#cap117", {opacity:0, duration:0.1, ease:"power2.in"}, 249.42); tl.set("#cap117", {opacity:0, visibility:"hidden"}, 249.52);
+    tl.set("#cap118", {visibility:"visible"}, 249.54); tl.fromTo("#cap118", {opacity:0}, {opacity:1, duration:0.1}, 249.54);
+    tl.to("#cap118", {opacity:0, duration:0.1, ease:"power2.in"}, 250.35); tl.set("#cap118", {opacity:0, visibility:"hidden"}, 250.45);
+    tl.set("#cap119", {visibility:"visible"}, 250.63); tl.fromTo("#cap119", {opacity:0}, {opacity:1, duration:0.1}, 250.63);
+    tl.to("#cap119", {opacity:0, duration:0.1, ease:"power2.in"}, 252.33); tl.set("#cap119", {opacity:0, visibility:"hidden"}, 252.43);
+    tl.set("#cap120", {visibility:"visible"}, 252.45); tl.fromTo("#cap120", {opacity:0}, {opacity:1, duration:0.1}, 252.45);
+    tl.to("#cap120", {opacity:0, duration:0.1, ease:"power2.in"}, 254.31); tl.set("#cap120", {opacity:0, visibility:"hidden"}, 254.41);
+    tl.set("#cap121", {visibility:"visible"}, 254.43); tl.fromTo("#cap121", {opacity:0}, {opacity:1, duration:0.1}, 254.43);
+    tl.to("#cap121", {opacity:0, duration:0.1, ease:"power2.in"}, 255.79); tl.set("#cap121", {opacity:0, visibility:"hidden"}, 255.89);
+    tl.set("#cap122", {visibility:"visible"}, 255.91); tl.fromTo("#cap122", {opacity:0}, {opacity:1, duration:0.1}, 255.91);
+    tl.to("#cap122", {opacity:0, duration:0.1, ease:"power2.in"}, 257.19); tl.set("#cap122", {opacity:0, visibility:"hidden"}, 257.29);
+    tl.set("#cap123", {visibility:"visible"}, 257.38); tl.fromTo("#cap123", {opacity:0}, {opacity:1, duration:0.1}, 257.38);
+    tl.to("#cap123", {opacity:0, duration:0.1, ease:"power2.in"}, 258.81); tl.set("#cap123", {opacity:0, visibility:"hidden"}, 258.91);
+    tl.set("#cap124", {visibility:"visible"}, 258.93); tl.fromTo("#cap124", {opacity:0}, {opacity:1, duration:0.1}, 258.93);
+    tl.to("#cap124", {opacity:0, duration:0.1, ease:"power2.in"}, 260.20); tl.set("#cap124", {opacity:0, visibility:"hidden"}, 260.30);
+    tl.set("#cap125", {visibility:"visible"}, 260.40); tl.fromTo("#cap125", {opacity:0}, {opacity:1, duration:0.1}, 260.40);
+    tl.to("#cap125", {opacity:0, duration:0.1, ease:"power2.in"}, 261.23); tl.set("#cap125", {opacity:0, visibility:"hidden"}, 261.33);
+    tl.set("#cap126", {visibility:"visible"}, 261.51); tl.fromTo("#cap126", {opacity:0}, {opacity:1, duration:0.1}, 261.51);
+    tl.to("#cap126", {opacity:0, duration:0.1, ease:"power2.in"}, 262.61); tl.set("#cap126", {opacity:0, visibility:"hidden"}, 262.71);
+    tl.set("#cap127", {visibility:"visible"}, 262.73); tl.fromTo("#cap127", {opacity:0}, {opacity:1, duration:0.1}, 262.73);
+    tl.to("#cap127", {opacity:0, duration:0.1, ease:"power2.in"}, 264.01); tl.set("#cap127", {opacity:0, visibility:"hidden"}, 264.11);
+    tl.set("#cap128", {visibility:"visible"}, 264.20); tl.fromTo("#cap128", {opacity:0}, {opacity:1, duration:0.1}, 264.20);
+    tl.to("#cap128", {opacity:0, duration:0.1, ease:"power2.in"}, 265.03); tl.set("#cap128", {opacity:0, visibility:"hidden"}, 265.13);
+    tl.set("#cap129", {visibility:"visible"}, 265.30); tl.fromTo("#cap129", {opacity:0}, {opacity:1, duration:0.1}, 265.30);
+    tl.to("#cap129", {opacity:0, duration:0.1, ease:"power2.in"}, 266.42); tl.set("#cap129", {opacity:0, visibility:"hidden"}, 266.52);
+    tl.set("#cap130", {visibility:"visible"}, 266.54); tl.fromTo("#cap130", {opacity:0}, {opacity:1, duration:0.1}, 266.54);
+    tl.to("#cap130", {opacity:0, duration:0.1, ease:"power2.in"}, 268.05); tl.set("#cap130", {opacity:0, visibility:"hidden"}, 268.15);
+    tl.set("#cap131", {visibility:"visible"}, 268.17); tl.fromTo("#cap131", {opacity:0}, {opacity:1, duration:0.1}, 268.17);
+    tl.to("#cap131", {opacity:0, duration:0.1, ease:"power2.in"}, 269.45); tl.set("#cap131", {opacity:0, visibility:"hidden"}, 269.55);
+    tl.set("#cap132", {visibility:"visible"}, 269.64); tl.fromTo("#cap132", {opacity:0}, {opacity:1, duration:0.1}, 269.64);
+    tl.to("#cap132", {opacity:0, duration:0.1, ease:"power2.in"}, 271.76); tl.set("#cap132", {opacity:0, visibility:"hidden"}, 271.86);
+    tl.set("#cap133", {visibility:"visible"}, 273.27); tl.fromTo("#cap133", {opacity:0}, {opacity:1, duration:0.1}, 273.27);
+    tl.to("#cap133", {opacity:0, duration:0.1, ease:"power2.in"}, 274.15); tl.set("#cap133", {opacity:0, visibility:"hidden"}, 274.25);
+    tl.set("#cap134", {visibility:"visible"}, 274.27); tl.fromTo("#cap134", {opacity:0}, {opacity:1, duration:0.1}, 274.27);
+    tl.to("#cap134", {opacity:0, duration:0.1, ease:"power2.in"}, 276.62); tl.set("#cap134", {opacity:0, visibility:"hidden"}, 276.72);
+    tl.set("#cap135", {visibility:"visible"}, 276.74); tl.fromTo("#cap135", {opacity:0}, {opacity:1, duration:0.1}, 276.74);
+    tl.to("#cap135", {opacity:0, duration:0.1, ease:"power2.in"}, 278.88); tl.set("#cap135", {opacity:0, visibility:"hidden"}, 278.98);
+    tl.set("#cap136", {visibility:"visible"}, 279.00); tl.fromTo("#cap136", {opacity:0}, {opacity:1, duration:0.1}, 279.00);
+    tl.to("#cap136", {opacity:0, duration:0.1, ease:"power2.in"}, 280.93); tl.set("#cap136", {opacity:0, visibility:"hidden"}, 281.03);
+    tl.set("#cap137", {visibility:"visible"}, 281.05); tl.fromTo("#cap137", {opacity:0}, {opacity:1, duration:0.1}, 281.05);
+    tl.to("#cap137", {opacity:0, duration:0.1, ease:"power2.in"}, 282.15); tl.set("#cap137", {opacity:0, visibility:"hidden"}, 282.25);
+    tl.set("#cap138", {visibility:"visible"}, 282.27); tl.fromTo("#cap138", {opacity:0}, {opacity:1, duration:0.1}, 282.27);
+    tl.to("#cap138", {opacity:0, duration:0.1, ease:"power2.in"}, 284.33); tl.set("#cap138", {opacity:0, visibility:"hidden"}, 284.43);
+    tl.set("#cap139", {visibility:"visible"}, 284.45); tl.fromTo("#cap139", {opacity:0}, {opacity:1, duration:0.1}, 284.45);
+    tl.to("#cap139", {opacity:0, duration:0.1, ease:"power2.in"}, 286.05); tl.set("#cap139", {opacity:0, visibility:"hidden"}, 286.15);
+    tl.set("#cap140", {visibility:"visible"}, 286.17); tl.fromTo("#cap140", {opacity:0}, {opacity:1, duration:0.1}, 286.17);
+    tl.to("#cap140", {opacity:0, duration:0.1, ease:"power2.in"}, 288.33); tl.set("#cap140", {opacity:0, visibility:"hidden"}, 288.43);
+    tl.set("#cap141", {visibility:"visible"}, 288.45); tl.fromTo("#cap141", {opacity:0}, {opacity:1, duration:0.1}, 288.45);
+    tl.to("#cap141", {opacity:0, duration:0.1, ease:"power2.in"}, 289.16); tl.set("#cap141", {opacity:0, visibility:"hidden"}, 289.26);
+    tl.set("#cap142", {visibility:"visible"}, 289.28); tl.fromTo("#cap142", {opacity:0}, {opacity:1, duration:0.1}, 289.28);
+    tl.to("#cap142", {opacity:0, duration:0.1, ease:"power2.in"}, 290.93); tl.set("#cap142", {opacity:0, visibility:"hidden"}, 291.03);
+    tl.set("#cap143", {visibility:"visible"}, 291.05); tl.fromTo("#cap143", {opacity:0}, {opacity:1, duration:0.1}, 291.05);
+    tl.to("#cap143", {opacity:0, duration:0.1, ease:"power2.in"}, 292.06); tl.set("#cap143", {opacity:0, visibility:"hidden"}, 292.16);
+    tl.set("#cap144", {visibility:"visible"}, 292.18); tl.fromTo("#cap144", {opacity:0}, {opacity:1, duration:0.1}, 292.18);
+    tl.to("#cap144", {opacity:0, duration:0.1, ease:"power2.in"}, 294.06); tl.set("#cap144", {opacity:0, visibility:"hidden"}, 294.16);
+    tl.set("#cap145", {visibility:"visible"}, 294.18); tl.fromTo("#cap145", {opacity:0}, {opacity:1, duration:0.1}, 294.18);
+    tl.to("#cap145", {opacity:0, duration:0.1, ease:"power2.in"}, 296.16); tl.set("#cap145", {opacity:0, visibility:"hidden"}, 296.26);
+    tl.set("#cap146", {visibility:"visible"}, 296.28); tl.fromTo("#cap146", {opacity:0}, {opacity:1, duration:0.1}, 296.28);
+    tl.to("#cap146", {opacity:0, duration:0.1, ease:"power2.in"}, 297.96); tl.set("#cap146", {opacity:0, visibility:"hidden"}, 298.06);
+    tl.set("#cap147", {visibility:"visible"}, 298.08); tl.fromTo("#cap147", {opacity:0}, {opacity:1, duration:0.1}, 298.08);
+    tl.to("#cap147", {opacity:0, duration:0.1, ease:"power2.in"}, 300.26); tl.set("#cap147", {opacity:0, visibility:"hidden"}, 300.36);
+    tl.set("#cap148", {visibility:"visible"}, 300.38); tl.fromTo("#cap148", {opacity:0}, {opacity:1, duration:0.1}, 300.38);
+    tl.to("#cap148", {opacity:0, duration:0.1, ease:"power2.in"}, 301.71); tl.set("#cap148", {opacity:0, visibility:"hidden"}, 301.81);
+    tl.set("#cap149", {visibility:"visible"}, 301.83); tl.fromTo("#cap149", {opacity:0}, {opacity:1, duration:0.1}, 301.83);
+    tl.to("#cap149", {opacity:0, duration:0.1, ease:"power2.in"}, 303.62); tl.set("#cap149", {opacity:0, visibility:"hidden"}, 303.72);
+    tl.set("#cap150", {visibility:"visible"}, 303.74); tl.fromTo("#cap150", {opacity:0}, {opacity:1, duration:0.1}, 303.74);
+    tl.to("#cap150", {opacity:0, duration:0.1, ease:"power2.in"}, 305.06); tl.set("#cap150", {opacity:0, visibility:"hidden"}, 305.16);
+    tl.set("#cap151", {visibility:"visible"}, 306.15); tl.fromTo("#cap151", {opacity:0}, {opacity:1, duration:0.1}, 306.15);
+    tl.to("#cap151", {opacity:0, duration:0.1, ease:"power2.in"}, 308.81); tl.set("#cap151", {opacity:0, visibility:"hidden"}, 308.91);
+    tl.set("#cap152", {visibility:"visible"}, 308.93); tl.fromTo("#cap152", {opacity:0}, {opacity:1, duration:0.1}, 308.93);
+    tl.to("#cap152", {opacity:0, duration:0.1, ease:"power2.in"}, 310.15); tl.set("#cap152", {opacity:0, visibility:"hidden"}, 310.25);
+    tl.set("#cap153", {visibility:"visible"}, 310.27); tl.fromTo("#cap153", {opacity:0}, {opacity:1, duration:0.1}, 310.27);
+    tl.to("#cap153", {opacity:0, duration:0.1, ease:"power2.in"}, 311.91); tl.set("#cap153", {opacity:0, visibility:"hidden"}, 312.01);
+    tl.set("#cap154", {visibility:"visible"}, 312.03); tl.fromTo("#cap154", {opacity:0}, {opacity:1, duration:0.1}, 312.03);
+    tl.to("#cap154", {opacity:0, duration:0.1, ease:"power2.in"}, 313.89); tl.set("#cap154", {opacity:0, visibility:"hidden"}, 313.99);
+    tl.set("#cap155", {visibility:"visible"}, 314.01); tl.fromTo("#cap155", {opacity:0}, {opacity:1, duration:0.1}, 314.01);
+    tl.to("#cap155", {opacity:0, duration:0.1, ease:"power2.in"}, 314.86); tl.set("#cap155", {opacity:0, visibility:"hidden"}, 314.96);
+    tl.set("#cap156", {visibility:"visible"}, 315.17); tl.fromTo("#cap156", {opacity:0}, {opacity:1, duration:0.1}, 315.17);
+    tl.to("#cap156", {opacity:0, duration:0.1, ease:"power2.in"}, 318.46); tl.set("#cap156", {opacity:0, visibility:"hidden"}, 318.56);
+    tl.set("#cap157", {visibility:"visible"}, 318.58); tl.fromTo("#cap157", {opacity:0}, {opacity:1, duration:0.1}, 318.58);
+    tl.to("#cap157", {opacity:0, duration:0.1, ease:"power2.in"}, 320.18); tl.set("#cap157", {opacity:0, visibility:"hidden"}, 320.28);
+    tl.set("#cap158", {visibility:"visible"}, 320.60); tl.fromTo("#cap158", {opacity:0}, {opacity:1, duration:0.1}, 320.60);
+    tl.to("#cap158", {opacity:0, duration:0.1, ease:"power2.in"}, 322.50); tl.set("#cap158", {opacity:0, visibility:"hidden"}, 322.60);
+    tl.set("#cap159", {visibility:"visible"}, 322.62); tl.fromTo("#cap159", {opacity:0}, {opacity:1, duration:0.1}, 322.62);
+    tl.to("#cap159", {opacity:0, duration:0.1, ease:"power2.in"}, 323.34); tl.set("#cap159", {opacity:0, visibility:"hidden"}, 323.44);
+    tl.set("#cap160", {visibility:"visible"}, 323.65); tl.fromTo("#cap160", {opacity:0}, {opacity:1, duration:0.1}, 323.65);
+    tl.to("#cap160", {opacity:0, duration:0.1, ease:"power2.in"}, 325.67); tl.set("#cap160", {opacity:0, visibility:"hidden"}, 325.77);
+    tl.set("#cap161", {visibility:"visible"}, 325.79); tl.fromTo("#cap161", {opacity:0}, {opacity:1, duration:0.1}, 325.79);
+    tl.to("#cap161", {opacity:0, duration:0.1, ease:"power2.in"}, 326.62); tl.set("#cap161", {opacity:0, visibility:"hidden"}, 326.72);
+    tl.set("#cap162", {visibility:"visible"}, 326.93); tl.fromTo("#cap162", {opacity:0}, {opacity:1, duration:0.1}, 326.93);
+    tl.to("#cap162", {opacity:0, duration:0.1, ease:"power2.in"}, 328.25); tl.set("#cap162", {opacity:0, visibility:"hidden"}, 328.35);
+    tl.set("#cap163", {visibility:"visible"}, 328.37); tl.fromTo("#cap163", {opacity:0}, {opacity:1, duration:0.1}, 328.37);
+    tl.to("#cap163", {opacity:0, duration:0.1, ease:"power2.in"}, 329.71); tl.set("#cap163", {opacity:0, visibility:"hidden"}, 329.81);
+    tl.set("#cap164", {visibility:"visible"}, 329.83); tl.fromTo("#cap164", {opacity:0}, {opacity:1, duration:0.1}, 329.83);
+    tl.to("#cap164", {opacity:0, duration:0.1, ease:"power2.in"}, 331.89); tl.set("#cap164", {opacity:0, visibility:"hidden"}, 331.99);
+    tl.set("#cap165", {visibility:"visible"}, 332.01); tl.fromTo("#cap165", {opacity:0}, {opacity:1, duration:0.1}, 332.01);
+    tl.to("#cap165", {opacity:0, duration:0.1, ease:"power2.in"}, 333.05); tl.set("#cap165", {opacity:0, visibility:"hidden"}, 333.15);
+    tl.set("#cap166", {visibility:"visible"}, 333.17); tl.fromTo("#cap166", {opacity:0}, {opacity:1, duration:0.1}, 333.17);
+    tl.to("#cap166", {opacity:0, duration:0.1, ease:"power2.in"}, 335.07); tl.set("#cap166", {opacity:0, visibility:"hidden"}, 335.17);
+    tl.set("#cap167", {visibility:"visible"}, 335.19); tl.fromTo("#cap167", {opacity:0}, {opacity:1, duration:0.1}, 335.19);
+    tl.to("#cap167", {opacity:0, duration:0.1, ease:"power2.in"}, 337.08); tl.set("#cap167", {opacity:0, visibility:"hidden"}, 337.18);
+    tl.set("#cap168", {visibility:"visible"}, 338.53); tl.fromTo("#cap168", {opacity:0}, {opacity:1, duration:0.1}, 338.53);
+    tl.to("#cap168", {opacity:0, duration:0.1, ease:"power2.in"}, 341.69); tl.set("#cap168", {opacity:0, visibility:"hidden"}, 341.79);
+    tl.set("#cap169", {visibility:"visible"}, 341.81); tl.fromTo("#cap169", {opacity:0}, {opacity:1, duration:0.1}, 341.81);
+    tl.to("#cap169", {opacity:0, duration:0.1, ease:"power2.in"}, 343.56); tl.set("#cap169", {opacity:0, visibility:"hidden"}, 343.66);
+    tl.set("#cap170", {visibility:"visible"}, 343.68); tl.fromTo("#cap170", {opacity:0}, {opacity:1, duration:0.1}, 343.68);
+    tl.to("#cap170", {opacity:0, duration:0.1, ease:"power2.in"}, 345.38); tl.set("#cap170", {opacity:0, visibility:"hidden"}, 345.48);
+    tl.set("#cap171", {visibility:"visible"}, 345.50); tl.fromTo("#cap171", {opacity:0}, {opacity:1, duration:0.1}, 345.50);
+    tl.to("#cap171", {opacity:0, duration:0.1, ease:"power2.in"}, 348.26); tl.set("#cap171", {opacity:0, visibility:"hidden"}, 348.36);
+    tl.set("#cap172", {visibility:"visible"}, 348.38); tl.fromTo("#cap172", {opacity:0}, {opacity:1, duration:0.1}, 348.38);
+    tl.to("#cap172", {opacity:0, duration:0.1, ease:"power2.in"}, 350.97); tl.set("#cap172", {opacity:0, visibility:"hidden"}, 351.07);
+    tl.set("#cap173", {visibility:"visible"}, 351.09); tl.fromTo("#cap173", {opacity:0}, {opacity:1, duration:0.1}, 351.09);
+    tl.to("#cap173", {opacity:0, duration:0.1, ease:"power2.in"}, 352.63); tl.set("#cap173", {opacity:0, visibility:"hidden"}, 352.73);
+    tl.set("#cap174", {visibility:"visible"}, 352.75); tl.fromTo("#cap174", {opacity:0}, {opacity:1, duration:0.1}, 352.75);
+    tl.to("#cap174", {opacity:0, duration:0.1, ease:"power2.in"}, 354.53); tl.set("#cap174", {opacity:0, visibility:"hidden"}, 354.63);
+    tl.set("#cap175", {visibility:"visible"}, 354.65); tl.fromTo("#cap175", {opacity:0}, {opacity:1, duration:0.1}, 354.65);
+    tl.to("#cap175", {opacity:0, duration:0.1, ease:"power2.in"}, 355.90); tl.set("#cap175", {opacity:0, visibility:"hidden"}, 356.00);
+    tl.set("#cap176", {visibility:"visible"}, 356.02); tl.fromTo("#cap176", {opacity:0}, {opacity:1, duration:0.1}, 356.02);
+    tl.to("#cap176", {opacity:0, duration:0.1, ease:"power2.in"}, 358.11); tl.set("#cap176", {opacity:0, visibility:"hidden"}, 358.21);
+    tl.set("#cap177", {visibility:"visible"}, 358.23); tl.fromTo("#cap177", {opacity:0}, {opacity:1, duration:0.1}, 358.23);
+    tl.to("#cap177", {opacity:0, duration:0.1, ease:"power2.in"}, 359.88); tl.set("#cap177", {opacity:0, visibility:"hidden"}, 359.98);
+    tl.set("#cap178", {visibility:"visible"}, 360.00); tl.fromTo("#cap178", {opacity:0}, {opacity:1, duration:0.1}, 360.00);
+    tl.to("#cap178", {opacity:0, duration:0.1, ease:"power2.in"}, 361.00); tl.set("#cap178", {opacity:0, visibility:"hidden"}, 361.10);
+    tl.set("#cap179", {visibility:"visible"}, 361.12); tl.fromTo("#cap179", {opacity:0}, {opacity:1, duration:0.1}, 361.12);
+    tl.to("#cap179", {opacity:0, duration:0.1, ease:"power2.in"}, 362.76); tl.set("#cap179", {opacity:0, visibility:"hidden"}, 362.86);
+    tl.set("#cap180", {visibility:"visible"}, 362.88); tl.fromTo("#cap180", {opacity:0}, {opacity:1, duration:0.1}, 362.88);
+    tl.to("#cap180", {opacity:0, duration:0.1, ease:"power2.in"}, 364.71); tl.set("#cap180", {opacity:0, visibility:"hidden"}, 364.81);
+    tl.set("#cap181", {visibility:"visible"}, 364.83); tl.fromTo("#cap181", {opacity:0}, {opacity:1, duration:0.1}, 364.83);
+    tl.to("#cap181", {opacity:0, duration:0.1, ease:"power2.in"}, 367.79); tl.set("#cap181", {opacity:0, visibility:"hidden"}, 367.89);
+    tl.set("#cap182", {visibility:"visible"}, 369.22); tl.fromTo("#cap182", {opacity:0}, {opacity:1, duration:0.1}, 369.22);
+    tl.to("#cap182", {opacity:0, duration:0.1, ease:"power2.in"}, 370.12); tl.set("#cap182", {opacity:0, visibility:"hidden"}, 370.22);
+    tl.set("#cap183", {visibility:"visible"}, 370.24); tl.fromTo("#cap183", {opacity:0}, {opacity:1, duration:0.1}, 370.24);
+    tl.to("#cap183", {opacity:0, duration:0.1, ease:"power2.in"}, 372.20); tl.set("#cap183", {opacity:0, visibility:"hidden"}, 372.30);
+    tl.set("#cap184", {visibility:"visible"}, 372.32); tl.fromTo("#cap184", {opacity:0}, {opacity:1, duration:0.1}, 372.32);
+    tl.to("#cap184", {opacity:0, duration:0.1, ease:"power2.in"}, 373.98); tl.set("#cap184", {opacity:0, visibility:"hidden"}, 374.08);
+    tl.set("#cap185", {visibility:"visible"}, 374.10); tl.fromTo("#cap185", {opacity:0}, {opacity:1, duration:0.1}, 374.10);
+    tl.to("#cap185", {opacity:0, duration:0.1, ease:"power2.in"}, 375.06); tl.set("#cap185", {opacity:0, visibility:"hidden"}, 375.16);
+    tl.set("#cap186", {visibility:"visible"}, 375.30); tl.fromTo("#cap186", {opacity:0}, {opacity:1, duration:0.1}, 375.30);
+    tl.to("#cap186", {opacity:0, duration:0.1, ease:"power2.in"}, 376.08); tl.set("#cap186", {opacity:0, visibility:"hidden"}, 376.18);
+    tl.set("#cap187", {visibility:"visible"}, 376.29); tl.fromTo("#cap187", {opacity:0}, {opacity:1, duration:0.1}, 376.29);
+    tl.to("#cap187", {opacity:0, duration:0.1, ease:"power2.in"}, 377.92); tl.set("#cap187", {opacity:0, visibility:"hidden"}, 378.02);
+    tl.set("#cap188", {visibility:"visible"}, 378.35); tl.fromTo("#cap188", {opacity:0}, {opacity:1, duration:0.1}, 378.35);
+    tl.to("#cap188", {opacity:0, duration:0.1, ease:"power2.in"}, 379.49); tl.set("#cap188", {opacity:0, visibility:"hidden"}, 379.59);
+    tl.set("#cap189", {visibility:"visible"}, 379.61); tl.fromTo("#cap189", {opacity:0}, {opacity:1, duration:0.1}, 379.61);
+    tl.to("#cap189", {opacity:0, duration:0.1, ease:"power2.in"}, 380.94); tl.set("#cap189", {opacity:0, visibility:"hidden"}, 381.04);
+    tl.set("#cap190", {visibility:"visible"}, 381.06); tl.fromTo("#cap190", {opacity:0}, {opacity:1, duration:0.1}, 381.06);
+    tl.to("#cap190", {opacity:0, duration:0.1, ease:"power2.in"}, 382.62); tl.set("#cap190", {opacity:0, visibility:"hidden"}, 382.72);
+    tl.set("#cap191", {visibility:"visible"}, 382.74); tl.fromTo("#cap191", {opacity:0}, {opacity:1, duration:0.1}, 382.74);
+    tl.to("#cap191", {opacity:0, duration:0.1, ease:"power2.in"}, 385.36); tl.set("#cap191", {opacity:0, visibility:"hidden"}, 385.46);
+    tl.set("#cap192", {visibility:"visible"}, 385.72); tl.fromTo("#cap192", {opacity:0}, {opacity:1, duration:0.1}, 385.72);
+    tl.to("#cap192", {opacity:0, duration:0.1, ease:"power2.in"}, 387.58); tl.set("#cap192", {opacity:0, visibility:"hidden"}, 387.68);
+    tl.set("#cap193", {visibility:"visible"}, 387.72); tl.fromTo("#cap193", {opacity:0}, {opacity:1, duration:0.1}, 387.72);
+    tl.to("#cap193", {opacity:0, duration:0.1, ease:"power2.in"}, 389.58); tl.set("#cap193", {opacity:0, visibility:"hidden"}, 389.68);
+    tl.set("#cap194", {visibility:"visible"}, 389.70); tl.fromTo("#cap194", {opacity:0}, {opacity:1, duration:0.1}, 389.70);
+    tl.to("#cap194", {opacity:0, duration:0.1, ease:"power2.in"}, 390.43); tl.set("#cap194", {opacity:0, visibility:"hidden"}, 390.53);
+    tl.set("#cap195", {visibility:"visible"}, 390.66); tl.fromTo("#cap195", {opacity:0}, {opacity:1, duration:0.1}, 390.66);
+    tl.to("#cap195", {opacity:0, duration:0.1, ease:"power2.in"}, 391.23); tl.set("#cap195", {opacity:0, visibility:"hidden"}, 391.33);
+    tl.set("#cap196", {visibility:"visible"}, 391.35); tl.fromTo("#cap196", {opacity:0}, {opacity:1, duration:0.1}, 391.35);
+    tl.to("#cap196", {opacity:0, duration:0.1, ease:"power2.in"}, 392.45); tl.set("#cap196", {opacity:0, visibility:"hidden"}, 392.55);
+    tl.set("#cap197", {visibility:"visible"}, 392.73); tl.fromTo("#cap197", {opacity:0}, {opacity:1, duration:0.1}, 392.73);
+    tl.to("#cap197", {opacity:0, duration:0.1, ease:"power2.in"}, 394.37); tl.set("#cap197", {opacity:0, visibility:"hidden"}, 394.47);
+    tl.set("#cap198", {visibility:"visible"}, 394.49); tl.fromTo("#cap198", {opacity:0}, {opacity:1, duration:0.1}, 394.49);
+    tl.to("#cap198", {opacity:0, duration:0.1, ease:"power2.in"}, 396.49); tl.set("#cap198", {opacity:0, visibility:"hidden"}, 396.59);
+    tl.set("#cap199", {visibility:"visible"}, 396.61); tl.fromTo("#cap199", {opacity:0}, {opacity:1, duration:0.1}, 396.61);
+    tl.to("#cap199", {opacity:0, duration:0.1, ease:"power2.in"}, 398.33); tl.set("#cap199", {opacity:0, visibility:"hidden"}, 398.43);
+    tl.set("#cap200", {visibility:"visible"}, 398.45); tl.fromTo("#cap200", {opacity:0}, {opacity:1, duration:0.1}, 398.45);
+    tl.to("#cap200", {opacity:0, duration:0.1, ease:"power2.in"}, 400.98); tl.set("#cap200", {opacity:0, visibility:"hidden"}, 401.08);
+    tl.set("#cap201", {visibility:"visible"}, 402.48); tl.fromTo("#cap201", {opacity:0}, {opacity:1, duration:0.1}, 402.48);
+    tl.to("#cap201", {opacity:0, duration:0.1, ease:"power2.in"}, 404.64); tl.set("#cap201", {opacity:0, visibility:"hidden"}, 404.74);
+    tl.set("#cap202", {visibility:"visible"}, 405.16); tl.fromTo("#cap202", {opacity:0}, {opacity:1, duration:0.1}, 405.16);
+    tl.to("#cap202", {opacity:0, duration:0.1, ease:"power2.in"}, 407.49); tl.set("#cap202", {opacity:0, visibility:"hidden"}, 407.59);
+    tl.set("#cap203", {visibility:"visible"}, 407.94); tl.fromTo("#cap203", {opacity:0}, {opacity:1, duration:0.1}, 407.94);
+    tl.to("#cap203", {opacity:0, duration:0.1, ease:"power2.in"}, 409.43); tl.set("#cap203", {opacity:0, visibility:"hidden"}, 409.53);
+    tl.set("#cap204", {visibility:"visible"}, 409.55); tl.fromTo("#cap204", {opacity:0}, {opacity:1, duration:0.1}, 409.55);
+    tl.to("#cap204", {opacity:0, duration:0.1, ease:"power2.in"}, 411.93); tl.set("#cap204", {opacity:0, visibility:"hidden"}, 412.03);
+    tl.set("#cap205", {visibility:"visible"}, 412.05); tl.fromTo("#cap205", {opacity:0}, {opacity:1, duration:0.1}, 412.05);
+    tl.to("#cap205", {opacity:0, duration:0.1, ease:"power2.in"}, 413.39); tl.set("#cap205", {opacity:0, visibility:"hidden"}, 413.49);
+    tl.set("#cap206", {visibility:"visible"}, 413.51); tl.fromTo("#cap206", {opacity:0}, {opacity:1, duration:0.1}, 413.51);
+    tl.to("#cap206", {opacity:0, duration:0.1, ease:"power2.in"}, 415.48); tl.set("#cap206", {opacity:0, visibility:"hidden"}, 415.58);
+    tl.set("#cap207", {visibility:"visible"}, 415.60); tl.fromTo("#cap207", {opacity:0}, {opacity:1, duration:0.1}, 415.60);
+    tl.to("#cap207", {opacity:0, duration:0.1, ease:"power2.in"}, 416.08); tl.set("#cap207", {opacity:0, visibility:"hidden"}, 416.18);
+    tl.set("#cap208", {visibility:"visible"}, 416.20); tl.fromTo("#cap208", {opacity:0}, {opacity:1, duration:0.1}, 416.20);
+    tl.to("#cap208", {opacity:0, duration:0.1, ease:"power2.in"}, 418.32); tl.set("#cap208", {opacity:0, visibility:"hidden"}, 418.42);
+    tl.set("#cap209", {visibility:"visible"}, 418.44); tl.fromTo("#cap209", {opacity:0}, {opacity:1, duration:0.1}, 418.44);
+    tl.to("#cap209", {opacity:0, duration:0.1, ease:"power2.in"}, 420.90); tl.set("#cap209", {opacity:0, visibility:"hidden"}, 421.00);
+    tl.set("#cap210", {visibility:"visible"}, 421.02); tl.fromTo("#cap210", {opacity:0}, {opacity:1, duration:0.1}, 421.02);
+    tl.to("#cap210", {opacity:0, duration:0.1, ease:"power2.in"}, 423.19); tl.set("#cap210", {opacity:0, visibility:"hidden"}, 423.29);
+    tl.set("#cap211", {visibility:"visible"}, 423.72); tl.fromTo("#cap211", {opacity:0}, {opacity:1, duration:0.1}, 423.72);
+    tl.to("#cap211", {opacity:0, duration:0.1, ease:"power2.in"}, 425.71); tl.set("#cap211", {opacity:0, visibility:"hidden"}, 425.81);
+    tl.set("#cap212", {visibility:"visible"}, 425.83); tl.fromTo("#cap212", {opacity:0}, {opacity:1, duration:0.1}, 425.83);
+    tl.to("#cap212", {opacity:0, duration:0.1, ease:"power2.in"}, 427.31); tl.set("#cap212", {opacity:0, visibility:"hidden"}, 427.41);
+    tl.set("#cap213", {visibility:"visible"}, 427.43); tl.fromTo("#cap213", {opacity:0}, {opacity:1, duration:0.1}, 427.43);
+    tl.to("#cap213", {opacity:0, duration:0.1, ease:"power2.in"}, 428.77); tl.set("#cap213", {opacity:0, visibility:"hidden"}, 428.87);
+    tl.set("#cap214", {visibility:"visible"}, 428.89); tl.fromTo("#cap214", {opacity:0}, {opacity:1, duration:0.1}, 428.89);
+    tl.to("#cap214", {opacity:0, duration:0.1, ease:"power2.in"}, 430.24); tl.set("#cap214", {opacity:0, visibility:"hidden"}, 430.34);
+    tl.set("#cap215", {visibility:"visible"}, 430.36); tl.fromTo("#cap215", {opacity:0}, {opacity:1, duration:0.1}, 430.36);
+    tl.to("#cap215", {opacity:0, duration:0.1, ease:"power2.in"}, 432.57); tl.set("#cap215", {opacity:0, visibility:"hidden"}, 432.67);
+    tl.set("#cap216", {visibility:"visible"}, 432.71); tl.fromTo("#cap216", {opacity:0}, {opacity:1, duration:0.1}, 432.71);
+    tl.to("#cap216", {opacity:0, duration:0.1, ease:"power2.in"}, 433.70); tl.set("#cap216", {opacity:0, visibility:"hidden"}, 433.80);
+    tl.set("#cap217", {visibility:"visible"}, 433.82); tl.fromTo("#cap217", {opacity:0}, {opacity:1, duration:0.1}, 433.82);
+    tl.to("#cap217", {opacity:0, duration:0.1, ease:"power2.in"}, 434.93); tl.set("#cap217", {opacity:0, visibility:"hidden"}, 435.03);
+    tl.set("#cap218", {visibility:"visible"}, 435.42); tl.fromTo("#cap218", {opacity:0}, {opacity:1, duration:0.1}, 435.42);
+    tl.to("#cap218", {opacity:0, duration:0.1, ease:"power2.in"}, 436.15); tl.set("#cap218", {opacity:0, visibility:"hidden"}, 436.25);
+    tl.set("#cap219", {visibility:"visible"}, 436.27); tl.fromTo("#cap219", {opacity:0}, {opacity:1, duration:0.1}, 436.27);
+    tl.to("#cap219", {opacity:0, duration:0.1, ease:"power2.in"}, 438.78); tl.set("#cap219", {opacity:0, visibility:"hidden"}, 438.88);
+    tl.set("#cap220", {visibility:"visible"}, 438.90); tl.fromTo("#cap220", {opacity:0}, {opacity:1, duration:0.1}, 438.90);
+    tl.to("#cap220", {opacity:0, duration:0.1, ease:"power2.in"}, 439.68); tl.set("#cap220", {opacity:0, visibility:"hidden"}, 439.78);
+    tl.set("#cap221", {visibility:"visible"}, 439.81); tl.fromTo("#cap221", {opacity:0}, {opacity:1, duration:0.1}, 439.81);
+    tl.to("#cap221", {opacity:0, duration:0.1, ease:"power2.in"}, 442.03); tl.set("#cap221", {opacity:0, visibility:"hidden"}, 442.13);
+    tl.set("#cap222", {visibility:"visible"}, 442.15); tl.fromTo("#cap222", {opacity:0}, {opacity:1, duration:0.1}, 442.15);
+    tl.to("#cap222", {opacity:0, duration:0.1, ease:"power2.in"}, 443.43); tl.set("#cap222", {opacity:0, visibility:"hidden"}, 443.53);
+    tl.set("#cap223", {visibility:"visible"}, 444.68); tl.fromTo("#cap223", {opacity:0}, {opacity:1, duration:0.1}, 444.68);
+    tl.to("#cap223", {opacity:0, duration:0.1, ease:"power2.in"}, 447.21); tl.set("#cap223", {opacity:0, visibility:"hidden"}, 447.31);
+    tl.set("#cap224", {visibility:"visible"}, 447.33); tl.fromTo("#cap224", {opacity:0}, {opacity:1, duration:0.1}, 447.33);
+    tl.to("#cap224", {opacity:0, duration:0.1, ease:"power2.in"}, 449.72); tl.set("#cap224", {opacity:0, visibility:"hidden"}, 449.82);
+    tl.set("#cap225", {visibility:"visible"}, 449.84); tl.fromTo("#cap225", {opacity:0}, {opacity:1, duration:0.1}, 449.84);
+    tl.to("#cap225", {opacity:0, duration:0.1, ease:"power2.in"}, 451.92); tl.set("#cap225", {opacity:0, visibility:"hidden"}, 452.02);
+    tl.set("#cap226", {visibility:"visible"}, 452.04); tl.fromTo("#cap226", {opacity:0}, {opacity:1, duration:0.1}, 452.04);
+    tl.to("#cap226", {opacity:0, duration:0.1, ease:"power2.in"}, 453.78); tl.set("#cap226", {opacity:0, visibility:"hidden"}, 453.88);
+    tl.set("#cap227", {visibility:"visible"}, 453.97); tl.fromTo("#cap227", {opacity:0}, {opacity:1, duration:0.1}, 453.97);
+    tl.to("#cap227", {opacity:0, duration:0.1, ease:"power2.in"}, 455.12); tl.set("#cap227", {opacity:0, visibility:"hidden"}, 455.22);
+    tl.set("#cap228", {visibility:"visible"}, 455.24); tl.fromTo("#cap228", {opacity:0}, {opacity:1, duration:0.1}, 455.24);
+    tl.to("#cap228", {opacity:0, duration:0.1, ease:"power2.in"}, 456.82); tl.set("#cap228", {opacity:0, visibility:"hidden"}, 456.92);
+    tl.set("#cap229", {visibility:"visible"}, 456.94); tl.fromTo("#cap229", {opacity:0}, {opacity:1, duration:0.1}, 456.94);
+    tl.to("#cap229", {opacity:0, duration:0.1, ease:"power2.in"}, 459.09); tl.set("#cap229", {opacity:0, visibility:"hidden"}, 459.19);
+    tl.set("#cap230", {visibility:"visible"}, 459.21); tl.fromTo("#cap230", {opacity:0}, {opacity:1, duration:0.1}, 459.21);
+    tl.to("#cap230", {opacity:0, duration:0.1, ease:"power2.in"}, 461.20); tl.set("#cap230", {opacity:0, visibility:"hidden"}, 461.30);
+    tl.set("#cap231", {visibility:"visible"}, 461.32); tl.fromTo("#cap231", {opacity:0}, {opacity:1, duration:0.1}, 461.32);
+    tl.to("#cap231", {opacity:0, duration:0.1, ease:"power2.in"}, 463.97); tl.set("#cap231", {opacity:0, visibility:"hidden"}, 464.07);
+    tl.set("#cap232", {visibility:"visible"}, 464.09); tl.fromTo("#cap232", {opacity:0}, {opacity:1, duration:0.1}, 464.09);
+    tl.to("#cap232", {opacity:0, duration:0.1, ease:"power2.in"}, 466.84); tl.set("#cap232", {opacity:0, visibility:"hidden"}, 466.94);
+    tl.set("#cap233", {visibility:"visible"}, 466.96); tl.fromTo("#cap233", {opacity:0}, {opacity:1, duration:0.1}, 466.96);
+    tl.to("#cap233", {opacity:0, duration:0.1, ease:"power2.in"}, 467.91); tl.set("#cap233", {opacity:0, visibility:"hidden"}, 468.01);
+    tl.set("#cap234", {visibility:"visible"}, 468.09); tl.fromTo("#cap234", {opacity:0}, {opacity:1, duration:0.1}, 468.09);
+    tl.to("#cap234", {opacity:0, duration:0.1, ease:"power2.in"}, 470.35); tl.set("#cap234", {opacity:0, visibility:"hidden"}, 470.45);
+    tl.set("#cap235", {visibility:"visible"}, 471.96); tl.fromTo("#cap235", {opacity:0}, {opacity:1, duration:0.1}, 471.96);
+    tl.to("#cap235", {opacity:0, duration:0.1, ease:"power2.in"}, 474.31); tl.set("#cap235", {opacity:0, visibility:"hidden"}, 474.41);
+    tl.set("#cap236", {visibility:"visible"}, 474.43); tl.fromTo("#cap236", {opacity:0}, {opacity:1, duration:0.1}, 474.43);
+    tl.to("#cap236", {opacity:0, duration:0.1, ease:"power2.in"}, 476.72); tl.set("#cap236", {opacity:0, visibility:"hidden"}, 476.82);
+    tl.set("#cap237", {visibility:"visible"}, 476.84); tl.fromTo("#cap237", {opacity:0}, {opacity:1, duration:0.1}, 476.84);
+    tl.to("#cap237", {opacity:0, duration:0.1, ease:"power2.in"}, 480.84); tl.set("#cap237", {opacity:0, visibility:"hidden"}, 480.94);
+    tl.set("#cap238", {visibility:"visible"}, 480.96); tl.fromTo("#cap238", {opacity:0}, {opacity:1, duration:0.1}, 480.96);
+    tl.to("#cap238", {opacity:0, duration:0.1, ease:"power2.in"}, 483.56); tl.set("#cap238", {opacity:0, visibility:"hidden"}, 483.66);
+    tl.set("#cap239", {visibility:"visible"}, 483.68); tl.fromTo("#cap239", {opacity:0}, {opacity:1, duration:0.1}, 483.68);
+    tl.to("#cap239", {opacity:0, duration:0.1, ease:"power2.in"}, 486.40); tl.set("#cap239", {opacity:0, visibility:"hidden"}, 486.50);
+    tl.set("#cap240", {visibility:"visible"}, 486.52); tl.fromTo("#cap240", {opacity:0}, {opacity:1, duration:0.1}, 486.52);
+    tl.to("#cap240", {opacity:0, duration:0.1, ease:"power2.in"}, 487.91); tl.set("#cap240", {opacity:0, visibility:"hidden"}, 488.01);
+    tl.set("#cap241", {visibility:"visible"}, 488.03); tl.fromTo("#cap241", {opacity:0}, {opacity:1, duration:0.1}, 488.03);
+    tl.to("#cap241", {opacity:0, duration:0.1, ease:"power2.in"}, 490.14); tl.set("#cap241", {opacity:0, visibility:"hidden"}, 490.24);
+    tl.set("#cap242", {visibility:"visible"}, 490.26); tl.fromTo("#cap242", {opacity:0}, {opacity:1, duration:0.1}, 490.26);
+    tl.to("#cap242", {opacity:0, duration:0.1, ease:"power2.in"}, 493.12); tl.set("#cap242", {opacity:0, visibility:"hidden"}, 493.22);
+    tl.set("#cap243", {visibility:"visible"}, 493.24); tl.fromTo("#cap243", {opacity:0}, {opacity:1, duration:0.1}, 493.24);
+    tl.to("#cap243", {opacity:0, duration:0.1, ease:"power2.in"}, 495.10); tl.set("#cap243", {opacity:0, visibility:"hidden"}, 495.20);
+    tl.set("#cap244", {visibility:"visible"}, 495.22); tl.fromTo("#cap244", {opacity:0}, {opacity:1, duration:0.1}, 495.22);
+    tl.to("#cap244", {opacity:0, duration:0.1, ease:"power2.in"}, 497.25); tl.set("#cap244", {opacity:0, visibility:"hidden"}, 497.35);
+    tl.set("#cap245", {visibility:"visible"}, 497.37); tl.fromTo("#cap245", {opacity:0}, {opacity:1, duration:0.1}, 497.37);
+    tl.to("#cap245", {opacity:0, duration:0.1, ease:"power2.in"}, 499.48); tl.set("#cap245", {opacity:0, visibility:"hidden"}, 499.58);
+    tl.set("#cap246", {visibility:"visible"}, 499.60); tl.fromTo("#cap246", {opacity:0}, {opacity:1, duration:0.1}, 499.60);
+    tl.to("#cap246", {opacity:0, duration:0.1, ease:"power2.in"}, 502.03); tl.set("#cap246", {opacity:0, visibility:"hidden"}, 502.13);
+    tl.set("#cap247", {visibility:"visible"}, 518.55); tl.fromTo("#cap247", {opacity:0}, {opacity:1, duration:0.1}, 518.55);
+    tl.to("#cap247", {opacity:0, duration:0.1, ease:"power2.in"}, 519.25); tl.set("#cap247", {opacity:0, visibility:"hidden"}, 519.35);
+    tl.set("#cap248", {visibility:"visible"}, 519.50); tl.fromTo("#cap248", {opacity:0}, {opacity:1, duration:0.1}, 519.50);
+    tl.to("#cap248", {opacity:0, duration:0.1, ease:"power2.in"}, 521.40); tl.set("#cap248", {opacity:0, visibility:"hidden"}, 521.50);
+    tl.set("#cap249", {visibility:"visible"}, 521.52); tl.fromTo("#cap249", {opacity:0}, {opacity:1, duration:0.1}, 521.52);
+    tl.to("#cap249", {opacity:0, duration:0.1, ease:"power2.in"}, 524.08); tl.set("#cap249", {opacity:0, visibility:"hidden"}, 524.18);
+    tl.set("#cap250", {visibility:"visible"}, 524.51); tl.fromTo("#cap250", {opacity:0}, {opacity:1, duration:0.1}, 524.51);
+    tl.to("#cap250", {opacity:0, duration:0.1, ease:"power2.in"}, 525.97); tl.set("#cap250", {opacity:0, visibility:"hidden"}, 526.07);
+    tl.set("#cap251", {visibility:"visible"}, 526.09); tl.fromTo("#cap251", {opacity:0}, {opacity:1, duration:0.1}, 526.09);
+    tl.to("#cap251", {opacity:0, duration:0.1, ease:"power2.in"}, 527.64); tl.set("#cap251", {opacity:0, visibility:"hidden"}, 527.74);
+    tl.set("#cap252", {visibility:"visible"}, 527.76); tl.fromTo("#cap252", {opacity:0}, {opacity:1, duration:0.1}, 527.76);
+    tl.to("#cap252", {opacity:0, duration:0.1, ease:"power2.in"}, 529.43); tl.set("#cap252", {opacity:0, visibility:"hidden"}, 529.53);
+    tl.set("#cap253", {visibility:"visible"}, 529.55); tl.fromTo("#cap253", {opacity:0}, {opacity:1, duration:0.1}, 529.55);
+    tl.to("#cap253", {opacity:0, duration:0.1, ease:"power2.in"}, 532.12); tl.set("#cap253", {opacity:0, visibility:"hidden"}, 532.22);
+    tl.set("#cap254", {visibility:"visible"}, 532.24); tl.fromTo("#cap254", {opacity:0}, {opacity:1, duration:0.1}, 532.24);
+    tl.to("#cap254", {opacity:0, duration:0.1, ease:"power2.in"}, 534.02); tl.set("#cap254", {opacity:0, visibility:"hidden"}, 534.12);
+    tl.set("#cap255", {visibility:"visible"}, 534.14); tl.fromTo("#cap255", {opacity:0}, {opacity:1, duration:0.1}, 534.14);
+    tl.to("#cap255", {opacity:0, duration:0.1, ease:"power2.in"}, 535.95); tl.set("#cap255", {opacity:0, visibility:"hidden"}, 536.05);
+    tl.set("#cap256", {visibility:"visible"}, 536.22); tl.fromTo("#cap256", {opacity:0}, {opacity:1, duration:0.1}, 536.22);
+    tl.to("#cap256", {opacity:0, duration:0.1, ease:"power2.in"}, 537.64); tl.set("#cap256", {opacity:0, visibility:"hidden"}, 537.74);
+    tl.set("#cap257", {visibility:"visible"}, 537.76); tl.fromTo("#cap257", {opacity:0}, {opacity:1, duration:0.1}, 537.76);
+    tl.to("#cap257", {opacity:0, duration:0.1, ease:"power2.in"}, 538.89); tl.set("#cap257", {opacity:0, visibility:"hidden"}, 538.99);
+    tl.set("#cap258", {visibility:"visible"}, 539.01); tl.fromTo("#cap258", {opacity:0}, {opacity:1, duration:0.1}, 539.01);
+    tl.to("#cap258", {opacity:0, duration:0.1, ease:"power2.in"}, 540.72); tl.set("#cap258", {opacity:0, visibility:"hidden"}, 540.82);
+    tl.set("#cap259", {visibility:"visible"}, 540.84); tl.fromTo("#cap259", {opacity:0}, {opacity:1, duration:0.1}, 540.84);
+    tl.to("#cap259", {opacity:0, duration:0.1, ease:"power2.in"}, 541.97); tl.set("#cap259", {opacity:0, visibility:"hidden"}, 542.07);
+    tl.set("#cap260", {visibility:"visible"}, 542.09); tl.fromTo("#cap260", {opacity:0}, {opacity:1, duration:0.1}, 542.09);
+    tl.to("#cap260", {opacity:0, duration:0.1, ease:"power2.in"}, 543.64); tl.set("#cap260", {opacity:0, visibility:"hidden"}, 543.74);
+    tl.set("#cap261", {visibility:"visible"}, 543.76); tl.fromTo("#cap261", {opacity:0}, {opacity:1, duration:0.1}, 543.76);
+    tl.to("#cap261", {opacity:0, duration:0.1, ease:"power2.in"}, 545.58); tl.set("#cap261", {opacity:0, visibility:"hidden"}, 545.68);
+    tl.set("#cap262", {visibility:"visible"}, 545.70); tl.fromTo("#cap262", {opacity:0}, {opacity:1, duration:0.1}, 545.70);
+    tl.to("#cap262", {opacity:0, duration:0.1, ease:"power2.in"}, 547.18); tl.set("#cap262", {opacity:0, visibility:"hidden"}, 547.28);
+    tl.set("#cap263", {visibility:"visible"}, 547.30); tl.fromTo("#cap263", {opacity:0}, {opacity:1, duration:0.1}, 547.30);
+    tl.to("#cap263", {opacity:0, duration:0.1, ease:"power2.in"}, 548.76); tl.set("#cap263", {opacity:0, visibility:"hidden"}, 548.86);
+    window.__timelines["captions"] = tl;
+  </script>
+</template>

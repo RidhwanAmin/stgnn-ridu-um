@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en" data-composition-variables='[
+  {"id":"color-ground","type":"color","label":"Background","default":"#F6F7F5"},
+  {"id":"color-ink","type":"color","label":"Text","default":"#18222C"},
+  {"id":"color-accent","type":"color","label":"Accent","default":"#A3214F"}
+]'>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      :root { --color-ground:#F6F7F5; --color-ink:#18222C; --color-accent:#A3214F; }
+      * { margin:0; padding:0; box-sizing:border-box; }
+      html, body { margin:0; width:1920px; height:1080px; overflow:hidden; background:var(--color-ground); }
+      #paper { position:absolute; inset:0; background-color:var(--color-ground);
+        background-image:linear-gradient(rgba(163,33,79,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(163,33,79,.07) 1px, transparent 1px);
+        background-size:48px 48px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="549.67" data-width="1920" data-height="1080">
+      <div id="paper"></div>
+      <div id="s01" data-composition-id="s01" data-composition-src="compositions/s01.html" data-start="0.00" data-duration="45.89" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="s02" data-composition-id="s02" data-composition-src="compositions/s02.html" data-start="45.89" data-duration="39.26" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="s03" data-composition-id="s03" data-composition-src="compositions/s03.html" data-start="85.15" data-duration="40.38" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="s04" data-composition-id="s04" data-composition-src="compositions/s04.html" data-start="125.53" data-duration="24.47" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="s05" data-composition-id="s05" data-composition-src="compositions/s05.html" data-start="150.00" data-duration="34.14" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="s06" data-composition-id="s06" data-composition-src="compositions/s06.html" data-start="184.14" data-duration="37.17" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="s07" data-composition-id="s07" data-composition-src="compositions/s07.html" data-start="221.31" data-duration="23.66" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="s08" data-composition-id="s08" data-composition-src="compositions/s08.html" data-start="244.97" data-duration="27.81" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="s09" data-composition-id="s09" data-composition-src="compositions/s09.html" data-start="272.78" data-duration="32.93" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="s10" data-composition-id="s10" data-composition-src="compositions/s10.html" data-start="305.71" data-duration="32.39" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="s11" data-composition-id="s11" data-composition-src="compositions/s11.html" data-start="338.10" data-duration="30.69" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="s12" data-composition-id="s12" data-composition-src="compositions/s12.html" data-start="368.79" data-duration="33.25" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="s13" data-composition-id="s13" data-composition-src="compositions/s13.html" data-start="402.04" data-duration="42.21" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="s14" data-composition-id="s14" data-composition-src="compositions/s14.html" data-start="444.25" data-duration="27.19" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="s15" data-composition-id="s15" data-composition-src="compositions/s15.html" data-start="471.44" data-duration="31.65" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="s16" data-composition-id="s16" data-composition-src="compositions/s16.html" data-start="503.09" data-duration="15.00" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="s17" data-composition-id="s17" data-composition-src="compositions/s17.html" data-start="518.09" data-duration="31.58" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="chrome" data-composition-id="chrome" data-composition-src="compositions/chrome.html" data-start="0" data-duration="549.67" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="captions" data-composition-id="captions" data-composition-src="compositions/captions.html" data-start="0" data-duration="549.67" data-track-index="3" data-track-kind="captions" data-width="1920" data-height="1080"></div>
+      <audio id="s01-vo" class="clip" src="assets/audio/s01.mp3" data-start="0.45" data-duration="44.59" data-track-index="20" data-volume="1"></audio>
+      <audio id="s02-vo" class="clip" src="assets/audio/s02.mp3" data-start="46.34" data-duration="37.96" data-track-index="20" data-volume="1"></audio>
+      <audio id="s03-vo" class="clip" src="assets/audio/s03.mp3" data-start="85.60" data-duration="39.08" data-track-index="20" data-volume="1"></audio>
+      <audio id="s04-vo" class="clip" src="assets/audio/s04.mp3" data-start="125.98" data-duration="23.17" data-track-index="20" data-volume="1"></audio>
+      <audio id="s05-vo" class="clip" src="assets/audio/s05.mp3" data-start="150.45" data-duration="32.84" data-track-index="20" data-volume="1"></audio>
+      <audio id="s06-vo" class="clip" src="assets/audio/s06.mp3" data-start="184.59" data-duration="35.87" data-track-index="20" data-volume="1"></audio>
+      <audio id="s07-vo" class="clip" src="assets/audio/s07.mp3" data-start="221.76" data-duration="22.36" data-track-index="20" data-volume="1"></audio>
+      <audio id="s08-vo" class="clip" src="assets/audio/s08.mp3" data-start="245.42" data-duration="26.51" data-track-index="20" data-volume="1"></audio>
+      <audio id="s09-vo" class="clip" src="assets/audio/s09.mp3" data-start="273.23" data-duration="31.63" data-track-index="20" data-volume="1"></audio>
+      <audio id="s10-vo" class="clip" src="assets/audio/s10.mp3" data-start="306.16" data-duration="31.09" data-track-index="20" data-volume="1"></audio>
+      <audio id="s11-vo" class="clip" src="assets/audio/s11.mp3" data-start="338.55" data-duration="29.39" data-track-index="20" data-volume="1"></audio>
+      <audio id="s12-vo" class="clip" src="assets/audio/s12.mp3" data-start="369.24" data-duration="31.95" data-track-index="20" data-volume="1"></audio>
+      <audio id="s13-vo" class="clip" src="assets/audio/s13.mp3" data-start="402.49" data-duration="40.91" data-track-index="20" data-volume="1"></audio>
+      <audio id="s14-vo" class="clip" src="assets/audio/s14.mp3" data-start="444.70" data-duration="25.89" data-track-index="20" data-volume="1"></audio>
+      <audio id="s15-vo" class="clip" src="assets/audio/s15.mp3" data-start="471.89" data-duration="30.35" data-track-index="20" data-volume="1"></audio>
+      <audio id="s17-vo" class="clip" src="assets/audio/s17.mp3" data-start="518.54" data-duration="30.28" data-track-index="20" data-volume="1"></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>
