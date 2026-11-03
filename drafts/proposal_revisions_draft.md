@@ -25,13 +25,13 @@
 | T1, T3 to T8, T11 | (word limit) | Trims (T2 merged into E11c) | 1.1, 1.6, 2.1, 2.4, 3.4, 4.2, 5.1 | -177 |
 | | | **Net change** (current main text 6,958; limit 7,000) | | **+22 → 6,980** |
 
-All eight trims (T1, T3 to T8, T11) are needed to stay under the limit. T5 also adds 3 words where PPV is next defined (Section 2.6), giving about 6,983. If supervisors reject a trim, the fallback is the E8 removal alternative (saves 19 words).
+All eight trims (T1, T3 to T8, T11) are needed to stay under the limit. T5 also adds 3 words where PPV is next defined (Section 2.6), giving about 6,983. If supervisors reject a trim, a different trim is needed: E8 is decided (rate head kept), so its removal alternative is no longer the fallback.
 
 Word counts follow the handover rule: Chapter 1 to the start of References, table rows counted, captions, equations and appendices not counted.
 
 ### Decisions needed from supervisors before applying
 1. **E1:** Equation 3.1 rewritten to correct only silent loss (pulse deficit and motion), following the Garmin whitepaper; no longer a choice between two options, but a method change supervisors should see.
-2. **E8:** keep the rate head as an auxiliary target (recommended), or remove it and redraw Figure 3.2.
+2. **E8:** decided by the candidate (3 November 2026): keep the rate head as an auxiliary target. Supervisors to be informed, not asked; only removal would have needed their agreement, because it changes Figure 3.2.
 3. **E11:** rerun received; the pilot section now reports a threshold that did not transfer (MIMIC-III recall 45%). Supervisors should see this before the defence.
 4. **E2:** settled. The Pulsewatch timestamp check passed (64 of 108 subjects span 3 or more days in order), and the clause is included using file-name local time.
 5. **Title:** keep it, and use the prepared answer in Section 4.
@@ -54,7 +54,7 @@ This section keeps the review that prompted these drafts, word for word, so each
 | 6 | Motion term is the weakest link | Important | E6 | Drafted |
 | 7 | Title does not match the claimed contribution | Important | Section 4, prepared answer (title kept) | Answer drafted; no text change |
 | 8 | Coverage gate is not a model component | Important | E7 | Drafted |
-| 9 | Role of the rate head undefined | Important | E8 (keep as auxiliary) or E8 alternative (remove) | Drafted; supervisor decision |
+| 9 | Role of the rate head undefined | Important | E8: keep as an auxiliary target | Decided (option A); supervisors informed |
 | 10 | RO3 primary can pass while ESVEA stays uncomputable | Important | E9 (key secondary, not co-primary, to keep H3 and the sample size unchanged) | Drafted |
 | 11 | Patient partitions should appear in one place | Important | E10 (Table 3.1 pointer and new Table B.3) | Drafted; set sizes and seeds when splits are drawn |
 | 12 | Pilot weight chosen on the test cohorts | Important | E11, rewritten with the 3 November rerun (re-curated labels, w = 0.5) | Drafted; legacy Simband and MIMIC-III values withdrawn |
@@ -366,7 +366,9 @@ The strongest answer to "your simulation is optimistic because Icentia11k is ECG
 **Proposed**
 > An event head gives the beat PAC probabilities used in Equations 3.2 to 3.4; a rate head, an auxiliary target for the window PAC count, is not used in reported estimates.
 
-**Alternative (if the rate head is removed):** "An event head gives the beat-level PAC probabilities used in Equations 3.2 to 3.4." Then redraw Figure 3.2 without the rate head and drop it from the slides.
+**Decision (3 November 2026): option A, keep the rate head as an auxiliary target.** Figure 3.2 and slide 14 stay as they are. In RO2, report how the rate head compares with the summed p̂; if the ablations show it adds nothing, drop it then. Supervisors are informed in the decisions note.
+
+**Not chosen (kept for the record), removal:** "An event head gives the beat-level PAC probabilities used in Equations 3.2 to 3.4." Then redraw Figure 3.2 without the rate head and drop it from the slides.
 
 ---
 
@@ -607,7 +609,7 @@ Slide numbers follow the handover order. Only text is given; keep the existing H
 - [ ] Guo et al. (2017) added to References (details verified); Kapsecker & Jonas (2025) removed (and Montanaro, Ye, Abedi if T5 is used).
 - [ ] Equation 3.1 fits on one line in the docx.
 - [ ] Tables 3.1, 3.3, 3.4 and B.2 still consistent with Section 3.4 (handover rule); Table 3.1 RO2 "Cannot claim" unchanged.
-- [ ] Figure 3.2 caption still accurate (rate head kept or removed per E8).
+- [ ] Figure 3.2 caption still accurate (rate head kept, per E8).
 - [ ] Abstract recall range rechecked after the E11 rerun.
 - [ ] Main-text word count ≤ 7,000 using the handover rule.
 - [ ] Research map page (`index.html`) updated to match whatever is applied.
