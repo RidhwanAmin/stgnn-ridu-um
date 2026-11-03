@@ -307,6 +307,16 @@ table.pscheck td:first-child{min-width:12em}
 .var.iv{border-top:3px solid var(--k1)} .var.dv{border-top:3px solid var(--c2)}
 .varr{align-self:center;color:var(--muted);font-size:1.2rem}
 .htest{margin:0}
+.objgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:14px;margin:14px 0 8px}
+@media (max-width:640px){ .objgrid{grid-template-columns:minmax(0,1fr)} }
+.obj{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:14px 16px;font-size:var(--s-1);display:flex;flex-direction:column;gap:8px}
+.obj header{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.obj .otext{margin:0;color:var(--muted);font-style:italic}
+.obj dl{display:grid;grid-template-columns:max-content 1fr;gap:4px 12px;margin:0}
+.obj dt{color:var(--muted)} .obj dd{margin:0}
+.osug{border-left:3px solid var(--accent);background:var(--paper);padding:8px 12px;border-radius:0 6px 6px 0;font-weight:500}
+.osug .lv{display:block;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:2px;font-weight:400}
+@media (max-width:640px){ .obj dl{grid-template-columns:minmax(0,1fr)} .obj dt{margin-top:4px} }
 @media (prefers-reduced-motion: reduce){ .vtip{transition:none} }
 </style>
 
@@ -317,6 +327,7 @@ table.pscheck td:first-child{min-width:12em}
     <li><a href="#overview">Study in one page</a></li>
     <li><a href="#problem">Problem statement</a></li>
     <li><a href="#hypotheses">Hypotheses</a></li>
+    <li><a href="#objectives">Research objectives</a></li>
     <li><a href="#signal">What is counted</a></li>
     <li><a href="#framework">Framework and design</a></li>
     <li><a href="#pipeline">Methodology pipeline</a></li>
@@ -547,6 +558,87 @@ table.pscheck td:first-child{min-width:12em}
     </tbody>
   </table></div>
   <p class="cap">The If–Then sentences, the "effect of" objectives and the directional H1 are restatements for this page; the proposal text of H1 to H3 is unchanged.</p>
+</section>
+
+<!-- OBJECTIVES -->
+<section id="objectives">
+  <span class="eyebrow">Section 1.3 · Table 1.1 and Table 3.5</span>
+  <h2>Research objectives</h2>
+  <p>An objective states the result the study will deliver, not the activity it will carry out. Together the objectives must test every part of each hypothesis, number between two and five, follow one another logically without any one depending absolutely on the result of an earlier one, and lead straight to the methodology. An objective can be written as testing a hypothesis, measuring a parameter to a stated accuracy, proving a conjecture, or applying a method from one field to a problem in another.</p>
+
+  <div class="objgrid">
+    <article class="obj">
+      <header><span class="hid">RO1</span><span class="chip warn">process verb: investigate</span></header>
+      <p class="otext">To investigate the information lost when a PPG waveform is reduced to a filtered beat-interval series, separating the loss from absent pulse morphology from the loss due to beat rejection.</p>
+      <dl>
+        <dt>Written as</dt><dd>Measure parameter P (the loss), and test hypothesis H1</dd>
+        <dt>Result it delivers</dt><dd>Loss decomposition and retention curves (paper 1)</dd>
+        <dt>Tests</dt><dd>H1, both variables: burden and retention</dd>
+        <dt>Leads to method</dt><dd>§3.3: filter sweep on Icentia11k; waveform vs interval models on Pulsewatch; DeLong test, paired bootstrap, mixed-effects logistic regression, Bland–Altman</dd>
+      </dl>
+      <div class="osug"><span class="lv">As an outcome</span>To measure the share of PAC and normal intervals removed by deployed filters at thresholds from 10% to 30%, and the change in F1 and AUROC when the waveform is reduced to intervals; and to test H1, that PAC retention after filtering depends on ectopy burden.</div>
+    </article>
+    <article class="obj">
+      <header><span class="hid">RO2</span><span class="chip warn">process verbs: develop, evaluate</span></header>
+      <p class="otext">To develop and evaluate a two-scale beat-interval ST-GNN (beat-graph and epoch-graph) that estimates atrial ectopy rate from interval sequences and their quality flags.</p>
+      <dl>
+        <dt>Written as</dt><dd>Apply method M (graph neural networks, from machine learning) to problem X (counting ectopy) in area R (wearable cardiac monitoring), and test hypothesis H2</dd>
+        <dt>Result it delivers</dt><dd>Estimator, code and daily-count error profile (paper 2)</dd>
+        <dt>Tests</dt><dd>H2, both variables: estimator and error</dd>
+        <dt>Leads to method</dt><dd>§3.4: two-scale ST-GNN with Equations 3.1 to 3.4; baselines and ablations (Table 3.2); subject-wise splits; paired subject-level bootstrap for H2, Holm for the rest</dd>
+      </dl>
+      <div class="osug"><span class="lv">As an outcome</span>To produce a flag-aware two-scale ST-GNN estimate of the daily PAC count with its error profile under simulated smartwatch losses; and to test H2, that its mean absolute error is lower than that of the best non-graph baseline.</div>
+    </article>
+    <article class="obj">
+      <header><span class="hid">RO3</span><span class="chip warn">process verbs: evaluate, analyse</span></header>
+      <p class="otext">To evaluate the deployability of a 7-day smartwatch protocol in post-stroke survivors by analysing data yield, threshold computability and day-to-day stability against pre-specified progression criteria.</p>
+      <dl>
+        <dt>Written as</dt><dd>Test hypothesis H3, and measure parameters (yield, computability, stability)</dd>
+        <dt>Result it delivers</dt><dd>Feasibility report and registered protocol (paper 3)</dd>
+        <dt>Tests</dt><dd>H3: the share of participants with 3 or more valid days</dd>
+        <dt>Leads to method</dt><dd>§3.5: about 40 recruited, about 34 analysed, 7 days of Garmin wear; one-sided test against 50%, Wilson 95% CI, ICC(2,1), mixed-effects model for activity</dd>
+      </dl>
+      <div class="osug"><span class="lv">As an outcome</span>To determine whether at least 75% of post-stroke survivors give three or more valid days under a 7-day protocol (H3), and to measure how often the pooled count can be computed and how stable per-day estimates are (ICC).</div>
+    </article>
+    <article class="obj">
+      <header><span class="hid">RO4</span><span class="chip warn">process verbs: evaluate, validate</span></header>
+      <p class="otext">To evaluate and validate the substitution of a smartwatch-derived ectopy estimate for the ECG-derived count: (a) ESVEA reclassification under simulated device losses, and (b) agreement with score-based selections in post-stroke survivors.</p>
+      <dl>
+        <dt>Written as</dt><dd>Measure parameter P with accuracy A (no hypothesis: descriptive)</dd>
+        <dt>Result it delivers</dt><dd>Reclassification across device-loss severities; selection agreement analysis</dd>
+        <dt>Tests</dt><dd>None by design (see <a href="#hypotheses">Hypotheses</a>)</dd>
+        <dt>Leads to method</dt><dd>§3.6: held-out Icentia11k (P3) degraded by flags, gaps, pulse deficit and timing noise; Wilson 95% CIs, κ; in the cohort, Cohen&#39;s κ and Jaccard against five scores at equal capacity</dd>
+      </dl>
+      <div class="osug"><span class="lv">As an outcome</span>To measure the ESVEA reclassification rate, κ, sensitivity and specificity at 480 per day under simulated device losses, estimating sensitivity within about ±8 percentage points; and to measure the agreement (κ, Jaccard) between wearable and score-based selections at equal capacity.</div>
+    </article>
+  </div>
+  <p class="cap">The upper text of each card is the proposal&#39;s wording (Table 1.1). "As an outcome" is a restatement for this page, built only from results and precision the proposal already states (Table 3.5, §3.6); the proposal is unchanged.</p>
+
+  <h3>Checked against the characteristics</h3>
+  <div class="tw wide"><table class="spec">
+    <thead><tr><th>Characteristic</th><th>Verdict</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>Stated as outcomes, not process</td><td><span class="chip warn">not yet</span></td><td>All four open with process verbs (investigate, develop and evaluate, evaluate, evaluate and validate). The outcome restatements above swap each for the result it produces.</td></tr>
+      <tr><td>Specifies the result of the activity</td><td><span class="chip warn">partly</span></td><td>The results exist, but in Table 3.5 (deliverables) rather than in the objective sentences. RO3 comes closest: it names yield, computability and stability against progression criteria.</td></tr>
+      <tr><td>Collectively tests all parts of the hypotheses</td><td><span class="chip ok">yes</span></td><td>H1 → RO1 measures both burden and retention; H2 → RO2 sets the estimator and measures its error; H3 → RO3 counts valid days. RO4 adds the descriptive question that has no hypothesis.</td></tr>
+      <tr><td>Two to five at most</td><td><span class="chip ok">yes</span></td><td>Four, with RO4 split into (a) and (b).</td></tr>
+      <tr><td>Each flows logically into the next</td><td><span class="chip ok">yes</span></td><td>Measure the loss (RO1) → build an estimator that handles it (RO2) → check it can be collected after stroke (RO3) → ask whether it would change the decision (RO4).</td></tr>
+      <tr><td>None absolutely dependent on an earlier result</td><td><span class="chip ok">mostly</span></td><td>Later objectives use earlier results but proceed whatever those results are; the one hard dependency is RO4b on the cohort existing (table below).</td></tr>
+      <tr><td>Leads to the methodology</td><td><span class="chip ok">yes</span></td><td>Each objective has its own Chapter 3 section, dataset, metrics and statistical treatment (Table 3.5), shown in the cards above.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Does any objective hinge on an earlier one&#39;s result?</h3>
+  <div class="tw wide"><table class="dep">
+    <thead><tr><th>Objective</th><th>Uses from earlier</th><th>If the earlier result is negative or missing</th><th>Dependence</th></tr></thead>
+    <tbody>
+      <tr><td><b>RO2</b></td><td>RO1&#39;s filtering loss, to justify keeping flagged beats as input and to calibrate the training-flag simulator</td><td>RO2 still compares the flag as filter, as input and as input with correction (RQ2.4), so the design question is answered either way</td><td><span class="chip ok">informed, not gated</span></td></tr>
+      <tr><td><b>RO3</b></td><td>Nothing from RO1 or RO2 for its primary outcome</td><td>Runs in parallel; needs ethics approval, the device and 24-hour logging by semester 4</td><td><span class="chip ok">independent</span></td></tr>
+      <tr><td><b>RO4a</b></td><td>A frozen estimator from RO2; loss rates from RO1 to set degradation severity; coverage from RO3 when available</td><td>If H2 is rejected, the retention correction and gate are applied to the best baseline and the negative result is reported; without RO3, coverage is modelled from Pulsewatch wear</td><td><span class="chip ok">needs a model, not a winning one</span></td></tr>
+      <tr><td><b>RO4b</b></td><td>The RO3 cohort and its wearable ESVEA calls</td><td>If the cohort is not secured by semester 4, RO4b is deferred</td><td><span class="chip warn">depends on RO3 happening</span></td></tr>
+    </tbody>
+  </table></div>
+  <p class="cap">RO4b depends on RO3 taking place, not on RO3 succeeding: a cohort with a red progression result still yields selections to compare. The fallback (§3.9) keeps RO1, RO2 and RO4a whole if the cohort cannot start.</p>
 </section>
 
 <!-- WHAT IS COUNTED -->
