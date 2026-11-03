@@ -20,12 +20,12 @@
 | E8 | #9 | Role of the rate head undefined | 3.4 para 1 | +19 |
 | E9 | #10 | RO3 primary can pass while ESVEA is rarely computable | 3.5, Appendix C | +14 |
 | E10 | #11 | Icentia11k patient sets not shown as disjoint | Table 3.1, new Table B.3 | +2 |
-| E11 | #12 | Pilot weight 0.9 chosen on test cohorts; legacy external labels withdrawn | Abstract, 4.1, Table 4.1 | -7 |
-| | | **Subtotal before trims** | | **+200** |
+| E11 | #12 | Pilot weight 0.9 chosen on test cohorts; legacy external labels withdrawn | Abstract, 4.1, Table 4.1 | -8 |
+| | | **Subtotal before trims** | | **+199** |
 | T1, T3 to T8, T11 | (word limit) | Trims (T2 merged into E11c) | 1.1, 1.6, 2.1, 2.4, 3.4, 4.2, 5.1 | -177 |
-| | | **Net change** (current main text 6,958; limit 7,000) | | **+23 → 6,981** |
+| | | **Net change** (current main text 6,958; limit 7,000) | | **+22 → 6,980** |
 
-All eight trims (T1, T3 to T8, T11) are needed to stay under the limit. T5 also adds 3 words where PPV is next defined (Section 2.6), giving about 6,984. If supervisors reject a trim, the fallback is the E8 removal alternative (saves 19 words).
+All eight trims (T1, T3 to T8, T11) are needed to stay under the limit. T5 also adds 3 words where PPV is next defined (Section 2.6), giving about 6,983. If supervisors reject a trim, the fallback is the E8 removal alternative (saves 19 words).
 
 Word counts follow the handover rule: Chapter 1 to the start of References, table rows counted, captions, equations and appendices not counted.
 
@@ -65,7 +65,7 @@ This section keeps the review that prompted these drafts, word for word, so each
 | H3 | Supervisor approval of the final docx | Housekeeping | Decisions list in Section 0 | Open |
 | H4 | Ethics committee name | Housekeeping | Section 3 checklist | Open |
 | H5 | Pulsewatch permitted use | Housekeeping | Section 3 checklist | Open |
-| H6 | Whether tables count towards 7,000 words | Housekeeping | Word budget in Section 0 (measured 6,958 before edits, about 6,984 after) | Open |
+| H6 | Whether tables count towards 7,000 words | Housekeeping | Word budget in Section 0 (measured 6,958 before edits, about 6,983 after) | Open |
 | H7 | Slide inconsistencies, especially `app-b3.html` | Housekeeping | Section 2 slide table (app-b3 row) | Partly drafted |
 | H8 | Mock defence | Housekeeping | Section 4 prepared answers | Open |
 
@@ -435,7 +435,7 @@ Skipped resamples of 2,000: clinical 701, Simband 669, MIMIC-III 676.
 | Cohort | AF windows | AF recall, 0.393 / 0.505 | NSR false alarms, 0.393 / 0.505 | PAC/PVC false alarms, 0.393 / 0.505 |
 |---|---|---|---|---|
 | Pulsewatch clinical | 170 | 100% / 95% | 8.9% / 5.3% | 18.3% / 9.8% |
-| Pulsewatch AF trial holdouts | 5,483 | 97% / 88% | no NSR windows | no PAC/PVC windows |
+| Pulsewatch AF-only holdouts (3 AF trial, 5 in-clinic) | 5,483 | 97% / 88% | no NSR windows | no PAC/PVC windows |
 | Simband | 12 | 100% / 92% | 14.3% / 9.5% | 15.4% / 0.0% |
 | MIMIC-III | 292 | 45% / 15% | 0.2% / 0.0% | 0.0% / 0.0% |
 
@@ -445,6 +445,7 @@ Operating points use the gfeat-head score, which does not depend on w. Threshold
 - **Ranking transferred; the operating point did not.** AF vs rest AUROC was 0.995 or higher in every cohort with non-AF windows. At the validation threshold 0.393, AF recall still ranged from 45% (MIMIC-III) to 100%. A threshold set on mostly Pulsewatch validation subjects (12 of 17) did not carry over to ICU fingertip PPG.
 - **Ectopy drives false AF alarms.** PAC/PVC windows gave 18.3% false alarms on Pulsewatch at 0.393, against 8.9% for NSR. This is direct support for the thesis motivation.
 - **One AF subject per external cohort, and on Pulsewatch clinical.** The intervals reflect variation between windows of that subject, not between AF patients.
+- **AF-only holdouts (Check E11b).** 8 of 8 subjects have AF windows and all 5,483 windows are AF. Three subjects supply 99% of the windows, so the 97% and 88% recall figures reflect three people. The group is not independent evidence (in-clinic test subjects were drawn only from subjects with AF; the AF-trial subjects are a fixed list) and gives no false-alarm estimate.
 - **Not untouched.** Weight 0.5 removes the weight tuning, but v2's design was iterated while these holdouts were inspected.
 - **Not zero-shot.** Training included AF windows from other subjects in these cohorts.
 
@@ -462,14 +463,14 @@ Operating points use the gfeat-head score, which does not depend on w. Threshold
 > A beat-graph ST-GNN on the same interval representation classified rhythm from wearable PPG in four held-out cohorts (Table 4.1). Splits were by subject, with no subject shared between training, validation and test. Thresholds were set once on validation subjects (5 of 17 from external cohorts) and not tuned per device; the score weighting of 0.9 was chosen from a sweep on held-out cohorts, so the test data are not fully untouched.
 
 **Proposed**
-> A beat-graph ST-GNN on the same interval representation classified rhythm from PPG in 33 held-out subjects: 16 Pulsewatch clinical, 8 Pulsewatch AF trial, 6 Simband and 3 MIMIC-III (Table 4.1). No subject was shared between training, validation and test, and external labels were re-curated. Thresholds were set once on validation subjects (5 of 17 external) and not re-tuned. AUROCs use the untuned weight of 0.5, but the design was iterated while these holdouts were inspected.
+> A beat-graph ST-GNN on the same interval representation classified rhythm from PPG in 33 held-out subjects: 16 Pulsewatch clinical, 8 Pulsewatch AF-only holdouts, 6 Simband and 3 MIMIC-III (Table 4.1). No subject was shared between training, validation and test, and external labels were re-curated. Thresholds were set once on validation subjects (5 of 17 external) and not re-tuned. AUROCs use the untuned weight of 0.5, but the design was iterated while these holdouts were inspected.
 
 #### E11c · Section 4.1, paragraph 2 [main] (replaces T2)
 **Current**
 > On Pulsewatch, AF separated from PAC/PVC windows, but all 170 AF windows came from one subject and two of ten PAC/PVC subjects supplied 95% of PAC/PVC windows, so between-patient variation is not captured. External results are promising pilot evidence, not proof of cross-device performance: Simband's lower bound is 0.654, MIMIC-III has three subjects, and the 0.9 weight favours them. Recall uses the gfeat-head score, whose AUROCs are lower (0.985 AF vs rest; 0.952 AF vs PAC/PVC). The pilot did not isolate the graph's contribution (RQ2.1, RQ2.3) and labels are per-window rhythm classes, so it shows feasibility of the representation, not of counting.
 
 **Proposed**
-> Ranking transferred but operating points did not: AF vs rest AUROC was at least 0.995 wherever non-AF windows existed, yet recall at the 0.393 threshold fell to 45% on MIMIC-III. PAC/PVC windows raised false AF alarms on Pulsewatch (18.3% against 8.9% for sinus rhythm). Each cohort except the AF trial had one AF subject, so intervals reflect variation between windows, not AF patients. The graph's contribution was not isolated and labels are per-window, so the pilot shows feasibility of the representation, not of counting.
+> Ranking transferred but operating points did not: AF vs rest AUROC was at least 0.995 wherever non-AF windows existed, yet recall at the 0.393 threshold fell to 45% on MIMIC-III. PAC/PVC windows raised false AF alarms on Pulsewatch (18.3% against 8.9% for sinus rhythm). Each cohort except the AF-only holdouts had one AF subject, so intervals reflect variation between windows, not AF patients. The graph's contribution was not isolated and labels are per-window, so the pilot shows feasibility of the representation, not of counting.
 
 #### E11d · Table 4.1 rows [main, table rows]
 **Current**
@@ -482,14 +483,14 @@ Operating points use the gfeat-head score, which does not depend on w. Threshold
 **Proposed**
 > Held-out cohort | Device | Subjects (AF); windows | AF vs rest AUROC | AF vs PAC/PVC AUROC | AF recall, 0.393 / 0.505
 > Clinical (Pulsewatch) | Wrist smartwatch PPG | 16 (1); 48,396 | 1.000 (1.000 to 1.000) | 0.998 (0.997 to 1.000) | 100% / 95%
-> AF trial (Pulsewatch) | Wrist smartwatch PPG | 8; 5,483, all AF | Not computed | Not computed | 97% / 88%
+> Pulsewatch AF-only holdouts | Wrist smartwatch PPG | 8 (8); 5,483 | Not computed | Not computed | 97% / 88%
 > Simband | Wrist PPG, motion-affected | 6 (1); 46 | 0.995 (0.989 to 1.000) | 0.968, CI not estimable | 100% / 92%
 > MIMIC-III | ICU fingertip PPG | 3 (1); 1,215 | 0.995 (0.993 to 0.997) | 1.000, CI not estimable | 45% / 15%
 
-Use `W|17|17|16|17|17|16` (six columns, as now). Confirm that "8; 5,483, all AF" is right: the results show no NSR or PAC/PVC windows in the AF trial holdouts.
+Use `W|17|17|16|17|17|16` (six columns, as now). Confirmed by Check E11b (3 November 2026, `Result_E11b_AF_Trial_Holdout_Subjects.md`): 8 of 8 subjects have AF windows and all 5,483 windows are AF. The row is labelled "Pulsewatch AF-only holdouts" because it holds 3 AF-trial (4xx) and 5 in-clinic (3xx) subjects; "AF trial" would be inaccurate, and the internal codes would mean nothing to a reader.
 
 #### E11e · Table 4.1 caption (not counted)
-> Table 4.1: Pilot results in 33 held-out subjects (evaluation mode; re-curated external labels). AUROCs use score weight 0.5, with 95% CIs from 2,000 subject resamples (skipped: clinical 701, Simband 669, MIMIC-III 676). Recall and false alarms use the gfeat-head score, which does not depend on the weight, at thresholds set on validation subjects. False alarms at 0.393 / 0.505, sinus rhythm: clinical 8.9% / 5.3%, Simband 14.3% / 9.5%, MIMIC-III 0.2% / 0.0%; PAC/PVC: clinical 18.3% / 9.8%, Simband 15.4% / 0.0%, MIMIC-III 0.0% / 0.0%. At weight 0.9, AF vs rest AUROC was 0.997, 0.995 and 0.994.
+> Table 4.1: Pilot results in 33 held-out subjects (evaluation mode; re-curated external labels). AUROCs use score weight 0.5, with 95% CIs from 2,000 subject resamples (skipped: clinical 701, Simband 669, MIMIC-III 676). Recall and false alarms use the gfeat-head score, which does not depend on the weight, at thresholds set on validation subjects. False alarms at 0.393 / 0.505, sinus rhythm: clinical 8.9% / 5.3%, Simband 14.3% / 9.5%, MIMIC-III 0.2% / 0.0%; PAC/PVC: clinical 18.3% / 9.8%, Simband 15.4% / 0.0%, MIMIC-III 0.0% / 0.0%. At weight 0.9, AF vs rest AUROC was 0.997, 0.995 and 0.994. The Pulsewatch AF-only holdouts are 3 AF-trial and 5 in-clinic subjects with AF windows only, so only recall can be estimated; three subjects supply 5,430 of their 5,483 windows.
 
 **Also update outside Chapter 4**
 - Table B.2, Simband and MIMIC-III row, "Status" cell: "Used in pilot work" → "Used in pilot work (re-curated labels)". Not counted (appendix).
@@ -582,9 +583,9 @@ Slide numbers follow the handover order. Only text is given; keep the existing H
 | 14 | `ro1-ro2.html` (new bullet) | (none) | Epoch scale trained on pseudo-days on Icentia11k (segments untimed); real day order tested on Pulsewatch |
 | 15 | `ro3.html` (under primary outcome) | (none) | Key secondary: pooled ESVEA count computable (≥1 h per block across the week) |
 | 16 | `ro4.html` (new table row) | (none) | Interval timing noise · PPG peak vs ECG R-peak offsets measured on Pulsewatch; swept |
-| 17 | `preliminary.html` (table) | Simband 9 (3); 66 · 0.951 · 0.944 · 88%; MIMIC-III 3 (1); 705 · 0.998 · 0.973 · 99%; AF trial 97% / 100% | Use the E11d table: Simband 6 (1); 46 · 0.995 · 0.968 · 100% / 92%; MIMIC-III 3 (1); 1,215 · 0.995 · 1.000 · 45% / 15%; AF trial 8; 5,483 · 97% / 88%; clinical 1.000 · 0.998 · 100% / 95% |
+| 17 | `preliminary.html` (table) | Simband 9 (3); 66 · 0.951 · 0.944 · 88%; MIMIC-III 3 (1); 705 · 0.998 · 0.973 · 99%; AF trial 97% / 100% | Use the E11d table: Simband 6 (1); 46 · 0.995 · 0.968 · 100% / 92%; MIMIC-III 3 (1); 1,215 · 0.995 · 1.000 · 45% / 15%; Pulsewatch AF-only holdouts 8 (8); 5,483 · 97% / 88%; clinical 1.000 · 0.998 · 100% / 95% |
 | 17 | `preliminary.html` (note) | Evaluation mode, score weight 0.9 throughout | Evaluation mode; AUROCs at score weight 0.5 (untuned); recall at validation thresholds 0.393 / 0.505 (gfeat-head score); re-curated external labels; test set 33 subjects |
-| 17 | `preliminary.html` (bullets) | Thresholds set once on validation subjects (5 of 17 external), with no per-device tuning; the 0.9 score weight was chosen from a sweep on held-out cohorts, so test data are not fully untouched. External results are promising pilot evidence, not proof of cross-device performance. | Ranking transferred (AUROC ≥ 0.995 where non-AF windows existed); the operating point did not (AF recall 45% on MIMIC-III at 0.393). PAC/PVC windows raised false AF alarms (18.3% vs 8.9% sinus, Pulsewatch). One AF subject per cohort except the AF trial. Design iterated while viewing these holdouts: not untouched. |
+| 17 | `preliminary.html` (bullets) | Thresholds set once on validation subjects (5 of 17 external), with no per-device tuning; the 0.9 score weight was chosen from a sweep on held-out cohorts, so test data are not fully untouched. External results are promising pilot evidence, not proof of cross-device performance. | Ranking transferred (AUROC ≥ 0.995 where non-AF windows existed); the operating point did not (AF recall 45% on MIMIC-III at 0.393). PAC/PVC windows raised false AF alarms (18.3% vs 8.9% sinus, Pulsewatch). One AF subject per cohort except the AF-only holdouts, whose recall reflects three people (99% of windows). Design iterated while viewing these holdouts: not untouched. |
 | 17 | `preliminary.html` (speaker notes) | "All cohorts are now at the documented weight 0.9 … Simband gains most (0.891 at weight 0.5 to 0.951) … An older Simband interval of 0.81 to 0.97 …" | Replace with: legacy Simband and MIMIC-III values withdrawn (legacy labels); rerun with re-curated labels and all v2 training and validation subjects excluded; weight 0.5 reported; the threshold did not transfer to MIMIC-III; not zero-shot, because training included AF from other subjects in these cohorts. |
 | 19 | `risks.html` | RO4a simulation optimistic (ECG RR, not PPG) · Calibrated operators; severity sweep; stated limitation | RO4a simulation optimistic (ECG RR, not PPG) · Four calibrated operators incl. PPG timing noise; severity sweep; stated limitation |
 | App | `app-eq.html` | (3.1) π̂ₖ(m) = π̂_class(k) · π̂_motion(m) | (3.1) π̂ₖ(m, q) = π̂_pulse(k, q) · π̂_motion(m); and π̂_PAC(mᵢ, qᵢ) in (3.2) and (3.4) |

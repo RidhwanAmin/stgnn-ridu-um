@@ -1,6 +1,6 @@
 # Check E11: rerun the cross-device pilot at score weight 0.5
 
-**Status: DONE (3 November 2026).** Rule locked 2026-11-03 12:40 (+08:00), before any new-data result was computed; not blind, because legacy and clinical results had already been seen. External labels were re-curated and all v2 training and validation subjects excluded; the earlier Simband and MIMIC-III values are withdrawn. Results and the drafted text are in E11 of `proposal_revisions_draft.md`. The tables below are kept as the original instructions.
+**Status: DONE (3 November 2026).** AF-only holdout subjects confirmed by Check E11b (`Result_E11b_AF_Trial_Holdout_Subjects.md`). Rule locked 2026-11-03 12:40 (+08:00), before any new-data result was computed; not blind, because legacy and clinical results had already been seen. External labels were re-curated and all v2 training and validation subjects excluded; the earlier Simband and MIMIC-III values are withdrawn. Results and the drafted text are in E11 of `proposal_revisions_draft.md`. The tables below are kept as the original instructions.
 
 **For:** Ridhwan (to run on your own machine; the pilot code, checkpoints and data are not in the handover)
 **Why:** review issue #12. Table 4.1 reports the pilot at score weight 0.9, and that weight was chosen from a sweep on the held-out cohorts, so the test data informed it. Reporting the untuned weight 0.5 as primary, with 0.9 as a sensitivity result, removes that criticism.

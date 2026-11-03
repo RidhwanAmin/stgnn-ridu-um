@@ -67,10 +67,10 @@ Before reading the result, confirm which cohort codes make up the "AF trial hold
 
 | Item | Expected | Result |
 |---|---|---|
-| Windows | 5,483 | |
-| Subjects | 8 | |
-| Subjects with ≥ 1 AF window | 8 | |
-| Labels present | AF only (no NSR, no PAC/PVC, no other) | |
+| Windows | 5,483 | 5,483 |
+| Subjects | 8 | 8 |
+| Subjects with ≥ 1 AF window | 8 | 8 |
+| Labels present | AF only (no NSR, no PAC/PVC, no other) | AF only (2026-11-03, `build/results/pilot_e11b_af_trial_subjects.txt`): **Pass** |
 
 **Pass:** all four match. The Table 4.1 row becomes `AF trial (Pulsewatch) | Wrist smartwatch PPG | 8 (8); 5,483 | …`.
 
