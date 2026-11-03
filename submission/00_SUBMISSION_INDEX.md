@@ -18,8 +18,8 @@ This index maps every markdown record, from the handover to the latest change, t
 | Proposal (Word) | `proposal/Ridhwan_Research_Proposal_UM.docx` | Rebuilt 3 Nov 2026 from `proposal/source/content.txt` | All approved revisions applied; 6,983 main-text words; 45 pages (LibreOffice render; check in Word) |
 | Proposal, handover version (for comparison) | `proposal/Ridhwan_Research_Proposal_UM_handover_2026-11-03.docx` | Handover | Unchanged |
 | Proposal source and build | `proposal/source/` (`content.txt`, `build.js`, `framework.png`, `arch.png`) | 3 Nov 2026 | `node build.js` (npm `docx`) |
-| Slide deck (Claude Slides) | https://claude.ai/artifact/4RuYVim5WsRqG5aQLYJGas | Version 48 | 45 slides; 11 changed this session |
-| Changed slide sources (copies) | `slides/project/slides/` | v44, v46, v48 | For version history; the deck is the source of truth |
+| Slide deck (Claude Slides) | https://claude.ai/artifact/4RuYVim5WsRqG5aQLYJGas | Version 49 | 45 slides; 20 changed this session |
+| Changed slide sources (copies) | `slides/project/slides/` | v44, v46, v48, v49 | For version history; the deck is the source of truth |
 | Research map page | `index.html` (+ `assets/`), https://claude.ai/artifact/1BnWNir54MvkSfH5uPfMiE | Version 3 | Methodology and architecture context; pilot table updated |
 
 ---
@@ -73,6 +73,7 @@ Slide numbers are deck positions (the viewer's numbering).
 | H1 | housekeeping | Optional §2.7 wording not applied (needs IEEE Xplore native search) | 9 `gaps` unchanged | Verification | Open |
 | H2 | housekeeping | Tables 2.1, 2.2 unchanged (93.96% confirmed) | 9 `gaps`, 10 `closest` unchanged | Verification | Closed |
 | Page no. | deck | none | 31 `app-eq` printed number 30 → 31 (v48) | `slides/README.md` | Applied |
+| Refs | deck | none (proposal already excludes them) | 23 `refs-1`, 24 `refs-2`, 27 `refs-5`, 28 `refs-6`; 34 `app-a3`, 36 `app-a5`, 37 `app-a6`, 38 `app-a7`, 39 `app-a8` (v49) | `slides/README.md` | Applied: six slide-only sources removed |
 
 ---
 
@@ -83,6 +84,7 @@ Slide numbers are deck positions (the viewer's numbering).
 | 44 | Approved revisions E1 to E11 | 5, 13, 14, 15, 16, 17, 19, 31, 42 (caption), 43 |
 | 46 | `app-b3` redrawn: stage cards, loss-routing table, schematic retention curves (no fitted values) | 42 |
 | 48 | `app-eq` printed page number corrected | 31 |
+| 49 | Removed six sources not in the proposal (Aguilar 2021, Bacevičius 2022, Gruwez 2024, Sun 2024, Väliaho 2019, Zahid 2023): reference entries and the appendix rows citing them | 23, 24, 27, 28, 34, 36 to 39 |
 
 Speaker notes on slides 14, 17, 31 and 42 carry a "Pending supervisor reconfirmation" line. Remove it after confirmation.
 
@@ -107,5 +109,5 @@ Speaker notes on slides 14, 17, 31 and 42 carry a "Pending supervisor reconfirma
 3. Optional: IEEE Xplore native search, then the §2.7 wording (+5 words).
 4. Garmin's 24/7 Enhanced BBI confirmation in writing.
 5. Ethics committee name (PPUM MREC or UMMC MREC); Pulsewatch permitted use in writing; Postgraduate Office word-count rule.
-6. Remaining handover slide inconsistencies not in scope this session: `problem.html` wording, `gaps.html` gap wording, `app-a3`/`refs-1` removed sources, "et al." in reference slides. The new removals (Kapsecker, Montanaro, Ye, Abedi) may also need removing from the reference slides.
+6. Remaining handover slide inconsistencies not in scope this session: `problem.html` wording, `gaps.html` gap wording, "et al." in reference slides.
 7. Mock defence.
