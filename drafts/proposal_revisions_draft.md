@@ -10,10 +10,10 @@
 
 | ID | Review issue | Problem | Where | Main-text words |
 |---|---|---|---|---:|
-| E1 | #1 | Equation 3.1 ignores the burden dependence that Section 4.2 reports | 3.4 text, Eq. 3.1, 3.2, 3.4 | +33 |
+| E1 | #1 | Equation 3.1 ignores the burden dependence that Section 4.2 reports (revised: Garmin flags, not deletes) | 3.4 text, Eq. 3.1, 3.2, 3.4; 4.2 | +40 |
 | E2 | #2 | The epoch scale has no day-long training data on Icentia11k | 3.4 para 1 | +31 |
 | E3 | #3 | "Daily-count MAE" is not daily on Icentia11k | H2, Table 3.5, Table B.1 | +8 |
-| E4 | #4 | Flag-as-input plus inverse weighting can count a beat twice; p̂ must be calibrated | 3.4 text, 2.8 | +49 |
+| E4 | #4 | Flag-as-input plus inverse weighting can count a beat twice; p̂ must be calibrated | 3.4 text, 2.8 | +35 |
 | E5 | #5 | No PPG timing-noise operator in RO4a | 3.6, Table 3.4 | +21 |
 | E6 | #6 | No Garmin-side check of the motion term | 3.5 | +11 |
 | E7 | #8 | Coverage gate described as a model component | 3.4, Table 3.2 | +12 |
@@ -21,16 +21,16 @@
 | E9 | #10 | RO3 primary can pass while ESVEA is rarely computable | 3.5, Appendix C | +26 |
 | E10 | #11 | Icentia11k patient sets not shown as disjoint | Table 3.1, new Table B.3 | +2 |
 | E11 | #12 | Pilot weight 0.9 chosen on test cohorts | 4.1, Table 4.1 | +12 |
-| | | **Subtotal before trims** | | **+224** |
+| | | **Subtotal before trims** | | **+217** |
 | T1 to T8 | (word limit) | Trims | 1.1, 2.1, 2.4, 3.4, 4.1, 4.2, 5.1 | -189 |
-| | | **Net change** (current main text 6,958; limit 7,000) | | **+35 → 6,993** |
+| | | **Net change** (current main text 6,958; limit 7,000) | | **+28 → 6,986** |
 
-All eight trims are needed to stay under the limit. T5 also adds 3 words where PPV is next defined (Section 2.6), giving about 6,996. If supervisors reject a trim, the fallback is the E8 removal alternative (saves 19 words).
+All eight trims are needed to stay under the limit. T5 also adds 3 words where PPV is next defined (Section 2.6), giving about 6,989. If supervisors reject a trim, the fallback is the E8 removal alternative (saves 19 words).
 
 Word counts follow the handover rule: Chapter 1 to the start of References, table rows counted, captions, equations and appendices not counted.
 
 ### Decisions needed from supervisors before applying
-1. **E1:** burden-dependent retention in Equation 3.1 (recommended), or leave Equation 3.1 as it is and state that the network absorbs burden dependence (alternative text given).
+1. **E1:** Equation 3.1 rewritten to correct only silent loss (pulse deficit and motion), following the Garmin whitepaper; no longer a choice between two options, but a method change supervisors should see.
 2. **E8:** keep the rate head as an auxiliary target (recommended), or remove it and redraw Figure 3.2.
 3. **E11:** needs a rerun of the pilot at score weight 0.5 for Simband (AF vs PAC/PVC) and MIMIC-III before Table 4.1 can be filled.
 4. **E2:** confirm that Pulsewatch timestamps hold across days within a participant (the data check found UNIX millisecond timestamps within segments only).
@@ -46,7 +46,7 @@ This section keeps the review that prompted these drafts, word for word, so each
 
 | # | Review issue | Priority | Addressed by | Status |
 |---|---|---|---|---|
-| 1 | Equation 3.1 contradicts the preliminary finding on burden | Critical | E1 (recommended) or E1 alternative | Drafted; supervisor decision |
+| 1 | Equation 3.1 contradicts the preliminary finding on burden | Critical | E1, revised after the Garmin whitepaper: retention corrects only silent loss; RO1 filter loss moves to RQ2.4 | Drafted; inform supervisors |
 | 2 | Epoch-scale encoder has no day-long training data | Critical | E2 (option b, pseudo-days); option c kept as an optional clause | Drafted; verify Pulsewatch timestamps for option c |
 | 3 | "Daily-count MAE" is not daily | Critical | E3 | Drafted |
 | 4 | Flag as input plus inverse weighting can double-count; p̂ must be calibrated | Critical | E4 | Drafted; check Guo et al. (2017) page range |
@@ -65,7 +65,7 @@ This section keeps the review that prompted these drafts, word for word, so each
 | H3 | Supervisor approval of the final docx | Housekeeping | Decisions list in Section 0 | Open |
 | H4 | Ethics committee name | Housekeeping | Section 3 checklist | Open |
 | H5 | Pulsewatch permitted use | Housekeeping | Section 3 checklist | Open |
-| H6 | Whether tables count towards 7,000 words | Housekeeping | Word budget in Section 0 (measured 6,958 before edits, about 6,996 after) | Open |
+| H6 | Whether tables count towards 7,000 words | Housekeeping | Word budget in Section 0 (measured 6,958 before edits, about 6,989 after) | Open |
 | H7 | Slide inconsistencies, especially `app-b3.html` | Housekeeping | Section 2 slide table (app-b3 row) | Partly drafted |
 | H8 | Mock defence | Housekeeping | Section 4 prepared answers | Open |
 
@@ -149,40 +149,72 @@ Note on the word count: the review quoted "about 6,980" from the handover; count
 
 ## 1. Proposal text (Chapter 1 to Chapter 4)
 
-### E1 · Burden-dependent retention (Section 3.4)
+### E1 · Retention corrects only silent device loss (Section 3.4)
 
 *Responds to review issue #1 (see the issue register below the summary).*
 
-RO1 found PAC coupling-interval removal of 78.5% in ESVEA-negative patients against 60.0% in ESVEA-positive patients, and Section 4.2 concludes that "a single correction factor therefore cannot restore the count". Equation 3.1 then applies one fixed class retention. The fix makes class retention a function of the local ectopic share, which is the mechanism Section 4.2 gives (frequent PACs enter the running reference of the five preceding accepted intervals).
+**Revised on 3 November 2026 after checking the Garmin whitepaper** (Garmin, n.d., the source already cited in the proposal; see "Evidence" below). The earlier E1 made class retention depend on burden. That is no longer needed: the Garmin does not delete abnormal beats, so RO1's filter loss is not a device loss.
+
+**Evidence (Garmin Enhanced BBI whitepaper, November 2023):**
+- Abnormally short or long beats are kept and marked low confidence: the device marks "as low confidence any beats that are thought to be unlikely due to being abnormally short or abnormally long".
+- Motion above a first threshold: beat kept, marked low confidence.
+- Motion above a higher threshold, or extremely poor signal: no beat is given and "the time series will indicate a gap".
+- Outlier removal is left to the researcher.
+- Garmin has confirmed to the candidate that Enhanced BBI is recorded 24/7. The public whitepaper says it "is measured during the user's sleep interval", so keep Garmin's confirmation in writing and cite it as a personal communication if asked.
+
+**Consequences for the method:**
+
+| Loss | Visible in the export? | Handled by |
+|---|---|---|
+| Premature beat kept with a low-confidence flag | Yes, flagged | Model input (no correction) |
+| Extreme motion or poor signal | Yes, marked gap | Observed time τ(d,h) and the coverage gate |
+| Premature beat with no wrist pulse (pulse deficit), merged into one long interval | No | Retention π̂ (Equation 3.1) |
+| Beat missed at moderate motion without a gap | No | Retention π̂ (Equation 3.1) |
+| Flagged beats deleted by the analyst | Only if the analyst deletes them | RO1 filter results; the "flag as filter" regime of RQ2.4 |
+
+The RO1 burden effect (78.5% vs 60.0% of PAC coupling intervals removed) applies only when flagged beats are deleted. Keeping the flag as input avoids it, so RO1 becomes the evidence for that design rather than a term in Equation 3.1. This removes the contradiction in review issue #1.
 
 #### E1a · Section 3.4, paragraph 2, sentence on Equation 3.1 [main]
 **Current**
 > The flag enters the model as an input, and a separate reliability pathway bypasses both encoders: retention (Equation 3.1) combines beat-class retention from the RO1 filtering results with motion retention estimated on Pulsewatch, which pairs wrist PPG and accelerometer magnitude with reference ECG R-peaks; their product is an assumption, because those R-peaks carry no beat types.
 
 **Proposed**
-> The flag enters the model as an input, and a separate reliability pathway bypasses both encoders: retention (Equation 3.1) combines class retention from the RO1 filtering results, as a function of local PAC share, because loss fell as burden rose (Section 4.2), with motion retention estimated on Pulsewatch, which pairs wrist PPG and accelerometer magnitude with reference ECG R-peaks; their product is an assumption, because those R-peaks carry no beat types.
+> The flag enters the model as an input, and a separate reliability pathway bypasses both encoders. As the Garmin flags abnormal beats and marks a gap where it gives none (Garmin, n.d.), gaps enter the observed time and the pathway corrects only silent loss: retention (Equation 3.1) combines pulse retention by coupling interval (Zheng et al., 2008) with motion retention estimated on Pulsewatch, which pairs wrist PPG and accelerometer magnitude with reference ECG R-peaks; their product is an assumption.
 
 #### E1b · Section 3.4, definitions paragraph [main]
 **Current**
 > Formally, for day d and time-of-day block h, let A(d,h) be the retained beats, π̂ₖ(m) the probability that a beat of class k ∈ {PAC, other} is retained at motion m, p̂ᵢ the predicted probability that beat i is a PAC, mᵢ its accelerometer motion, and τ(d,h) the observed hours in the block. The retention model, daily rate, coverage gate and participant-level rate are:
 
 **Proposed**
-> Formally, for day d and time-of-day block h, let A(d,h) be the beats the device reports, π̂ₖ(m, e) the probability that a beat of class k ∈ {PAC, other} is reported at motion m and local ectopic share e, p̂ᵢ the calibrated probability that beat i is a PAC, mᵢ and eᵢ its motion and the PAC share of its five preceding intervals, and τ(d,h) the observed hours in the block. The retention model, daily rate, coverage gate and participant-level rate are:
+> Formally, for day d and time-of-day block h, let A(d,h) be the beats the device reports, π̂ₖ(m, q) the probability that a beat of class k ∈ {PAC, other} is reported at motion m and coupling ratio q, p̂ᵢ the calibrated probability that beat i is a PAC, mᵢ and qᵢ its motion and coupling interval as a share of the preceding interval, and τ(d,h) the observed hours in the block. The retention model, daily rate, coverage gate and participant-level rate are:
 
 #### E1c · Equations (not counted)
 ```
-EQ|π̂ₖ(m, e) = π̂_class(k, e) · π̂_motion(m)|3.1
-EQ|R̂(d) = Σₕ (Lₕ / 24) · [ Σᵢ∈A(d,h) p̂ᵢ / π̂_PAC(mᵢ, eᵢ) ] / τ(d,h)|3.2
+EQ|π̂ₖ(m, q) = π̂_pulse(k, q) · π̂_motion(m)|3.1
+EQ|R̂(d) = Σₕ (Lₕ / 24) · [ Σᵢ∈A(d,h) p̂ᵢ / π̂_PAC(mᵢ, qᵢ) ] / τ(d,h)|3.2
 EQ|report R̂(d) only if c(d, h) ≥ θ_block for every block h|3.3
-EQ|R̄ = Σₕ (Lₕ / 24) · [ Σ_d∈V Σᵢ∈A(d,h) p̂ᵢ / π̂_PAC(mᵢ, eᵢ) ] / Σ_d∈V τ(d,h)|3.4
+EQ|R̄ = Σₕ (Lₕ / 24) · [ Σ_d∈V Σᵢ∈A(d,h) p̂ᵢ / π̂_PAC(mᵢ, qᵢ) ] / Σ_d∈V τ(d,h)|3.4
 ```
-Check after the build that Equation 3.1 still fits on one line (handover rule).
+π̂_pulse(other, q) = 1. The coupling ratio is written q because c(d, h) already denotes coverage and κ denotes Cohen's kappa. Check after the build that Equation 3.1 fits on one line.
 
-#### E1d · Appendix C, after the first paragraph (not counted)
-> Retention was fixed at 0.391 and did not vary with burden, so the simulation does not test the burden-dependent retention of Equation 3.1.
+#### E1d · Section 4.2, paragraph after Table 4.2 [main]
+**Current**
+> A single correction factor therefore cannot restore the count, which supports learning retention as a function of context in RO2.
 
-**Alternative to E1a to E1c if supervisors prefer not to change Equation 3.1** (use instead of E1a; about +25 words):
-> Retention corrects only the average loss by beat class and motion; the dependence of loss on ectopy burden found in Section 4.2 is left to the network, which sees each beat's context, and is tested by H1.
+**Proposed**
+> A single correction factor therefore cannot restore the count after deletion, which supports keeping flagged beats as input (RQ2.4).
+
+#### E1e · Appendix C, after the first paragraph (not counted)
+> Beat loss was set to the 20% filter retention of 0.391, which is pessimistic for a device that flags abnormal beats rather than deleting them (Garmin, n.d.); results therefore isolate coverage under heavy beat loss.
+
+#### E1f · Reference update (housekeeping)
+The proposal's `REF|Garmin. (n.d.). *Garmin Enhanced BBI* [White paper]` is the same document. Its cover is dated November 2023 and its full title is "Garmin Enhanced BBI: An example night". Consider changing to `Garmin. (2023). *Garmin Enhanced BBI: An example night* [White paper]. Garmin Health. https://www8.garmin.com/garminhealth/news/Garmin-Enhanced-BBI_Final.pdf` and updating in-text citations from (Garmin, n.d.) to (Garmin, 2023).
+
+**Risks to state if asked:**
+- The pulse-deficit term uses the same published coupling-interval threshold (Zheng et al., 2008) as the RO4a pulse-deficit operator. Report RO4a across the operator's severity sweep so the test is not just checking the model's own assumption.
+- The whitepaper is a vendor document (one subject, one night, Venu 2 Plus). Device verification confirms flag and gap behaviour on the study device and firmware.
+
+**Superseded options (kept for the record):** the first E1 draft made class retention depend on local PAC share; its alternative left Equation 3.1 unchanged and relied on the network. Both assumed the device deletes abnormal beats, which the whitepaper contradicts.
 
 ---
 
@@ -237,7 +269,7 @@ Daily-equivalent count | 24 times a patient-level rate of ectopic beats per anal
 > (none)
 
 **Proposed**
-> It corrects only beats the watch never reports, not flagged beats it reports; whether the Garmin deletes or only flags rejected beats is confirmed at device verification.
+> Flagged beats stay in the input unweighted, so no beat is corrected twice.
 
 #### E4b · Section 3.4, paragraph 2 [main]
 **Current**
@@ -258,7 +290,7 @@ Daily-equivalent count | 24 times a patient-level rate of ectopic beats per anal
 REF|Guo, C., Pleiss, G., Sun, Y., & Weinberger, K. Q. (2017). On calibration of modern neural networks. In D. Precup & Y. W. Teh (Eds.), *Proceedings of the 34th International Conference on Machine Learning* (Vol. 70, pp. 1321–1330). PMLR.
 ```
 
-**Note for the defence.** If device verification shows the Garmin only flags and never deletes, the class part of Equation 3.1 applies only to pulse deficit and gaps, and RQ2.4 ("flag as filter vs input vs input with correction") becomes the main test of whether correction is needed at all. Say this if asked.
+**Note for the defence.** The Garmin whitepaper states that abnormal beats are flagged, not deleted (see E1), so double counting can arise only if the analysis both deletes flagged beats and reweights by 1/π̂. RQ2.4 ("flag as filter vs input vs input with correction") tests exactly that.
 
 ---
 
@@ -366,7 +398,7 @@ Appendix C shows that under poor coverage 58% to 61% of simulated participants h
 TABLE|Table B.3: Disjoint sets of Icentia11k patients
 W|18|42|40
 Set | Use | Size and selection
-P0 | Preliminary RO1 analysis (Section 4.2); class retention π̂_class(k, e) | 298 analysed of 300 sampled with a fixed seed
+P0 | Preliminary RO1 analysis (Section 4.2) | 298 analysed of 300 sampled with a fixed seed
 P1 | H1 test of burden-dependent retention | New random sample, size fixed before analysis
 P2 | RO2 training, validation and test, split by subject | Random sample, split lists recorded and released
 P3 | RO4a held-out substitution test | About 300, untouched until the RO2 model is frozen (milestone M4)
@@ -472,17 +504,17 @@ Slide numbers follow the handover order. Only text is given; keep the existing H
 |---|---|---|---|
 | 5 | `rq-ro.html` | **H2** the ST-GNN beats the best non-graph baseline on daily-count error | **H2** the ST-GNN beats the best non-graph baseline on daily-equivalent count error |
 | 13 | `validation-matrix.html` | RO2 metric: Daily-count MAE; Bland–Altman bias and limits | RO2 metric: MAE of the daily-equivalent count (24 × patient rate); Bland–Altman bias and limits |
-| 14 | `ro1-ro2.html` | Quality flag enters as input; retention by beat class (RO1) and motion (Pulsewatch, lag-corrected); coverage gate (Equations 3.1 to 3.4, appendix) | Quality flag enters as input; retention by beat class and local ectopic share (RO1) and motion (Pulsewatch, lag-corrected) corrects only unreported beats; coverage gate is a reporting rule (Equations 3.1 to 3.4) |
+| 14 | `ro1-ro2.html` | Quality flag enters as input; retention by beat class (RO1) and motion (Pulsewatch, lag-corrected); coverage gate (Equations 3.1 to 3.4, appendix) | Quality flag enters as input; retention corrects only silent loss: pulse deficit by coupling interval and motion (Pulsewatch, lag-corrected); Garmin flags abnormal beats and marks gaps; coverage gate is a reporting rule (Equations 3.1 to 3.4) |
 | 14 | `ro1-ro2.html` (new bullet) | (none) | Epoch scale trained on pseudo-days on Icentia11k (segments untimed); real day order tested on Pulsewatch |
 | 15 | `ro3.html` (under primary outcome) | (none) | Key secondary: pooled ESVEA count computable (≥1 h per block across the week) |
 | 16 | `ro4.html` (new table row) | (none) | Interval timing noise · PPG peak vs ECG R-peak offsets measured on Pulsewatch; swept |
 | 17 | `preliminary.html` | Evaluation mode, score weight 0.9 throughout | Evaluation mode, score weight 0.5 (untuned); 0.9 reported as sensitivity |
 | 17 | `preliminary.html` | the 0.9 score weight was chosen from a sweep on held-out cohorts, so test data are not fully untouched | the 0.9 weight, chosen on held-out cohorts, is shown only as a sensitivity result (Simband 0.891 → 0.951) |
 | 19 | `risks.html` | RO4a simulation optimistic (ECG RR, not PPG) · Calibrated operators; severity sweep; stated limitation | RO4a simulation optimistic (ECG RR, not PPG) · Four calibrated operators incl. PPG timing noise; severity sweep; stated limitation |
-| App | `app-eq.html` | (3.1) π̂ₖ(m) = π̂_class(k) · π̂_motion(m) | (3.1) π̂ₖ(m, e) = π̂_class(k, e) · π̂_motion(m); and π̂_PAC(mᵢ, eᵢ) in (3.2) and (3.4) |
-| App | `app-eq.html` (definitions line) | A(d,h): retained beats … m_i: accelerometer motion | A(d,h): beats the device reports; p̂ᵢ: calibrated PAC probability; mᵢ: motion; eᵢ: PAC share of the 5 preceding intervals |
+| App | `app-eq.html` | (3.1) π̂ₖ(m) = π̂_class(k) · π̂_motion(m) | (3.1) π̂ₖ(m, q) = π̂_pulse(k, q) · π̂_motion(m); and π̂_PAC(mᵢ, qᵢ) in (3.2) and (3.4) |
+| App | `app-eq.html` (definitions line) | A(d,h): retained beats … m_i: accelerometer motion | A(d,h): beats the device reports; p̂ᵢ: calibrated PAC probability; mᵢ: motion; qᵢ: coupling interval ÷ preceding interval. Gaps go to τ, flagged beats stay as input |
 | App | `app-c1.html` | Day level: MAE of the daily count; agreement with the patient-level reference | Patient level: MAE of the daily-equivalent count; calibration across burden |
-| App | `app-b3.html` | Stage 1 fits the retention curve where censoring is observable; Stage 2 weights each surviving beat by 1/π(r); Stage 3 calibrates the coverage gate that decides whether … | Stage 1 fits retention: beat class and local ectopic share from RO1 × motion from Pulsewatch (lag-corrected); Stage 2 weights each reported beat by 1/π̂; Stage 3 applies the coverage gate, a fixed reporting rule. (Also a known handover inconsistency; the figure on this slide may need redrawing.) |
+| App | `app-b3.html` | Stage 1 fits the retention curve where censoring is observable; Stage 2 weights each surviving beat by 1/π(r); Stage 3 calibrates the coverage gate that decides whether … | Stage 1 fits retention for silent loss: pulse deficit by coupling interval × motion from Pulsewatch (lag-corrected); Stage 2 weights each reported beat by 1/π̂; Stage 3 applies the coverage gate, a fixed reporting rule. (Also a known handover inconsistency; the figure on this slide may need redrawing.) |
 
 **Speaker note to add on `app-eq.html`:**
 > If asked about double counting: the reliability pathway corrects only beats the watch never reports. Reported beats, flagged or not, stay in the model's input and are not reweighted. Beat probabilities are temperature-scaled on validation subjects before they are summed, because a sum of uncalibrated probabilities inflates the count.
