@@ -324,6 +324,12 @@ mark.m1{background:color-mix(in srgb,var(--c1) 22%,transparent)}
 mark.m2{background:color-mix(in srgb,var(--c2) 22%,transparent)}
 mark.m3{background:color-mix(in srgb,var(--c3) 24%,transparent)}
 mark.m4{background:color-mix(in srgb,var(--k1) 22%,transparent)}
+.panelq{border:1px solid var(--rule);border-top:3px solid var(--warn);border-radius:8px;background:var(--surface);padding:14px 18px;margin:16px 0 22px;max-width:86ch}
+.panelq>.lv{display:block;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--warn);margin-bottom:4px}
+.panelq .pq{font-family:var(--f-display);font-size:1.15rem;line-height:1.45;margin:0 0 10px}
+.panelq .pa{margin:0 0 6px}
+.panelq h4{margin-top:14px}
+table.labgrid td{vertical-align:top}
 @media (prefers-reduced-motion: reduce){ .vtip{transition:none} }
 </style>
 
@@ -748,6 +754,44 @@ mark.m4{background:color-mix(in srgb,var(--k1) 22%,transparent)}
   <p class="muted">Hover, focus or click a box to trace what feeds it and what it feeds, and to read what it brings. Blue boxes are the objectives. P0 to P3 are the disjoint Icentia11k patient sets of Table B.3 (<a href="#v-part">patient sets</a>): P0 preliminary RO1, P1 the H1 test, P2 RO2 development, P3 held out for RO4a.</p>
   <div class="viz" id="v-flow" data-label="Dependency diagram: Icentia11k feeds RO1, RO2 and the held-out RO4a set; Pulsewatch feeds RO1 and the motion retention in RO2; the Garmin specification fixes flag semantics for RO2; RO1 feeds RO2 and RO4a; the frozen RO2 model feeds RO4a; the RO3 cohort feeds RO3, which feeds RO4b and the RO4a coverage operator."></div>
   <div class="fdetail" id="flow-detail" aria-live="polite"></div>
+
+  <div class="panelq" id="why-not-ppum">
+    <span class="lv">Likely panel question</span>
+    <p class="pq">"Your study uses a Garmin, but the retention model comes from a Samsung dataset. Why not wait for the watch and train on the PPUM patients directly?"</p>
+    <p class="pa"><b>Short answer.</b> Training needs to know which beat was a PAC and which real heartbeat the watch missed. The PPUM cohort cannot say either: by design it has no ECG alongside the watch, and the Garmin exports beat intervals and flags but no raw pulse waveform. Its role is to show whether the watch delivers enough data after stroke, not to supply labels.</p>
+
+    <h4>What each source can tell the model</h4>
+    <div class="tw"><table class="labgrid">
+      <thead><tr><th>Needed to train or calibrate</th><th>Icentia11k</th><th>Pulsewatch</th><th>PPUM Garmin cohort</th></tr></thead>
+      <tbody>
+        <tr><td>Which beat is a PAC (the label the count is built on)</td><td><span class="chip ok">yes</span> every beat labelled</td><td><span class="chip warn">merged</span> PAC and PVC together, per 30-s window</td><td><span class="chip bad">no</span> no ECG</td></tr>
+        <tr><td>Which real heartbeats the watch missed, by motion (π̂(m))</td><td><span class="chip bad">no</span> no watch</td><td><span class="chip ok">yes</span> wrist pulse + reference ECG + accelerometer</td><td><span class="chip bad">no</span> no reference heartbeat to compare with</td></tr>
+        <tr><td>The Garmin&#39;s own flags and gap marks</td><td><span class="chip warn">simulated</span> from the Garmin specification</td><td><span class="chip bad">no</span> Samsung</td><td><span class="chip ok">yes</span> real</td></tr>
+        <tr><td>Raw pulse waveform</td><td><span class="chip bad">no</span></td><td><span class="chip ok">yes</span></td><td><span class="chip bad">no</span> not exported by the Garmin</td></tr>
+        <tr><td>Post-stroke wear and coverage pattern</td><td><span class="chip bad">no</span></td><td><span class="chip warn">other patients</span></td><td><span class="chip ok">yes</span></td></tr>
+        <tr><td>Size</td><td>about 11,000 patients</td><td>clinical subset with ECG</td><td>about 40 recruited, 34 analysed</td></tr>
+      </tbody>
+    </table></div>
+
+    <h4>Why the PPUM data cannot replace the transfer</h4>
+    <ol class="tight">
+      <li><b>No ground truth, by design.</b> The cohort has no concurrent ECG, and an ECG-patch substudy was ruled out (supervisor decision, 2 November 2026). Without a reference rhythm, no beat in the Garmin data can be labelled PAC or normal, and no missed heartbeat can be counted. Training on it would mean learning from the model&#39;s own guesses.</li>
+      <li><b>No raw signal to relabel.</b> The Garmin exports Enhanced beat-to-beat intervals with a binary confidence flag and gap marks; the pulse waveform itself is not available. That loss is exactly what RO1 quantifies, so the same data cannot also be used to recover the labels.</li>
+      <li><b>Too small for training, and needed for something else.</b> About 34 analysable participants, with fewer than five AF events expected, is enough for a feasibility proportion (H3: 90% power against 50%) but not to train or validate a deep model. Using the same patients to train and to judge deployability would also mix the two questions.</li>
+      <li><b>Only one curve transfers, not a model.</b> The graph network is trained on Icentia11k ECG intervals with Garmin-style flags simulated from the Garmin specification. Pulsewatch supplies one calibration, π̂(m): how often a real beat reaches the watch&#39;s beat list at each level of motion. That single step is the Samsung-to-Garmin assumption, and it is stated as one.</li>
+      <li><b>The timeline would break the dependency chain.</b> The device and ethics come at semester 4. Waiting for them before training would put RO1, RO2 and RO4a at risk on the one part of the study that is least certain; as designed, those three proceed whatever happens to the cohort.</li>
+    </ol>
+
+    <h4>How the transfer assumption is contained</h4>
+    <ul class="tight">
+      <li>It is named as an assumption in §3.4 and in Limits, not hidden.</li>
+      <li>Retention is reported with a peak-detector sensitivity analysis (0.850 vs 0.752 between detectors in the pre-check), so its effect on the count is visible.</li>
+      <li>RO4a sweeps every loss operator in severity rather than using one setting, so the conclusion does not rest on a single transferred value.</li>
+      <li>RO3 checks the Garmin side that can be checked without ECG: flagged-beat fraction rising with motion as on Pulsewatch (RQ3.4), and the export, flag and gap encoding at device verification.</li>
+      <li>Validating the count on a Garmin against ECG is outside this thesis by design (Table 1.2 excludes a concurrent Holter); it is the natural next study.</li>
+    </ul>
+    <p class="cap">If the panel presses for direct Garmin evidence, the honest position is that a Garmin plus Holter subset would answer it, that it was considered and set aside by the supervisors for this thesis, and that π̂(m) is fitted outside the network, so it can be refitted on Garmin data once such data exist.</p>
+  </div>
 
   <h3>The chain, step by step</h3>
   <p>No single dataset has everything the question needs. The one with true beat labels has no wrist pulse and no clock; the one with a wrist pulse has the wrong watch and merged labels; the stroke cohort has the right watch and the right patients but no ECG. Each step below takes what one source can show and hands it to the next, which is why the order is fixed.</p>
