@@ -317,6 +317,13 @@ table.pscheck td:first-child{min-width:12em}
 .osug{border-left:3px solid var(--accent);background:var(--paper);padding:8px 12px;border-radius:0 6px 6px 0;font-weight:500}
 .osug .lv{display:block;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:2px;font-weight:400}
 @media (max-width:640px){ .obj dl{grid-template-columns:minmax(0,1fr)} .obj dt{margin-top:4px} }
+table.rqro td{width:50%;vertical-align:top;line-height:1.6}
+.rqid{display:block;font-family:var(--f-mono);font-size:.72rem;color:var(--muted);margin-bottom:2px}
+table.rqro mark{color:inherit;border-radius:3px;padding:0 2px}
+mark.m1{background:color-mix(in srgb,var(--c1) 22%,transparent)}
+mark.m2{background:color-mix(in srgb,var(--c2) 22%,transparent)}
+mark.m3{background:color-mix(in srgb,var(--c3) 24%,transparent)}
+mark.m4{background:color-mix(in srgb,var(--k1) 22%,transparent)}
 @media (prefers-reduced-motion: reduce){ .vtip{transition:none} }
 </style>
 
@@ -565,6 +572,18 @@ table.pscheck td:first-child{min-width:12em}
   <span class="eyebrow">Section 1.3 · Table 1.1 and Table 3.5</span>
   <h2>Research objectives</h2>
   <p>An objective states the result the study will deliver, not the activity it will carry out. Together the objectives must test every part of each hypothesis, number between two and five, follow one another logically without any one depending absolutely on the result of an earlier one, and lead straight to the methodology. An objective can be written as testing a hypothesis, measuring a parameter to a stated accuracy, proving a conjecture, or applying a method from one field to a problem in another.</p>
+
+  <h3>Questions and objectives side by side</h3>
+  <div class="tw wide"><table class="rqro">
+    <thead><tr><th>Research question</th><th>Research objective</th></tr></thead>
+    <tbody>
+      <tr><td><span class="rqid">RQ1</span>How much <mark class="m1">ectopy information is lost</mark> when a <mark class="m2">PPG waveform is reduced to a quality-filtered beat-interval series</mark>?</td><td><span class="rqid">RO1</span>To investigate the <mark class="m1">information lost</mark> when a <mark class="m2">PPG waveform is reduced to a filtered beat-interval series</mark>, <mark class="m3">separating the loss from absent pulse morphology from the loss due to beat rejection</mark>.</td></tr>
+      <tr><td><span class="rqid">RQ2</span>Can a <mark class="m1">two-scale beat-interval ST-GNN</mark> that uses <mark class="m2">per-beat quality flags</mark> as input <mark class="m3">estimate atrial ectopy rate</mark> <mark class="m4">more accurately than sequence-based baselines</mark>?</td><td><span class="rqid">RO2</span>To <mark class="m4">develop and evaluate</mark> a <mark class="m1">two-scale beat-interval ST-GNN</mark> (beat-graph and epoch-graph) that <mark class="m3">estimates atrial ectopy rate</mark> from interval sequences and their <mark class="m2">quality flags</mark>.</td></tr>
+      <tr><td><span class="rqid">RQ3</span>Can a <mark class="m1">7-day smartwatch protocol in post-stroke survivors</mark> yield <mark class="m2">enough analysable</mark> and <mark class="m3">stable</mark> data to <mark class="m4">compute a per-day ESVEA classification</mark>?</td><td><span class="rqid">RO3</span>To evaluate the deployability of a <mark class="m1">7-day smartwatch protocol in post-stroke survivors</mark> by analysing <mark class="m2">data yield</mark>, <mark class="m4">threshold computability</mark> and <mark class="m3">day-to-day stability</mark> against pre-specified progression criteria.</td></tr>
+      <tr><td><span class="rqid">RQ4</span>Does <mark class="m1">substituting a smartwatch-derived ectopy estimate for the ECG-derived count</mark> <mark class="m2">change ESVEA classification</mark>, and how do <mark class="m3">wearable-based selections compare with clinical risk scores</mark>?</td><td><span class="rqid">RO4</span>To evaluate and validate the <mark class="m1">substitution of a smartwatch-derived ectopy estimate for the ECG-derived count</mark>: (a) <mark class="m2">ESVEA reclassification</mark> under simulated device losses, and (b) <mark class="m3">agreement with score-based selections</mark> in post-stroke survivors.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="cap">Wording as in Table 1.1. Phrases in the same colour within a row say the same thing in the question and the objective. In row 2, "more accurately than baselines" is the question&#39;s comparison, which the objective carries only as "evaluate"; in row 3, the question asks for a per-day classification while the objective measures computability of the threshold; in row 1, the objective adds a split (morphology vs rejection) the question does not name.</p>
 
   <div class="objgrid">
     <article class="obj">
