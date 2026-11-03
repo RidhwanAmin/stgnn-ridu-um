@@ -1,0 +1,848 @@
+<title>ESVEA ST-GNN Research Map</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sticky chapter rail on the left, one reading column on the right; diagrams break wider than the text measure. */
+:root{
+  --paper:#F6F7F5; --surface:#FFFFFF; --ink:#18222C; --muted:#5A6570; --rule:#D8DDDD;
+  --accent:#A3214F;            /* ECG trace crimson */
+  --layer:#E7EFF8; --layer-ink:#1F4E80;   /* standard layer (matches Figure 3.2 blue) */
+  --gate:#F7E8D0;  --gate-ink:#85550F;    /* learned gates and frozen pathway (Figure 3.2 amber) */
+  --ok:#2C7A4B; --warn:#A86200; --bad:#B42318;
+  --grid:#EBD9DF;
+  --f-display:"Newsreader", "Iowan Old Style", Georgia, serif;
+  --f-body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --s-1:.8125rem; --s0:1rem; --s1:1.1875rem; --s2:1.5rem; --s3:2.125rem;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#0F151B; --surface:#151D25; --ink:#E3E8ED; --muted:#9AA5B0; --rule:#28333D;
+  --accent:#E26892; --layer:#16283B; --layer-ink:#9CC4EE; --gate:#372A14; --gate-ink:#EFC27C;
+  --ok:#5CC28A; --warn:#E3A24A; --bad:#F2796D; --grid:#2A1E24; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --paper:#0F151B; --surface:#151D25; --ink:#E3E8ED; --muted:#9AA5B0; --rule:#28333D;
+  --accent:#E26892; --layer:#16283B; --layer-ink:#9CC4EE; --gate:#372A14; --gate-ink:#EFC27C;
+  --ok:#5CC28A; --warn:#E3A24A; --bad:#F2796D; --grid:#2A1E24; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:var(--s0);line-height:1.6;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.shell{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:220px minmax(0,1fr);gap:48px;padding-block:40px 80px}
+@media (max-width:900px){ .shell{grid-template-columns:minmax(0,1fr);gap:24px;padding-block:24px 56px} }
+
+/* rail */
+nav.rail{position:sticky;top:calc(env(safe-area-inset-top, 0px) + 24px);align-self:start;font-size:var(--s-1)}
+nav.rail p{font-family:var(--f-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 10px;font-size:.72rem}
+nav.rail ol{list-style:none;margin:0;padding:0;display:grid;gap:2px;border-left:1px solid var(--rule)}
+nav.rail a{display:block;padding:4px 0 4px 14px;color:var(--muted);text-decoration:none;margin-left:-1px;border-left:2px solid transparent}
+nav.rail a:hover,nav.rail a:focus-visible{color:var(--ink);border-left-color:var(--accent);outline:none}
+nav.rail .ro{font-family:var(--f-mono);font-size:.7rem;color:var(--accent);margin-right:6px}
+@media (max-width:900px){ nav.rail{position:static} nav.rail ol{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));border-left:0} nav.rail a{border-left:0;padding-left:0} }
+
+main{min-width:0}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;text-wrap:balance;line-height:1.2;margin:0}
+h1{font-size:clamp(1.75rem,3.6vw,2.6rem);letter-spacing:-.01em}
+h2{font-size:var(--s3);margin-bottom:14px}
+h3{font-size:var(--s2);margin:28px 0 10px}
+h4{font-family:var(--f-mono);font-weight:500;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:20px 0 8px}
+p{margin:0 0 12px;max-width:68ch}
+section{padding-block:44px;border-top:1px solid var(--rule)}
+section:first-of-type{border-top:0;padding-top:0}
+.eyebrow{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;display:block}
+.lede{font-size:var(--s1);color:var(--ink);max-width:62ch}
+.muted{color:var(--muted)}
+code,.mono{font-family:var(--f-mono);font-size:.9em}
+a{color:var(--accent)}
+strong{font-weight:600}
+
+/* hero */
+.hero{display:grid;gap:20px}
+.hero > *,.two > *,.trace,.chart,.tw{min-width:0}
+.meta{display:flex;flex-wrap:wrap;gap:8px 28px;font-size:var(--s-1);color:var(--muted)}
+.meta b{color:var(--ink);font-weight:500}
+.trace{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:14px 16px 8px;overflow-x:auto}
+.trace svg{display:block;width:100%;min-width:560px;height:auto}
+.trace .gridline{stroke:var(--grid);stroke-width:1}
+.trace .axis{fill:var(--muted);font-family:var(--f-mono);font-size:10px}
+.trace .beat{fill:var(--ink)}
+.trace .pac{fill:var(--accent)}
+.trace .flagring{fill:none;stroke:var(--accent);stroke-width:1.5;stroke-dasharray:3 2}
+.trace .line{fill:none;stroke:var(--muted);stroke-width:1}
+.trace .gap{fill:var(--rule);opacity:.7}
+.trace .note{fill:var(--ink);font-family:var(--f-body);font-size:11px}
+.trace .note.acc{fill:var(--accent)}
+
+/* tables */
+.tw{overflow-x:auto;margin:12px 0 18px;border:1px solid var(--rule);border-radius:6px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:var(--s-1);font-variant-numeric:tabular-nums}
+th,td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--rule)}
+th{font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);background:var(--paper)}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;white-space:nowrap}
+.tw.wide table{min-width:720px}
+
+/* chips */
+.chip{display:inline-block;font-family:var(--f-mono);font-size:.7rem;padding:1px 7px;border-radius:999px;border:1px solid currentColor;white-space:nowrap;line-height:1.6}
+.chip.ok{color:var(--ok)} .chip.warn{color:var(--warn)} .chip.bad{color:var(--bad)} .chip.acc{color:var(--accent)}
+
+/* callout */
+.note-box{border-left:3px solid var(--accent);background:var(--surface);padding:12px 16px;margin:16px 0;border-radius:0 6px 6px 0;max-width:72ch}
+.note-box p:last-child{margin-bottom:0}
+
+/* pipeline */
+.pipeline{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 0}
+@media (max-width:760px){ .pipeline{grid-template-columns:minmax(0,1fr)} }
+.phase{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:14px;display:grid;gap:6px;align-content:start;position:relative}
+.phase .tag{font-family:var(--f-mono);font-size:.72rem;color:var(--accent);letter-spacing:.06em}
+.phase h3{font-size:1.15rem;margin:0}
+.phase p{font-size:var(--s-1);margin:0;color:var(--muted)}
+.phase .feeds{font-family:var(--f-mono);font-size:.7rem;color:var(--ink);border-top:1px dashed var(--rule);padding-top:6px;margin-top:4px}
+
+/* architecture */
+.arch{display:grid;grid-template-columns:.8fr 1fr 1.5fr 1fr;gap:10px;margin:16px 0 8px}
+@media (max-width:860px){ .arch{grid-template-columns:minmax(0,1fr) minmax(0,1fr)} }
+@media (max-width:480px){ .arch{grid-template-columns:minmax(0,1fr)} }
+.col{border:1px dashed var(--rule);border-radius:8px;padding:10px;display:grid;gap:8px;align-content:start;min-width:0}
+.col > .lab{font-family:var(--f-mono);font-size:.72rem;color:var(--muted);text-align:center}
+.blk{all:unset;box-sizing:border-box;display:block;cursor:pointer;border-radius:6px;padding:8px 10px;font-size:.84rem;line-height:1.35;text-align:center;border:1px solid transparent;background:var(--layer);color:var(--layer-ink)}
+.blk.g{background:var(--gate);color:var(--gate-ink)}
+.blk.data{background:transparent;border:1px solid var(--rule);color:var(--ink)}
+.blk small{display:block;font-family:var(--f-mono);font-size:.7rem;opacity:.85;margin-top:2px}
+.blk:hover{border-color:currentColor}
+.blk:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.blk[aria-pressed="true"]{border-color:currentColor;box-shadow:0 0 0 2px var(--paper),0 0 0 3px currentColor}
+.group{border:1px solid var(--rule);border-radius:8px;padding:8px;display:grid;gap:6px}
+.group > .lab{font-size:.75rem;color:var(--muted);text-align:center;font-family:var(--f-mono)}
+.branches{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.down{text-align:center;color:var(--muted);font-size:.8rem;line-height:1}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:var(--s-1);color:var(--muted);margin-bottom:6px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:6px}
+.detail{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:16px 18px;margin-top:10px;min-height:150px}
+.detail h4{margin-top:0;color:var(--accent)}
+.detail .eqn{margin:10px 0}
+
+/* equations */
+.eqn{font-family:var(--f-display);font-size:1.15rem;background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:12px 16px;overflow-x:auto;white-space:nowrap;display:flex;justify-content:space-between;gap:20px;align-items:baseline}
+.eqn .no{font-family:var(--f-mono);font-size:.78rem;color:var(--muted)}
+.eqn sub,.eqn sup{font-size:.68em}
+.sym{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:4px 16px;font-size:var(--s-1);margin:10px 0 16px}
+.sym dt{font-family:var(--f-display);font-size:1rem}
+.sym dd{margin:0;color:var(--muted)}
+
+/* calculator */
+.calc{background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:16px;margin:16px 0}
+.calc-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:640px){ .calc-grid{grid-template-columns:repeat(2,minmax(0,1fr))} }
+.calc fieldset{border:1px solid var(--rule);border-radius:6px;padding:8px 10px;margin:0;min-width:0}
+.calc legend{font-family:var(--f-mono);font-size:.74rem;color:var(--muted);padding:0 4px}
+.calc label{display:grid;gap:2px;font-size:.75rem;color:var(--muted);margin-bottom:6px}
+.calc input{font:inherit;font-family:var(--f-mono);font-size:.9rem;width:100%;padding:4px 6px;border:1px solid var(--rule);border-radius:4px;background:var(--paper);color:var(--ink)}
+.calc input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.calc .row{display:flex;flex-wrap:wrap;gap:12px 20px;margin-top:12px;align-items:end}
+.calc .row label{min-width:150px}
+.out{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:14px}
+.out div{border-top:2px solid var(--rule);padding-top:6px}
+.out b{display:block;font-family:var(--f-mono);font-size:1.25rem;font-weight:500}
+.out span{font-size:.75rem;color:var(--muted)}
+.blockline{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);margin-top:10px;overflow-x:auto;white-space:nowrap}
+
+/* charts */
+.chart{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:12px;overflow-x:auto}
+.chart svg{display:block;width:100%;min-width:520px;height:auto}
+.chart .ax{stroke:var(--rule)}
+.chart .tick{fill:var(--muted);font-family:var(--f-mono);font-size:10px}
+.chart .lbl{font-family:var(--f-body);font-size:11px}
+.chart .s1{stroke:var(--accent);fill:var(--accent)}
+.chart .s2{stroke:var(--gate-ink);fill:var(--gate-ink)}
+.chart .s3{stroke:var(--layer-ink);fill:var(--layer-ink)}
+.chart .s4{stroke:var(--muted);fill:var(--muted)}
+.chart path{fill:none;stroke-width:2}
+.bar{display:flex;align-items:center;gap:8px}
+.bar span.b{display:inline-block;height:8px;border-radius:2px;background:var(--accent);opacity:.8}
+
+figure{margin:16px 0}
+figure img{display:block;background:#fff;border:1px solid var(--rule);border-radius:6px;padding:8px;max-width:100%;height:auto}
+figcaption{font-size:var(--s-1);color:var(--muted);margin-top:6px;max-width:72ch}
+details{margin:10px 0}
+summary{cursor:pointer;color:var(--accent);font-size:var(--s-1)}
+
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:760px){ .two{grid-template-columns:minmax(0,1fr)} }
+ul.tight{margin:0 0 12px;padding-left:20px;max-width:70ch}
+ul.tight li{margin-bottom:4px}
+
+.sched{font-family:var(--f-mono);font-size:.75rem}
+.sched td.on{background:var(--accent);opacity:.85}
+.sched td{text-align:center;padding:6px 4px}
+.sched td:first-child{text-align:left;font-family:var(--f-body);font-size:.8rem}
+footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px solid var(--rule)}
+</style>
+
+<div class="shell">
+<nav class="rail" aria-label="Sections">
+  <p>Research map</p>
+  <ol>
+    <li><a href="#overview">Study in one page</a></li>
+    <li><a href="#framework">Framework and design</a></li>
+    <li><a href="#pipeline">Methodology pipeline</a></li>
+    <li><a href="#ro1"><span class="ro">RO1</span>Information loss</a></li>
+    <li><a href="#architecture"><span class="ro">RO2</span>ST-GNN architecture</a></li>
+    <li><a href="#estimator"><span class="ro">RO2</span>Estimator equations</a></li>
+    <li><a href="#evaluation"><span class="ro">RO2</span>Baselines, ablations</a></li>
+    <li><a href="#ro3"><span class="ro">RO3</span>Deployability</a></li>
+    <li><a href="#ro4"><span class="ro">RO4</span>Substitution</a></li>
+    <li><a href="#analysis">Analysis plan</a></li>
+    <li><a href="#evidence">Preliminary evidence</a></li>
+    <li><a href="#limits">Limits and claims</a></li>
+    <li><a href="#schedule">Schedule</a></li>
+  </ol>
+</nav>
+
+<main>
+<!-- HERO -->
+<section class="hero" id="top">
+  <span class="eyebrow">PhD research context · state at 3 November 2026</span>
+  <h1>Estimating Atrial Ectopy Burden from Smartwatch Beat Intervals</h1>
+  <p class="lede">A two-scale spatio-temporal graph neural network, with an explicit model of signal quality and unobserved time, and its feasibility in post-stroke survivors.</p>
+  <div class="meta">
+    <span><b>Ridhwan Amin Azhari Bin Zabidi</b> · 25118475</span>
+    <span>FCSIT, Universiti Malaya</span>
+    <span>Supervisors: <b>Dr. Bryan Raj A/L Peter Jabaraj</b>, <b>Assoc. Prof. Ts. Dr. Ismail Bin Ahmedy</b></span>
+    <span>Stage: proposal defence (S2) · submission 8 May 2029 (S7)</span>
+  </div>
+  <div class="trace" role="img" aria-label="Sketch of a beat-interval series: regular intervals near 800 ms, a premature atrial beat producing a short coupling interval then a long pause, flagged low confidence by the device, followed by a gap of unobserved time.">
+    <svg viewBox="0 0 720 170" preserveAspectRatio="xMidYMid meet">
+      <g id="tgrid"></g>
+      <text class="axis" x="4" y="14">RR (ms)</text>
+      <text class="axis" x="4" y="58">1100</text>
+      <text class="axis" x="4" y="98">800</text>
+      <text class="axis" x="4" y="138">500</text>
+      <rect class="gap" x="470" y="20" width="120" height="125"/>
+      <text class="note" x="478" y="36">unobserved time</text>
+      <text class="note" x="478" y="50">(non-wear, motion, charging)</text>
+      <polyline class="line" id="tline" points=""/>
+      <g id="tdots"></g>
+      <text class="note acc" x="150" y="162">PAC: short coupling interval, then pause; device flags it low confidence</text>
+    </svg>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <span class="eyebrow">The study in one page</span>
+  <h2>Problem, aim and questions</h2>
+  <p><strong>Problem.</strong> Excessive supraventricular ectopic activity (ESVEA) selects post-stroke survivors for prolonged rhythm monitoring, but every threshold was derived on Holter ECG, the scarce resource being allocated. Smartwatches report beat intervals with a per-beat quality flag, yet the error of a smartwatch-derived daily ectopic count is unknown. Filtering removes ectopic beats preferentially, and analysable data are night-weighted while PACs peak in the afternoon and evening.</p>
+  <p><strong>Aim.</strong> Establish whether smartwatch beat intervals, analysed with an estimator that models signal quality and unobserved time, can yield a daily atrial ectopy estimate whose error is characterised against ECG labels under simulated smartwatch losses, and whose coverage after stroke is adequate, as a step towards comparison with ECG-derived ESVEA thresholds.</p>
+
+  <div class="tw wide"><table>
+    <thead><tr><th>Research question</th><th>Research objective</th><th>Hypothesis</th></tr></thead>
+    <tbody>
+      <tr><td><b>RQ1</b> How much ectopy information is lost when a PPG waveform is reduced to a quality-filtered beat-interval series?</td><td><b>RO1</b> Investigate the loss, separating absent pulse morphology from beat rejection.</td><td><b>H1</b> In Icentia11k patients not used in the preliminary analysis, PAC retention after filtering varies with ectopy burden, so no single correction factor restores the count.</td></tr>
+      <tr><td><b>RQ2</b> Can a two-scale beat-interval ST-GNN using per-beat quality flags as input estimate atrial ectopy rate more accurately than sequence-based baselines?</td><td><b>RO2</b> Develop and evaluate the two-scale ST-GNN (beat-graph and epoch-graph).</td><td><b>H2</b> On subject-wise held-out data, the ST-GNN with the flag as input has lower daily-count MAE than the best non-graph baseline.</td></tr>
+      <tr><td><b>RQ3</b> Can a 7-day smartwatch protocol in post-stroke survivors yield enough analysable and stable data for a per-day ESVEA classification?</td><td><b>RO3</b> Evaluate deployability (yield, threshold computability, day-to-day stability) against progression criteria.</td><td><b>H3</b> At least 75% of participants yield 3 or more valid days (null 50% or below).</td></tr>
+      <tr><td><b>RQ4</b> Does substituting a smartwatch estimate for the ECG count change ESVEA classification, and how do wearable-based selections compare with clinical scores?</td><td><b>RO4</b> (a) Reclassification under simulated device losses on held-out Icentia11k; (b) agreement with score-based selections in the cohort.</td><td>Descriptive, no hypothesis.</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="two">
+    <div>
+      <h4>ESVEA definition used</h4>
+      <ul class="tight">
+        <li><b>Primary:</b> 480 or more supraventricular beats per day (Haeusler et al., 2025, MonDAFIS).</li>
+        <li><b>Secondary:</b> 30 or more per hour (Binici et al., 2010).</li>
+        <li>Runs reported separately, because filtering breaks them.</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contribution claimed</h4>
+      <ul class="tight">
+        <li><b>Method:</b> the quality flag treated as evidence; a frozen retention model reweights retained beats; a coverage gate decides when a value can be reported.</li>
+        <li><b>Empirical:</b> loss decomposition (RO1) and the error of a daily count under simulated losses (RO2, RO4a); deployability after stroke (RO3).</li>
+        <li>The graph architecture is a means, tested against baselines, not a claimed contribution.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FRAMEWORK -->
+<section id="framework">
+  <span class="eyebrow">Chapter 3.1 and 3.2</span>
+  <h2>Conceptual framework and research design</h2>
+  <p>Survivors are selected for monitoring either by clinical risk scores or by Holter ectopy burden. The study adds a third route, smartwatch beat intervals, and estimates a daily ectopy rate with an explicit observation model.</p>
+  <div class="tw"><table>
+    <tbody>
+      <tr><th style="width:28%">Independent construct</th><td>The observed beat-interval series with its per-beat quality flags</td></tr>
+      <tr><th>Dependent construct</th><td>Daily ectopy rate and the ESVEA class derived from it</td></tr>
+      <tr><th>Moderating construct</th><td>Coverage, defined by time of day (four 6-hour blocks)</td></tr>
+    </tbody>
+  </table></div>
+  <figure>
+    <img src="assets/framework.png" alt="Conceptual framework: selecting post-stroke survivors for prolonged monitoring splits into clinical risk scores and atrial ectopy burden; ectopy burden comes from Holter ECG or smartwatch beat intervals; smartwatch intervals are analysed by window classification (existing work) or the two-scale ST-GNN with an observation model (this study)." loading="lazy" width="1749" height="1195">
+    <figcaption>Figure 3.1. Conceptual framework. Bold boxes mark the contribution of this study.</figcaption>
+  </figure>
+
+  <h3>Design: three retrospective analyses, one prospective cohort</h3>
+  <div class="tw wide"><table>
+    <thead><tr><th>Data</th><th>Role</th><th>Key facts that constrain the method</th></tr></thead>
+    <tbody>
+      <tr><td><b>Icentia11k</b><br><span class="muted">PhysioNet, CC BY-NC-SA 4.0</span></td><td>ECG beat-label truth for RO1, RO2, RO4a</td><td>Up to 50 random ~70-min segments per patient with <b>no clock time</b>; ~24% of beats unclassifiable (excluded). Reference is a patient-level rate × 24, not a true day.</td></tr>
+      <tr><td><b>Pulsewatch</b><br><span class="muted">Synapse syn23565056</span></td><td>RO1 morphology loss; motion term of retention; window-level transfer test for RO2</td><td>Samsung watch PPG 50 Hz, accelerometer magnitude only, ECG R-peaks 250 Hz without beat types; 30-s labels with PAC and PVC merged. Alignment not beat-accurate: per-session lag needed. Permitted use to be confirmed.</td></tr>
+      <tr><td><b>Simband, MIMIC-III</b></td><td>Pilot external cohorts</td><td>Small subject counts.</td></tr>
+      <tr><td><b>RO3 cohort</b> (PPUM)</td><td>Feasibility; RO4b</td><td>Adults after ischaemic stroke or TIA without known AF, consecutive; recruit ~40, analyse ≥34; 7 days of Garmin wear. <b>No concurrent ECG.</b></td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>Validation matrix (Table 3.1): where truth exists</h4>
+  <div class="tw wide"><table>
+    <thead><tr><th>Objective</th><th>Data</th><th>Ground truth</th><th>Cannot claim</th></tr></thead>
+    <tbody>
+      <tr><td>RO1</td><td>Pulsewatch; Icentia11k</td><td>Expert window labels; ECG beat labels</td><td>PPG beat loss from Icentia11k (ECG RR)</td></tr>
+      <tr><td>RO2</td><td>Icentia11k, subject-wise splits; Pulsewatch transfer and motion retention</td><td>ECG beat labels → patient-level reference rate; Pulsewatch window labels and lag-corrected R-peaks</td><td>Daily-count accuracy on PPG or Garmin intervals; retention on the Garmin</td></tr>
+      <tr><td>RO3</td><td>Prospective cohort</td><td>None</td><td>Accuracy of any individual estimate</td></tr>
+      <tr><td>RO4a</td><td>Held-out Icentia11k, degraded</td><td>ECG beat labels → reference ESVEA status</td><td>Real-device performance</td></tr>
+      <tr><td>RO4b</td><td>Cohort plus routine records</td><td>None (agreement only)</td><td>Which selection is better</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- PIPELINE -->
+<section id="pipeline">
+  <span class="eyebrow">Methodology overview</span>
+  <h2>Four phases, each feeding the next</h2>
+  <p>The order is a dependency chain: RO1 measures what is lost and supplies the class part of the retention model, RO2 builds and freezes the estimator, RO3 tests delivery in patients, and RO4 asks whether the estimate changes classification.</p>
+  <div class="pipeline">
+    <div class="phase"><span class="tag">PHASE 1 · RO1</span><h3>Investigate information loss</h3><p>Waveform vs interval model on identical Pulsewatch recordings; filter threshold sweep on Icentia11k; premature vs PAC-only count by burden.</p><span class="feeds">→ π̂<sub>class</sub>(k) and the retention curve</span></div>
+    <div class="phase"><span class="tag">PHASE 2 · RO2</span><h3>Develop two-scale ST-GNN</h3><p>Beat-graph per window, epoch-graph over the day; flag as input; frozen retention correction; coverage gate. Baselines and ablations.</p><span class="feeds">→ frozen model (M4) used in RO4a</span></div>
+    <div class="phase"><span class="tag">PHASE 3 · RO3</span><h3>Evaluate deployability</h3><p>7-day Garmin wear after stroke or TIA; yield, computability, day-to-day stability, activity, ESVEA proportion.</p><span class="feeds">→ coverage profile; RO4b selections</span></div>
+    <div class="phase"><span class="tag">PHASE 4 · RO4</span><h3>Substitute and validate</h3><p>4a: held-out Icentia11k degraded to smartwatch-like intervals. 4b: wearable vs score-based selections at equal capacity.</p><span class="feeds">→ reclassification; agreement</span></div>
+  </div>
+  <div class="note-box"><p><b>Fallback.</b> If ethics or the device is not secured by S4, RO3 becomes a device-verification study with coverage modelled from Pulsewatch wear data, RO4a proceeds unchanged, and RO4b is deferred. RO1, RO2 and RO4a do not depend on the cohort.</p></div>
+</section>
+
+<!-- RO1 -->
+<section id="ro1">
+  <span class="eyebrow">Phase 1 · RO1 · Section 3.3</span>
+  <h2>Decomposing the information loss</h2>
+  <p>Beat intervals discard the P wave that separates PACs from other premature beats. RO1 splits the resulting loss into three parts.</p>
+  <div class="tw wide"><table>
+    <thead><tr><th>Sub-question</th><th>Data</th><th>Comparison</th><th>Output</th></tr></thead>
+    <tbody>
+      <tr><td><b>RQ1.1</b> Morphology loss</td><td>Pulsewatch (PPG + reference ECG; window labels)</td><td>Waveform model vs beat-interval model on identical recordings. Labels merge PAC and PVC, so this measures premature-beat loss.</td><td>Change in F1 and AUROC</td></tr>
+      <tr><td><b>RQ1.2</b> Filtering loss</td><td>Icentia11k (beat labels)</td><td>Percent-deviation filter (Karlsson et al., 2012) and adaptive threshold (Lipponen &amp; Tarvainen, 2019), threshold sweep</td><td>Share of ectopic vs normal beats removed; retention curve</td></tr>
+      <tr><td><b>RQ1.3</b> Origin loss</td><td>Icentia11k (PAC and PVC labels)</td><td>Origin-agnostic premature-beat count vs PAC-only count, by burden</td><td>Count discrepancy by ectopy burden</td></tr>
+    </tbody>
+  </table></div>
+  <h4>Percent-deviation filter as implemented in the preliminary script</h4>
+  <p>An interval is rejected when it deviates from the median of the <b>5 preceding accepted</b> intervals by more than the threshold (10% to 30%). Unclassifiable (Q) beats and intervals touching them are excluded; intervals outside 0.2–3.0 s are dropped. Each interval is tagged by the beat that ends it (coupling interval) and the beat that starts it (pause after PAC).</p>
+  <p class="muted">H1 is tested with a mixed-effects logistic regression of PAC retention on burden, in Icentia11k patients not used in the preliminary analysis. The earlier H1 was replaced because it was true by construction.</p>
+</section>
+
+<!-- ARCHITECTURE -->
+<section id="architecture">
+  <span class="eyebrow">Phase 2 · RO2 · Section 3.4 · Figure 3.2</span>
+  <h2>The two-scale ST-GNN</h2>
+  <p>The estimator works at two scales. At the <b>beat scale</b>, the interval stream is cut into windows; each window carries a banded temporal-chain graph and a k-nearest-neighbour similarity graph, combined in a gated local block. At the <b>epoch scale</b>, an interval block of graph convolution and a selective state-space layer runs across windows to aggregate the day. A separate reliability pathway bypasses both encoders. Select any block to see what it does.</p>
+
+  <div class="legend">
+    <span><i style="background:var(--layer)"></i>standard layer</span>
+    <span><i style="background:var(--gate)"></i>learned and reported (gates) / fitted separately, frozen</span>
+    <span><i style="border:1px solid var(--rule)"></i>data tensor</span>
+  </div>
+
+  <div class="arch" id="arch">
+    <div class="col">
+      <div class="lab">(a) inputs</div>
+      <button class="blk data" data-k="X">Event features<small>X ∈ ℝ<sup>T×D</sup></small></button>
+      <button class="blk data" data-k="r">Reliability<small>r ∈ ℝ<sup>T</sup></small></button>
+    </div>
+    <div class="col">
+      <div class="lab">(b) windows and graphs</div>
+      <button class="blk" data-k="split">Window split<small>M windows × N beats</small></button>
+      <button class="blk data" data-k="Xw">Windowed features<small>X<sup>(w)</sup> ∈ ℝ<sup>N×D</sup></small></button>
+      <button class="blk" data-k="graphs">Build Â per window<small>Â<sub>adj</sub> chain · Â<sub>sim</sub> kNN</small></button>
+    </div>
+    <div class="col">
+      <div class="lab">(c) encoders</div>
+      <div class="group">
+        <div class="lab">Local block × L (beat scale)</div>
+        <div class="branches">
+          <button class="blk" data-k="chain">Â<sub>adj</sub>HW<sub>a</sub><small>temporal chain</small></button>
+          <button class="blk" data-k="self">HW<sub>s</sub><small>self-feature</small></button>
+          <button class="blk" data-k="simagg">Â<sub>sim</sub>HW<sub>b</sub><small>similarity</small></button>
+        </div>
+        <div class="branches">
+          <button class="blk g" data-k="alpha">α<sup>(l)</sup><small>chain gate</small></button>
+          <span class="down" aria-hidden="true">+</span>
+          <button class="blk g" data-k="beta">β<sup>(l)</sup><small>similarity gate</small></button>
+        </div>
+        <button class="blk" data-k="norm">Norm + ReLU</button>
+      </div>
+      <div class="down" aria-hidden="true">↓</div>
+      <button class="blk" data-k="readout">Attention readout<small>one embedding per window</small></button>
+      <div class="down" aria-hidden="true">↓</div>
+      <div class="group">
+        <div class="lab">Interval block × L (epoch scale)</div>
+        <button class="blk" data-k="igc">Interval graph conv</button>
+        <button class="blk" data-k="ssm">Selective state space</button>
+        <button class="blk" data-k="res">Norm + residual<small>Z ∈ ℝ<sup>M×F</sup></small></button>
+      </div>
+    </div>
+    <div class="col">
+      <div class="lab">(d) heads</div>
+      <button class="blk" data-k="event">Event head<small>p̂<sub>i</sub> per beat</small></button>
+      <button class="blk" data-k="rate">Rate head<small>window rate</small></button>
+      <button class="blk g" data-k="frozen">Reliability correction<small>fitted separately, frozen</small></button>
+      <button class="blk" data-k="gate">Coverage gate<small>report or abstain</small></button>
+      <button class="blk data" data-k="out">Estimated rate<small>ρ̂ ∈ ℝ<sup>M</sup>, mask</small></button>
+    </div>
+  </div>
+  <div class="detail" id="detail" aria-live="polite"></div>
+
+  <h3>Tensor trace</h3>
+  <div class="tw wide"><table>
+    <thead><tr><th>Stage</th><th>Object</th><th>Shape</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td>Input stream</td><td>X</td><td class="mono">T × D</td><td>T beats, D per-beat features (interval and derived features; flag enters as input)</td></tr>
+      <tr><td>Reliability</td><td>r</td><td class="mono">T</td><td>From the device quality flag; also routed around both encoders</td></tr>
+      <tr><td>Window split</td><td>X<sup>(w)</sup></td><td class="mono">N × D, w = 1…M</td><td>Window length N is a reported sensitivity parameter</td></tr>
+      <tr><td>Graphs</td><td>Â<sub>adj</sub>, Â<sub>sim</sub></td><td class="mono">N × N per window</td><td>Static, shared by all L local layers; k is a reported sensitivity parameter</td></tr>
+      <tr><td>Local block l</td><td>H<sup>(l)</sup></td><td class="mono">N × F</td><td>H<sup>(0)</sup> is the initial state from X<sup>(w)</sup></td></tr>
+      <tr><td>Attention readout</td><td>window embedding</td><td class="mono">F → stacked M × F</td><td>One vector per window</td></tr>
+      <tr><td>Interval block</td><td>Z</td><td class="mono">M × F</td><td>Day-level context across windows</td></tr>
+      <tr><td>Heads</td><td>p̂<sub>i</sub>; ρ̂; mask</td><td class="mono">T; M; M</td><td>Beat PAC probability, window rate, report/abstain</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Local block update</h3>
+  <p>Reading Figure 3.2, the three branches are summed and passed through normalisation and ReLU:</p>
+  <div class="eqn"><span>H<sup>(l+1)</sup> = ReLU( Norm( α<sup>(l)</sup> Â<sub>adj</sub> H<sup>(l)</sup> W<sub>a</sub><sup>(l)</sup> + H<sup>(l)</sup> W<sub>s</sub><sup>(l)</sup> + β<sup>(l)</sup> Â<sub>sim</sub> H<sup>(l)</sup> W<sub>b</sub><sup>(l)</sup> ) )</span><span class="no">from Fig. 3.2</span></div>
+  <p class="muted">The gates α<sup>(l)</sup> and β<sup>(l)</sup> are learned and reported, so the relative weight of temporal-chain and similarity evidence at each layer is inspectable. The self branch keeps each beat's own features so that aggregation does not wash out a single premature beat.</p>
+
+  <h3>Why the quality flag is input, not a deletion rule</h3>
+  <p>The Garmin flag is binary and marks both motion-affected beats and any interval the device judges abnormally short or long. A premature beat therefore tends to be flagged low confidence: the flag is a quality signal and a weak ectopy signal at once. The accelerometer separates the two, since low-confidence beats at low motion are candidate rhythm events. Deleting flagged beats would remove the very events being counted, which is what RO1's filter results show (60.9% of PAC coupling intervals removed at 20%).</p>
+  <p>Icentia11k has no device flag, so <b>training flags are simulated</b> from the Garmin specification and the RO1 results. This is a stated assumption.</p>
+
+  <figure>
+    <img src="assets/arch.png" alt="Figure 3.2 from the proposal: two-scale ST-GNN with columns (a) inputs, (b) window split and graphs, (c) local and interval blocks, (d) event and rate heads, frozen reliability correction and coverage gate; a dashed reliability line bypasses both encoders." loading="lazy" width="1154" height="1240" style="max-width:min(100%, 640px)">
+    <figcaption>Figure 3.2 as submitted. Amber marks learned-and-reported gates and the separately fitted, frozen reliability correction; the dashed line shows reliability bypassing both encoders.</figcaption>
+  </figure>
+
+  <h4>Open design choices (not fixed in the proposal)</h4>
+  <ul class="tight">
+    <li>Window length N, neighbourhood size k and depth L (N and k are reported as sensitivity analyses).</li>
+    <li>Edges of the interval (epoch) graph across windows, and the specific selective state-space layer.</li>
+    <li>Training losses for the event head and rate head, and how beat states and day context are combined in the event head.</li>
+    <li>Specification of the training-flag simulator and the lag method that does not need labelled segments.</li>
+  </ul>
+</section>
+
+<!-- ESTIMATOR -->
+<section id="estimator">
+  <span class="eyebrow">Phase 2 · RO2 · Equations 3.1 to 3.4</span>
+  <h2>From beat probabilities to a daily count</h2>
+  <p>The network outputs beat-level PAC probabilities. The observation model turns them into a rate: each retained beat is weighted by the inverse of its retention probability (as in inverse-probability weighting), each time-of-day block is normalised by its own observed hours, and blocks are combined by length.</p>
+
+  <div class="eqn"><span>π̂<sub>k</sub>(m) = π̂<sub>class</sub>(k) · π̂<sub>motion</sub>(m)</span><span class="no">(3.1)</span></div>
+  <p class="muted">Retention for class k ∈ {PAC, other} at motion m. Class part from RO1 on Icentia11k (PAC coupling intervals kept 39.1%, normal 91.2% at the 20% filter). Motion part from Pulsewatch with per-session lag. The product is an assumption, because Pulsewatch R-peaks carry no beat types. No time-of-day term: time acts only through motion and coverage.</p>
+
+  <div class="eqn"><span>R̂(d) = Σ<sub>h</sub> (L<sub>h</sub> / 24) · [ Σ<sub>i∈A(d,h)</sub> p̂<sub>i</sub> / π̂<sub>PAC</sub>(m<sub>i</sub>) ] / τ(d,h)</span><span class="no">(3.2)</span></div>
+  <div class="eqn"><span>report R̂(d) only if c(d,h) ≥ θ<sub>block</sub> for every block h</span><span class="no">(3.3)</span></div>
+  <div class="eqn"><span>R̄ = Σ<sub>h</sub> (L<sub>h</sub> / 24) · [ Σ<sub>d∈V</sub> Σ<sub>i∈A(d,h)</sub> p̂<sub>i</sub> / π̂<sub>PAC</sub>(m<sub>i</sub>) ] / Σ<sub>d∈V</sub> τ(d,h)</span><span class="no">(3.4)</span></div>
+
+  <dl class="sym">
+    <dt>h, L<sub>h</sub></dt><dd>Time-of-day blocks 00–06, 06–12, 12–18, 18–24 h; L<sub>h</sub> = 6 h each, so blocks are weighted by the time they cover, with no external diurnal profile.</dd>
+    <dt>A(d,h)</dt><dd>Retained beats in day d, block h.</dd>
+    <dt>p̂<sub>i</sub>, m<sub>i</sub></dt><dd>Predicted PAC probability of beat i; its accelerometer motion.</dd>
+    <dt>τ(d,h), c(d,h)</dt><dd>Observed hours and analysable coverage of the block.</dd>
+    <dt>θ<sub>block</sub></dt><dd>Per-block minimum, fixed in the registered protocol after device verification (proposed about 1 h).</dd>
+    <dt>V</dt><dd>Valid days. Equation 3.4 needs at least 1 analysable hour per block across the week.</dd>
+    <dt>24 · R̄</dt><dd>Participant count used for ESVEA status. Per-day values (3.2, 3.3) serve day-to-day stability only.</dd>
+    <dt>λ</dt><dd>Sensitivity analysis: block rates shrunk towards the Larsen et al. (2016) profile (0.87, 0.63, 1.11, 1.40) with strength λ = 1 h; 0.5, 2 and 4 h also reported. Named λ to avoid clashing with Cohen's κ.</dd>
+  </dl>
+
+  <div class="calc" id="calc">
+    <h4 style="margin-top:0">Worked example of Equations 3.2 and 3.3 <span class="chip warn">illustrative numbers, not study data</span></h4>
+    <div class="calc-grid" id="calcgrid"></div>
+    <div class="row">
+      <label for="pclass">π̂<sub>class</sub>(PAC)<input id="pclass" type="number" step="0.01" min="0.05" max="1" value="0.391"></label>
+      <label for="pmotion">π̂<sub>motion</sub> (assumed, all beats)<input id="pmotion" type="number" step="0.05" min="0.05" max="1" value="1"></label>
+      <label for="theta">θ<sub>block</sub> (h)<input id="theta" type="number" step="0.25" min="0" max="6" value="1"></label>
+    </div>
+    <div class="out">
+      <div><b id="o-naive">–</b><span>Naive count: Σp̂ ÷ observed h × 24</span></div>
+      <div><b id="o-daily">–</b><span>24 · R̂(d), Equation 3.2</span></div>
+      <div><b id="o-gate">–</b><span>Coverage gate, Equation 3.3</span></div>
+      <div><b id="o-esvea">–</b><span>Against 480 per day</span></div>
+    </div>
+    <div class="blockline" id="o-blocks"></div>
+    <p class="muted" style="margin-top:10px;margin-bottom:0">Default values put most observed time at night and most ectopy in the afternoon and evening, the pattern the estimator exists to correct. The class retention 0.391 is the RO1 preliminary value; no motion retention value is claimed.</p>
+  </div>
+
+  <h4>Why pooling by block (Appendix C simulation)</h4>
+  <div class="tw wide"><table>
+    <thead><tr><th>Coverage</th><th>Estimator</th><th class="num">Computable</th><th class="num">Misclassified at 480/day</th><th class="num">Median relative error</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="3">Typical (blocks worn 95%)</td><td>Per-day, per-block rule (3.2, 3.3)</td><td class="num">98.4–98.9%</td><td class="num">2.1–2.5%</td><td class="num">9.7–10.4%</td></tr>
+      <tr><td>Shrinkage, λ = 1 h</td><td class="num">98.9–99.2%</td><td class="num">1.6–2.0%</td><td class="num">8.1–8.6%</td></tr>
+      <tr><td><b>Pooled by block (3.4)</b></td><td class="num">98.5–98.9%</td><td class="num">1.8–2.1%</td><td class="num">8.4–8.8%</td></tr>
+      <tr><td rowspan="3">Poor (blocks worn 75%)</td><td>Per-day, per-block rule</td><td class="num">80.5–82.0%</td><td class="num">4.2–4.4%</td><td class="num">19.4–21.2%</td></tr>
+      <tr><td>Shrinkage, λ = 1 h</td><td class="num">95.4–95.9%</td><td class="num">3.1–3.7%</td><td class="num">14.6–15.4%</td></tr>
+      <tr><td><b>Pooled by block (3.4)</b></td><td class="num">87.1–88.3%</td><td class="num">2.7–3.3%</td><td class="num">13.9–15.1%</td></tr>
+    </tbody>
+  </table></div>
+  <p class="muted">Calibrated to Måneheim et al. (2024) 1-day and 7-day sensitivities (76.6%, 88.8%), ESVEA 25.3%, Ding et al. (2023) wear and Merschel &amp; Reinhardt (2022) usable time. λ from 0.5 to 4 h changes ESVEA class in at most 3% of participants. Limits: retention and PAC identification treated as perfect; each unknown swept at two values only.</p>
+</section>
+
+<!-- EVALUATION -->
+<section id="evaluation">
+  <span class="eyebrow">Phase 2 · RO2 · Table 3.2</span>
+  <h2>Graph structure is tested, not assumed</h2>
+  <p>A multilayer perceptron slightly outperformed a GCN on visibility-graph beat features in prior work (EPMoghaddam et al., 2024), so every component of the architecture must earn its place against simpler alternatives.</p>
+  <div class="tw wide"><table>
+    <thead><tr><th>Question</th><th>Comparison</th><th>Models benchmarked</th><th>Isolates</th></tr></thead>
+    <tbody>
+      <tr><td><b>RQ2.1</b> Does a graph over beat intervals beat non-graph models?</td><td>Beat-graph vs classical, rule-based, sequence</td><td>LR, SVM, RF on RR features; Poincaré rule; BiLSTM; GRU-D; transformer</td><td>Relational structure</td></tr>
+      <tr><td><b>RQ2.2</b> Does an epoch graph beat direct aggregation?</td><td>Epoch-graph vs summation and pooling</td><td>Sum over analysable hours; mean pooling; LSTM over epochs</td><td>The second scale</td></tr>
+      <tr><td><b>RQ2.3</b> Which components account for any difference?</td><td>Component ablation</td><td>Remove chain edges, similarity edges, interval block, retention correction, coverage gate</td><td>Each component</td></tr>
+      <tr><td><b>RQ2.4</b> Does treating the flag as input change accuracy?</td><td>Flag as filter vs input vs input with correction</td><td>Same encoder under three regimes</td><td>Reliability as input</td></tr>
+    </tbody>
+  </table></div>
+  <div class="two">
+    <div>
+      <h4>Training and evaluation protocol</h4>
+      <ul class="tight">
+        <li>Subject-wise splits; preprocessing, quality thresholds and any resampling fitted within training folds; test folds at natural prevalence.</li>
+        <li>Five random seeds per model, averaged; sensitivity to window length and graph neighbourhood size reported.</li>
+        <li>Beat level: PAC sensitivity, PPV, F1, PR-AUC. Day level: daily-count MAE, calibration slope and intercept across burden.</li>
+        <li>H2 is the single primary contrast (paired subject-level bootstrap 95% CI); other contrasts and ablations Holm-corrected.</li>
+        <li>Pulsewatch gives a window-level external test, as it lacks beat-level truth.</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Implementation</h4>
+      <ul class="tight">
+        <li>Python, PyTorch, PyTorch Geometric; one GPU suffices because RO2 uses beat annotations rather than raw signals.</li>
+        <li>Versioned configs, recorded split lists; code and splits released on publication.</li>
+        <li>Reporting follows PROBAST+AI. Discarded recordings reported with reasons.</li>
+        <li>If H2 is rejected, the retention correction and coverage gate are still evaluated on the best baseline and the negative result is reported.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- RO3 -->
+<section id="ro3">
+  <span class="eyebrow">Phase 3 · RO3 · Section 3.5</span>
+  <h2>Deployability after stroke</h2>
+  <div class="tw wide"><table>
+    <thead><tr><th style="width:22%">Element</th><th>Specification</th></tr></thead>
+    <tbody>
+      <tr><td>Device</td><td>Garmin Enhanced beat-to-beat intervals, binary per-beat confidence, gap markers, accelerometer. Raw PPG is not available: that is the loss RO1 quantifies.</td></tr>
+      <tr><td>Duration</td><td>7 days continuous wear, one short daily charging window. Sensitivity for high daily PAC frequency rises from 76.6% on one day to 88.8% after seven (Måneheim et al., 2024).</td></tr>
+      <tr><td>Valid day</td><td>Minimum analysable coverage in both a daytime and a night-time block (assumed about ≥6 h day, ≥2 h night; set at device verification).</td></tr>
+      <tr><td>Daily rate</td><td>Equation 3.2 per day; ESVEA from the pooled count (3.4) ≥ 480/day; ≥ 30/h secondary; runs separate.</td></tr>
+      <tr><td>Primary outcome</td><td>Proportion of participants with ≥3 valid days.</td></tr>
+      <tr><td>Progression criteria</td><td><span class="chip bad">red ≤50%</span> <span class="chip warn">amber 51–74%</span> <span class="chip ok">green ≥75%</span></td></tr>
+      <tr><td>Sample</td><td>Traffic-light method: upper red boundary 50%, expected green 75%, 90% power, one-sided α 0.05 → about 34 analysable; recruit about 40.</td></tr>
+      <tr><td>Secondary</td><td>Yield (RQ3.1), computability of the daily denominator (RQ3.2), day-to-day stability, ICC(2,1) (RQ3.3), activity (RQ3.4), ESVEA proportion as plausibility check (RQ3.5).</td></tr>
+    </tbody>
+  </table></div>
+  <p class="muted">Device verification on non-participant wear precedes ethics submission: export, flag and gap encoding, all-day logging, 7-day battery, and the day, night and per-block coverage thresholds.</p>
+</section>
+
+<!-- RO4 -->
+<section id="ro4">
+  <span class="eyebrow">Phase 4 · RO4 · Section 3.6</span>
+  <h2>Substitution and validation</h2>
+  <div class="two">
+    <div>
+      <h3 style="margin-top:0">RO4a: where ECG truth exists</h3>
+      <p>Icentia11k patients <b>held out from RO1 calibration and RO2 training</b> get a reference ESVEA status from the patient-level rate. Their records are degraded to smartwatch-like intervals and re-estimated by the <b>frozen</b> RO2 model. Degradations are sampled independently of the training simulation and swept in severity.</p>
+      <p>Outcomes: reclassification rate, κ, sensitivity and specificity at the cut-off, with Wilson 95% CIs. A held-out sample like the preliminary one (67 of 298 at ≥480/day) estimates sensitivity within about ±8 points.</p>
+    </div>
+    <div>
+      <h3 style="margin-top:0">RO4b: agreement in the cohort</h3>
+      <p>Wearable selection vs CHA<sub>2</sub>DS<sub>2</sub>-VASc, HAVOC, C<sub>2</sub>HEST, AS5F and Brown ESUS-AF (ESUS subgroup only) at <b>equal monitoring capacity</b>: each method selects as many participants as the wearable calls ESVEA-positive.</p>
+      <p>Cohen's κ, Jaccard overlap, discordant-patient profile, and association with atrial substrate (LA volume index, P-wave duration, NT-proBNP). Descriptive, since fewer than five AF events are expected.</p>
+    </div>
+  </div>
+  <h4>Degradation operators (Table 3.4)</h4>
+  <div class="tw wide"><table>
+    <thead><tr><th>Operator</th><th>Simulates</th><th>Calibrated from</th></tr></thead>
+    <tbody>
+      <tr><td>Beat rejection</td><td>Quality-based deletion of intervals by the device</td><td>RO1 filtering results</td></tr>
+      <tr><td>Coverage gaps</td><td>Non-wear, charging, unusable PPG, placed by block on pseudo-days (segments are untimed)</td><td>Night-weighted analysable time (Merschel &amp; Reinhardt, 2022); RO3 coverage when available</td></tr>
+      <tr><td>Pulse deficit</td><td>A premature beat with no wrist pulse, merging two intervals into one long one</td><td>Pulse lost below a coupling interval of about 55% of sinus RR (Zheng et al., 2008), swept around that value</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ANALYSIS -->
+<section id="analysis">
+  <span class="eyebrow">Section 3.7 · Table 3.5</span>
+  <h2>Traceability and analysis plan</h2>
+  <div class="tw wide"><table>
+    <thead><tr><th>RO</th><th>Hyp.</th><th>Primary metrics</th><th>Statistical treatment</th><th>Deliverable</th></tr></thead>
+    <tbody>
+      <tr><td>RO1</td><td>H1</td><td>Change in F1 and AUROC between representations; share of ectopic and normal beats removed; count discrepancy</td><td>DeLong test; paired bootstrap for F1; mixed-effects logistic regression of PAC retention on burden; Bland–Altman</td><td>Loss decomposition, retention curves (paper 1)</td></tr>
+      <tr><td>RO2</td><td>H2</td><td>PAC sensitivity, PPV, F1, PR-AUC; daily-count MAE; calibration slope and intercept</td><td>Subject-wise splits; seeds averaged; paired subject-level bootstrap for H2; Holm for the rest</td><td>Estimator, code, error profile (paper 2)</td></tr>
+      <tr><td>RO3</td><td>H3</td><td>Proportion with ≥3 valid days; yield; computability; day-to-day agreement; ESVEA proportion</td><td>One-sided test vs 50%; Wilson 95% CI; ICC(2,1); linear mixed-effects model for activity</td><td>Feasibility report, registered protocol (paper 3)</td></tr>
+      <tr><td>RO4a</td><td>–</td><td>ESVEA reclassification; sensitivity and specificity</td><td>Wilson 95% CI across severity sweep; κ vs ECG status</td><td>Reclassification across device-loss severities</td></tr>
+      <tr><td>RO4b</td><td>–</td><td>Agreement and overlap; association with atrial substrate</td><td>Cohen κ, Jaccard; logistic regression and rank correlation</td><td>Selection agreement analysis</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- EVIDENCE -->
+<section id="evidence">
+  <span class="eyebrow">Chapter 4 and analyses folder</span>
+  <h2>Preliminary evidence</h2>
+
+  <h3>RO1: filtering removes ectopic intervals preferentially</h3>
+  <p>298 of 300 randomly sampled Icentia11k patients (median 57.5 h each). Share of RR intervals removed by the percent-deviation filter, by threshold.</p>
+  <div class="chart" role="img" aria-label="Line chart of percent of intervals removed against filter threshold from 10 to 30 percent. PVC coupling intervals fall from 85.4 to 46.5 percent, PAC coupling from 81.5 to 37.4, pause after PAC from 74.9 to 37.3, normal-to-normal from 20.1 to 6.2.">
+    <svg id="rchart" viewBox="0 0 640 280"></svg>
+  </div>
+  <div class="two" style="margin-top:14px">
+    <div>
+      <h4>Loss depends on burden (20% threshold)</h4>
+      <div class="tw"><table>
+        <thead><tr><th>PAC coupling removed</th><th class="num">%</th><th></th></tr></thead>
+        <tbody>
+          <tr><td>ESVEA-negative</td><td class="num">78.5</td><td style="width:45%"><div class="bar"><span class="b" style="width:78.5%"></span></div></td></tr>
+          <tr><td>ESVEA-positive</td><td class="num">60.0</td><td><div class="bar"><span class="b" style="width:60%"></span></div></td></tr>
+        </tbody>
+      </table></div>
+      <p class="muted">Frequent PACs enter the running reference and are then accepted, so no single correction factor restores the count. This motivates H1 and context-dependent retention.</p>
+    </div>
+    <div>
+      <h4>Prevalence in the sample</h4>
+      <div class="tw"><table>
+        <tbody>
+          <tr><td>Median PACs per hour (IQR)</td><td class="num">1.35 (0.23–13.38)</td></tr>
+          <tr><td>≥ 480 PACs/day (extrapolated)</td><td class="num">67 (22.5%)</td></tr>
+          <tr><td>≥ 30 PACs/h</td><td class="num">54 (18.1%)</td></tr>
+          <tr><td>Any run ≥ 20 PACs</td><td class="num">25 (8.4%)</td></tr>
+          <tr><td>ESVEA, Binici rate or run</td><td class="num">66 (22.1%)</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <h3>Cross-device beat-graph pilot</h3>
+  <p>A beat-graph classifier on the same interval representation, rhythm labels per window. Shows feasibility of the representation, not of counting.</p>
+  <div class="tw wide"><table>
+    <thead><tr><th>Held-out cohort</th><th>Subjects (AF); windows</th><th class="num">AF vs rest AUROC</th><th class="num">AF vs PAC/PVC AUROC</th><th class="num">Recall</th></tr></thead>
+    <tbody>
+      <tr><td>Pulsewatch clinical</td><td>16 (1); 48,396</td><td class="num">0.997 (0.996–0.998)</td><td class="num">0.981 (0.949–0.998)</td><td class="num">100%</td></tr>
+      <tr><td>Simband</td><td>9 (3); 66</td><td class="num">0.951 (0.654–0.995)</td><td class="num">0.944 (0.543–1.000)</td><td class="num">88%</td></tr>
+      <tr><td>MIMIC-III</td><td>3 (1); 705</td><td class="num">0.998 (0.856–1.000)</td><td class="num">0.973 (indicative)</td><td class="num">99%</td></tr>
+      <tr><td>Pulsewatch AF trial holdouts</td><td>5,483 windows</td><td class="num">not computed</td><td class="num">not computed</td><td class="num">97% / 100%</td></tr>
+    </tbody>
+  </table></div>
+  <p class="muted">Subject splits 92/17/36 with zero overlap. Thresholds set once on validation subjects (Youden 0.393; 95% specificity 0.505). The 0.9 score weight was chosen from a sweep on held-out cohorts, which is optimistic. All 170 Pulsewatch AF windows come from one subject. Recall uses the gfeat-head score (AUROC 0.985 and 0.952).</p>
+
+  <h3>Pulsewatch beat-retention pre-check <span class="chip bad">not passed</span></h3>
+  <p>8 subjects, rule locked before the run. Beat matching against lag-shifted ECG R-peaks, by motion bin (sessions passing the quality gate).</p>
+  <div class="tw wide"><table>
+    <thead><tr><th>Motion (m/s²)</th><th class="num">Beats</th><th class="num">Match</th><th class="num">Control</th><th class="num">Excess</th><th class="num">Intervals kept</th></tr></thead>
+    <tbody>
+      <tr><td>&lt; 0.05</td><td class="num">55,684</td><td class="num">0.849</td><td class="num">0.207</td><td class="num">+0.642</td><td class="num">0.766</td></tr>
+      <tr><td>0.05–0.2</td><td class="num">15,812</td><td class="num">0.725</td><td class="num">0.224</td><td class="num">+0.501</td><td class="num">0.600</td></tr>
+      <tr><td>0.2–0.5</td><td class="num">5,342</td><td class="num">0.516</td><td class="num">0.202</td><td class="num">+0.315</td><td class="num">0.335</td></tr>
+      <tr><td>0.5–1</td><td class="num">6,074</td><td class="num">0.477</td><td class="num">0.204</td><td class="num">+0.273</td><td class="num">0.292</td></tr>
+      <tr><td>≥ 1</td><td class="num">4,468</td><td class="num">0.407</td><td class="num">0.210</td><td class="num">+0.197</td><td class="num">0.220</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tw"><table>
+    <tbody>
+      <tr><td>1. Above chance at high motion</td><td>+0.273 (95% CI +0.180 to +0.336) at 0.5–1; +0.197 (+0.122 to +0.254) at ≥1</td><td><span class="chip ok">met</span></td></tr>
+      <tr><td>2. Falls with motion within subjects</td><td>8 of 8 subjects (one near chance)</td><td><span class="chip ok">met</span></td></tr>
+      <tr><td>3. Detector comparable</td><td>Project 0.850 vs authors' peaks 0.752; pooled gap 0.097 (limit 0.05); largest subject gap 0.146 (limit 0.10)</td><td><span class="chip bad">not met</span></td></tr>
+    </tbody>
+  </table></div>
+  <p class="muted">Decision (made after results): the motion term stays, estimated on Pulsewatch in RO2 with a detector sensitivity analysis. Primary detector: an Elgendi et al. (2013) systolic-peak implementation on all segments; the authors' peaks are the alternative on labelled segments. The current lag method reached only 2.5% of excluded and 0.8% of no-label segments, so a label-free lag method is an RO2 task.</p>
+
+  <h3>Icentia11k has no clock time</h3>
+  <p>All headers read (9 of 9, plus 59 of 60 random) carry no date, time or comments; segments are 69.9 min. Hence: no time-of-day analysis on Icentia11k, a patient-level reference rate, and pseudo-days in RO4a.</p>
+</section>
+
+<!-- LIMITS -->
+<section id="limits">
+  <span class="eyebrow">What the panel will probe</span>
+  <h2>Limits and claim discipline</h2>
+  <div class="two">
+    <div>
+      <h4>Known limits and agreed answers</h4>
+      <ul class="tight">
+        <li><b>No real-device error measurement.</b> Error is characterised on ECG-labelled data under simulated losses; Pulsewatch (Samsung) to Garmin transfer is assumed. Direct Garmin validation is future work.</li>
+        <li><b>Simulation optimism.</b> Icentia11k intervals are ECG RR, not PPG; Garmin PPG agrees only moderately with ECG for short-term variability after stroke (Theurl et al., 2023).</li>
+        <li><b>Retention product is an assumption.</b> Pulsewatch R-peaks carry no beat types.</li>
+        <li><b>Thin pilot evidence.</b> One AF subject on Pulsewatch; Simband lower bound 0.654; three MIMIC subjects.</li>
+        <li><b>Icentia11k reference is extrapolated</b> from random, untimed segments.</li>
+        <li><b>Device not yet received;</b> export, flags and battery unconfirmed.</li>
+        <li><b>"First" claims</b> are qualified "to our knowledge" and "in these databases".</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Never claim</h4>
+      <ul class="tight">
+        <li>A π̂ motion-retention value, or that the pre-check passed.</li>
+        <li>That either PPG peak detector is more accurate.</li>
+        <li>That missed beat matches are the PPG's fault.</li>
+        <li>Anything AF-specific from the retention check.</li>
+        <li>Pulsewatch data-use permission (not yet confirmed).</li>
+        <li>"Zero-shot" for the pilot: training included AF from other cohorts.</li>
+      </ul>
+      <h4>Superseded, do not follow</h4>
+      <ul class="tight">
+        <li>Any mention of an RO3 ECG-patch substudy (ruled out).</li>
+        <li>Checks that predate pooled Eq. 3.4, λ instead of κ, ESVEA at 480/day, and Eq. 3.1 as a product. The proposal text is authoritative.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SCHEDULE -->
+<section id="schedule">
+  <span class="eyebrow">Chapter 6</span>
+  <h2>Schedule and milestones</h2>
+  <div class="tw wide"><table class="sched">
+    <thead><tr><th>Task</th><th>RO</th><th>S1</th><th>S2</th><th>S3</th><th>S4</th><th>S5</th><th>S6</th><th>S7</th></tr></thead>
+    <tbody id="sched"></tbody>
+  </table></div>
+  <p class="muted">S1 = Semester 2, 2025/2026. S7 = Semester 2, 2028/2029. Milestones: M1 device verified (S3) · M2 ethics and protocol registered (S3) · M3 RO1 paper (S3) · M4 RO2 model frozen (S4) · M5 candidature defence (S4) · M6 recruitment complete (S5) · M7 thesis submitted 8 May 2029 (S7).</p>
+  <h4>Immediate post-defence research tasks</h4>
+  <ul class="tight">
+    <li>Download the full Pulsewatch release (about 338 GB).</li>
+    <li>Design the lag method that does not need labelled segments.</li>
+    <li>Select held-out Icentia11k patients for H1 and RO4a; fix the split lists.</li>
+    <li>Specify the training-flag simulator.</li>
+    <li>Confirm Garmin Health SDK access.</li>
+  </ul>
+</section>
+
+<footer>
+  Compiled from the 3 November 2026 handover: proposal source (<code>content.txt</code>, Figures 3.1 and 3.2), slide deck, decision logs and the <code>analyses/</code> outputs (RO1 Icentia11k tables, kappa simulation, Pulsewatch pre-check, pilot AUROC recheck, Icentia11k clock-time check). Where documents differ, the proposal text and the 2 November decision log take precedence.
+</footer>
+</main>
+</div>
+
+<script>
+(function(){
+  /* hero trace */
+  var rr=[800,810,790,805,795,480,1120,800,790,805,800,812,795,800,790,805,815,800,795,808,800,790,805,800];
+  var y=function(v){return 98-(v-800)*(40/300);};
+  var g=document.getElementById('tgrid'), dots=document.getElementById('tdots'), line=document.getElementById('tline');
+  var ns='http://www.w3.org/2000/svg', pts=[], seg=[];
+  for(var gy=20; gy<=145; gy+=10){var l=document.createElementNS(ns,'line');l.setAttribute('x1',40);l.setAttribute('x2',715);l.setAttribute('y1',gy);l.setAttribute('y2',gy);l.setAttribute('class','gridline');g.appendChild(l);}
+  for(var gx=40; gx<=715; gx+=25){var l2=document.createElementNS(ns,'line');l2.setAttribute('x1',gx);l2.setAttribute('x2',gx);l2.setAttribute('y1',20);l2.setAttribute('y2',145);l2.setAttribute('class','gridline');g.appendChild(l2);}
+  var out=rr.map(function(v,i){
+    var cx = i<16 ? 52+i*27 : 602+(i-16)*15;   /* gap (unobserved time) spans x 470 to 590 */
+    return [cx,y(v),i];
+  });
+  out.forEach(function(p){
+    var c=document.createElementNS(ns,'circle');c.setAttribute('cx',p[0]);c.setAttribute('cy',p[1]);c.setAttribute('r',3.2);
+    c.setAttribute('class',(p[2]===5||p[2]===6)?'pac':'beat');dots.appendChild(c);
+    if(p[2]===5||p[2]===6){var ring=document.createElementNS(ns,'circle');ring.setAttribute('cx',p[0]);ring.setAttribute('cy',p[1]);ring.setAttribute('r',8);ring.setAttribute('class','flagring');dots.appendChild(ring);}
+  });
+  line.setAttribute('points',out.filter(function(p){return p[2]<16;}).map(function(p){return p[0]+','+p[1];}).join(' '));
+  var line2=document.createElementNS(ns,'polyline');line2.setAttribute('class','line');
+  line2.setAttribute('points',out.filter(function(p){return p[2]>=16;}).map(function(p){return p[0]+','+p[1];}).join(' '));
+  dots.parentNode.insertBefore(line2,dots);
+
+  /* architecture explainer */
+  var D={
+    X:['Event features X ∈ ℝ^{T×D}','One row per beat across the whole stream of T beats. Features come from the interval series (coupling interval, following pause, local context) and the device flag, which enters as an input rather than being used to delete beats.'],
+    r:['Reliability r ∈ ℝ^{T}','Per-beat reliability from the device quality flag. It reaches the model twice: as an input feature, and through a separate pathway (dashed line in Figure 3.2) that bypasses both encoders and feeds the frozen reliability correction. Because that pathway is separate, its effect can be isolated by ablation (RQ2.3, RQ2.4).'],
+    split:['Window split','The stream is cut into M windows of N beats each. Window length N is a design choice whose sensitivity is reported.'],
+    Xw:['Windowed features X^{(w)} ∈ ℝ^{N×D}','The beat features for window w. Each window becomes one small graph at the beat scale.'],
+    graphs:['Two static graphs per window','Â_adj is a banded temporal-chain adjacency: each beat links to its near neighbours in time, which captures the short-then-long signature of a premature beat and its pause. Â_sim is a k-nearest-neighbour similarity adjacency: beats with similar interval features link regardless of position, so recurring ectopic patterns can share evidence. Both are built once per window and reused in all L layers.'],
+    chain:['Temporal-chain aggregation Â_adj H W_a','Mixes each beat with its temporal neighbours along the band. This is the local rhythm context.'],
+    self:['Self-feature preservation H W_s','Keeps each beat\'s own transformed features in the sum, so a single premature beat is not averaged away by its neighbours.'],
+    simagg:['Similarity aggregation Â_sim H W_b','Mixes each beat with the k beats most similar to it in feature space, letting repeated ectopic morphologies in the interval pattern reinforce each other.'],
+    alpha:['Chain gate α^{(l)}','A learned scalar per layer that scales the temporal-chain branch. It is reported, so the weight given to temporal context is inspectable. Ablation RQ2.3 removes chain edges entirely.'],
+    beta:['Similarity gate β^{(l)}','A learned scalar per layer that scales the similarity branch. Reported alongside α. Ablation RQ2.3 removes similarity edges entirely.'],
+    norm:['Norm + ReLU','The three branches are summed, normalised and passed through ReLU to give H^{(l+1)}. Repeated L times.'],
+    readout:['Attention readout','Pools the N beat states of a window into one F-dimensional embedding, with attention weights so that informative beats contribute more. Stacking the M windows gives the input to the epoch scale.'],
+    igc:['Interval graph convolution','Graph convolution over windows within the day (the epoch graph). This is the second scale whose value RQ2.2 tests against summation, mean pooling and an LSTM over epochs.'],
+    ssm:['Selective state-space layer','A sequence layer over the window embeddings that carries long-range day context with input-dependent dynamics, suited to long, irregularly observed streams.'],
+    res:['Norm + residual','Residual connection and normalisation around the interval block, repeated L times. Output Z ∈ ℝ^{M×F}: one context-aware embedding per window.'],
+    event:['Event head','Outputs a beat-level PAC probability p̂_i. These probabilities are what Equations 3.2 and 3.4 sum after retention weighting. Evaluated with PAC sensitivity, PPV, F1 and PR-AUC.'],
+    rate:['Rate head','Outputs a window-level ectopy rate, giving a direct rate estimate alongside the summed beat probabilities.'],
+    frozen:['Reliability correction (frozen)','Implements Equation 3.1: π̂_k(m) = π̂_class(k) · π̂_motion(m). The class part comes from RO1 on Icentia11k; the motion part from Pulsewatch with per-session lag. It is fitted separately and frozen, then each retained beat is weighted by 1/π̂_PAC(m_i). Fitting it outside the network keeps it identifiable and removable for ablation.'],
+    gate:['Coverage gate','Implements Equation 3.3: a daily value is reported only if every 6-hour block meets θ_block. Otherwise the model abstains. ESVEA status uses the pooled participant count of Equation 3.4.'],
+    out:['Estimated rate ρ̂ ∈ ℝ^{M} and mask','Window rates with a mask saying which values may be reported. Combined by Equation 3.2 into a daily count and by Equation 3.4 into the participant count used for ESVEA (≥480/day).']
+  };
+  function fmt(s){return s.replace(/\^\{([^}]*)\}/g,'<sup>$1</sup>').replace(/_\{([^}]*)\}/g,'<sub>$1</sub>').replace(/_(adj|sim|class|motion|PAC|block|a|b|s|i|k)\b/g,'<sub>$1</sub>');}
+  var det=document.getElementById('detail'), btns=document.querySelectorAll('#arch .blk');
+  function show(k,btn){
+    var d=D[k]; if(!d) return;
+    det.innerHTML='<h4>'+fmt(d[0])+'</h4><p>'+fmt(d[1])+'</p>';
+    btns.forEach(function(b){b.setAttribute('aria-pressed', b===btn?'true':'false');});
+  }
+  btns.forEach(function(b){b.setAttribute('aria-pressed','false');b.addEventListener('click',function(){show(b.dataset.k,b);});});
+  show('graphs',document.querySelector('#arch [data-k="graphs"]'));
+
+  /* calculator */
+  var blocks=[['00–06',4.5,4],['06–12',1.5,6],['12–18',1.0,9],['18–24',2.5,14]];
+  var cg=document.getElementById('calcgrid');
+  blocks.forEach(function(b,i){
+    var f=document.createElement('fieldset');
+    f.innerHTML='<legend>block '+b[0]+' h</legend>'+
+      '<label for="tau'+i+'">observed h, τ<input id="tau'+i+'" type="number" step="0.25" min="0" max="6" value="'+b[1]+'"></label>'+
+      '<label for="sp'+i+'">Σ p̂ retained<input id="sp'+i+'" type="number" step="0.5" min="0" value="'+b[2]+'"></label>';
+    cg.appendChild(f);
+  });
+  function num(id){var v=parseFloat(document.getElementById(id).value);return isFinite(v)?v:0;}
+  function calc(){
+    var pc=Math.max(0.01,num('pclass')), pm=Math.max(0.01,num('pmotion')), th=num('theta');
+    var pi=pc*pm, R=0, ok=true, sumP=0, sumT=0, parts=[];
+    blocks.forEach(function(b,i){
+      var t=num('tau'+i), s=num('sp'+i); sumP+=s; sumT+=t;
+      if(t<th) ok=false;
+      var rate=t>0?(s/pi)/t:0; R+=(6/24)*rate;
+      parts.push(b[0]+': '+(t>0?rate.toFixed(2):'n/a')+'/h'+(t<th?' (below θ)':''));
+    });
+    var daily=24*R, naive=sumT>0?sumP/sumT*24:0;
+    document.getElementById('o-naive').textContent=Math.round(naive)+' /day';
+    document.getElementById('o-daily').textContent=Math.round(daily)+' /day';
+    var go=document.getElementById('o-gate'); go.textContent=ok?'report':'abstain'; go.style.color=ok?'var(--ok)':'var(--bad)';
+    var ge=document.getElementById('o-esvea');
+    ge.textContent=!ok?'not reported':(daily>=480?'ESVEA +':'ESVEA −'); ge.style.color=!ok?'var(--muted)':(daily>=480?'var(--accent)':'var(--ink)');
+    document.getElementById('o-blocks').textContent='Corrected block rates · '+parts.join(' · ')+' · π̂ = '+pi.toFixed(3);
+  }
+  document.getElementById('calc').addEventListener('input',calc); calc();
+
+  /* retention chart */
+  var th=[10,15,20,25,30];
+  var S=[['PVC coupling','s3',[85.4,80.2,70.0,59.1,46.5]],['PAC coupling','s1',[81.5,71.9,60.9,49.1,37.4]],['Pause after PAC','s2',[74.9,64.8,54.5,44.7,37.3]],['Normal to normal','s4',[20.1,12.3,8.8,7.1,6.2]]];
+  var svg=document.getElementById('rchart'), L=48,Rr=500,T=16,B=244;
+  function X(t){return L+(t-10)/20*(Rr-L);} function Y(v){return B-v/100*(B-T);}
+  var h='';
+  [0,20,40,60,80,100].forEach(function(v){h+='<line class="ax" x1="'+L+'" x2="'+Rr+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke-width="1"/><text class="tick" x="'+(L-8)+'" y="'+(Y(v)+3)+'" text-anchor="end">'+v+'%</text>';});
+  th.forEach(function(t){h+='<text class="tick" x="'+X(t)+'" y="'+(B+16)+'" text-anchor="middle">'+t+'%</text>';});
+  h+='<text class="tick" x="'+((L+Rr)/2)+'" y="'+(B+32)+'" text-anchor="middle">filter threshold (deviation from median of 5 preceding accepted intervals)</text>';
+  h+='<line x1="'+X(20)+'" x2="'+X(20)+'" y1="'+T+'" y2="'+B+'" class="ax" stroke-dasharray="3 3" stroke-width="1"/><text class="tick" x="'+(X(20)+4)+'" y="'+(T+10)+'">common 20%</text>';
+  var lastY=[];
+  S.forEach(function(s){
+    var d=s[2].map(function(v,i){return (i?'L':'M')+X(th[i]).toFixed(1)+','+Y(v).toFixed(1);}).join('');
+    h+='<path class="'+s[1]+'" d="'+d+'"/>';
+    s[2].forEach(function(v,i){h+='<circle class="'+s[1]+'" cx="'+X(th[i])+'" cy="'+Y(v)+'" r="'+(i===2?4:2.5)+'"/>';});
+  });
+  var labY=[Y(46.5)-6,Y(37.4)+2,Y(37.3)+16,Y(6.2)+3];
+  S.forEach(function(s,i){h+='<text class="lbl '+s[1]+'" style="stroke:none" x="'+(Rr+8)+'" y="'+labY[i]+'">'+s[0]+' '+s[2][4]+'%</text>';});
+  h+='<text class="tick" x="'+(X(20)+6)+'" y="'+(Y(60.9)-8)+'">PAC 60.9% vs normal 8.8%</text>';
+  svg.innerHTML=h;
+
+  /* schedule */
+  var rows=[['Literature review and proposal','',[1,2]],['Information-loss analyses','RO1',[2,3]],['ST-GNN development and ablations','RO2',[3,4]],['Device verification, ethics, recruitment','RO3',[2,3,4]],['7-day monitoring and analysis','RO3',[4,5,6]],['Substitution and validation','RO4',[5,6]],['Candidature defence','',[4]],['Thesis writing and submission','',[6,7]]];
+  var sb=document.getElementById('sched');
+  sb.innerHTML=rows.map(function(r){var c='<tr><td>'+r[0]+'</td><td>'+r[1]+'</td>';for(var s=1;s<=7;s++){c+='<td'+(r[2].indexOf(s)>-1?' class="on" aria-label="active"':'')+'></td>';}return c+'</tr>';}).join('');
+})();
+</script>
