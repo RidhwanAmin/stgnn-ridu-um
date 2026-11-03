@@ -115,7 +115,7 @@ Record the date and the number of hits screened. If nothing breaks either claim,
 **Proposed** (only after step 3.4)
 > Searches of PubMed, Consensus, Wiley Scholar Gateway, IEEE Xplore and arXiv in October and November 2026 found no smartwatch or PPG-derived daily PAC count validated against ECG, and, in these databases, no graph neural network applied to PPG or inter-beat-interval series for arrhythmia (Table 2.1).
 
-Word budget: the main draft is at about 6,989, so +5 gives about 6,994, still under 7,000.
+Word budget: the main draft is at about 6,985 (after the E11 rewrite), so +5 gives about 6,990, still under 7,000.
 
 ---
 

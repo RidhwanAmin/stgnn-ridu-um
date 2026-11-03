@@ -637,15 +637,16 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
   <h3>Cross-device beat-graph pilot</h3>
   <p>A beat-graph classifier on the same interval representation, rhythm labels per window. Shows feasibility of the representation, not of counting.</p>
   <div class="tw wide"><table>
-    <thead><tr><th>Held-out cohort</th><th>Subjects (AF); windows</th><th class="num">AF vs rest AUROC</th><th class="num">AF vs PAC/PVC AUROC</th><th class="num">Recall</th></tr></thead>
+    <thead><tr><th>Held-out cohort</th><th>Subjects (AF); windows</th><th class="num">AF vs rest AUROC</th><th class="num">AF vs PAC/PVC AUROC</th><th class="num">AF recall, 0.393 / 0.505</th><th class="num">PAC/PVC false alarms, 0.393 / 0.505</th></tr></thead>
     <tbody>
-      <tr><td>Pulsewatch clinical</td><td>16 (1); 48,396</td><td class="num">0.997 (0.996–0.998)</td><td class="num">0.981 (0.949–0.998)</td><td class="num">100%</td></tr>
-      <tr><td>Simband</td><td>9 (3); 66</td><td class="num">0.951 (0.654–0.995)</td><td class="num">0.944 (0.543–1.000)</td><td class="num">88%</td></tr>
-      <tr><td>MIMIC-III</td><td>3 (1); 705</td><td class="num">0.998 (0.856–1.000)</td><td class="num">0.973 (indicative)</td><td class="num">99%</td></tr>
-      <tr><td>Pulsewatch AF trial holdouts</td><td>5,483 windows</td><td class="num">not computed</td><td class="num">not computed</td><td class="num">97% / 100%</td></tr>
+      <tr><td>Pulsewatch clinical</td><td>16 (1); 48,396</td><td class="num">1.000 (1.000–1.000)</td><td class="num">0.998 (0.997–1.000)</td><td class="num">100% / 95%</td><td class="num">18.3% / 9.8%</td></tr>
+      <tr><td>Pulsewatch AF trial</td><td>8; 5,483 (all AF)</td><td class="num">not computed</td><td class="num">not computed</td><td class="num">97% / 88%</td><td class="num">no PAC/PVC windows</td></tr>
+      <tr><td>Simband</td><td>6 (1); 46</td><td class="num">0.995 (0.989–1.000)</td><td class="num">0.968 (CI not estimable)</td><td class="num">100% / 92%</td><td class="num">15.4% / 0.0%</td></tr>
+      <tr><td>MIMIC-III</td><td>3 (1); 1,215</td><td class="num">0.995 (0.993–0.997)</td><td class="num">1.000 (CI not estimable)</td><td class="num"><b>45% / 15%</b></td><td class="num">0.0% / 0.0%</td></tr>
     </tbody>
   </table></div>
-  <p class="muted">Subject splits 92/17/36 with zero overlap. Thresholds set once on validation subjects (Youden 0.393; 95% specificity 0.505). The 0.9 score weight was chosen from a sweep on held-out cohorts, which is optimistic. All 170 Pulsewatch AF windows come from one subject. Recall uses the gfeat-head score (AUROC 0.985 and 0.952).</p>
+  <p class="muted">Rerun of 3 November 2026: re-curated external labels, all v2 training and validation subjects excluded, same checkpoint in evaluation mode. AUROCs use the untuned score weight 0.5 (95% CIs from 2,000 subject resamples). Recall and false alarms use the gfeat-head score at thresholds set on validation subjects (0.393, 0.505), not re-tuned. The earlier Simband and MIMIC-III values (legacy labels) are withdrawn.</p>
+  <div class="note-box"><p><b>What this shows.</b> Ranking transferred across devices (AUROC 0.995 or higher wherever non-AF windows existed), but the operating point did not: AF recall at 0.393 fell to 45% on MIMIC-III fingertip PPG. PAC/PVC windows caused more false AF alarms than sinus rhythm on Pulsewatch (18.3% vs 8.9%). Test set 33 subjects; each cohort except the AF trial has one AF subject, so intervals reflect variation between windows, not AF patients. The model design was iterated while these holdouts were inspected, so they are not untouched.</p></div>
 
   <h3>Pulsewatch beat-retention pre-check <span class="chip bad">not passed</span></h3>
   <p>8 subjects, rule locked before the run. Beat matching against lag-shifted ECG R-peaks, by motion bin (sessions passing the quality gate).</p>
@@ -683,7 +684,7 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
         <li><b>No real-device error measurement.</b> Error is characterised on ECG-labelled data under simulated losses; Pulsewatch (Samsung) to Garmin transfer is assumed. Direct Garmin validation is future work.</li>
         <li><b>Simulation optimism.</b> Icentia11k intervals are ECG RR, not PPG; Garmin PPG agrees only moderately with ECG for short-term variability after stroke (Theurl et al., 2023).</li>
         <li><b>Retention product is an assumption.</b> Pulsewatch R-peaks carry no beat types.</li>
-        <li><b>Thin pilot evidence.</b> One AF subject on Pulsewatch; Simband lower bound 0.654; three MIMIC subjects.</li>
+        <li><b>Thin pilot evidence.</b> One AF subject each in Pulsewatch clinical, Simband and MIMIC-III; a validation threshold gave 45% AF recall on MIMIC-III, so operating points do not transfer across devices.</li>
         <li><b>Icentia11k reference is extrapolated</b> from random, untimed segments.</li>
         <li><b>Device not yet received;</b> export, flags and battery unconfirmed.</li>
         <li><b>"First" claims</b> are qualified "to our knowledge" and "in these databases".</li>
