@@ -11,7 +11,7 @@
 | ID | Review issue | Problem | Where | Main-text words |
 |---|---|---|---|---:|
 | E1 | #1 | Equation 3.1 ignores the burden dependence that Section 4.2 reports (revised: Garmin flags, not deletes) | 3.4 text, Eq. 3.1, 3.2, 3.4; 4.2 | +40 |
-| E2 | #2 | The epoch scale has no day-long training data on Icentia11k | 3.4 para 1 | +31 |
+| E2 | #2 | The epoch scale has no day-long training data on Icentia11k | 3.4 para 1 | +45 |
 | E3 | #3 | "Daily-count MAE" is not daily on Icentia11k | H2, Table 3.5, Table B.1 | +8 |
 | E4 | #4 | Flag-as-input plus inverse weighting can count a beat twice; p̂ must be calibrated | 3.4 text, 2.8 | +35 |
 | E5 | #5 | No PPG timing-noise operator in RO4a | 3.6, Table 3.4 | +21 |
@@ -21,11 +21,11 @@
 | E9 | #10 | RO3 primary can pass while ESVEA is rarely computable | 3.5, Appendix C | +14 |
 | E10 | #11 | Icentia11k patient sets not shown as disjoint | Table 3.1, new Table B.3 | +2 |
 | E11 | #12 | Pilot weight 0.9 chosen on test cohorts; legacy external labels withdrawn | Abstract, 4.1, Table 4.1 | -7 |
-| | | **Subtotal before trims** | | **+186** |
-| T1, T3 to T8 | (word limit) | Trims (T2 merged into E11c) | 1.1, 2.1, 2.4, 3.4, 4.2, 5.1 | -162 |
-| | | **Net change** (current main text 6,958; limit 7,000) | | **+24 → 6,982** |
+| | | **Subtotal before trims** | | **+200** |
+| T1, T3 to T8, T11 | (word limit) | Trims (T2 merged into E11c) | 1.1, 1.6, 2.1, 2.4, 3.4, 4.2, 5.1 | -177 |
+| | | **Net change** (current main text 6,958; limit 7,000) | | **+23 → 6,981** |
 
-All seven trims (T1, T3 to T8) are needed to stay under the limit. T5 also adds 3 words where PPV is next defined (Section 2.6), giving about 6,985. If supervisors reject a trim, the fallback is the E8 removal alternative (saves 19 words).
+All eight trims (T1, T3 to T8, T11) are needed to stay under the limit. T5 also adds 3 words where PPV is next defined (Section 2.6), giving about 6,984. If supervisors reject a trim, the fallback is the E8 removal alternative (saves 19 words).
 
 Word counts follow the handover rule: Chapter 1 to the start of References, table rows counted, captions, equations and appendices not counted.
 
@@ -33,7 +33,7 @@ Word counts follow the handover rule: Chapter 1 to the start of References, tabl
 1. **E1:** Equation 3.1 rewritten to correct only silent loss (pulse deficit and motion), following the Garmin whitepaper; no longer a choice between two options, but a method change supervisors should see.
 2. **E8:** keep the rate head as an auxiliary target (recommended), or remove it and redraw Figure 3.2.
 3. **E11:** rerun received; the pilot section now reports a threshold that did not transfer (MIMIC-III recall 45%). Supervisors should see this before the defence.
-4. **E2:** confirm that Pulsewatch timestamps hold across days within a participant (the data check found UNIX millisecond timestamps within segments only).
+4. **E2:** settled. The Pulsewatch timestamp check passed (64 of 108 subjects span 3 or more days in order), and the clause is included using file-name local time.
 5. **Title:** keep it, and use the prepared answer in Section 4.
 
 ---
@@ -47,7 +47,7 @@ This section keeps the review that prompted these drafts, word for word, so each
 | # | Review issue | Priority | Addressed by | Status |
 |---|---|---|---|---|
 | 1 | Equation 3.1 contradicts the preliminary finding on burden | Critical | E1, revised after the Garmin whitepaper: retention corrects only silent loss; RO1 filter loss moves to RQ2.4 | Drafted; inform supervisors |
-| 2 | Epoch-scale encoder has no day-long training data | Critical | E2 (option b, pseudo-days); option c kept as an optional clause | Drafted; verify Pulsewatch timestamps for option c |
+| 2 | Epoch-scale encoder has no day-long training data | Critical | E2: option b (pseudo-days) plus option c (Pulsewatch windows in real order across days) | Drafted; Pulsewatch timestamp check passed 3 November 2026 |
 | 3 | "Daily-count MAE" is not daily | Critical | E3 | Drafted |
 | 4 | Flag as input plus inverse weighting can double-count; p̂ must be calibrated | Critical | E4 | Drafted; Guo et al. (2017) reference verified against PMLR (see `Verification_Guo_H1_H2.md`) |
 | 5 | No PPG timing-noise operator | Important | E5 | Drafted; jitter spread to be measured on Pulsewatch |
@@ -65,7 +65,7 @@ This section keeps the review that prompted these drafts, word for word, so each
 | H3 | Supervisor approval of the final docx | Housekeeping | Decisions list in Section 0 | Open |
 | H4 | Ethics committee name | Housekeeping | Section 3 checklist | Open |
 | H5 | Pulsewatch permitted use | Housekeeping | Section 3 checklist | Open |
-| H6 | Whether tables count towards 7,000 words | Housekeeping | Word budget in Section 0 (measured 6,958 before edits, about 6,985 after) | Open |
+| H6 | Whether tables count towards 7,000 words | Housekeeping | Word budget in Section 0 (measured 6,958 before edits, about 6,984 after) | Open |
 | H7 | Slide inconsistencies, especially `app-b3.html` | Housekeeping | Section 2 slide table (app-b3 row) | Partly drafted |
 | H8 | Mock defence | Housekeeping | Section 4 prepared answers | Open |
 
@@ -229,9 +229,15 @@ The interval block runs "across windows to aggregate the day", but Icentia11k se
 > At the epoch scale, an interval block of graph convolution and a selective state-space layer operates across windows to aggregate the day.
 
 **Proposed**
-> At the epoch scale, an interval block of graph convolution and a selective state-space layer operates across windows to aggregate the day. As Icentia11k segments are untimed, it trains there on pseudo-days built from each patient's segments, learning aggregation under gaps rather than a diurnal pattern; RQ2.2 is judged against the patient-level rate.
+> At the epoch scale, an interval block of graph convolution and a selective state-space layer operates across windows to aggregate the day. As Icentia11k segments are untimed, it trains there on pseudo-days built from each patient's segments, learning aggregation under gaps rather than a diurnal pattern; RQ2.2 is judged against the patient-level rate, and on Pulsewatch windows in real order across days, timed by file-name local time.
 
-**Optional addition if word count allows (+14):** "Real within-day ordering is tested on timestamped Pulsewatch recordings at window level." Verify first that Pulsewatch timestamps are continuous across days within a participant.
+**Check E2 passed (3 November 2026)**, so the Pulsewatch clause is included (+14 words). Full results: `Result_E2_Pulsewatch_Timestamps.md`.
+- **Pass:** Q1, 100% of files fall in 2019 to 2021; Q2, 64 of 108 subjects span 3 or more local days in order with no overlaps; Q3, 99.1% of segments match the US Eastern calendar offset, and the busiest hour is 01:00.
+- **Not fully blind:** the pass definitions were written after seeing a sample of 11,735 files, before the full run.
+- **Time base:** file-name time, read as US Eastern local time. Column 0 of `PPG_filt_csv` is **not** UTC; it appears to sit at a fixed UTC−5. Converting it as UTC would wrongly drop the 00–06 share from 43.2% to 19.1%.
+- **Limits:** 0.9% of segments do not match the US calendar (including 353 unexplained January segments); 40 of 108 subjects do not span 3 days in labelled data; excluded segments come almost entirely from clinical subjects; 4xx cohort dates were not checked against a separate publication; travel outside Eastern time cannot be detected.
+- **Coverage figures for later use (not in the proposal text):** only the 8-subject raw recording shares may be used for the RO3 fallback or Appendix C. They are pooled 22.9 / 22.3 / 28.6 / 26.3% and mean of subjects 18.2 / 21.6 / 40.0 / 20.1% across 00–06 / 06–12 / 12–18 / 18–24, from subjects who were not randomly chosen. Labelled shares (43.3% in 00–06) favour quiet night hours and must not be described as wear or coverage.
+- **Do not claim:** that the timestamps are UTC; that Pulsewatch reflects Garmin coverage; any time-of-day ectopy pattern.
 
 ---
 
@@ -551,6 +557,16 @@ Keep the risk ratios (0.68; 1.62) in the speaker notes for slide 2.
 
 The deleted figures remain in Table 4.3 and in Section 3.6.
 
+
+
+#### T11 · Section 1.6 [main]
+**Current**
+> Key terms (beat-interval series, per-beat quality flag, coverage, valid day, ectopy rate and pulse deficit) are defined in Appendix B (Table B.1).
+
+**Proposed**
+> Appendix B (Table B.1) defines key terms.
+
+Offsets the E2 Pulsewatch clause. The list repeats the rows of Table B.1.
 
 ---
 

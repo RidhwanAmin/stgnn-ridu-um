@@ -1,5 +1,7 @@
 # Check E2: are Pulsewatch timestamps continuous across days?
 
+**Status: DONE, PASS (3 November 2026).** Results in `Result_E2_Pulsewatch_Timestamps.md`. Note: the script below treats column 0 as UTC; the check found it is not (it sits at a fixed UTC−5), so local time was taken from the file name plus segment index × 30 s, and the order check was replaced. The instructions below are kept as originally written.
+
 **For:** Ridhwan (to run on your local Pulsewatch files)
 **Why:** review issue #2. The epoch scale of the ST-GNN aggregates "across windows within the day", but Icentia11k segments are about 70 minutes long with no clock time. The draft E2 trains the epoch scale on pseudo-days. If Pulsewatch recordings carry real, continuous timestamps across days, the proposal can also say "real within-day ordering is tested on timestamped Pulsewatch recordings at window level" (optional E2 clause, +14 words).
 **Draft text waiting on this:** the optional clause under E2a in `drafts/proposal_revisions_draft.md`.
