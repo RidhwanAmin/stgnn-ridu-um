@@ -278,6 +278,17 @@ ol.chain li::before{content:counter(ch);position:absolute;left:0;top:10px;width:
 .thrz{fill:var(--accent);fill-opacity:.10}
 .daym{fill:var(--ink)} .daym.pos{fill:var(--accent)}
 .naive{fill:var(--muted)}
+ol.funnel{list-style:none;padding:0;margin:14px 0 20px;display:flex;flex-direction:column;align-items:center;gap:8px}
+ol.funnel li{width:var(--w);max-width:100%;background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:12px 16px;font-size:var(--s-1);line-height:1.5}
+ol.funnel li b{display:block;font-size:var(--s0);margin-bottom:4px}
+ol.funnel li.target{border-color:var(--accent);border-width:2px}
+ol.funnel .lv,.statement .lv{display:block;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+ol.funnel li.target .lv{color:var(--accent)}
+@media (max-width:640px){ ol.funnel li{width:100%} }
+.statement{border-left:4px solid var(--accent);background:var(--surface);padding:14px 18px;margin:18px 0 22px;border-radius:0 8px 8px 0;max-width:80ch}
+.statement p{margin:0;font-family:var(--f-display);font-size:1.12rem;line-height:1.55}
+table.spec td p{margin:6px 0 0;font-size:.78rem}
+table.pscheck td:first-child{min-width:12em}
 @media (prefers-reduced-motion: reduce){ .vtip{transition:none} }
 </style>
 
@@ -286,6 +297,7 @@ ol.chain li::before{content:counter(ch);position:absolute;left:0;top:10px;width:
   <p>Research map</p>
   <ol>
     <li><a href="#overview">Study in one page</a></li>
+    <li><a href="#problem">Problem statement</a></li>
     <li><a href="#signal">What is counted</a></li>
     <li><a href="#framework">Framework and design</a></li>
     <li><a href="#pipeline">Methodology pipeline</a></li>
@@ -335,7 +347,7 @@ ol.chain li::before{content:counter(ch);position:absolute;left:0;top:10px;width:
 <section id="overview">
   <span class="eyebrow">The study in one page</span>
   <h2>Problem, aim and questions</h2>
-  <p><strong>Problem.</strong> Excessive supraventricular ectopic activity (ESVEA) selects post-stroke survivors for prolonged rhythm monitoring, but every threshold was derived on Holter ECG, the scarce resource being allocated. Smartwatches report beat intervals with a per-beat quality flag, yet the error of a smartwatch-derived daily ectopic count is unknown. Filtering removes ectopic beats preferentially, and analysable data are night-weighted while PACs peak in the afternoon and evening.</p>
+  <p><strong>Problem.</strong> The error of a smartwatch-derived daily atrial ectopy count is unknown, so it cannot yet be compared with the Holter-derived ESVEA threshold used to select stroke survivors for prolonged monitoring. The full statement, how it was narrowed and how it leads to the objectives are in <a href="#problem">Problem statement</a>.</p>
   <p><strong>Aim.</strong> Establish whether smartwatch beat intervals, analysed with an estimator that models signal quality and unobserved time, can yield a daily atrial ectopy estimate whose error is characterised against ECG labels under simulated smartwatch losses, and whose coverage after stroke is adequate, as a step towards comparison with ECG-derived ESVEA thresholds.</p>
 
   <div class="tw wide"><table>
@@ -366,6 +378,64 @@ ol.chain li::before{content:counter(ch);position:absolute;left:0;top:10px;width:
       </ul>
     </div>
   </div>
+</section>
+
+<!-- PROBLEM STATEMENT -->
+<section id="problem">
+  <span class="eyebrow">Section 1.2, with 1.1, 1.5 and 2.7</span>
+  <h2>Problem statement</h2>
+  <p>A problem statement is a claim: it says what is wrong, why what is known cannot fix it, and what the study will find out. Below, the general problem is narrowed step by step into one that data can answer, then checked against the six characteristics a problem statement should have.</p>
+
+  <h3>From a general problem to a targeted one</h3>
+  <ol class="funnel">
+    <li style="--w:100%"><span class="lv">General</span><b>Stroke survivors who have hidden atrial fibrillation (AF) need to be found, and monitoring to find them is limited.</b> Finding AF moves a patient from antiplatelet therapy to anticoagulation. Longer monitoring finds more AF (5.1% with 72 hours or less, 29.15% with three months; Dussault et al., 2015), so who gets long monitoring matters.</li>
+    <li style="--w:90%"><span class="lv">Narrower</span><b>Who gets that monitoring is decided by tools that are either circular or unstable.</b> Atrial ectopy burden (ESVEA) selects well, but every ESVEA threshold was derived on Holter ECG, the very resource being rationed, and a single day of ECG identified only 44.6% of patients with ESVEA (Måneheim et al., 2023). Clinical scores need no monitoring but rank patients inconsistently (AUROC 0.54 to 0.94; Kishore et al., 2022).</li>
+    <li style="--w:80%"><span class="lv">Narrower</span><b>A smartwatch could count ectopy without using a Holter, but nobody knows how wrong its count is.</b> Beat intervals carry ectopy, yet wearable studies report only whether short windows contain ectopy, with PACs and ventricular beats merged (Han et al., 2026). No smartwatch-derived daily PAC count has been validated against ECG (Table 2.1).</li>
+    <li style="--w:70%" class="target"><span class="lv">Targeted</span><b>The count is biased in two measurable ways, and no estimator accounts for either.</b> Filtering removes ectopic beats more than normal ones, and more so at lower burden (Section 4.2); and the watch's usable time is weighted to the night while PACs peak in the afternoon and evening (Merschel &amp; Reinhardt, 2022; Larsen et al., 2016). Until that error is measured and corrected, a smartwatch value cannot be compared with the 480-per-day threshold.</li>
+  </ol>
+
+  <div class="statement">
+    <span class="lv">The statement</span>
+    <p>Every atrial ectopy threshold for selecting post-stroke survivors for prolonged monitoring was derived on Holter ECG, the resource the selection rations, while scores that need no monitoring rank patients inconsistently. A smartwatch could observe ectopy without consuming Holter capacity, but the error of a smartwatch-derived daily ectopy count has never been measured: filtering removes ectopic beats preferentially and in proportion to burden, the watch observes mostly at night while PACs peak later in the day, and existing beat models assume complete, unflagged sequences. A smartwatch value therefore cannot yet be compared with ECG-derived thresholds. This study quantifies the information lost from pulse waveform to filtered beat intervals, builds an estimator that uses the quality flag and unobserved time, tests whether a 7-day protocol works after stroke, and asks whether the estimate would change who is selected.</p>
+  </div>
+
+  <h3>Does it meet the six characteristics?</h3>
+  <div class="tw wide"><table class="pscheck">
+    <thead><tr><th>Characteristic</th><th>How the statement meets it</th><th>Evidence in the proposal</th></tr></thead>
+    <tbody>
+      <tr><td><b>1. Addresses a gap in knowledge</b><br><span class="muted">What has been done, and why more is needed</span></td><td><b>Done:</b> smartwatches detect AF at window level; beat intervals and heart-rate variability carry ectopy and predict AF; wearable ectopy is reported as window classification with PACs and PVCs merged. <b>Not done:</b> a daily PAC count from a smartwatch validated against ECG; the loss caused by quality filtering; an estimator that accounts for unobserved time.</td><td>§1.2; Table 2.1 gaps 1 to 4 (Barrera et al., 2025; Schoels et al., 2025; Han et al., 2026; Bhurane et al., 2026)</td></tr>
+      <tr><td><b>2. Delineates a problem that data can answer</b></td><td>Each part maps to a dataset that can measure it: beat-labelled ECG for what filtering removes and for count error (Icentia11k); paired wrist pulse and ECG for what the watch misses with motion (Pulsewatch); 7 days of Garmin wear after stroke for coverage (RO3 cohort). Scope excludes recurrence prediction, anticoagulation decisions and continuous AF burden.</td><td>§1.4 Table 1.2; §3.2 Table 3.1</td></tr>
+      <tr><td><b>3. States what is to be solved and which questions are asked</b></td><td>Solve: a daily ectopy estimate with known error and a rule for when it cannot be reported. Ask: how much is lost (RQ1), whether a flag-aware graph model beats non-graph baselines (RQ2), whether 7-day wear after stroke gives enough data (RQ3), and whether the estimate changes ESVEA classification and how it compares with scores (RQ4).</td><td>§1.3 aim, Table 1.1, H1 to H3</td></tr>
+      <tr><td><b>4. Argues that available knowledge is insufficient</b></td><td>Existing thresholds need the Holter they are meant to ration; scores are unstable across cohorts; one day of ECG misses most ESVEA; wearable evidence stops at window classification; and the preliminary analysis shows the filtering loss is large (61% of PAC intervals against 9% of normal ones at 20%) and depends on burden, so a fixed correction cannot repair it.</td><td>§1.1, §1.2, §4.2</td></tr>
+      <tr><td><b>5. Explains why the study is important</b></td><td>Clinical: an estimate from a device the patient already wears would break the dependency of selection on Holter capacity. Methodological: treating the flag as evidence rather than a deletion rule, and a gate that states when no value can be reported, are prerequisites for clinical use of consumer wearable data.</td><td>§1.5</td></tr>
+      <tr><td><b>6. Founds the objectives and methodology</b></td><td>Each element of the targeted problem becomes one objective, one method and one measured output (map below).</td><td>§1.3, Chapter 3</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>From each part of the problem to an objective and a method</h3>
+  <div class="tw wide"><table>
+    <thead><tr><th>Part of the problem</th><th>Objective</th><th>Method</th><th>What it produces</th></tr></thead>
+    <tbody>
+      <tr><td>Filtering removes ectopic beats preferentially, by burden</td><td>RO1</td><td>Filter threshold sweep on Icentia11k; mixed-effects model of PAC retention on burden in new patients (H1)</td><td>Retention curve; the decision to keep flagged beats as input</td></tr>
+      <tr><td>Pulse shape is lost when the waveform becomes intervals</td><td>RO1</td><td>Waveform model against interval model on the same Pulsewatch recordings</td><td>Change in F1 and AUROC</td></tr>
+      <tr><td>No estimator uses the flag and unobserved time</td><td>RO2</td><td>Two-scale ST-GNN with Equations 3.1 to 3.4; non-graph baselines; ablations</td><td>Error of the daily-equivalent count (H2)</td></tr>
+      <tr><td>Coverage after stroke is partial and night-weighted</td><td>RO3</td><td>7-day Garmin protocol in about 40 stroke or TIA survivors</td><td>Share with 3 or more valid days (H3); computability; stability</td></tr>
+      <tr><td>A watch value cannot yet replace the Holter count</td><td>RO4</td><td>Held-out Icentia11k degraded to watch-like data; agreement with clinical scores in the cohort</td><td>Reclassification rate, κ, sensitivity and specificity at 480 per day</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Is each research question specific enough?</h3>
+  <p>The common weakness of proposals is a research question that is not specific enough. A specific question names who or what is studied, what is measured, what it is compared with, and how the answer will be decided. The table checks each question as written in Table 1.1 against its own methods.</p>
+  <div class="tw wide"><table class="spec">
+    <thead><tr><th></th><th>Studied in</th><th>Measured</th><th>Compared with</th><th>Decided by</th><th>Verdict</th></tr></thead>
+    <tbody>
+      <tr><td><b>RQ1</b></td><td>Icentia11k (P0, P1); Pulsewatch</td><td>Share of PAC and normal intervals removed by threshold; change in F1 and AUROC; premature vs PAC-only count by burden</td><td>Normal intervals; a waveform model</td><td>H1: mixed-effects logistic regression in new patients</td><td><span class="chip ok">specific through H1</span><p class="muted">"Ectopy information" is defined only in RO1 and §3.3. Naming the three losses in the question would make it self-contained.</p></td></tr>
+      <tr><td><b>RQ2</b></td><td>Icentia11k (P2), subject-wise; Pulsewatch window test</td><td>Mean absolute error of the daily-equivalent count</td><td>The question says "sequence-based baselines"; H2 and Table 3.2 use the best <b>non-graph</b> baseline, which also includes classical and rule-based models</td><td>H2: paired subject-level bootstrap 95% CI</td><td><span class="chip warn">wording mismatch</span><p class="muted">Suggested: "...more accurately than the best non-graph baseline (classical, rule-based or sequence)".</p></td></tr>
+      <tr><td><b>RQ3</b></td><td>About 40 adults after ischaemic stroke or TIA, PPUM, 7 days of Garmin wear</td><td>Share with 3 or more valid days; computability; day-to-day stability</td><td>Null of 50% or below; green at 75%</td><td>H3: one-sided test, α 0.05, 90% power</td><td><span class="chip warn">wording mismatch</span><p class="muted">The question asks for a "per-day ESVEA classification", but ESVEA status comes from the pooled week (Equation 3.4) and per-day values serve stability only. Suggested: "...enough analysable data to compute a pooled 7-day ESVEA classification, with stable per-day estimates".</p></td></tr>
+      <tr><td><b>RQ4</b></td><td>(a) Held-out Icentia11k (P3), degraded; (b) the RO3 cohort</td><td>(a) Reclassification, κ, sensitivity, specificity; (b) κ and overlap with score-based selections</td><td>(a) ECG reference status; (b) five clinical scores at equal capacity</td><td>Descriptive, Wilson 95% CIs</td><td><span class="chip ok">specific in the methods</span><p class="muted">Naming the 480-per-day cut-off and "under simulated device losses" in the question would match RO4.</p></td></tr>
+    </tbody>
+  </table></div>
+  <p class="cap">The suggested wordings are not in the proposal. Changing RQ2 or RQ3 would also touch Table 1.1, slide 5 and the abstract; they are listed here for a decision with the supervisors.</p>
 </section>
 
 <!-- WHAT IS COUNTED -->
