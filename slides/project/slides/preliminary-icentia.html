@@ -1,0 +1,18 @@
+<section id="preliminary-icentia" style="background:#ffffff;color:#1a1a1a;font-family:Arial, Helvetica, sans-serif;padding:88px 112px 140px;display:flex;flex-direction:column;gap:24px">
+<h2 style="font-size:52px;font-weight:700;line-height:1.15">Preliminary Findings (2): Filtering Removes Ectopy</h2>
+<p style="font-size:26px;line-height:1.35">First RQ1.2 analysis on Icentia11k beat labels: 298 patients, median 57.5 h each. Share of RR intervals removed by a percent-deviation filter (%).</p>
+<table style="width:100%;font-size:24px;color:#1a1a1a;border:1px solid #8a8a8a">
+<tr><th style="width:34%;text-align:left">Interval</th><th style="width:11%;text-align:left">10%</th><th style="width:11%;text-align:left">20%</th><th style="width:11%;text-align:left">30%</th><th style="width:16%;text-align:left">20%: ESVEA − (Binici)</th><th style="width:17%;text-align:left">20%: ESVEA + (Binici)</th></tr>
+<tr><td><b>Coupling interval ending at a PAC</b></td><td>81.5</td><td><b>60.9</b></td><td>37.4</td><td>78.5</td><td>60.0</td></tr>
+<tr><td>Pause after a PAC</td><td>74.9</td><td>54.5</td><td>37.3</td><td>50.1</td><td>54.8</td></tr>
+<tr><td>Coupling interval ending at a PVC</td><td>85.4</td><td>70.0</td><td>46.5</td><td>65.4</td><td>77.9</td></tr>
+<tr><td>Normal to normal</td><td>20.1</td><td><b>8.8</b></td><td>6.2</td><td>8.1</td><td>11.5</td></tr>
+</table>
+<ul style="font-size:24px;line-height:1.35;display:flex;flex-direction:column;gap:10px">
+<li><b>About 7 times more PAC intervals removed than normal ones</b> at 20%; no threshold keeps most PACs.</li>
+<li><b>Loss depends on burden</b> (78.5% vs 60.0%), so one correction factor cannot restore the count after deletion: flagged beats stay as model input (RQ2.4).</li>
+<li><b>RO4a is viable:</b> 67 of 298 (22.5%) ≥480 PACs/day (54 at ≥30/h); median 1.35 PACs/h. Limits: ECG RR, not PPG; normal intervals include AF.</li>
+</ul>
+<p style="position:absolute;right:112px;bottom:56px;width:200px;text-align:right;font-size:24px;color:#6b6b6b">18</p>
+<aside>About 1 minute. This is the first result specific to this thesis. Say the headline number: at the usual 20% threshold, 61% of PAC intervals are thrown away against 9% of normal intervals. Then the second point, which is the methodological hook: the share lost is smaller in high-burden patients, probably because frequent PACs contaminate the filter's reference, so the loss depends on the quantity being measured. That is why the estimator keeps flagged beats as input instead of deleting them and applying a fixed correction; the Garmin flags these beats rather than deleting them. Close with RO4a: 67 patients at or above 480 per day is enough for the substitution test. If asked, Icentia11k is not a stroke cohort, so the 22.5% is not compared with MonDAFIS as validation.</aside>
+</section>

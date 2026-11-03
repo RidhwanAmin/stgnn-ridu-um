@@ -3,11 +3,11 @@
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px">
 <div style="display:flex;flex-direction:column;gap:10px;padding:22px;border:3px solid #1a1a1a">
 <h3 style="font-size:28px;font-weight:700;line-height:1.2">Stage 1 · Fit retention, then freeze</h3>
-<p style="font-size:24px;line-height:1.3">Silent loss only: pulse deficit by coupling ratio q (Zheng et al., 2008) × motion from Pulsewatch (lag-corrected ECG R-peaks). Fitted outside the network.</p>
+<p style="font-size:24px;line-height:1.3">Silent loss at motion only, from Pulsewatch (lag-corrected ECG R-peaks), outside peak-free stretches that mirror Garmin gaps. Fitted outside the network.</p>
 </div>
 <div style="display:flex;flex-direction:column;gap:10px;padding:22px;border:1px solid #8a8a8a">
 <h3 style="font-size:28px;font-weight:700;line-height:1.2">Stage 2 · Train and weight</h3>
-<p style="font-size:24px;line-height:1.3">Encoder sees intervals and the quality flag; p̂ calibrated on validation subjects; each reported beat weighted by 1/π̂<sub>PAC</sub>(m, q).</p>
+<p style="font-size:24px;line-height:1.3">Encoder sees intervals and the quality flag; p̂ calibrated on validation subjects; each reported beat weighted by 1/π̂(m).</p>
 </div>
 <div style="display:flex;flex-direction:column;gap:10px;padding:22px;border:1px solid #8a8a8a">
 <h3 style="font-size:28px;font-weight:700;line-height:1.2">Stage 3 · Report or abstain</h3>
@@ -21,11 +21,12 @@
 <tr><th style="width:52%;text-align:left">Loss on the Garmin</th><th style="width:48%;text-align:left">Handled by</th></tr>
 <tr><td>Abnormal beat kept, flagged low confidence</td><td>Model input; not reweighted</td></tr>
 <tr><td>Marked gap (extreme motion, poor signal)</td><td>Observed time τ and the gate</td></tr>
-<tr><td>Silent loss (no wrist pulse, missed beat)</td><td>Frozen retention, weight 1/π̂</td></tr>
+<tr><td>Silent loss (beat missed at motion)</td><td>Frozen retention, weight 1/π̂</td></tr>
+<tr><td>Pulse deficit (no wrist pulse)</td><td>Not correctable; bias quantified in RO4a</td></tr>
 </table>
 <p style="font-size:24px;line-height:1.3;color:#3a3a3a">No beat is corrected twice. Source for flag and gap behaviour: Garmin (2023).</p>
 </div>
-<svg aria-label="Schematic retention curves. Left: pulse retention rises from near zero to one as the coupling ratio q increases, with a dashed line near 0.55 marking the published pulse-loss threshold. Right: motion retention falls as accelerometer motion rises. Shapes only; no fitted values." width="760" height="380" viewBox="0 0 760 380">
+<svg aria-label="Schematic retention curves. Left: pulse retention rises from near zero to one as the coupling ratio q increases, with a dashed line near 0.55 marking the published pulse-loss threshold; this is simulated in RO4a, not corrected. Right: motion retention falls as accelerometer motion rises; this is the frozen correction. Shapes only; no fitted values." width="760" height="380" viewBox="0 0 760 380">
 <rect x="0" y="0" width="760" height="380" fill="#ffffff"/>
 <text x="10" y="28" font-size="24" font-weight="700" fill="#1a1a1a">Schematic shapes only; no fitted values</text>
 <line x1="60" y1="300" x2="350" y2="300" stroke="#1a1a1a" stroke-width="2"/>
@@ -36,15 +37,15 @@
 <line x1="186" y1="300" x2="186" y2="70" stroke="#6b6b6b" stroke-width="2" stroke-dasharray="8 6"/>
 <text x="196" y="270" font-size="22" fill="#3a3a3a">≈ 0.55</text>
 <text x="60" y="340" font-size="24" fill="#1a1a1a">coupling ratio q</text>
-<text x="60" y="372" font-size="24" font-weight="700" fill="#1a1a1a">π̂ pulse (PAC)</text>
+<text x="60" y="372" font-size="24" font-weight="700" fill="#1a1a1a">Pulse deficit (RO4a only)</text>
 <line x1="440" y1="300" x2="730" y2="300" stroke="#1a1a1a" stroke-width="2"/>
 <line x1="440" y1="300" x2="440" y2="70" stroke="#1a1a1a" stroke-width="2"/>
 <text x="404" y="84" font-size="24" fill="#1a1a1a">1</text>
 <text x="404" y="304" font-size="24" fill="#1a1a1a">0</text>
 <path d="M440 92 C500 96 540 130 580 170 C620 208 670 226 730 232" fill="none" stroke="#1a1a1a" stroke-width="4"/>
 <text x="440" y="340" font-size="24" fill="#1a1a1a">motion m</text>
-<text x="440" y="372" font-size="24" font-weight="700" fill="#1a1a1a">π̂ motion</text>
+<text x="440" y="372" font-size="24" font-weight="700" fill="#1a1a1a">π̂(m), the correction</text>
 </svg>
 </div>
-<aside>Held for questions. Three stages. Stage 1 fits retention for silent loss only and freezes it: pulse retention by coupling ratio, using the published threshold of about 55% of the sinus RR (Zheng et al., 2008), times motion retention estimated on Pulsewatch with per-session lag correction. The product is an assumption, because Pulsewatch R-peaks carry no beat types, and no retention value is claimed: the 8-subject check found matching falling with motion but detector-dependent. Stage 2 trains the encoder with the quality flag as input, calibrates beat probabilities on validation subjects, and weights each reported beat by the inverse of its retention. Stage 3 applies the coverage gate, a fixed rule rather than a learned layer. The table is the key answer to double counting: the Garmin keeps abnormal beats and flags them, so they stay in the input unweighted; a marked gap reduces observed time; only silent loss is reweighted. Because RO4a's pulse-deficit degradation uses the same threshold, RO4a is reported across the full severity sweep. Pending supervisor reconfirmation (E1).</aside>
+<aside>Held for questions. Three stages. Stage 1 fits retention for silent loss at motion only and freezes it, estimated on Pulsewatch with per-session lag correction, outside stretches with no detected peak that mirror the Garmin gap rule, so gap time is not corrected twice. No retention value is claimed: the 8-subject check found matching falling with motion but detector-dependent. Stage 2 trains the encoder with the quality flag as input, calibrates beat probabilities on validation subjects, and weights each reported beat by the inverse of its retention. Stage 3 applies the coverage gate, a fixed rule rather than a learned layer. The table is the key answer to double counting: the Garmin keeps abnormal beats and flags them, so they stay in the input unweighted; a marked gap reduces observed time; only silent loss at motion is reweighted. A premature beat with no wrist pulse cannot be reweighted, because no reported beat stands in for it; the left curve is therefore an RO4a degradation, reported across a severity sweep, not a correction. Pending supervisor reconfirmation (E1).</aside>
 </section>

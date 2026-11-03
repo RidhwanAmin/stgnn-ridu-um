@@ -1,6 +1,8 @@
 # Draft revisions for the proposal defence (not yet applied)
 
 **Status:** approved by the candidate and **applied on 3 November 2026** to `proposal/source/content.txt`, `proposal/Ridhwan_Research_Proposal_UM.docx` and the slide deck (version 44). E1 and E11 still need supervisor reconfirmation: see `proposal/SUPERVISOR_RECONFIRMATION_E1_E11.md`.
+
+> **Superseded in part (3 November 2026, after the independent review):** the E1 text below (pulse retention by coupling ratio, π̂ₖ(m, q)) is replaced in `proposal/source/content.txt` by π̂(m) = P(beat reported | motion m, outside a gap); Table 3.4's first row, §3.5 (24-hour logging), §3.9 (fallback), §3.6 and the abstract were also revised. Main text is now 6,986 words. See `drafts/Independent_Review_2026-11-03.md` and `proposal/SUPERVISOR_RECONFIRMATION_E1_E11.md`; where they differ from this draft, the proposal source is authoritative.
 **Base version:** handover of 3 November 2026 (`content.txt`, 45-slide deck, version 34).
 **House rules followed:** APA 7th edition; no em dashes; main text kept at or under 7,000 words.
 

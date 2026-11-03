@@ -1,11 +1,17 @@
-# Slide sources (changed slides only)
+# Slide sources (full deck copy)
 
-Copies of the 10 slides changed on 3 November 2026 in the Claude Slides deck https://claude.ai/artifact/4RuYVim5WsRqG5aQLYJGas (version 44; `app-b3` redrawn in version 46; `app-eq` page number corrected from 30 to 31 in version 48; six sources not in the proposal removed in version 49), plus the unchanged `deck.json` index. The deck itself is the source of truth; these copies are for version history.
+Copy of all 45 slides and the `deck.json` index of the Claude Slides deck https://claude.ai/artifact/4RuYVim5WsRqG5aQLYJGas, taken on 3 November 2026 from version id 1793687949-bd1f (after the candidate's post-review revisions). The deck is the source of truth; this copy is for version history.
 
-Changed: `rq-ro` (5), `validation-matrix` (13), `ro1-ro2` (14), `ro3` (15), `ro4` (16), `preliminary` (17), `risks` (19), `app-eq`, `app-c1`, `app-b3`.
+## Change history this session
 
-Speaker notes on `ro1-ro2`, `app-eq` and `app-b3` (E1) and `preliminary` (E11) carry a "Pending supervisor reconfirmation" line. Remove it once supervisors confirm (see `proposal/SUPERVISOR_RECONFIRMATION_E1_E11.md`).
+| Deck version | Change | Slides (position) |
+|---|---|---|
+| 44 | Approved revisions E1 to E11 | `rq-ro` (5), `validation-matrix` (13), `ro1-ro2` (14), `ro3` (15), `ro4` (16), `preliminary` (17), `risks` (19), `app-eq` (31), `app-b3` caption (42), `app-c1` (43) |
+| 46 | `app-b3` redrawn: stage cards, loss-routing table, schematic retention curves (no fitted values) | 42 |
+| 48 | `app-eq` printed page number 30 → 31 | 31 |
+| 49 | Removed six sources not in the proposal (Aguilar 2021, Bacevičius 2022, Gruwez 2024, Sun 2024, Väliaho 2019, Zahid 2023): reference entries and the appendix rows citing them | `refs-1` (23), `refs-2` (24), `refs-5` (27), `refs-6` (28), `app-a3` (34), `app-a5` (36), `app-a6` (37), `app-a7` (38), `app-a8` (39) |
+| 1793687949-bd1f | Candidate's revision after the independent review: E1 retention on motion only (outside a gap), pulse deficit as an RO4a-quantified bias, Table 3.4 "Flags and silent loss", slide 18 wording | `ro1-ro2` (14), `ro3` (15), `ro4` (16), `preliminary-icentia` (18), `risks` (19), `app-eq` (31), `app-b3` (42) |
 
-`app-b3`: the two old images (which illustrated the superseded three-stage retention approach) were replaced in version 46 by native slide content: three stage cards, a "where each loss goes" table, and two schematic retention curves labelled "shapes only; no fitted values".
+The four references removed from the proposal (Kapsecker, Montanaro, Ye, Abedi) were never on the slides.
 
-Version 49: removed six sources that are not in the proposal's reference list, both the reference entries and the appendix rows citing them: Aguilar et al. (2021) from `app-a5` and `refs-1`; Bacevičius et al. (2022) from `app-a3` and `refs-1`; Väliaho et al. (2019) and Gruwez et al. (2024) from `app-a6`, `refs-6` and `refs-2`; Zahid et al. (2023) from `app-a7` and `refs-6`; Sun et al. (2024) from `app-a8` and `refs-5`. The four references removed from the proposal this session (Kapsecker, Montanaro, Ye, Abedi) were never on the slides.
+Speaker notes on `ro1-ro2`, `app-eq`, `app-b3` (E1) and `preliminary` (E11) carry a "Pending supervisor reconfirmation" line. Remove it once supervisors confirm (see `proposal/SUPERVISOR_RECONFIRMATION_E1_E11.md`). The deck is shared with anyone with the link, and speaker notes are visible to anyone who opens it.

@@ -1,0 +1,10 @@
+<section id="app-b1" style="background:#ffffff;color:#1a1a1a;font-family:Arial, Helvetica, sans-serif;padding:88px 112px 120px;display:flex;flex-direction:column;gap:24px">
+<h2 style="font-size:44px;font-weight:700;line-height:1.15">Appendix B1: RO1 Design</h2>
+<table style="width:100%;font-size:24px;color:#1a1a1a;border:1px solid #8a8a8a">
+<tr><th style="width:38%;text-align:left">Research question</th><th style="width:17%;text-align:left">Data</th><th style="width:25%;text-align:left">Comparison</th><th style="width:20%;text-align:left">Output</th></tr>
+<tr><td>RQ1.1 How much does ectopy detection change when the same recordings are represented as beat intervals rather than the raw waveform?</td><td>Pulsewatch (PPG with reference ECG; window labels)</td><td>Waveform model vs beat-interval model on identical recordings</td><td>Performance loss from absent morphology</td></tr>
+<tr><td>RQ1.2 What share of annotated ectopic beats is removed by quality-based interval rejection across deployed thresholds?</td><td>Icentia11k (beat labels)</td><td>Percent-deviation filter (Karlsson et al., 2012); adaptive threshold (Lipponen &amp; Tarvainen, 2019)</td><td>Ectopic vs normal beats removed; retention curve</td></tr>
+<tr><td>RQ1.3 How closely does an origin-agnostic premature-beat count approximate the supraventricular count, and does the gap vary with burden?</td><td>Icentia11k (PAC and PVC labels)</td><td>All premature beats vs PAC-only count</td><td>Count discrepancy by ectopy burden</td></tr>
+</table>
+<p style="font-size:24px;line-height:1.3">Rationale: beat intervals discard the P wave that separates PACs from other premature beats, and PAC detection is the least reliable class even on ECG (sensitivity 0.539 to 0.797; Kraft et al., 2026). No new data collection is required.</p>
+</section>

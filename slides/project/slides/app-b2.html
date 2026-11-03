@@ -1,0 +1,11 @@
+<section id="app-b2" style="background:#ffffff;color:#1a1a1a;font-family:Arial, Helvetica, sans-serif;padding:88px 112px 120px;display:flex;flex-direction:column;gap:24px">
+<h2 style="font-size:44px;font-weight:700;line-height:1.15">Appendix B2: RO2 Comparison Models and Ablations</h2>
+<table style="width:100%;font-size:24px;color:#1a1a1a;border:1px solid #8a8a8a">
+<tr><th style="width:32%;text-align:left">Research question</th><th style="width:18%;text-align:left">Comparison</th><th style="width:32%;text-align:left">Models benchmarked</th><th style="width:18%;text-align:left">Isolates</th></tr>
+<tr><td>RQ2.1 Does a graph over beat intervals estimate ectopy more accurately than non-graph models on the same intervals?</td><td>Beat-graph vs classical, rule-based and sequence models</td><td>LR, SVM, RF on RR features; RR + morphology (Dias et al., 2021); Poincaré rule (Han et al., 2020); BiLSTM; GRU-D (Che et al., 2018); transformer (Hu et al., 2022)</td><td>Value of relational structure</td></tr>
+<tr><td>RQ2.2 Does aggregating over a graph of epochs estimate the daily rate better than direct aggregation?</td><td>Epoch-graph vs summation and pooling</td><td>Sum over analysable hours; mean pooling; LSTM over epochs</td><td>Value of the second scale</td></tr>
+<tr><td>RQ2.3 Which components account for any difference?</td><td>Component ablation</td><td>Remove chain edges, similarity edges, interval block, retention correction, coverage gate</td><td>Each component</td></tr>
+<tr><td>RQ2.4 Does treating the quality flag as an input change accuracy?</td><td>Flag as filter vs input vs input with correction</td><td>Same encoder under three regimes</td><td>Reliability as input</td></tr>
+</table>
+<p style="font-size:24px;line-height:1.3;font-style:italic;color:#3a3a3a">Graph structure is tested against non-graph baselines rather than assumed (EPMoghaddam et al., 2024).</p>
+</section>

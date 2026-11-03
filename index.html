@@ -261,7 +261,7 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
     <div>
       <h4>Contribution claimed</h4>
       <ul class="tight">
-        <li><b>Method:</b> the quality flag treated as evidence; a frozen retention model reweights retained beats; a coverage gate decides when a value can be reported.</li>
+        <li><b>Method:</b> the quality flag treated as evidence; a frozen motion-retention model reweights reported beats for silent loss; a coverage gate decides when a value can be reported.</li>
         <li><b>Empirical:</b> loss decomposition (RO1) and the error of a daily count under simulated losses (RO2, RO4a); deployability after stroke (RO3).</li>
         <li>The graph architecture is a means, tested against baselines, not a claimed contribution.</li>
       </ul>
@@ -314,14 +314,14 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
 <section id="pipeline">
   <span class="eyebrow">Methodology overview</span>
   <h2>Four phases, each feeding the next</h2>
-  <p>The order is a dependency chain: RO1 measures what is lost and supplies the class part of the retention model, RO2 builds and freezes the estimator, RO3 tests delivery in patients, and RO4 asks whether the estimate changes classification.</p>
+  <p>The order is a dependency chain: RO1 measures what is lost and shows why flagged beats must stay as input, RO2 builds and freezes the estimator, RO3 tests delivery in patients, and RO4 asks whether the estimate changes classification.</p>
   <div class="pipeline">
-    <div class="phase"><span class="tag">PHASE 1 · RO1</span><h3>Investigate information loss</h3><p>Waveform vs interval model on identical Pulsewatch recordings; filter threshold sweep on Icentia11k; premature vs PAC-only count by burden.</p><span class="feeds">→ π̂<sub>class</sub>(k) and the retention curve</span></div>
+    <div class="phase"><span class="tag">PHASE 1 · RO1</span><h3>Investigate information loss</h3><p>Waveform vs interval model on identical Pulsewatch recordings; filter threshold sweep on Icentia11k; premature vs PAC-only count by burden.</p><span class="feeds">→ flag-as-input design; RO4a operators</span></div>
     <div class="phase"><span class="tag">PHASE 2 · RO2</span><h3>Develop two-scale ST-GNN</h3><p>Beat-graph per window, epoch-graph over the day; flag as input; frozen retention correction; coverage gate. Baselines and ablations.</p><span class="feeds">→ frozen model (M4) used in RO4a</span></div>
     <div class="phase"><span class="tag">PHASE 3 · RO3</span><h3>Evaluate deployability</h3><p>7-day Garmin wear after stroke or TIA; yield, computability, day-to-day stability, activity, ESVEA proportion.</p><span class="feeds">→ coverage profile; RO4b selections</span></div>
     <div class="phase"><span class="tag">PHASE 4 · RO4</span><h3>Substitute and validate</h3><p>4a: held-out Icentia11k degraded to smartwatch-like intervals. 4b: wearable vs score-based selections at equal capacity.</p><span class="feeds">→ reclassification; agreement</span></div>
   </div>
-  <div class="note-box"><p><b>Fallback.</b> If ethics or the device is not secured by S4, RO3 becomes a device-verification study with coverage modelled from Pulsewatch wear data, RO4a proceeds unchanged, and RO4b is deferred. RO1, RO2 and RO4a do not depend on the cohort.</p></div>
+  <div class="note-box"><p><b>Fallback.</b> If ethics, the device or 24-hour interval logging is not secured by S4, RO3 becomes a device-verification study with coverage modelled from Pulsewatch wear data, RO4a proceeds unchanged, and RO4b is deferred. RO1, RO2 and RO4a do not depend on the cohort.</p></div>
 </section>
 
 <!-- RO1 -->
@@ -445,19 +445,19 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
 <section id="estimator">
   <span class="eyebrow">Phase 2 · RO2 · Equations 3.1 to 3.4</span>
   <h2>From beat probabilities to a daily count</h2>
-  <p>The network outputs beat-level PAC probabilities. The observation model turns them into a rate: each retained beat is weighted by the inverse of its retention probability (as in inverse-probability weighting), each time-of-day block is normalised by its own observed hours, and blocks are combined by length.</p>
+  <p>The network outputs beat-level PAC probabilities. The observation model turns them into a rate: each reported beat is weighted by the inverse of its retention probability (as in inverse-probability weighting), each time-of-day block is normalised by its own observed hours, and blocks are combined by length.</p>
 
-  <div class="eqn"><span>π̂<sub>k</sub>(m) = π̂<sub>class</sub>(k) · π̂<sub>motion</sub>(m)</span><span class="no">(3.1)</span></div>
-  <p class="muted">Retention for class k ∈ {PAC, other} at motion m. Class part from RO1 on Icentia11k (PAC coupling intervals kept 39.1%, normal 91.2% at the 20% filter). Motion part from Pulsewatch with per-session lag. The product is an assumption, because Pulsewatch R-peaks carry no beat types. No time-of-day term: time acts only through motion and coverage.</p>
+  <div class="eqn"><span>π̂(m) = P(beat reported | motion m, outside a gap)</span><span class="no">(3.1)</span></div>
+  <p class="muted">Retention corrects only silent loss. The Garmin keeps abnormal beats with a low-confidence flag and marks a gap where it gives none (Garmin, 2023), so flagged beats stay as input with no extra weight and gaps go to τ. π̂(m) is fitted on Pulsewatch with per-session lag, outside stretches with no detected peak that mirror the Garmin gap rule, so gap time is not corrected twice. A premature beat with no wrist pulse leaves no reported beat to stand in for it, so weighting cannot restore it: pulse deficit is a bias quantified in RO4a (Zheng et al., 2008). No time-of-day term: time acts only through motion and coverage.</p>
 
-  <div class="eqn"><span>R̂(d) = Σ<sub>h</sub> (L<sub>h</sub> / 24) · [ Σ<sub>i∈A(d,h)</sub> p̂<sub>i</sub> / π̂<sub>PAC</sub>(m<sub>i</sub>) ] / τ(d,h)</span><span class="no">(3.2)</span></div>
+  <div class="eqn"><span>R̂(d) = Σ<sub>h</sub> (L<sub>h</sub> / 24) · [ Σ<sub>i∈A(d,h)</sub> p̂<sub>i</sub> / π̂(m<sub>i</sub>) ] / τ(d,h)</span><span class="no">(3.2)</span></div>
   <div class="eqn"><span>report R̂(d) only if c(d,h) ≥ θ<sub>block</sub> for every block h</span><span class="no">(3.3)</span></div>
-  <div class="eqn"><span>R̄ = Σ<sub>h</sub> (L<sub>h</sub> / 24) · [ Σ<sub>d∈V</sub> Σ<sub>i∈A(d,h)</sub> p̂<sub>i</sub> / π̂<sub>PAC</sub>(m<sub>i</sub>) ] / Σ<sub>d∈V</sub> τ(d,h)</span><span class="no">(3.4)</span></div>
+  <div class="eqn"><span>R̄ = Σ<sub>h</sub> (L<sub>h</sub> / 24) · [ Σ<sub>d∈V</sub> Σ<sub>i∈A(d,h)</sub> p̂<sub>i</sub> / π̂(m<sub>i</sub>) ] / Σ<sub>d∈V</sub> τ(d,h)</span><span class="no">(3.4)</span></div>
 
   <dl class="sym">
     <dt>h, L<sub>h</sub></dt><dd>Time-of-day blocks 00–06, 06–12, 12–18, 18–24 h; L<sub>h</sub> = 6 h each, so blocks are weighted by the time they cover, with no external diurnal profile.</dd>
-    <dt>A(d,h)</dt><dd>Retained beats in day d, block h.</dd>
-    <dt>p̂<sub>i</sub>, m<sub>i</sub></dt><dd>Predicted PAC probability of beat i; its accelerometer motion.</dd>
+    <dt>A(d,h)</dt><dd>Beats the device reports in day d, block h, flagged or not.</dd>
+    <dt>p̂<sub>i</sub>, m<sub>i</sub></dt><dd>Calibrated PAC probability of beat i (temperature scaling; Guo et al., 2017); its accelerometer motion.</dd>
     <dt>τ(d,h), c(d,h)</dt><dd>Observed hours and analysable coverage of the block.</dd>
     <dt>θ<sub>block</sub></dt><dd>Per-block minimum, fixed in the registered protocol after device verification (proposed about 1 h).</dd>
     <dt>V</dt><dd>Valid days. Equation 3.4 needs at least 1 analysable hour per block across the week.</dd>
@@ -469,8 +469,7 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
     <h4 style="margin-top:0">Worked example of Equations 3.2 and 3.3 <span class="chip warn">illustrative numbers, not study data</span></h4>
     <div class="calc-grid" id="calcgrid"></div>
     <div class="row">
-      <label for="pclass">π̂<sub>class</sub>(PAC)<input id="pclass" type="number" step="0.01" min="0.05" max="1" value="0.391"></label>
-      <label for="pmotion">π̂<sub>motion</sub> (assumed, all beats)<input id="pmotion" type="number" step="0.05" min="0.05" max="1" value="1"></label>
+      <label for="pmotion">π̂(m), motion retention (assumed, all beats)<input id="pmotion" type="number" step="0.05" min="0.05" max="1" value="0.9"></label>
       <label for="theta">θ<sub>block</sub> (h)<input id="theta" type="number" step="0.25" min="0" max="6" value="1"></label>
     </div>
     <div class="out">
@@ -480,7 +479,7 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
       <div><b id="o-esvea">–</b><span>Against 480 per day</span></div>
     </div>
     <div class="blockline" id="o-blocks"></div>
-    <p class="muted" style="margin-top:10px;margin-bottom:0">Default values put most observed time at night and most ectopy in the afternoon and evening, the pattern the estimator exists to correct. The class retention 0.391 is the RO1 preliminary value; no motion retention value is claimed.</p>
+    <p class="muted" style="margin-top:10px;margin-bottom:0">Default values put most observed time at night and most ectopy in the afternoon and evening, the pattern the estimator exists to correct. The retention value 0.9 is illustrative only; no motion retention value is claimed.</p>
   </div>
 
   <h4>Why pooling by block (Appendix C simulation)</h4>
@@ -552,7 +551,7 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
       <tr><td>Secondary</td><td>Yield (RQ3.1), computability of the daily denominator (RQ3.2), day-to-day stability, ICC(2,1) (RQ3.3), activity (RQ3.4), ESVEA proportion as plausibility check (RQ3.5).</td></tr>
     </tbody>
   </table></div>
-  <p class="muted">Device verification on non-participant wear precedes ethics submission: export, flag and gap encoding, all-day logging, 7-day battery, and the day, night and per-block coverage thresholds.</p>
+  <p class="muted">Device verification on non-participant wear precedes ethics submission: export, flag and gap encoding, 24-hour interval logging (confirmed by Garmin as a personal communication; the 2023 whitepaper describes overnight intervals), 7-day battery, and the day, night and per-block coverage thresholds.</p>
 </section>
 
 <!-- RO4 -->
@@ -575,9 +574,10 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
   <div class="tw wide"><table>
     <thead><tr><th>Operator</th><th>Simulates</th><th>Calibrated from</th></tr></thead>
     <tbody>
-      <tr><td>Beat rejection</td><td>Quality-based deletion of intervals by the device</td><td>RO1 filtering results</td></tr>
+      <tr><td>Flags and silent loss</td><td>Low-confidence flags on abnormal and motion-affected beats; unflagged beats missed at motion</td><td>Garmin (2023) specification; Pulsewatch motion retention</td></tr>
       <tr><td>Coverage gaps</td><td>Non-wear, charging, unusable PPG, placed by block on pseudo-days (segments are untimed)</td><td>Night-weighted analysable time (Merschel &amp; Reinhardt, 2022); RO3 coverage when available</td></tr>
-      <tr><td>Pulse deficit</td><td>A premature beat with no wrist pulse, merging two intervals into one long one</td><td>Pulse lost below a coupling interval of about 55% of sinus RR (Zheng et al., 2008), swept around that value</td></tr>
+      <tr><td>Pulse deficit</td><td>A premature beat with no wrist pulse, merging two intervals into one long one</td><td>Pulse lost below a coupling interval of about 55% of sinus RR (Zheng et al., 2008), swept around that value. Not corrected by the estimator, so this sweep measures its bias</td></tr>
+      <tr><td>Interval timing noise</td><td>PPG peak timing that differs from the ECG R-peak</td><td>PPG to R-peak offsets on Pulsewatch, swept</td></tr>
     </tbody>
   </table></div>
 </section>
@@ -618,7 +618,7 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
           <tr><td>ESVEA-positive</td><td class="num">60.0</td><td><div class="bar"><span class="b" style="width:60%"></span></div></td></tr>
         </tbody>
       </table></div>
-      <p class="muted">Frequent PACs enter the running reference and are then accepted, so no single correction factor restores the count. This motivates H1 and context-dependent retention.</p>
+      <p class="muted">Frequent PACs enter the running reference and are then accepted, so no single correction factor restores the count. This motivates H1 and keeping flagged beats as input rather than deleting them and applying a fixed correction.</p>
     </div>
     <div>
       <h4>Prevalence in the sample</h4>
@@ -683,10 +683,10 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
       <ul class="tight">
         <li><b>No real-device error measurement.</b> Error is characterised on ECG-labelled data under simulated losses; Pulsewatch (Samsung) to Garmin transfer is assumed. Direct Garmin validation is future work.</li>
         <li><b>Simulation optimism.</b> Icentia11k intervals are ECG RR, not PPG; Garmin PPG agrees only moderately with ECG for short-term variability after stroke (Theurl et al., 2023).</li>
-        <li><b>Retention product is an assumption.</b> Pulsewatch R-peaks carry no beat types.</li>
+        <li><b>Pulse deficit is not correctable by weighting.</b> No reported beat stands in for a missing pulse; its bias is quantified by the RO4a sweep. Motion retention is transferred from Samsung to Garmin, a stated assumption.</li>
         <li><b>Thin pilot evidence.</b> One AF subject each in Pulsewatch clinical, Simband and MIMIC-III; a validation threshold gave 45% AF recall on MIMIC-III, so operating points do not transfer across devices.</li>
         <li><b>Icentia11k reference is extrapolated</b> from random, untimed segments.</li>
-        <li><b>Device not yet received;</b> export, flags and battery unconfirmed.</li>
+        <li><b>Device not yet received;</b> export, flags, battery and 24-hour logging unconfirmed on the device; 24-hour logging rests on Garmin's personal communication.</li>
         <li><b>"First" claims</b> are qualified "to our knowledge" and "in these databases".</li>
       </ul>
     </div>
@@ -703,7 +703,7 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
       <h4>Superseded, do not follow</h4>
       <ul class="tight">
         <li>Any mention of an RO3 ECG-patch substudy (ruled out).</li>
-        <li>Checks that predate pooled Eq. 3.4, λ instead of κ, ESVEA at 480/day, and Eq. 3.1 as a product. The proposal text is authoritative.</li>
+        <li>Checks that predate pooled Eq. 3.4, λ instead of κ, ESVEA at 480/day, and Eq. 3.1 as motion-only retention (pulse deficit handled in RO4a). The proposal text is authoritative.</li>
       </ul>
     </div>
   </div>
@@ -776,7 +776,7 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
     res:['Norm + residual','Residual connection and normalisation around the interval block, repeated L times. Output Z ∈ ℝ^{M×F}: one context-aware embedding per window.'],
     event:['Event head','Outputs a beat-level PAC probability p̂_i. These probabilities are what Equations 3.2 and 3.4 sum after retention weighting. Evaluated with PAC sensitivity, PPV, F1 and PR-AUC.'],
     rate:['Rate head','Outputs a window-level ectopy rate, giving a direct rate estimate alongside the summed beat probabilities.'],
-    frozen:['Reliability correction (frozen)','Implements Equation 3.1: π̂_k(m) = π̂_class(k) · π̂_motion(m). The class part comes from RO1 on Icentia11k; the motion part from Pulsewatch with per-session lag. It is fitted separately and frozen, then each retained beat is weighted by 1/π̂_PAC(m_i). Fitting it outside the network keeps it identifiable and removable for ablation.'],
+    frozen:['Reliability correction (frozen)','Implements Equation 3.1: π̂(m), the probability that a beat outside a gap is reported at motion m, fitted on Pulsewatch with per-session lag. It is fitted separately and frozen, then each reported beat is weighted by 1/π̂(m_i). Flagged beats get no extra weight and gaps go to observed time, so no beat is corrected twice; pulse deficit is not corrected and is measured in RO4a. Fitting it outside the network keeps it identifiable and removable for ablation.'],
     gate:['Coverage gate','Implements Equation 3.3: a daily value is reported only if every 6-hour block meets θ_block. Otherwise the model abstains. ESVEA status uses the pooled participant count of Equation 3.4.'],
     out:['Estimated rate ρ̂ ∈ ℝ^{M} and mask','Window rates with a mask saying which values may be reported. Combined by Equation 3.2 into a daily count and by Equation 3.4 into the participant count used for ESVEA (≥480/day).']
   };
@@ -797,13 +797,13 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
     var f=document.createElement('fieldset');
     f.innerHTML='<legend>block '+b[0]+' h</legend>'+
       '<label for="tau'+i+'">observed h, τ<input id="tau'+i+'" type="number" step="0.25" min="0" max="6" value="'+b[1]+'"></label>'+
-      '<label for="sp'+i+'">Σ p̂ retained<input id="sp'+i+'" type="number" step="0.5" min="0" value="'+b[2]+'"></label>';
+      '<label for="sp'+i+'">Σ p̂ reported<input id="sp'+i+'" type="number" step="0.5" min="0" value="'+b[2]+'"></label>';
     cg.appendChild(f);
   });
   function num(id){var v=parseFloat(document.getElementById(id).value);return isFinite(v)?v:0;}
   function calc(){
-    var pc=Math.max(0.01,num('pclass')), pm=Math.max(0.01,num('pmotion')), th=num('theta');
-    var pi=pc*pm, R=0, ok=true, sumP=0, sumT=0, parts=[];
+    var pm=Math.max(0.01,num('pmotion')), th=num('theta');
+    var pi=pm, R=0, ok=true, sumP=0, sumT=0, parts=[];
     blocks.forEach(function(b,i){
       var t=num('tau'+i), s=num('sp'+i); sumP+=s; sumT+=t;
       if(t<th) ok=false;

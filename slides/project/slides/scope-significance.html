@@ -1,0 +1,20 @@
+<section id="scope-significance" style="background:#ffffff;color:#1a1a1a;font-family:Arial, Helvetica, sans-serif;padding:88px 112px 140px;display:flex;flex-direction:column;gap:28px">
+<h2 style="font-size:52px;font-weight:700;line-height:1.15">Scope and Significance</h2>
+<table style="width:100%;font-size:24px;color:#1a1a1a;border:1px solid #8a8a8a">
+<tr><th style="width:20%;text-align:left">Dimension</th><th style="width:44%;text-align:left">Within scope</th><th style="width:36%;text-align:left">Outside scope</th></tr>
+<tr><td>Clinical question</td><td>Selecting post-stroke survivors for prolonged rhythm monitoring</td><td>Predicting recurrence; deciding anticoagulation</td></tr>
+<tr><td>Measured quantity</td><td>Atrial ectopy rate per day (the ESVEA-defining quantity)</td><td>Continuous AF burden</td></tr>
+<tr><td>Signal</td><td>Beat intervals and per-beat quality flags from a consumer smartwatch</td><td>Raw PPG waveform; on-device ECG</td></tr>
+<tr><td>Population</td><td>Adults after ischaemic stroke or TIA, no known AF, after discharge</td><td>Acute in-hospital monitoring; screening</td></tr>
+<tr><td>Reference standard</td><td>ECG beat labels in Icentia11k (RO1, RO2, RO4a); published cohort thresholds</td><td>Concurrent Holter alongside the watch</td></tr>
+</table>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:20px">
+<div style="display:flex;flex-direction:column;gap:8px;padding:22px;border:1px solid #8a8a8a"><h3 style="font-size:26px;font-weight:700">Clinical</h3><p style="font-size:24px;line-height:1.3">Selection without consuming Holter capacity</p></div>
+<div style="display:flex;flex-direction:column;gap:8px;padding:22px;border:1px solid #8a8a8a"><h3 style="font-size:26px;font-weight:700">Methodological</h3><p style="font-size:24px;line-height:1.3">Quality flag as evidence, not a deletion rule</p></div>
+<div style="display:flex;flex-direction:column;gap:8px;padding:22px;border:1px solid #8a8a8a"><h3 style="font-size:26px;font-weight:700">Measurement</h3><p style="font-size:24px;line-height:1.3">First error profile for a smartwatch daily ectopy count</p></div>
+<div style="display:flex;flex-direction:column;gap:8px;padding:22px;border:1px solid #8a8a8a"><h3 style="font-size:26px;font-weight:700">Deployment</h3><p style="font-size:24px;line-height:1.3">A coverage gate that states when not to report</p></div>
+</div>
+<p style="font-size:24px;line-height:1.3;font-style:italic;color:#3a3a3a">No concurrent ECG is recorded in the cohort: a design boundary, not a limitation deferred. Substitution is tested where ECG truth exists (RO4a, by simulation).</p>
+<p style="position:absolute;right:112px;bottom:56px;width:200px;text-align:right;font-size:24px;color:#6b6b6b">6</p>
+<aside>About 1 minute. Scope and significance merged for time. Stress the reference-standard row: ECG truth is used where it exists, in Icentia11k, for RO1, RO2 and RO4a. The cohort has no concurrent ECG by design; that is stated up front, and RO4a is how the substitution question is still answered. National relevance, if asked: prolonged monitoring capacity in Malaysia sits mainly in tertiary centres, so a wearable triage step fits local practice.</aside>
+</section>

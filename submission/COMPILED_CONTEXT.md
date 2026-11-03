@@ -1,8 +1,8 @@
 # ESVEA Proposal Defence: Compiled Context
 
-Every markdown record from the handover to the latest change, in order. The mapping to the docx and slide deck is in `00_SUBMISSION_INDEX.md`. Handover records marked superseded in `00_HANDOVER.md` §8 are kept for the record; the proposal text is authoritative.
+Every markdown record from the handover to the latest change, in order. The mapping to the docx and slide deck is in `00_SUBMISSION_INDEX.md`. This is an archive, not a faculty submission: handover records are kept verbatim, including their em dashes, and records marked superseded are kept for the record. The proposal source is authoritative.
 
-> Pending supervisor reconfirmation: E1 and E11 (see Part D).
+> Pending supervisor reconfirmation: E1 (revised after the independent review) and E11 (see Part E).
 
 ## Contents
 
@@ -34,10 +34,11 @@ Every markdown record from the handover to the latest change, in order. The mapp
   - 23. `drafts/Result_E2_Pulsewatch_Timestamps.md`
   - 24. `drafts/Check_E11b_AF_Trial_Holdout_Subjects.md`
   - 25. `drafts/Result_E11b_AF_Trial_Holdout_Subjects.md`
-- **Part D. Applied to the deliverables**
-  - 26. `proposal/SUPERVISOR_RECONFIRMATION_E1_E11.md`
-  - 27. `slides/README.md`
-
+- **Part D. Independent review**
+  - 26. `drafts/Independent_Review_2026-11-03.md`
+- **Part E. Applied to the deliverables**
+  - 27. `proposal/SUPERVISOR_RECONFIRMATION_E1_E11.md`
+  - 28. `slides/README.md`
 
 ---
 
@@ -3101,6 +3102,8 @@ All 79 references were checked against PubMed, Consensus and Wiley Scholar Gatew
 ### Draft revisions for the proposal defence (not yet applied)
 
 **Status:** approved by the candidate and **applied on 3 November 2026** to `proposal/source/content.txt`, `proposal/Ridhwan_Research_Proposal_UM.docx` and the slide deck (version 44). E1 and E11 still need supervisor reconfirmation: see `proposal/SUPERVISOR_RECONFIRMATION_E1_E11.md`.
+
+> **Superseded in part (3 November 2026, after the independent review):** the E1 text below (pulse retention by coupling ratio, π̂ₖ(m, q)) is replaced in `proposal/source/content.txt` by π̂(m) = P(beat reported | motion m, outside a gap); Table 3.4's first row, §3.5 (24-hour logging), §3.9 (fallback), §3.6 and the abstract were also revised. Main text is now 6,986 words. See `drafts/Independent_Review_2026-11-03.md` and `proposal/SUPERVISOR_RECONFIRMATION_E1_E11.md`; where they differ from this draft, the proposal source is authoritative.
 **Base version:** handover of 3 November 2026 (`content.txt`, 45-slide deck, version 34).
 **House rules followed:** APA 7th edition; no em dashes; main text kept at or under 7,000 words.
 
@@ -4441,10 +4444,159 @@ none
 
 ---
 
-# Part D. Applied to the deliverables
+# Part D. Independent review
 
 
-## 26. `proposal/SUPERVISOR_RECONFIRMATION_E1_E11.md`
+## 26. `drafts/Independent_Review_2026-11-03.md`
+
+### Independent review of the submission package (3 November 2026)
+
+**Source:** an independent agent, given the 3 November package by the candidate.
+**Outcome:** the candidate revised `proposal/source/content.txt`, the docx, the reconfirmation note, the slide deck and the research map page, and these were committed to the repository the same day.
+
+---
+
+#### Resolution of each finding
+
+| Finding | Verified by the drafting agent | Resolution (candidate's revision) |
+|---|---|---|
+| **C1** Pulse-deficit term cannot correct (positivity failure) | Agreed | Option 1: pulse deficit removed from Equation 3.1, now π̂(m) = P(beat reported \| motion m, outside a gap); pulse deficit is a bias quantified by the RO4a sweep. Equations 3.2 and 3.4 use π̂(mᵢ) |
+| **C2** Motion term may double-correct gap time | Agreed | π̂(m) fitted on Pulsewatch outside stretches with no detected peak, mirroring the Garmin gap rule |
+| **C3** 24-hour recording rests on an unpublished statement | Agreed | §3.5 states that the whitepaper describes overnight intervals and cites Garmin's confirmation of 24-hour logging; 24-hour interval logging added to device verification and to the §3.9 fallback. Written confirmation still to be filed |
+| **M1** Table 3.4 models the Garmin as deleting beats | Agreed | Row replaced: "Flags and silent loss \| Low-confidence flags on abnormal and motion-affected beats; unflagged beats missed at motion \| Garmin (2023) specification; Pulsewatch motion retention"; RO4 slide updated |
+| **M2** Stale Equation 3.1 on slide 18 and the research page | Agreed | `preliminary-icentia` (slide 18) and the research map page updated |
+| **M3** Word count over under the handover rule | **Not reproduced.** Counting "all lines before # REFERENCES" gives 7,270 at handover and 7,318 before the revision, so the handover's stated "~6,980" matches the Chapter 1 rule (6,958 at handover). The review's 7,027 and 6,981 could not be reproduced | Main text 6,986 (Chapter 1 to References). With the abstract: 7,326. Whether the abstract counts remains a Postgraduate Office question |
+| **M4** Abstract overstates the pilot | Agreed | Abstract adds "one AF subject per cohort" |
+| Minor 1 "unweighted" wording | Agreed | §3.4 now says the flag adds no weight |
+| Minor 2 π̂_pulse(other, q) = 1 | Agreed | Moot after C1 |
+| Minor 3 to 5, 7 | Agreed | Kept as defence points or open items |
+| Minor 6 em dashes in COMPILED_CONTEXT.md | Agreed | The compiled file is an archive, not a faculty submission |
+
+---
+
+#### Review text (verbatim)
+
+> # Independent review: ESVEA submission package (3 November 2026)
+>
+> **Scope:** the 3 November package (proposal docx and source, the 11 changed slides, the research map page, the drafts and check records), compared with the handover version of the same day.
+>
+> **Method:**
+> - Line-by-line diff of `content.txt` against the handover source.
+> - Rebuilt the docx from the package source.
+> - Recounted words, references and em dashes, and re-rendered the equations.
+> - Cross-checked the pilot numbers against the check records and the earlier `pilot_auroc_check.txt`.
+> - Searched the full deck (handover copies plus the changed slides) and the research map page for stale content.
+>
+> **Verdict:** most revisions are sound and well documented, and E11 in particular is a clear improvement in honesty. But **E1 has two technical problems** that a methods examiner can find. Three consistency errors that E1 created remain in the docx and slides. The word count passes only under one of the two counting rules in use.
+>
+> ## What I checked and found correct
+>
+> | Check | Result |
+> |---|---|
+> | Package docx matches a fresh build of `content.txt` | Yes (identical text) |
+> | Pages | 45 |
+> | Em dashes in the proposal | 0 |
+> | References | 67, all cited; no citation without a reference |
+> | Equations 3.1 to 3.4 render one per line | Yes |
+> | Table 4.1 clinical values at weight 0.5 (1.000; 0.998, 0.997 to 1.000) | Match the earlier independent output (`pilot_auroc_check.txt`, w = 0.5 rows) |
+> | Abstract pilot sentence vs Table 4.1 | Consistent: AUROC ≥0.995 in all three cohorts with non-AF windows; recall at 0.393 ranges 45% to 100% |
+> | E2, E3, E5 to E10 | Text matches the drafts; no internal contradiction found |
+> | Guo et al. (2017) reference | Correct APA form for a PMLR proceedings paper |
+> | Removed references (Abedi, Kapsecker, Montanaro, Ye) | Not cited anywhere in the text, and absent from the slides |
+>
+> ## Critical
+>
+> ### C1. The pulse-deficit term in Equation 3.1 cannot correct anything as specified (positivity failure)
+>
+> - **What the text says:** retention "combines pulse retention by coupling interval (Zheng et al., 2008)", and each reported beat is weighted by 1/π̂_PAC(mᵢ, qᵢ). The app-b3 notes say π̂_pulse uses "the published threshold of about 55% of the sinus RR".
+> - **The problem:** inverse-probability weighting recovers lost units only if units with the same covariates are sometimes observed.
+>   - If pulse loss follows a threshold, a PAC with q below about 0.55 is never reported, so no reported beat carries q below 0.55, and nothing gets up-weighted to stand in for those PACs.
+>   - Every reported PAC has q above the threshold, where π̂_pulse is about 1, so the weight does nothing.
+>   - With a smooth curve, PACs near the threshold get large, unstable weights, and those below it are still unrecoverable.
+>   - In both cases the pulse-deficit PACs are not restored.
+> - **What a lost PAC leaves behind:** one long merged interval, with a following beat that is reported normally. That is information, but Equation 3.2 doesn't use it.
+> - **Fix (pick one):**
+>   1. **Drop π̂_pulse from Equation 3.1** (π̂ₖ(m) = π̂_motion(m)). Treat pulse deficit as a bias that RO4a quantifies across its severity sweep, and state that it can't be corrected by weighting. About −15 words.
+>   2. **Add a merged-interval output to the event head:** the probability that an observed long interval hides a PAC. Train it on Icentia11k with simulated pulse deficit, and add Σ of those probabilities to the count. This is more ambitious, needs one more sentence (about +25 words), and RO4a must then use a pulse-deficit setting the model was not trained on (see C2).
+> - **My recommendation:** option 1 for the proposal, and mention option 2 as RO2 future work in the defence. Either way, Equations 3.1, 3.2 and 3.4, the definitions paragraph, the app-eq and app-b3 slides, and the reconfirmation note all change.
+>
+> ### C2. The motion term may double-correct beats that the Garmin turns into gaps
+>
+> - **The E1 premise:** the Garmin reports a gap under strong motion, and those gaps leave the observed time τ.
+> - **The problem:** π̂_motion is fitted on Pulsewatch, where an offline detector on Samsung PPG silently misses beats at high motion; there is no gap marker.
+>   - At the motion levels where the Garmin would produce a gap, Pulsewatch's misses count as "silent loss" in π̂_motion.
+>   - On the Garmin, that time is already removed from τ.
+>   - Applied to Garmin data, π̂_motion then up-weights beats in moderate-motion time for losses that were really gap time. The count is corrected twice in the same direction.
+> - **Fix:** define a gap analogue on Pulsewatch before fitting π̂_motion. For example, any stretch longer than a set duration with no detected peak, or with a signal-quality index below a threshold, is a gap. Fit π̂_motion only on non-gap time. One sentence in Section 3.4 (about +20 words).
+> - **The RO3 check helps but doesn't settle it:** E6 (flagged-beat fraction against motion) compares shapes, not this gap boundary.
+>
+> ### C3. The 24-hour recording that RO3 depends on rests on an unpublished statement, and the cited source says the opposite
+>
+> - **The conflict:** the proposal cites Garmin (2023) for the device (Table 3.3, Section 3.5), and the reconfirmation note quotes that same whitepaper as saying Enhanced BBI "is measured during the user's sleep interval". The 7-day continuous protocol, the day blocks and the per-block coverage rule all need 24-hour recording.
+> - **Why it matters:** a panel member who opens the cited whitepaper will find it contradicts the design.
+> - **Fix:**
+>   - Cite Garmin's confirmation in Section 3.5 as a personal communication. In APA 7 that's in text only, for example "(Garmin Health, personal communication, [date])", at about +8 words.
+>   - Make "24-hour Enhanced BBI logging" an explicit item of the device verification. The text already says "all-day logging".
+>   - Add a sentence to the Section 3.9 fallback for the case where 24-hour logging is unavailable.
+>   - Get the written confirmation before submission.
+>
+> ## Major
+>
+> ### M1. Table 3.4 and the RO4 slide still model the Garmin as deleting beats, which contradicts E1
+> - Table 3.4: "Beat rejection | Quality-based deletion of intervals by the device | RO1 filtering results". The RO4 slide shows the same row.
+> - E1's whole premise is that the Garmin flags abnormal beats rather than deleting them.
+> - **Fix:** replace it with "Flag assignment | Low-confidence flags on abnormal and motion-affected beats, as the Garmin marks them | RO1 filter thresholds; Garmin (2023)". Keep deletion only as the "flag as filter" regime of RQ2.4, which Section 3.4 already covers.
+>
+> ### M2. Two places still describe the old Equation 3.1
+> - **`preliminary-icentia.html` (deck slide 18):** "one correction factor cannot restore the count: retention must be learned (RO2)". Section 4.2 now says this "supports keeping flagged beats as input (RQ2.4)". The slide wasn't in the changed set.
+> - **Research map page (`index.html`, version 3):** still shows π̂ₖ(m) = π̂_class(k) · π̂_motion(m), "RO1 … supplies the class part of the retention model", and "→ π̂_class(k)".
+> - **Fix:** update both to the E1 wording, or to the C1-fixed wording once that's decided.
+>
+> ### M3. The word count is over the limit under the handover's own rule
+> - **Handover rule:** "all lines before # REFERENCES", which includes the abstract. That gives **7,027**.
+> - **Package rule:** Chapter 1 to References, which excludes the abstract. That gives 6,983. The draft note calls this "the handover rule", but the handover counted the abstract (6,981 at handover under that rule).
+> - **The change:** the revisions added about 45 words net under a consistent rule.
+> - **Fix:** until the Postgraduate Office confirms whether the abstract counts, trim about 40 words so both rules pass. Candidates:
+>   - the long Table 4.1 row labels
+>   - "so intervals reflect variation between windows, not AF patients" (the caption already says it)
+>   - the second clause of the E2 sentence
+>
+>   C1 option 1 would also save about 15 words.
+>
+> ### M4. The abstract overstates the pilot
+> - **What it says:** "ranked AF above other rhythms well (AUROC 0.995 or higher …)".
+> - **The problem:** every cohort with a computable AUROC has **one AF subject**, which Section 4.1 and the Table 4.1 caption disclose but the abstract doesn't.
+> - **Fix:** add "(one AF subject per cohort)" after the AUROC clause. That's +5 words; the abstract is outside the package's count, but inside the handover's (see M3).
+>
+> ## Minor
+>
+> 1. **"Flagged beats stay in the input unweighted"** (Section 3.4). Equation 3.2 weights every reported beat, flagged or not, by 1/π̂_PAC(m, q). The intended meaning is that the flag itself carries no weight. Suggest "Flagged beats stay in the input and are not reweighted for being flagged, so no beat is corrected twice."
+> 2. **π̂_pulse(other, q) = 1** appears on the app-eq slide but not in the proposal. Add it, or it becomes moot under C1 option 1.
+> 3. **Temperature scaling (E4):** calibration on validation subjects from the training domain won't fix a device-level scale shift, as MIMIC-III shows. The draft keeps this as a defence point, which is fine. Consider naming a Pulsewatch window-level recalibration check as the RO2 response.
+> 4. **Table 4.1 caption** is about 150 words. It's legal, but heavy for a table caption. Consider moving the false-alarm figures into two extra table columns or a short note row.
+> 5. **H1's role changed.** It now justifies flag-as-input rather than feeding Equation 3.1. Check that Table 3.5 (RO1 deliverable, "retention curves") still reads correctly.
+> 6. **COMPILED_CONTEXT.md contains 26 em dashes** from the handover records. That's fine as an archive, but don't submit it to the faculty.
+> 7. **Handover slide inconsistencies** still open, as the package already notes: `problem.html`, `gaps.html`, and the `app-a3` and `refs-1` sources removed earlier.
+>
+> ## On the two supervisor-reconfirmation items
+>
+> - **E11 (pilot): ready to show the supervisors as is**, after the abstract fix in M4. It is more honest than the handover version and internally consistent. The "rule locked but not blind" and "design iterated while inspecting holdouts" disclosures are correct to keep.
+> - **E1 (retention): don't ask the supervisors to confirm it in its current form.** The premise (the Garmin flags rather than deletes) is good and well sourced. But the equation built on it has the C1 positivity problem and the C2 gap double-count, and two stale descriptions remain (M1, M2). Fix C1 and C2 first, then send E1 for reconfirmation together with C3's 24-hour evidence.
+>
+> ## Suggested order
+> 1. Decide C1 (option 1 recommended), then add the C2 sentence and the C3 personal-communication citation.
+> 2. Fix M1 (Table 3.4 and the RO4 slide) and M2 (slide 18 and the research map page).
+> 3. Trim to pass both word-count rules (M3); add the abstract caveat (M4).
+> 4. Rebuild and recheck: words under both rules, em dashes, references, equations on one line.
+> 5. Send E1 (revised) and E11 to the supervisors.
+
+
+---
+
+# Part E. Applied to the deliverables
+
+
+## 27. `proposal/SUPERVISOR_RECONFIRMATION_E1_E11.md`
 
 ### Items needing supervisor reconfirmation: E1 and E11
 
@@ -4458,20 +4610,23 @@ The handover version of the docx is kept as `proposal/Ridhwan_Research_Proposal_
 
 **Why confirmation is needed:** it reverses logged decision 6g (`decisions/proposal-decisions-2026-11-02.md`), which set Equation 3.1 as class retention from RO1 multiplied by motion retention from Pulsewatch.
 
-**What changed**
-- **Equation 3.1** is now π̂ₖ(m, q) = π̂_pulse(k, q) · π̂_motion(m). Pulse retention depends on the coupling ratio q (Zheng et al., 2008); motion retention still comes from Pulsewatch.
-- **Equations 3.2 and 3.4** use π̂_PAC(mᵢ, qᵢ).
-- **Section 3.4** says gaps enter the observed time, flagged beats stay in the input unweighted, and the reliability pathway corrects only silent loss.
-- **Section 4.2:** RO1's filter results now support keeping flagged beats as input (RQ2.4), instead of "learning retention as a function of context".
+**What changed** (revised after independent review, 3 November 2026)
+- **Equation 3.1** is now π̂(m) = P(beat reported | motion m, outside a gap). Retention depends on motion only and is fitted on Pulsewatch.
+- **Pulsewatch gap analogue:** π̂(m) is fitted outside stretches with no detected peak, matching the Garmin gap rule found in device verification. Otherwise beats that the Garmin would turn into a gap (already removed from τ) would be corrected a second time.
+- **Pulse deficit is no longer in Equation 3.1.** A premature beat with no wrist pulse leaves no reported beat with a similar coupling interval, so inverse-probability weighting cannot restore it (a positivity failure). It is now a bias quantified by the RO4a pulse-deficit sweep.
+- **Equations 3.2 and 3.4** use π̂(mᵢ).
+- **Section 3.4** says gaps enter the observed time, the flag is an input and adds no weight, and the reliability pathway corrects only silent loss at motion.
+- **Table 3.4:** "Beat rejection (deletion by the device)" is replaced by "Flags and silent loss", consistent with the Garmin flagging rather than deleting.
+- **Section 4.2:** RO1's filter results support keeping flagged beats as input (RQ2.4).
 - **Appendix C** notes that its 0.391 beat retention is pessimistic for a device that flags rather than deletes.
 
 **Evidence:** the Garmin Enhanced BBI whitepaper (Garmin, 2023; already cited). It says abnormally short or long beats are kept and marked low confidence, and that extreme motion or poor signal produces a marked gap.
 
 **Points for supervisors to weigh**
 1. RO1's role changes. Its filter results justify flag-as-input rather than supplying a term in Equation 3.1. RO1 is paper 1 (milestone M3).
-2. The pulse-deficit term uses the same published threshold as the RO4a pulse-deficit degradation. The safeguard is reporting RO4a across the operator's full severity sweep.
+2. Pulse deficit is measured, not corrected. A merged-interval output that predicts hidden PACs in long intervals is possible RO2 work, but it is not proposed.
 3. The evidence is a vendor document (one subject, one night, Venu 2 Plus, 2023). Device verification must confirm flag and gap behaviour on the study device.
-4. Enhanced BBI recording 24/7 was confirmed by Garmin to the candidate. The public whitepaper says sleep only, so keep Garmin's confirmation in writing.
+4. 24-hour Enhanced BBI recording rests on Garmin's statement to the candidate; the public whitepaper describes overnight intervals. Section 3.5 mentions Garmin's confirmation without a citation, adds 24-hour logging to device verification, and adds it to the Section 3.9 fallback. **Keep Garmin's confirmation in writing.**
 
 ---
 
@@ -4483,7 +4638,7 @@ The handover version of the docx is kept as `proposal/Ridhwan_Research_Proposal_
 - **Withdrawn:** the Simband and MIMIC-III values 0.891, 0.951, 0.944, 0.998 and 0.973, which used legacy external labels.
 - **New results:** re-curated external labels, all v2 training and validation subjects excluded, same checkpoint, evaluation mode. AUROCs at the untuned score weight 0.5; recall at the validation thresholds (gfeat-head score), not re-tuned.
 - **Test set:** 33 subjects (16 Pulsewatch clinical, 8 Pulsewatch AF-only holdouts, 6 Simband, 3 MIMIC-III).
-- **Abstract:** "AF recall between 88% and 100% … without per-device threshold tuning" becomes "ranked AF above other rhythms well (AUROC 0.995 or higher where non-AF windows existed), but AF recall at a threshold fixed on validation subjects ranged from 45% to 100% across devices".
+- **Abstract:** "AF recall between 88% and 100% … without per-device threshold tuning" becomes "ranked AF above other rhythms well (AUROC 0.995 or higher where non-AF windows existed, one AF subject per cohort), but AF recall at a threshold fixed on validation subjects ranged from 45% to 100% across devices".
 - **Section 4.1 now states:**
   - ranking transferred but operating points did not (MIMIC-III recall 45%)
   - PAC/PVC windows raised false AF alarms (18.3% vs 8.9% sinus rhythm)
@@ -4503,23 +4658,30 @@ The handover version of the docx is kept as `proposal/Ridhwan_Research_Proposal_
 E2 (pseudo-days and Pulsewatch ordering), E3 (daily-equivalent count), E4 (no double counting; calibrated p̂; Guo et al., 2017 added), E5 (interval timing-noise operator), E6 (Garmin flag vs motion check), E7 (coverage gate as reporting rule), E8 (rate head as auxiliary target), E9 (pooled computability as key secondary), E10 (Table B.3, disjoint patient sets), and the trims T1, T3 to T8 and T11. Full before-and-after text is in `drafts/proposal_revisions_draft.md`.
 
 **Build checks (3 November 2026):**
-- main text 6,983 words (limit 7,000)
+- main text 6,986 words, Chapter 1 to References (limit 7,000)
 - zero em dashes
 - every reference cited and every citation referenced
-- Equation 3.1 on one line
+- Equations 3.1 to 3.4 each on one line
 - 45 pages (LibreOffice render; Word not yet checked)
 
 
-## 27. `slides/README.md`
+## 28. `slides/README.md`
 
-### Slide sources (changed slides only)
+### Slide sources (full deck copy)
 
-Copies of the 10 slides changed on 3 November 2026 in the Claude Slides deck https://claude.ai/artifact/4RuYVim5WsRqG5aQLYJGas (version 44; `app-b3` redrawn in version 46; `app-eq` page number corrected from 30 to 31 in version 48; six sources not in the proposal removed in version 49), plus the unchanged `deck.json` index. The deck itself is the source of truth; these copies are for version history.
+Copy of all 45 slides and the `deck.json` index of the Claude Slides deck https://claude.ai/artifact/4RuYVim5WsRqG5aQLYJGas, taken on 3 November 2026 from version id 1793687949-bd1f (after the candidate's post-review revisions). The deck is the source of truth; this copy is for version history.
 
-Changed: `rq-ro` (5), `validation-matrix` (13), `ro1-ro2` (14), `ro3` (15), `ro4` (16), `preliminary` (17), `risks` (19), `app-eq`, `app-c1`, `app-b3`.
+#### Change history this session
 
-Speaker notes on `ro1-ro2`, `app-eq` and `app-b3` (E1) and `preliminary` (E11) carry a "Pending supervisor reconfirmation" line. Remove it once supervisors confirm (see `proposal/SUPERVISOR_RECONFIRMATION_E1_E11.md`).
+| Deck version | Change | Slides (position) |
+|---|---|---|
+| 44 | Approved revisions E1 to E11 | `rq-ro` (5), `validation-matrix` (13), `ro1-ro2` (14), `ro3` (15), `ro4` (16), `preliminary` (17), `risks` (19), `app-eq` (31), `app-b3` caption (42), `app-c1` (43) |
+| 46 | `app-b3` redrawn: stage cards, loss-routing table, schematic retention curves (no fitted values) | 42 |
+| 48 | `app-eq` printed page number 30 → 31 | 31 |
+| 49 | Removed six sources not in the proposal (Aguilar 2021, Bacevičius 2022, Gruwez 2024, Sun 2024, Väliaho 2019, Zahid 2023): reference entries and the appendix rows citing them | `refs-1` (23), `refs-2` (24), `refs-5` (27), `refs-6` (28), `app-a3` (34), `app-a5` (36), `app-a6` (37), `app-a7` (38), `app-a8` (39) |
+| 1793687949-bd1f | Candidate's revision after the independent review: E1 retention on motion only (outside a gap), pulse deficit as an RO4a-quantified bias, Table 3.4 "Flags and silent loss", slide 18 wording | `ro1-ro2` (14), `ro3` (15), `ro4` (16), `preliminary-icentia` (18), `risks` (19), `app-eq` (31), `app-b3` (42) |
 
-`app-b3`: the two old images (which illustrated the superseded three-stage retention approach) were replaced in version 46 by native slide content: three stage cards, a "where each loss goes" table, and two schematic retention curves labelled "shapes only; no fitted values".
+The four references removed from the proposal (Kapsecker, Montanaro, Ye, Abedi) were never on the slides.
 
-Version 49: removed six sources that are not in the proposal's reference list, both the reference entries and the appendix rows citing them: Aguilar et al. (2021) from `app-a5` and `refs-1`; Bacevičius et al. (2022) from `app-a3` and `refs-1`; Väliaho et al. (2019) and Gruwez et al. (2024) from `app-a6`, `refs-6` and `refs-2`; Zahid et al. (2023) from `app-a7` and `refs-6`; Sun et al. (2024) from `app-a8` and `refs-5`. The four references removed from the proposal this session (Kapsecker, Montanaro, Ye, Abedi) were never on the slides.
+Speaker notes on `ro1-ro2`, `app-eq`, `app-b3` (E1) and `preliminary` (E11) carry a "Pending supervisor reconfirmation" line. Remove it once supervisors confirm (see `proposal/SUPERVISOR_RECONFIRMATION_E1_E11.md`). The deck is shared with anyone with the link, and speaker notes are visible to anyone who opens it.
+

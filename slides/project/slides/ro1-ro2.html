@@ -13,7 +13,7 @@
 <ul style="font-size:19px;line-height:1.3;display:flex;flex-direction:column;gap:6px">
 <li>Beat-graph per window: temporal chain plus similarity edges</li>
 <li>Epoch-graph over the day: interval graph convolution and state space; on Icentia11k trained on pseudo-days (segments untimed), real order across days tested on Pulsewatch windows</li>
-<li>Quality flag enters as input (Garmin flags abnormal beats and marks gaps); retention corrects only silent loss: pulse deficit by coupling interval and motion (Pulsewatch, lag-corrected); coverage gate is a reporting rule (Equations 3.1 to 3.4, appendix)</li>
+<li>Quality flag enters as input (Garmin flags abnormal beats and marks gaps); retention corrects only silent loss at motion (Pulsewatch, lag-corrected); pulse deficit is a bias tested in RO4a; coverage gate is a reporting rule (Equations 3.1 to 3.4, appendix)</li>
 <li>Benchmarks: logistic regression, SVM, random forest, Poincaré rule, BiLSTM, GRU-D, transformer; component ablations (Appendix B)</li>
 </ul>
 <p style="font-size:19px;line-height:1.3;color:#3a3a3a">Graph structure is tested, not assumed: an MLP slightly outperformed a GCN on visibility-graph beat features (EPMoghaddam et al., 2024).</p>
