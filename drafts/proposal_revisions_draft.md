@@ -1,6 +1,6 @@
 # Draft revisions for the proposal defence (not yet applied)
 
-**Status:** draft for review with supervisors. Nothing here has been applied to `proposal/source/content.txt`, the docx or the slide deck.
+**Status:** approved by the candidate on 3 November 2026; E1 and E11 still to be confirmed with supervisors. Nothing here has been applied to `proposal/source/content.txt`, the docx or the slide deck.
 **Base version:** handover of 3 November 2026 (`content.txt`, 45-slide deck, version 34).
 **House rules followed:** APA 7th edition; no em dashes; main text kept at or under 7,000 words.
 
@@ -29,13 +29,17 @@ All eight trims (T1, T3 to T8, T11) are needed to stay under the limit. T5 also 
 
 Word counts follow the handover rule: Chapter 1 to the start of References, table rows counted, captions, equations and appendices not counted.
 
-### Decisions needed from supervisors before applying
-1. **E1:** Equation 3.1 rewritten to correct only silent loss (pulse deficit and motion), following the Garmin whitepaper; no longer a choice between two options, but a method change supervisors should see.
-2. **E8:** decided by the candidate (3 November 2026): keep the rate head as an auxiliary target. Supervisors to be informed, not asked; only removal would have needed their agreement, because it changes Figure 3.2.
-3. **E11:** rerun received; the pilot section now reports a threshold that did not transfer (MIMIC-III recall 45%). Supervisors should see this before the defence.
-4. **E2:** settled. The Pulsewatch timestamp check passed (64 of 108 subjects span 3 or more days in order), and the clause is included using file-name local time.
-5. **Title:** keep it, and use the prepared answer in Section 4.
+### Decisions (approved by the candidate, 3 November 2026)
+All drafted revisions (E1 to E11, trims T1, T3 to T8 and T11) are approved by the candidate for now. Nothing has yet been applied to `content.txt`, the docx or the slide deck.
 
+| Item | Candidate | Supervisors |
+|---|---|---|
+| E1, retention corrects only silent loss (replaces decision 6g) | Approved | **Ask** before applying: reverses a logged decision and changes RO1's role |
+| E11, pilot rewritten (threshold did not transfer; legacy values withdrawn; abstract recall 45% to 100%) | Approved | **Ask** before the defence: changes a headline number they have seen |
+| E4, no double counting; calibrated p̂ | Approved | Inform |
+| E8, rate head kept as auxiliary target | Approved | Inform |
+| E2, E3, E5 to E7, E9, E10, trims | Approved | Inform (part of the final docx they approve) |
+| Title kept, prepared answer | Approved | Inform |
 ---
 
 ## Review issues and where each is addressed
@@ -46,18 +50,18 @@ This section keeps the review that prompted these drafts, word for word, so each
 
 | # | Review issue | Priority | Addressed by | Status |
 |---|---|---|---|---|
-| 1 | Equation 3.1 contradicts the preliminary finding on burden | Critical | E1, revised after the Garmin whitepaper: retention corrects only silent loss; RO1 filter loss moves to RQ2.4 | Drafted; inform supervisors |
-| 2 | Epoch-scale encoder has no day-long training data | Critical | E2: option b (pseudo-days) plus option c (Pulsewatch windows in real order across days) | Drafted; Pulsewatch timestamp check passed 3 November 2026 |
-| 3 | "Daily-count MAE" is not daily | Critical | E3 | Drafted |
-| 4 | Flag as input plus inverse weighting can double-count; p̂ must be calibrated | Critical | E4 | Drafted; Guo et al. (2017) reference verified against PMLR (see `Verification_Guo_H1_H2.md`) |
-| 5 | No PPG timing-noise operator | Important | E5 | Drafted; jitter spread to be measured on Pulsewatch |
-| 6 | Motion term is the weakest link | Important | E6 | Drafted |
+| 1 | Equation 3.1 contradicts the preliminary finding on burden | Critical | E1, revised after the Garmin whitepaper: retention corrects only silent loss; RO1 filter loss moves to RQ2.4 | Approved by candidate; ask supervisors |
+| 2 | Epoch-scale encoder has no day-long training data | Critical | E2: option b (pseudo-days) plus option c (Pulsewatch windows in real order across days) | Approved by candidate; Pulsewatch timestamp check passed 3 November 2026 |
+| 3 | "Daily-count MAE" is not daily | Critical | E3 | Approved by candidate |
+| 4 | Flag as input plus inverse weighting can double-count; p̂ must be calibrated | Critical | E4 | Approved by candidate; Guo et al. (2017) reference verified against PMLR (see `Verification_Guo_H1_H2.md`) |
+| 5 | No PPG timing-noise operator | Important | E5 | Approved by candidate; jitter spread to be measured on Pulsewatch |
+| 6 | Motion term is the weakest link | Important | E6 | Approved by candidate |
 | 7 | Title does not match the claimed contribution | Important | Section 4, prepared answer (title kept) | Answer drafted; no text change |
-| 8 | Coverage gate is not a model component | Important | E7 | Drafted |
+| 8 | Coverage gate is not a model component | Important | E7 | Approved by candidate |
 | 9 | Role of the rate head undefined | Important | E8: keep as an auxiliary target | Decided (option A); supervisors informed |
-| 10 | RO3 primary can pass while ESVEA stays uncomputable | Important | E9 (key secondary, not co-primary, to keep H3 and the sample size unchanged) | Drafted |
-| 11 | Patient partitions should appear in one place | Important | E10 (Table 3.1 pointer and new Table B.3) | Drafted; set sizes and seeds when splits are drawn |
-| 12 | Pilot weight chosen on the test cohorts | Important | E11, rewritten with the 3 November rerun (re-curated labels, w = 0.5) | Drafted; legacy Simband and MIMIC-III values withdrawn |
+| 10 | RO3 primary can pass while ESVEA stays uncomputable | Important | E9 (key secondary, not co-primary, to keep H3 and the sample size unchanged) | Approved by candidate |
+| 11 | Patient partitions should appear in one place | Important | E10 (Table 3.1 pointer and new Table B.3) | Approved by candidate; set sizes and seeds when splits are drawn |
+| 12 | Pilot weight chosen on the test cohorts | Important | E11, rewritten with the 3 November rerun (re-curated labels, w = 0.5) | Approved by candidate; ask supervisors (legacy values withdrawn) |
 | F1 | Device not arrived; S3 crowded | Feasibility | Not drafted: one fallback slide, from Section 3.9 last paragraph | Open |
 | F2 | Scope: which RO to drop first | Feasibility | Not drafted: prepared answer is RO4b, as Section 3.9 already defers it in the fallback | Open |
 | H1 | "First" claims: IEEE Xplore and arXiv search | Housekeeping | `Verification_Guo_H1_H2.md` | Both claims hold; run IEEE Xplore's native search before naming it in Section 2.7 (optional +5 words) |
