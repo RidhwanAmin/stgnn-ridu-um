@@ -277,7 +277,8 @@ def figure_scene(sc, words, dur_s):
     for j, e in enumerate(pills):
         band = e["y"] < 50
         later = [p["t"] for p in pills[j+1:] if (p["y"] < 50) == band]
-        end = later[0] if later else dur_s - 0.35
+        later += [x["t"] for x in evs if x["k"] == "swap" and x["t"] > e["t"] + 0.01]
+        end = min(later) if later else dur_s - 0.35
         js.append(f'    tl.fromTo("#{sid}-p{j} b", {{opacity:0, y:12, filter:"blur(6px)"}}, {{opacity:1, y:0, filter:"blur(0px)", duration:0.4, ease:"expo.out"}}, {e["t"]:.2f});')
         js.append(f'    tl.to("#{sid}-p{j} b", {{opacity:0, filter:"blur(6px)", duration:0.18, ease:"power3.in"}}, {max(end - 0.12, e["t"] + 0.5):.2f});')
     # camera
