@@ -12,6 +12,7 @@
   --gate:#F7E8D0;  --gate-ink:#85550F;    /* learned gates and frozen pathway (Figure 3.2 amber) */
   --ok:#2C7A4B; --warn:#A86200; --bad:#B42318;
   --grid:#EBD9DF;
+  --c1:#2a78d6; --c2:#eb6834; --c3:#1baf7a; --c4:#eda100;   /* validated categorical slots (light) */
   --f-display:"Newsreader", "Iowan Old Style", Georgia, serif;
   --f-body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
   --f-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
@@ -21,11 +22,13 @@
   --paper:#0F151B; --surface:#151D25; --ink:#E3E8ED; --muted:#9AA5B0; --rule:#28333D;
   --accent:#E26892; --layer:#16283B; --layer-ink:#9CC4EE; --gate:#372A14; --gate-ink:#EFC27C;
   --ok:#5CC28A; --warn:#E3A24A; --bad:#F2796D; --grid:#2A1E24; color-scheme:dark;
+  --c1:#3987e5; --c2:#d95926; --c3:#199e70; --c4:#c98500;
 }}
 :root[data-theme="dark"]{
   --paper:#0F151B; --surface:#151D25; --ink:#E3E8ED; --muted:#9AA5B0; --rule:#28333D;
   --accent:#E26892; --layer:#16283B; --layer-ink:#9CC4EE; --gate:#372A14; --gate-ink:#EFC27C;
   --ok:#5CC28A; --warn:#E3A24A; --bad:#F2796D; --grid:#2A1E24; color-scheme:dark;
+  --c1:#3987e5; --c2:#d95926; --c3:#199e70; --c4:#c98500;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -157,10 +160,10 @@ td.num,th.num{text-align:right;white-space:nowrap}
 .chart .ax{stroke:var(--rule)}
 .chart .tick{fill:var(--muted);font-family:var(--f-mono);font-size:10px}
 .chart .lbl{font-family:var(--f-body);font-size:11px}
-.chart .s1{stroke:var(--accent);fill:var(--accent)}
-.chart .s2{stroke:var(--gate-ink);fill:var(--gate-ink)}
-.chart .s3{stroke:var(--layer-ink);fill:var(--layer-ink)}
-.chart .s4{stroke:var(--muted);fill:var(--muted)}
+.chart .s1{stroke:var(--c1);fill:var(--c1)}
+.chart .s2{stroke:var(--c2);fill:var(--c2)}
+.chart .s3{stroke:var(--c3);fill:var(--c3)}
+.chart .s4{stroke:var(--c4);fill:var(--c4)}
 .chart path{fill:none;stroke-width:2}
 .bar{display:flex;align-items:center;gap:8px}
 .bar span.b{display:inline-block;height:8px;border-radius:2px;background:var(--accent);opacity:.8}
@@ -181,6 +184,63 @@ ul.tight li{margin-bottom:4px}
 .sched td{text-align:center;padding:6px 4px}
 .sched td:first-child{text-align:left;font-family:var(--f-body);font-size:.8rem}
 footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px solid var(--rule)}
+/* visualisations */
+.viz{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:10px;overflow-x:auto;margin:10px 0}
+.viz svg{display:block;width:100%;min-width:640px;height:auto}
+.widget{border:1px solid var(--rule);border-radius:8px;padding:14px;margin:14px 0;background:var(--surface)}
+.widget .viz{border:0;padding:0;margin:8px 0}
+.widget h4{margin-top:0}
+.hmrow{display:flex;gap:16px;flex-wrap:wrap}
+.hmrow .viz{flex:0 1 250px;border:1px solid var(--rule);padding:6px}
+.hmrow .viz svg{min-width:0}
+.ctrls{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;font-size:var(--s-1);color:var(--muted)}
+.ctrls label{display:flex;gap:8px;align-items:center}
+.ctrls input[type=range]{accent-color:var(--accent);width:130px}
+.ctrls output{font-family:var(--f-mono);color:var(--ink);min-width:3.2em}
+.btn{font:inherit;font-size:var(--s-1);padding:4px 10px;border:1px solid var(--rule);border-radius:4px;background:var(--paper);color:var(--ink);cursor:pointer}
+.btn[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.vout{display:flex;flex-wrap:wrap;gap:6px 22px;font-size:var(--s-1);color:var(--muted);margin:4px 0 6px}
+.vout b{color:var(--ink);font-family:var(--f-mono);font-weight:500}
+.sw{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.sw.c1{background:var(--c1)} .sw.c2{background:var(--c2)} .sw.c3{background:var(--c3)}
+.cap{font-size:var(--s-1);color:var(--muted);max-width:78ch;margin-top:4px}
+.vtip{position:fixed;z-index:30;pointer-events:none;background:var(--ink);color:var(--paper);font-size:12px;line-height:1.45;padding:7px 9px;border-radius:5px;max-width:300px;box-shadow:0 2px 10px rgba(0,0,0,.2)}
+.gl{stroke:var(--rule);stroke-width:1}
+.tk{fill:var(--muted);font-family:var(--f-mono);font-size:11px}
+.lbl{fill:var(--ink);font-family:var(--f-body);font-size:12.5px;font-weight:500}
+.dl{fill:var(--ink);font-family:var(--f-body);font-size:11.5px}
+.c1,.c1f{fill:var(--c1)} .c2,.c2f{fill:var(--c2)} .c3,.c3f{fill:var(--c3)} .c4,.c4f{fill:var(--c4)}
+.c1s{stroke:var(--c1)} .c2s{stroke:var(--c2)} .c3s{stroke:var(--c3)} .c4s{stroke:var(--c4)}
+.pt{stroke:var(--surface);stroke-width:2}
+.pt.hollow{fill:var(--surface);stroke-width:2.5} .pt.c1.hollow{stroke:var(--c1)} .pt.c2.hollow{stroke:var(--c2)}
+.pt.sel{stroke:var(--ink);stroke-width:2.5}
+.pt.rej{fill-opacity:.35}
+.ln{fill:none;stroke-width:2;stroke-linejoin:round} .ln.dash{stroke-dasharray:5 4}
+.ci{stroke-width:3;stroke-linecap:round}
+.hit{fill:transparent}
+.xm{stroke:var(--bad);stroke-width:2}
+.fband{fill:var(--c1);fill-opacity:.10} .fref{fill:none;stroke:var(--c1);stroke-width:1.5;stroke-dasharray:4 3} .fline{fill:none;stroke:var(--rule);stroke-width:1}
+.ech{fill:none;stroke:var(--c1);stroke-opacity:.4} .ech.on{stroke-opacity:1}
+.esi{fill:none;stroke:var(--c2);stroke-opacity:.4} .esi.on{stroke-opacity:1}
+.gstem{stroke:var(--rule);stroke-dasharray:2 3} .gn{cursor:pointer}
+.hm{fill:var(--paper)} .hm.c1f{fill:var(--c1)} .hm.c2f{fill:var(--c2)} .hm.self{fill:var(--rule)} .hm.hl{stroke:var(--ink);stroke-width:1.5}
+.fn rect{fill:var(--surface);stroke:var(--rule);stroke-width:1.5} .fn.ro rect{fill:var(--layer);stroke:var(--layer-ink)}
+.fn:focus{outline:none} .fn:focus rect,.fn:hover rect{stroke:var(--accent);stroke-width:2.5}
+.fnt{fill:var(--ink);font-family:var(--f-body);font-size:13px;font-weight:600} .fnd{fill:var(--muted);font-family:var(--f-body);font-size:11px}
+.fe{fill:none;stroke:var(--muted);stroke-width:1.3} .fe.on{stroke:var(--accent);stroke-width:2.2} .fe.dim,.fel.dim{opacity:.15}
+.fel{fill:var(--muted);font-family:var(--f-mono);font-size:10px} .fel.on{fill:var(--accent)} .arwh{fill:var(--muted)}
+.felbg rect{fill:var(--surface);stroke:var(--rule);stroke-width:.8} .felbg.dim{opacity:.15}
+.gapr{fill:var(--rule);opacity:.6} .segd{stroke:var(--rule);stroke-dasharray:3 3}
+.lsl{fill:var(--ink);font-family:var(--f-body);font-size:11.5px} .lst{fill:var(--muted);font-family:var(--f-mono);font-size:10.5px} .lst.p{fill:var(--bad)}
+.tbeat,.rbeat{stroke:var(--ink);stroke-width:2} .tbeat.pac,.rbeat.flg{stroke:var(--accent)} .flgd{fill:none;stroke:var(--accent);stroke-width:1.5}
+.merge{fill:none;stroke:var(--muted);stroke-dasharray:3 2}
+.unobs{fill:var(--bad);fill-opacity:.08} .ar{fill-opacity:.6} .ar.lost{fill-opacity:.25}
+.hcell{fill:var(--c1)} .hbelow{fill:none;stroke:var(--bad);stroke-width:2;stroke-dasharray:4 3}
+.hv{fill:var(--ink);font-family:var(--f-mono);font-size:11px} .hv.inv{fill:#ffffff}
+.okt{fill:var(--ok)} .badt{fill:var(--bad)}
+.trk{fill:var(--paper);stroke:var(--rule)}
+@media (prefers-reduced-motion: reduce){ .vtip{transition:none} }
 </style>
 
 <div class="shell">
@@ -321,6 +381,9 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
     <div class="phase"><span class="tag">PHASE 3 · RO3</span><h3>Evaluate deployability</h3><p>7-day Garmin wear after stroke or TIA; yield, computability, day-to-day stability, activity, ESVEA proportion.</p><span class="feeds">→ coverage profile; RO4b selections</span></div>
     <div class="phase"><span class="tag">PHASE 4 · RO4</span><h3>Substitute and validate</h3><p>4a: held-out Icentia11k degraded to smartwatch-like intervals. 4b: wearable vs score-based selections at equal capacity.</p><span class="feeds">→ reclassification; agreement</span></div>
   </div>
+  <h3>Data and dependency flow</h3>
+  <p class="muted">Hover or focus a box to trace what feeds it and what it feeds. Blue boxes are the objectives.</p>
+  <div class="viz" id="v-flow" data-label="Dependency diagram: Icentia11k feeds RO1, RO2 and the held-out RO4a set; Pulsewatch feeds RO1 and the motion retention in RO2; the Garmin specification fixes flag semantics for RO2; RO1 feeds RO2 and RO4a; the frozen RO2 model feeds RO4a; the RO3 cohort feeds RO3, which feeds RO4b and the RO4a coverage operator."></div>
   <div class="note-box"><p><b>Fallback.</b> If ethics, the device or 24-hour interval logging is not secured by S4, RO3 becomes a device-verification study with coverage modelled from Pulsewatch wear data, RO4a proceeds unchanged, and RO4b is deferred. RO1, RO2 and RO4a do not depend on the cohort.</p></div>
 </section>
 
@@ -339,6 +402,16 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
   </table></div>
   <h4>Percent-deviation filter as implemented in the preliminary script</h4>
   <p>An interval is rejected when it deviates from the median of the <b>5 preceding accepted</b> intervals by more than the threshold (10% to 30%). Unclassifiable (Q) beats and intervals touching them are excluded; intervals outside 0.2–3.0 s are dropped. Each interval is tagged by the beat that ends it (coupling interval) and the beat that starts it (pause after PAC).</p>
+  <div class="widget">
+    <h4>The filter, running <span class="chip warn">illustrative series</span></h4>
+    <div class="ctrls">
+      <label for="f-thr">Threshold <input id="f-thr" type="range" min="10" max="30" step="1" value="20"><output id="f-thr-o">20%</output></label>
+      <button class="btn" id="f-new" type="button">New series</button>
+    </div>
+    <div class="viz" id="v-filter" data-label="Tachogram of an illustrative RR series with the running reference (median of the five preceding accepted intervals) and the plus or minus threshold band; intervals outside the band are rejected and marked with a cross."></div>
+    <div class="vout" id="f-out"></div>
+    <p class="cap">Same rule as the preliminary script: the first 5 intervals seed the reference; each later interval is rejected if it deviates from the median of the 5 preceding <b>accepted</b> intervals by more than the threshold. Hover a point for its reference and deviation. The toy series does not model patients, so it does not reproduce the burden effect seen in real data (see Preliminary evidence).</p>
+  </div>
   <p class="muted">H1 is tested with a mixed-effects logistic regression of PAC retention on burden, in Icentia11k patients not used in the preliminary analysis. The earlier H1 was replaced because it was true by construction.</p>
 </section>
 
@@ -423,6 +496,20 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
   <div class="eqn"><span>H<sup>(l+1)</sup> = ReLU( Norm( α<sup>(l)</sup> Â<sub>adj</sub> H<sup>(l)</sup> W<sub>a</sub><sup>(l)</sup> + H<sup>(l)</sup> W<sub>s</sub><sup>(l)</sup> + β<sup>(l)</sup> Â<sub>sim</sub> H<sup>(l)</sup> W<sub>b</sub><sup>(l)</sup> ) )</span><span class="no">from Fig. 3.2</span></div>
   <p class="muted">The gates α<sup>(l)</sup> and β<sup>(l)</sup> are learned and reported, so the relative weight of temporal-chain and similarity evidence at each layer is inspectable. The self branch keeps each beat's own features so that aggregation does not wash out a single premature beat.</p>
 
+  <div class="widget">
+    <h4>Building Â<sub>adj</sub> and Â<sub>sim</sub> for one window <span class="chip warn">illustrative window</span></h4>
+    <div class="ctrls">
+      <label for="g-band">Chain band <input id="g-band" type="range" min="1" max="3" step="1" value="1"><output id="g-band-o">1</output></label>
+      <label for="g-k">k nearest <input id="g-k" type="range" min="1" max="4" step="1" value="2"><output id="g-k-o">2</output></label>
+      <label for="g-a">α (chain gate) <input id="g-a" type="range" min="0" max="1.5" step="0.1" value="1"><output id="g-a-o">1.0</output></label>
+      <label for="g-b">β (similarity gate) <input id="g-b" type="range" min="0" max="1.5" step="0.1" value="1"><output id="g-b-o">1.0</output></label>
+    </div>
+    <div class="viz" id="v-graph" data-label="One window of 22 beats plotted by RR interval. Temporal-chain edges are drawn as arcs below the beats; k-nearest-neighbour similarity edges as arcs above. Edge thickness follows the gate values. Click a beat to highlight its neighbours."></div>
+    <div class="hmrow"><div class="viz" id="v-hadj" data-label="Adjacency matrix of the temporal chain graph"></div><div class="viz" id="v-hsim" data-label="Adjacency matrix of the similarity graph"></div></div>
+    <div class="vout" id="g-out"></div>
+    <p class="cap">Node features here are the interval (scaled by 800 ms) and the ratio of the next interval to this one, so a PAC coupling interval (short, then long) and its pause sit close to other PACs in feature space. Chain edges join beats within the band; similarity edges join each beat to its k nearest in feature space, made symmetric. Click any beat. The gates scale each branch in the local block update; edge thickness follows them.</p>
+  </div>
+
   <h3>Why the quality flag is input, not a deletion rule</h3>
   <p>The Garmin flag is binary and marks both motion-affected beats and any interval the device judges abnormally short or long. A premature beat therefore tends to be flagged low confidence: the flag is a quality signal and a weak ectopy signal at once. The accelerometer separates the two, since low-confidence beats at low motion are candidate rhythm events. Deleting flagged beats would remove the very events being counted, which is what RO1's filter results show (60.9% of PAC coupling intervals removed at 20%).</p>
   <p>Icentia11k has no device flag, so <b>training flags are simulated</b> from the Garmin specification and the RO1 results. This is a stated assumption.</p>
@@ -465,6 +552,12 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
     <dt>λ</dt><dd>Sensitivity analysis: block rates shrunk towards the Larsen et al. (2016) profile (0.87, 0.63, 1.11, 1.40) with strength λ = 1 h; 0.5, 2 and 4 h also reported. Named λ to avoid clashing with Cohen's κ.</dd>
   </dl>
 
+  <h4>Where each loss goes <span class="chip warn">schematic</span></h4>
+  <div class="viz" id="v-loss" data-label="Timeline comparing ECG truth with what the watch reports, in five segments: normal beats counted; a PAC flagged low confidence kept as model input; a beat missed at moderate motion, corrected by weight one over pi hat of m; a marked gap at extreme motion, which leaves observed time; and a PAC with no wrist pulse merged into one long interval, which cannot be corrected and is quantified in RO4a."></div>
+  <h4>Why pulse deficit is measured, not corrected <span class="chip warn">schematic</span></h4>
+  <div class="viz" id="v-pos" data-label="Left: retention pi hat of m falls as motion rises, so the inverse weight rises. Right: true PACs by coupling ratio; those below about 0.55 produce no wrist pulse and are never reported, so no reported beat exists to up-weight for them."></div>
+  <p class="cap">Inverse weighting can only stand in for lost beats if similar beats are sometimes observed. At moderate motion they are, so 1/π̂(m) works. Below the pulse threshold no PAC is ever reported, so there is nothing to up-weight (a positivity failure). That bias is quantified by the RO4a pulse-deficit sweep instead.</p>
+
   <div class="calc" id="calc">
     <h4 style="margin-top:0">Worked example of Equations 3.2 and 3.3 <span class="chip warn">illustrative numbers, not study data</span></h4>
     <div class="calc-grid" id="calcgrid"></div>
@@ -479,7 +572,16 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
       <div><b id="o-esvea">–</b><span>Against 480 per day</span></div>
     </div>
     <div class="blockline" id="o-blocks"></div>
+    <div class="viz" id="v-calc" data-label="For each 6-hour block: a bar of observed hours out of 6, and a column of the corrected PAC rate per observed hour."></div>
     <p class="muted" style="margin-top:10px;margin-bottom:0">Default values put most observed time at night and most ectopy in the afternoon and evening, the pattern the estimator exists to correct. The retention value 0.9 is illustrative only; no motion retention value is claimed.</p>
+  </div>
+
+  <div class="widget">
+    <h4>Coverage gate and pooling over a week (Equations 3.3 and 3.4) <span class="chip warn">illustrative week</span></h4>
+    <div class="ctrls"><label for="c-th">θ<sub>block</sub> <input id="c-th" type="range" min="0" max="3" step="0.25" value="1"><output id="c-th-o">1.00 h</output></label></div>
+    <div class="viz" id="v-cov" data-label="Seven days by four blocks of observed hours, shaded by hours. Cells below the per-block minimum are outlined. Each day shows whether it is valid by the day/night rule and either its per-day count or abstain."></div>
+    <div class="vout" id="c-out" style="display:block"></div>
+    <p class="cap">Shade = observed hours τ in the block. A dashed outline marks a block below θ<sub>block</sub>: that day abstains (Eq. 3.3). Days are valid for the RO3 outcome by the day/night rule (illustrative: ≥2 h at 00–06 and ≥6 h across 06–24). ESVEA uses the pooled count over valid days (Eq. 3.4), which still works when single days abstain. Day 5 was not worn. Day 6 shows that the two rules differ: it fails the day/night rule (5.7 h across 06–24) yet every block clears θ<sub>block</sub>, so its count is still computable.</p>
   </div>
 
   <h4>Why pooling by block (Appendix C simulation)</h4>
@@ -495,6 +597,7 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
     </tbody>
   </table></div>
   <p class="muted">Calibrated to Måneheim et al. (2024) 1-day and 7-day sensitivities (76.6%, 88.8%), ESVEA 25.3%, Ding et al. (2023) wear and Merschel &amp; Reinhardt (2022) usable time. λ from 0.5 to 4 h changes ESVEA class in at most 3% of participants. Limits: retention and PAC identification treated as perfect; each unknown swept at two values only.</p>
+  <div class="viz" id="v-sim" data-label="Range plot of misclassification at 480 per day and median relative error for three estimators under typical and poor coverage, across four simulated scenarios each."></div>
 </section>
 
 <!-- EVALUATION -->
@@ -635,6 +738,10 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
     </div>
   </div>
 
+  <h4>PAC and normal intervals removed, by ESVEA status and threshold</h4>
+  <div class="viz" id="v-burden" data-label="Line chart of the share of intervals removed against filter threshold, for PAC coupling and normal intervals in ESVEA-negative and ESVEA-positive patients."></div>
+  <p class="cap">From the RO1 preliminary tables (298 patients). At every threshold, PAC coupling intervals are removed less often in ESVEA-positive patients, while normal intervals are removed about as often. One fixed correction factor cannot fit both groups.</p>
+
   <h3>Cross-device beat-graph pilot</h3>
   <p>A beat-graph classifier on the same interval representation, rhythm labels per window. Shows feasibility of the representation, not of counting.</p>
   <div class="tw wide"><table>
@@ -648,6 +755,14 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
   </table></div>
   <p class="muted">Rerun of 3 November 2026: re-curated external labels, all v2 training and validation subjects excluded, same checkpoint in evaluation mode. AUROCs use the untuned score weight 0.5 (95% CIs from 2,000 subject resamples). Recall and false alarms use the gfeat-head score at thresholds set on validation subjects (0.393, 0.505), not re-tuned. The earlier Simband and MIMIC-III values (legacy labels) are withdrawn.</p>
   <div class="note-box"><p><b>What this shows.</b> Ranking transferred across devices (AUROC 0.995 or higher wherever non-AF windows existed), but the operating point did not: AF recall at 0.393 fell to 45% on MIMIC-III fingertip PPG. PAC/PVC windows caused more false AF alarms than sinus rhythm on Pulsewatch (18.3% vs 8.9%). Test set 33 subjects; each cohort except the AF-only holdouts has one AF subject, so intervals reflect variation between windows, not AF patients. In the AF-only holdouts, three subjects supply 99% of windows, so their recall reflects three people, and with no non-AF windows there is no false-alarm estimate. The model design was iterated while these holdouts were inspected, so they are not untouched.</p></div>
+  <h4>Ranking: AUROC with 95% CI (weight 0.5)</h4>
+  <div class="viz" id="v-auc" data-label="Dot plot of AUROC with confidence intervals for AF versus rest and AF versus PAC/PVC in three cohorts; the axis runs from 0.95 to 1.00."></div>
+  <p class="cap">The axis starts at 0.95 to show the intervals. Each cohort has one AF subject, so the intervals reflect windows from that subject, not variation between AF patients.</p>
+  <h4>Operating point: AF recall at the validation thresholds</h4>
+  <div class="viz" id="v-recall" data-label="Grouped bars of AF recall at thresholds 0.393 and 0.505 in four cohorts; MIMIC-III falls to 45 and 15 percent."></div>
+  <h4>False AF alarms <span class="ctrls" style="display:inline-flex;margin-left:8px"><button class="btn" type="button" data-fa="a" aria-pressed="true">threshold 0.393</button><button class="btn" type="button" data-fa="b" aria-pressed="false">threshold 0.505</button></span></h4>
+  <div class="viz" id="v-fa" data-label="Grouped bars of the share of sinus-rhythm and PAC/PVC windows called AF in three cohorts."></div>
+  <p class="cap">On Pulsewatch, ectopic windows raise false AF alarms about twice as often as sinus rhythm. Simband has 46 windows in total, so its rates rest on very few windows.</p>
 
   <h3>Pulsewatch beat-retention pre-check <span class="chip bad">not passed</span></h3>
   <p>8 subjects, rule locked before the run. Beat matching against lag-shifted ECG R-peaks, by motion bin (sessions passing the quality gate).</p>
@@ -668,10 +783,16 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
       <tr><td>3. Detector comparable</td><td>Project 0.850 vs authors' peaks 0.752; pooled gap 0.097 (limit 0.05); largest subject gap 0.146 (limit 0.10)</td><td><span class="chip bad">not met</span></td></tr>
     </tbody>
   </table></div>
+  <div class="viz" id="v-pre" data-label="Line chart of beat match, intervals kept and the chance control across five motion bins; match falls from 0.849 to 0.407 while the control stays near 0.21."></div>
   <p class="muted">Decision (made after results): the motion term stays, estimated on Pulsewatch in RO2 with a detector sensitivity analysis. Primary detector: an Elgendi et al. (2013) systolic-peak implementation on all segments; the authors' peaks are the alternative on labelled segments. The current lag method reached only 2.5% of excluded and 0.8% of no-label segments, so a label-free lag method is an RO2 task.</p>
 
   <h3>Icentia11k has no clock time</h3>
   <p>All headers read (9 of 9, plus 59 of 60 random) carry no date, time or comments; segments are 69.9 min. Hence: no time-of-day analysis on Icentia11k, a patient-level reference rate, and pseudo-days in RO4a.</p>
+
+  <h3>Pulsewatch recording times (Check E2) <span class="chip ok">pass</span></h3>
+  <p>64 of 108 subjects span 3 or more local days in order with no overlaps, using file-name time as US Eastern local time (the timestamp column is not UTC). Share of segments by block:</p>
+  <div class="viz" id="v-e2" data-label="Grouped bars of the share of segments in each 6-hour block for raw recordings in 8 subjects, labelled segments and excluded segments."></div>
+  <p class="cap">Labelled segments favour quiet night hours (43.3% at 00–06), so they must not be read as wear or coverage. Only the 8-subject raw shares may inform the RO3 fallback or Appendix C, and those subjects were not randomly chosen. No time-of-day ectopy pattern is claimed.</p>
 </section>
 
 <!-- LIMITS -->
@@ -804,11 +925,11 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
   function num(id){var v=parseFloat(document.getElementById(id).value);return isFinite(v)?v:0;}
   function calc(){
     var pm=Math.max(0.01,num('pmotion')), th=num('theta');
-    var pi=pm, R=0, ok=true, sumP=0, sumT=0, parts=[];
+    var pi=pm, R=0, ok=true, sumP=0, sumT=0, parts=[], vals=[];
     blocks.forEach(function(b,i){
       var t=num('tau'+i), s=num('sp'+i); sumP+=s; sumT+=t;
       if(t<th) ok=false;
-      var rate=t>0?(s/pi)/t:0; R+=(6/24)*rate;
+      var rate=t>0?(s/pi)/t:0; R+=(6/24)*rate; vals.push({tau:t,sp:s,rate:rate});
       parts.push(b[0]+': '+(t>0?rate.toFixed(2):'n/a')+'/h'+(t<th?' (below θ)':''));
     });
     var daily=24*R, naive=sumT>0?sumP/sumT*24:0;
@@ -818,6 +939,7 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
     var ge=document.getElementById('o-esvea');
     ge.textContent=!ok?'not reported':(daily>=480?'ESVEA +':'ESVEA −'); ge.style.color=!ok?'var(--muted)':(daily>=480?'var(--accent)':'var(--ink)');
     document.getElementById('o-blocks').textContent='Corrected block rates · '+parts.join(' · ')+' · π̂ = '+pi.toFixed(3);
+    if(window.__drawCalc)window.__drawCalc(blocks.map(function(b){return b[0];}),vals,pi,naive,daily);
   }
   document.getElementById('calc').addEventListener('input',calc); calc();
 
@@ -846,5 +968,323 @@ footer{font-size:var(--s-1);color:var(--muted);padding-top:32px;border-top:1px s
   var rows=[['Literature review and proposal','',[1,2]],['Information-loss analyses','RO1',[2,3]],['ST-GNN development and ablations','RO2',[3,4]],['Device verification, ethics, recruitment','RO3',[2,3,4]],['7-day monitoring and analysis','RO3',[4,5,6]],['Substitution and validation','RO4',[5,6]],['Candidature defence','',[4]],['Thesis writing and submission','',[6,7]]];
   var sb=document.getElementById('sched');
   sb.innerHTML=rows.map(function(r){var c='<tr><td>'+r[0]+'</td><td>'+r[1]+'</td>';for(var s=1;s<=7;s++){c+='<td'+(r[2].indexOf(s)>-1?' class="on" aria-label="active"':'')+'></td>';}return c+'</tr>';}).join('');
+})();
+</script>
+
+<script>
+(function(){
+  var NS='http://www.w3.org/2000/svg';
+  function el(tag,attrs,parent,text){var e=document.createElementNS(NS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;if(parent)parent.appendChild(e);return e;}
+  function $(id){return document.getElementById(id);}
+  function fmt(v,d){return (Math.round(v*Math.pow(10,d))/Math.pow(10,d)).toFixed(d);}
+  /* shared tooltip */
+  var tip=document.createElement('div');tip.className='vtip';tip.hidden=true;document.body.appendChild(tip);
+  function hover(node,html){
+    node.addEventListener('mouseenter',function(){tip.innerHTML=html;tip.hidden=false;});
+    node.addEventListener('mousemove',function(e){var x=e.clientX+14,y=e.clientY+14;var w=tip.offsetWidth;if(x+w>window.innerWidth-8)x=e.clientX-w-14;tip.style.left=x+'px';tip.style.top=y+'px';});
+    node.addEventListener('mouseleave',function(){tip.hidden=true;});
+    node.setAttribute('tabindex','0');
+    node.addEventListener('focus',function(){var r=node.getBoundingClientRect();tip.innerHTML=html;tip.hidden=false;tip.style.left=(r.right+6)+'px';tip.style.top=(r.top)+'px';});
+    node.addEventListener('blur',function(){tip.hidden=true;});
+  }
+  function svgIn(id,w,h){var c=$(id);if(!c)return null;c.innerHTML='';return el('svg',{viewBox:'0 0 '+w+' '+h,role:'img','aria-label':c.getAttribute('data-label')||''},c);}
+  function yAxis(s,x0,x1,y,ticks,fmtT){ticks.forEach(function(t){var yy=y(t);el('line',{x1:x0,x2:x1,y1:yy,y2:yy,'class':'gl'},s);el('text',{x:x0-6,y:yy+3,'class':'tk','text-anchor':'end'},s,fmtT?fmtT(t):t);});}
+
+  /* ---------- 1. Data and dependency flow ---------- */
+  (function(){
+    var s=svgIn('v-flow',880,430);if(!s)return;
+    var nodes={
+      ic:{x:20,y:30,w:200,h:62,t:'Icentia11k',d:'ECG beat labels, untimed segments'},
+      pw:{x:20,y:130,w:200,h:62,t:'Pulsewatch',d:'Samsung PPG, accelerometer, R-peaks'},
+      gm:{x:20,y:230,w:200,h:62,t:'Garmin specification',d:'Flags kept, gaps marked (2023)'},
+      co:{x:20,y:330,w:200,h:62,t:'RO3 cohort (PPUM)',d:'7-day Garmin wear after stroke'},
+      r1:{x:340,y:30,w:200,h:62,t:'RO1 · information loss',d:'Morphology, filtering, origin'},
+      r2:{x:340,y:150,w:200,h:62,t:'RO2 · two-scale ST-GNN',d:'Flag as input; π̂(m); gate'},
+      r3:{x:340,y:330,w:200,h:62,t:'RO3 · deployability',d:'Yield, coverage, stability'},
+      r4a:{x:660,y:110,w:200,h:62,t:'RO4a · substitution',d:'Held-out Icentia11k, degraded'},
+      r4b:{x:660,y:300,w:200,h:62,t:'RO4b · selection',d:'Wearable vs clinical scores'}
+    };
+    var edges=[
+      ['ic','r1','beat labels'],['pw','r1','waveform vs interval'],['ic','r2','training labels, P2'],['pw','r2','π̂(m) outside gaps'],
+      ['gm','r2','flag semantics'],['r1','r2','flag-as-input; flag simulator'],['ic','r4a','held-out P3'],['r2','r4a','frozen model (M4)'],
+      ['r1','r4a','operator calibration'],['co','r3','Garmin intervals'],['r3','r4b','ESVEA calls'],['r3','r4a','coverage operator']
+    ];
+    var defs=el('defs',{},s);var m=el('marker',{id:'arw',viewBox:'0 0 10 10',refX:9,refY:5,markerWidth:7,markerHeight:7,orient:'auto-start-reverse'},defs);el('path',{d:'M0,0 L10,5 L0,10 z','class':'arwh'},m);
+    var eg=el('g',{},s),ng=el('g',{},s),eEls=[];
+    function anchor(n,side){return side==='r'?[n.x+n.w,n.y+n.h/2]:side==='l'?[n.x,n.y+n.h/2]:side==='t'?[n.x+n.w/2,n.y]:[n.x+n.w/2,n.y+n.h];}
+    edges.forEach(function(e){
+      var a=nodes[e[0]],b=nodes[e[1]],p,q;
+      if(a.x<b.x){p=anchor(a,'r');q=anchor(b,'l');}else if(a.y<b.y){p=anchor(a,'b');q=anchor(b,'t');}else{p=anchor(a,'t');q=anchor(b,'b');}
+      var mx=(p[0]+q[0])/2;
+      var d=a.x<b.x?'M'+p[0]+','+p[1]+' C'+mx+','+p[1]+' '+mx+','+q[1]+' '+q[0]+','+q[1]:'M'+p[0]+','+p[1]+' L'+q[0]+','+q[1];
+      var path=el('path',{d:d,'class':'fe','marker-end':'url(#arw)'},eg);
+      eEls.push({a:e[0],b:e[1],p:path,lab:e[2]});
+    });
+    var lg=el('g',{},s),placed=[];
+    eEls.forEach(function(e){var len=e.p.getTotalLength(),pt=e.p.getPointAtLength(len*0.5),w=e.lab.length*6.1+8,yy=pt.y;
+      for(var tries=0;tries<12;tries++){var clash=placed.some(function(q){return Math.abs(q.x-pt.x)<(q.w+w)/2+4&&Math.abs(q.y-yy)<14;});if(!clash)break;yy+=14;}
+      placed.push({x:pt.x,y:yy,w:w});
+      var g=el('g',{'class':'felbg'},lg);el('rect',{x:pt.x-w/2,y:yy-9,width:w,height:14,rx:3},g);
+      e.t=el('text',{x:pt.x,y:yy+2,'class':'fel','text-anchor':'middle'},g,e.lab);e.bg=g;});
+    Object.keys(nodes).forEach(function(k){
+      var n=nodes[k],g=el('g',{'class':'fn'+(k.charAt(0)==='r'?' ro':'')},ng);
+      el('rect',{x:n.x,y:n.y,width:n.w,height:n.h,rx:6},g);
+      el('text',{x:n.x+12,y:n.y+26,'class':'fnt'},g,n.t);el('text',{x:n.x+12,y:n.y+46,'class':'fnd'},g,n.d);
+      function on(){eEls.forEach(function(e){var hit=e.a===k||e.b===k;e.p.classList.toggle('on',hit);e.t.classList.toggle('on',hit);e.p.classList.toggle('dim',!hit);e.bg.classList.toggle('dim',!hit);});}
+      function off(){eEls.forEach(function(e){e.p.classList.remove('on','dim');e.t.classList.remove('on');e.bg.classList.remove('dim');});}
+      g.setAttribute('tabindex','0');g.addEventListener('mouseenter',on);g.addEventListener('mouseleave',off);g.addEventListener('focus',on);g.addEventListener('blur',off);
+    });
+  })();
+
+  /* ---------- 2. Percent-deviation filter demo (RO1) ---------- */
+  function rng(seed){var s=seed>>>0;return function(){s=(Math.imul(s,1664525)+1013904223)>>>0;return s/4294967296;};}
+  function rrSeries(n,pacEvery,seed){var r=rng(seed),base=820,out=[],i=0;
+    while(out.length<n){base+=(r()-0.5)*20;base=Math.max(700,Math.min(950,base));
+      var isPac=pacEvery>0&&(i%pacEvery===pacEvery-1)&&out.length>6;
+      if(isPac){var q=0.62+r()*0.28;out.push({v:base*q,c:'S',q:q});out.push({v:base*(1.05+r()*0.25),c:'P'});}
+      else out.push({v:base+(r()-0.5)*30,c:'N'});i++;}
+    return out.slice(0,n);}
+  function devFilter(rr,thr){var acc=[],rej=[],ref=[];for(var i=0;i<rr.length;i++){var x=rr[i].v;if(acc.length<5){acc.push(x);rej.push(false);ref.push(null);continue;}
+    var w=acc.slice(-5).sort(function(a,b){return a-b;})[2];ref.push(w);if(Math.abs(x-w)/w>thr)rej.push(true);else{rej.push(false);acc.push(x);}}return{rej:rej,ref:ref};}
+  (function(){
+    if(!$('v-filter'))return;var seed=7;
+    function draw(){
+      var thr=parseFloat($('f-thr').value)/100;$('f-thr-o').textContent=Math.round(thr*100)+'%';
+      var rr=rrSeries(70,7,seed),f=devFilter(rr,thr);
+      var s=svgIn('v-filter',860,300),L=56,R=840,T=16,B=250;
+      var x=function(i){return L+i*(R-L)/(rr.length-1);},y=function(v){return B-(v-400)/(1200-400)*(B-T);};
+      yAxis(s,L,R,y,[400,600,800,1000,1200],function(t){return t+' ms';});
+      var band='',band2='',line='';
+      rr.forEach(function(b,i){var w=f.ref[i];if(w==null)return;band+=(band?'L':'M')+x(i)+','+y(w*(1+thr));band2=(band2?'L':'M')+x(i)+','+y(w*(1-thr))+band2.replace(/^M/,'L');line+=(line?'L':'M')+x(i)+','+y(w);});
+      var bandPts=[];rr.forEach(function(b,i){var w=f.ref[i];if(w!=null)bandPts.push([x(i),w]);});
+      var dp=bandPts.map(function(p,j){return (j?'L':'M')+p[0]+','+y(p[1]*(1+thr));}).join('')+bandPts.slice().reverse().map(function(p){return 'L'+p[0]+','+y(p[1]*(1-thr));}).join('')+'Z';
+      el('path',{d:dp,'class':'fband'},s);
+      el('path',{d:bandPts.map(function(p,j){return (j?'L':'M')+p[0]+','+y(p[1]);}).join(''),'class':'fref'},s);
+      el('path',{d:rr.map(function(b,i){return (i?'L':'M')+x(i)+','+y(b.v);}).join(''),'class':'fline'},s);
+      var cnt={S:[0,0],P:[0,0],N:[0,0]};
+      rr.forEach(function(b,i){var rj=f.rej[i];if(i>=5){cnt[b.c][1]++;if(rj)cnt[b.c][0]++;}
+        var cls=b.c==='S'?'c2':b.c==='P'?'c3':'c1';
+        var g=el('g',{},s);
+        el('circle',{cx:x(i),cy:y(b.v),r:rj?6:4.5,'class':'pt '+cls+(rj?' rej':'')},g);
+        if(rj){el('line',{x1:x(i)-4,y1:y(b.v)-4,x2:x(i)+4,y2:y(b.v)+4,'class':'xm'},g);el('line',{x1:x(i)-4,y1:y(b.v)+4,x2:x(i)+4,y2:y(b.v)-4,'class':'xm'},g);}
+        var name=b.c==='S'?'Coupling interval ending at a PAC':b.c==='P'?'Pause after a PAC':'Normal interval';
+        hover(g,'<b>'+name+'</b><br>'+Math.round(b.v)+' ms'+(f.ref[i]!=null?'<br>Reference (median of 5 accepted): '+Math.round(f.ref[i])+' ms<br>Deviation '+Math.round(100*Math.abs(b.v-f.ref[i])/f.ref[i])+'% → '+(rj?'<b>rejected</b>':'accepted'):'<br>Seed interval (first 5 accepted)'));
+      });
+      el('text',{x:L,y:B+20,'class':'tk'},s,'interval number →');
+      var pc=function(k){return cnt[k][1]?Math.round(100*cnt[k][0]/cnt[k][1])+'% ('+cnt[k][0]+' of '+cnt[k][1]+')':'none';};
+      $('f-out').innerHTML='<span><i class="sw c2"></i>PAC coupling removed <b>'+pc('S')+'</b></span><span><i class="sw c3"></i>Pause after PAC removed <b>'+pc('P')+'</b></span><span><i class="sw c1"></i>Normal removed <b>'+pc('N')+'</b></span>';
+    }
+    $('f-thr').addEventListener('input',draw);$('f-new').addEventListener('click',function(){seed=(seed*31+11)%9973;draw();});draw();
+  })();
+
+  /* ---------- 3. Beat graph construction (RO2) ---------- */
+  (function(){
+    if(!$('v-graph'))return;var sel=6;
+    var rr=rrSeries(22,9,3);var N=rr.length;
+    var feat=rr.map(function(b,i){var nx=i<N-1?rr[i+1].v:b.v;return [b.v/800,nx/b.v];});
+    function draw(){
+      var band=parseInt($('g-band').value,10),k=parseInt($('g-k').value,10),al=parseFloat($('g-a').value),be=parseFloat($('g-b').value);
+      $('g-band-o').textContent=band;$('g-k-o').textContent=k;$('g-a-o').textContent=fmt(al,1);$('g-b-o').textContent=fmt(be,1);
+      var A=[],S=[];for(var i=0;i<N;i++){A.push([]);S.push([]);for(var j=0;j<N;j++){A[i].push(i!==j&&Math.abs(i-j)<=band?1:0);S[i].push(0);}}
+      for(i=0;i<N;i++){var d=[];for(j=0;j<N;j++){if(j===i)continue;var a=feat[i][0]-feat[j][0],b=feat[i][1]-feat[j][1];d.push([a*a+b*b,j]);}d.sort(function(p,q){return p[0]-q[0];});for(var t=0;t<k;t++){S[i][d[t][1]]=1;S[d[t][1]][i]=1;}}
+      var s=svgIn('v-graph',860,300),L=50,R=840,mid=165;
+      var x=function(i){return L+i*(R-L)/(N-1);},y=function(v){return mid-(v-800)/700*120;};
+      // chain edges (below, arcs)
+      for(i=0;i<N;i++)for(j=i+1;j<N;j++){if(A[i][j]){var hi=(i===sel||j===sel);var r=(x(j)-x(i))/2;el('path',{d:'M'+x(i)+','+(mid+70)+' A'+r+','+(r*0.6)+' 0 0 1 '+x(j)+','+(mid+70),'class':'ech'+(hi?' on':''),'stroke-width':(hi?2.5:1.2)*al+0.2,transform:'scale(1,-1) translate(0,'+(-2*(mid+70))+')'},s);}}
+      for(i=0;i<N;i++)for(j=i+1;j<N;j++){if(S[i][j]){var hi2=(i===sel||j===sel);var r2=(x(j)-x(i))/2;el('path',{d:'M'+x(i)+','+(mid-62)+' A'+r2+','+Math.min(r2*0.5,120)+' 0 0 1 '+x(j)+','+(mid-62),'class':'esi'+(hi2?' on':''),'stroke-width':(hi2?2.5:1.2)*be+0.2},s);}}
+      el('text',{x:L-40,y:mid-70,'class':'tk'},s,'Â_sim');el('text',{x:L-40,y:mid+86,'class':'tk'},s,'Â_adj');
+      rr.forEach(function(b,i){var g=el('g',{'class':'gn'},s);var cls=b.c==='S'?'c2':b.c==='P'?'c3':'c1';
+        el('line',{x1:x(i),x2:x(i),y1:mid-62,y2:mid+70,'class':'gstem'},g);
+        el('circle',{cx:x(i),cy:y(b.v),r:i===sel?9:6,'class':'pt '+cls+(i===sel?' sel':'')},g);
+        g.addEventListener('click',function(){sel=i;draw();});
+        hover(g,'<b>Beat '+(i+1)+'</b> · '+(b.c==='S'?'PAC coupling':b.c==='P'?'pause after PAC':'normal')+'<br>Interval '+Math.round(b.v)+' ms<br>Features: RR/800 = '+fmt(feat[i][0],2)+', next/this = '+fmt(feat[i][1],2)+'<br>Click to select');
+      });
+      // adjacency heatmaps
+      ['adj','sim'].forEach(function(nm,ix){var M=nm==='adj'?A:S;var s2=svgIn('v-h'+nm,240,240);var c=200/N;
+        for(var i=0;i<N;i++)for(var j=0;j<N;j++){var on=M[i][j]||i===j;var rc=el('rect',{x:20+j*c,y:20+i*c,width:c-1,height:c-1,'class':'hm'+(M[i][j]?(nm==='adj'?' c1f':' c2f'):i===j?' self':'')+((i===sel||j===sel)&&M[i][j]?' hl':'')},s2);}
+        el('text',{x:20,y:14,'class':'tk'},s2,nm==='adj'?'Â_adj (band '+band+')':'Â_sim (k = '+k+')');});
+      var nc=[],ns=[];for(j=0;j<N;j++){if(A[sel][j])nc.push(j+1);if(S[sel][j])ns.push(j+1);}
+      $('g-out').innerHTML='Beat <b>'+(sel+1)+'</b> aggregates <b>'+fmt(al,1)+'</b> × chain neighbours {'+nc.join(', ')+'} + itself + <b>'+fmt(be,1)+'</b> × similar beats {'+ns.join(', ')+'}';
+    }
+    ['g-band','g-k','g-a','g-b'].forEach(function(id){$(id).addEventListener('input',draw);});draw();
+  })();
+
+  /* ---------- 4. Loss routing timeline ---------- */
+  (function(){
+    var s=svgIn('v-loss',880,300);if(!s)return;
+    var L=40,R=860;
+    var segs=[
+      {x0:40,x1:200,lab:'Normal beats',tag:'counted',k:'n'},
+      {x0:200,x1:340,lab:'PAC, flagged',tag:'input, no extra weight',k:'f'},
+      {x0:340,x1:500,lab:'Motion: beat missed',tag:'silent loss: 1/π̂(m)',k:'m'},
+      {x0:500,x1:660,lab:'Extreme motion: gap',tag:'leaves τ; gate',k:'g'},
+      {x0:660,x1:860,lab:'PAC, no wrist pulse',tag:'not correctable: RO4a',k:'p'}
+    ];
+    segs.forEach(function(sg){if(sg.k==='g')el('rect',{x:sg.x0,y:40,width:sg.x1-sg.x0,height:150,'class':'gapr'},s);
+      el('line',{x1:sg.x0,x2:sg.x0,y1:30,y2:200,'class':'segd'},s);
+      el('text',{x:(sg.x0+sg.x1)/2,y:222,'class':'lsl','text-anchor':'middle'},s,sg.lab);
+      var tg=el('text',{x:(sg.x0+sg.x1)/2,y:244,'class':'lst '+sg.k,'text-anchor':'middle'},s,sg.tag);});
+    el('text',{x:L,y:62,'class':'tk'},s,'ECG truth');el('text',{x:L,y:142,'class':'tk'},s,'Watch reports');
+    var truth=[60,95,130,165,  215,245,290,325, 360,395,430,465,  520,555,590,625, 680,715,745,790,825];
+    var pacs={245:1,745:1};
+    truth.forEach(function(t){el('line',{x1:t,x2:t,y1:70,y2:pacs[t]?84:96,'class':'tbeat'+(pacs[t]?' pac':'')},s);});
+    var rep=[60,95,130,165, 215,245,290,325, 360,395,465, 680,715,790,825];
+    var flag={245:1,290:1};
+    rep.forEach(function(t){el('line',{x1:t,x2:t,y1:150,y2:176,'class':'rbeat'+(flag[t]?' flg':'')},s);if(flag[t])el('circle',{cx:t,cy:144,r:4,'class':'flgd'},s);});
+    el('path',{d:'M395,186 Q430,200 465,186','class':'merge'},s);el('text',{x:430,y:205,'class':'tk','text-anchor':'middle'},s,'merged');
+    el('path',{d:'M715,186 Q752,200 790,186','class':'merge'},s);el('text',{x:752,y:205,'class':'tk','text-anchor':'middle'},s,'merged');
+    el('text',{x:580,y:150,'class':'tk','text-anchor':'middle'},s,'gap marker (no beats)');
+  })();
+
+  /* ---------- 5. Positivity: why pulse deficit cannot be reweighted ---------- */
+  (function(){
+    var s=svgIn('v-pos',860,260);if(!s)return;
+    // left: pi(m)
+    var L=60,R=380,T=30,B=200;var x=function(m){return L+m*(R-L);},y=function(v){return B-v*(B-T);};
+    yAxis(s,L,R,y,[0,0.5,1]);
+    var pts=[];for(var i=0;i<=40;i++){var m=i/40;pts.push((i?'L':'M')+x(m)+','+y(0.95-0.6/(1+Math.exp(-(m-0.45)*9))));}
+    el('path',{d:pts.join(''),'class':'ln c1s'},s);
+    el('text',{x:L,y:16,'class':'lbl'},s,'π̂(m): retention outside gaps');el('text',{x:R,y:B+22,'class':'tk','text-anchor':'end'},s,'motion m →');
+    el('text',{x:x(0.62),y:y(0.62),'class':'tk'},s,'weight 1/π̂(m) rises with motion');
+    // right: q distribution
+    var L2=480,R2=840;var x2=function(q){return L2+(q-0.3)/(1.0-0.3)*(R2-L2);};var y2=function(v){return B-v*(B-T)/1.0;};
+    var thr=0.55;el('rect',{x:L2,y:T,width:x2(thr)-L2,height:B-T,'class':'unobs'},s);
+    var top=[],bot=[];for(i=0;i<=60;i++){var q=0.3+i*0.7/60;var dv=Math.exp(-Math.pow((q-0.68)/0.11,2)/2);top.push([x2(q),y2(dv)]);}
+    var below=top.filter(function(p){return p[0]<=x2(thr);}),above=top.filter(function(p){return p[0]>=x2(thr);});
+    function area(a){return 'M'+a[0][0]+','+B+a.map(function(p){return 'L'+p[0]+','+p[1];}).join('')+'L'+a[a.length-1][0]+','+B+'Z';}
+    el('path',{d:area(below),'class':'ar c2f lost'},s);el('path',{d:area(above),'class':'ar c1f'},s);
+    el('line',{x1:L2,x2:R2,y1:B,y2:B,'class':'gl'},s);
+    [0.3,0.55,0.8,1.0].forEach(function(q){el('text',{x:x2(q),y:B+16,'class':'tk','text-anchor':'middle'},s,q.toFixed(2));});
+    el('text',{x:L2,y:16,'class':'lbl'},s,'True PACs by coupling ratio q (schematic)');
+    el('text',{x:x2(0.36),y:T+18,'class':'tk'},s,'no wrist pulse:');el('text',{x:x2(0.36),y:T+32,'class':'tk'},s,'never reported');
+    el('text',{x:R2,y:T+70,'class':'tk','text-anchor':'end'},s,'reported: q above');el('text',{x:R2,y:T+84,'class':'tk','text-anchor':'end'},s,'the threshold');
+    el('text',{x:R2,y:B+34,'class':'tk','text-anchor':'end'},s,'coupling ratio q →');
+  })();
+
+  /* ---------- 6. Coverage gate and pooling (Eq 3.3, 3.4) ---------- */
+  (function(){
+    if(!$('v-cov'))return;
+    var H=[[5.6,2.0,1.2,3.5],[5.8,0.4,2.5,4.0],[5.2,1.5,0.0,2.8],[5.9,3.0,2.2,4.5],[0,0,0,0],[5.5,1.1,1.6,3.0],[5.7,2.4,0.8,3.2]];
+    var base=[2.5,3.5,6.0,5.0],dayf=[1,1.3,0.8,1.1,0,0.9,1.2];
+    var C=H.map(function(r,d){return r.map(function(h,b){return Math.round(base[b]*dayf[d]*h);});});
+    var blocks=['00–06','06–12','12–18','18–24'];
+    function draw(){
+      var th=parseFloat($('c-th').value);$('c-th-o').textContent=fmt(th,2)+' h';
+      var s=svgIn('v-cov',860,290),L=110,T=40,cw=110,ch=34;
+      blocks.forEach(function(b,j){el('text',{x:L+j*cw+cw/2,y:T-10,'class':'tk','text-anchor':'middle'},s,b+' h');});
+      el('text',{x:L+4*cw+20,y:T-10,'class':'tk'},s,'day/night valid');el('text',{x:L+4*cw+130,y:T-10,'class':'tk'},s,'per-day 24·R̂(d)');
+      var valid=[];
+      H.forEach(function(r,d){
+        var night=r[0],day=r[1]+r[2]+r[3];var v=night>=2&&day>=6;valid.push(v);
+        var gate=r.every(function(h){return h>=th;});
+        el('text',{x:L-12,y:T+d*ch+ch/2+4,'class':'tk','text-anchor':'end'},s,'Day '+(d+1));
+        r.forEach(function(h,j){var g=el('g',{},s);var below=h<th;
+          el('rect',{x:L+j*cw,y:T+d*ch,width:cw-3,height:ch-3,rx:3,'class':'hcell','fill-opacity':(0.08+0.82*h/6).toFixed(2)},g);
+          if(below)el('rect',{x:L+j*cw+1,y:T+d*ch+1,width:cw-5,height:ch-5,rx:3,'class':'hbelow'},g);
+          el('text',{x:L+j*cw+cw/2,y:T+d*ch+ch/2+4,'class':'hv'+(h>4?' inv':''),'text-anchor':'middle'},g,fmt(h,1)+' h');
+          hover(g,'<b>Day '+(d+1)+', '+blocks[j]+' h</b><br>Observed τ = '+fmt(h,1)+' h of 6<br>Corrected PACs Σ p̂/π̂ = '+C[d][j]+(below?'<br><b>Below θ_block</b>: day not reported':''));});
+        el('text',{x:L+4*cw+20,y:T+d*ch+ch/2+4,'class':'tk'+(v?' okt':' badt')},s,v?'✓ valid':'✗ not valid');
+        var R=0;if(gate){r.forEach(function(h,j){R+=6/24*C[d][j]/h;});}
+        el('text',{x:L+4*cw+130,y:T+d*ch+ch/2+4,'class':'tk'+(gate?'':' badt')},s,gate?Math.round(24*R)+' / day':'abstain (gate)');
+      });
+      var Rb=0,okb=true,parts=[];blocks.forEach(function(b,j){var cs=0,hs=0;H.forEach(function(r,d){if(valid[d]){cs+=C[d][j];hs+=r[j];}});if(hs<1)okb=false;var rate=hs>0?cs/hs:0;Rb+=6/24*rate;parts.push(b+': '+cs+' PACs / '+fmt(hs,1)+' h = '+fmt(rate,2)+'/h');});
+      $('c-out').innerHTML='<b>Pooled over valid days (Eq. 3.4):</b> '+parts.join(' · ')+'<br>24 · R̄ = <b>'+(okb?Math.round(24*Rb)+' per day':'not computable')+'</b>'+(okb?(24*Rb>=480?' → ESVEA positive':' → below 480 per day'):'')+'. A thin block on one day is informed by the same block on other days.';
+    }
+    $('c-th').addEventListener('input',draw);draw();
+  })();
+
+  /* ---------- 7. Eq 3.2 calculator chart ---------- */
+  window.__drawCalc=function(blocks,vals,pi,naive,daily){
+    var s=svgIn('v-calc',860,215);if(!s)return;var L=70,cw=190;
+    var mx=Math.max.apply(null,vals.map(function(v){return v.rate;}).concat([1]));
+    vals.forEach(function(v,j){var x0=L+j*cw;
+      el('text',{x:x0,y:16,'class':'tk'},s,blocks[j]+' h');
+      el('rect',{x:x0,y:24,width:150,height:14,rx:3,'class':'trk'},s);
+      var g1=el('g',{},s);el('rect',{x:x0,y:24,width:150*v.tau/6,height:14,rx:3,'class':'c1f'},g1);hover(g1,'Observed τ = '+v.tau+' h of 6');
+      el('text',{x:x0+154,y:35,'class':'tk'},s,v.tau+' h');
+      var bh=100*v.rate/mx;var g2=el('g',{},s);el('rect',{x:x0+40,y:175-bh,width:60,height:Math.max(bh,1),rx:4,'class':'c2f'},g2);
+      hover(g2,'Corrected rate '+fmt(v.rate,2)+' PACs per observed hour<br>= (Σp̂ / π̂) / τ = ('+v.sp+' / '+fmt(pi,2)+') / '+v.tau);
+      el('text',{x:x0+70,y:169-bh,'class':'tk','text-anchor':'middle'},s,fmt(v.rate,2)+'/h');
+    });
+    el('line',{x1:L,x2:L+4*cw-30,y1:175,y2:175,'class':'gl'},s);
+    el('text',{x:L-8,y:35,'class':'tk','text-anchor':'end'},s,'τ');el('text',{x:L-8,y:135,'class':'tk','text-anchor':'end'},s,'rate');
+    el('text',{x:L,y:204,'class':'tk'},s,'Each block counts L_h/24 = 1/4 of the day, however few hours were observed in it.');
+  };
+
+  /* ---------- 8. RO1 burden chart ---------- */
+  function lineChart(id,cfg){
+    var s=svgIn(id,cfg.w||860,cfg.h||280);if(!s)return;var L=56,R=(cfg.w||860)-180,T=16,B=(cfg.h||280)-44;
+    var xs=cfg.x,x=function(i){return L+i*(R-L)/(xs.length-1);},y=function(v){return B-(v-cfg.ymin)/(cfg.ymax-cfg.ymin)*(B-T);};
+    yAxis(s,L,R,y,cfg.yt,cfg.yf);
+    xs.forEach(function(t,i){el('text',{x:x(i),y:B+16,'class':'tk','text-anchor':'middle'},s,t);});
+    if(cfg.xl)el('text',{x:(L+R)/2,y:B+34,'class':'tk','text-anchor':'middle'},s,cfg.xl);
+    var labs=[];
+    cfg.series.forEach(function(se){
+      el('path',{d:se.v.map(function(v,i){return (i?'L':'M')+x(i)+','+y(v);}).join(''),'class':'ln '+se.c+'s'+(se.dash?' dash':'')},s);
+      se.v.forEach(function(v,i){var g=el('g',{},s);el('circle',{cx:x(i),cy:y(v),r:4.5,'class':'pt '+se.c},g);el('circle',{cx:x(i),cy:y(v),r:12,'class':'hit'},g);hover(g,'<b>'+se.n+'</b><br>'+cfg.x[i]+': '+(cfg.tf?cfg.tf(v,se,i):v));});
+      labs.push({y:y(se.v[se.v.length-1]),n:se.n,c:se.c});
+    });
+    labs.sort(function(a,b){return a.y-b.y;});for(var i=1;i<labs.length;i++)if(labs[i].y-labs[i-1].y<14)labs[i].y=labs[i-1].y+14;
+    labs.forEach(function(l){el('text',{x:R+10,y:l.y+4,'class':'dl'},s,l.n);el('circle',{cx:R+4,cy:l.y,r:3,'class':'pt '+l.c},s);});
+  }
+  lineChart('v-burden',{x:['10%','15%','20%','25%','30%'],xl:'filter threshold',ymin:0,ymax:100,yt:[0,25,50,75,100],yf:function(t){return t+'%';},tf:function(v){return v+'% removed';},
+    series:[{n:'PAC coupling, ESVEA−',c:'c1',v:[93.1,88.8,78.5,64.5,51.2]},{n:'PAC coupling, ESVEA+',c:'c2',v:[80.9,71.0,60.0,48.2,36.6]},{n:'Normal, ESVEA−',c:'c3',v:[20.4,12.0,8.1,6.2,5.2],dash:1},{n:'Normal, ESVEA+',c:'c4',v:[19.0,13.4,11.5,10.6,10.1],dash:1}]});
+  lineChart('v-pre',{x:['<0.05','0.05–0.2','0.2–0.5','0.5–1','≥1'],xl:'accelerometer motion (m/s²)',ymin:0,ymax:1,yt:[0,0.25,0.5,0.75,1],
+    tf:function(v,se,i){var beats=[55684,15812,5342,6074,4468];return fmt(v,3)+'<br>'+beats[i].toLocaleString()+' beats';},
+    series:[{n:'Beat match',c:'c1',v:[0.849,0.725,0.516,0.477,0.407]},{n:'Intervals kept',c:'c2',v:[0.766,0.600,0.335,0.292,0.220]},{n:'Control (chance)',c:'c4',v:[0.207,0.224,0.202,0.204,0.210],dash:1}]});
+
+  /* ---------- 9. Grouped bars ---------- */
+  function groupBars(id,cfg){
+    var W=cfg.w||860,Hh=cfg.h||280,s=svgIn(id,W,Hh);if(!s)return;var L=56,R=W-20,T=44,B=Hh-44;
+    var y=function(v){return B-(v-0)/(cfg.ymax)*(B-T);};yAxis(s,L,R,y,cfg.yt,cfg.yf);
+    var gw=(R-L)/cfg.groups.length,bw=Math.min(36,(gw-24)/cfg.series.length-2);
+    cfg.groups.forEach(function(gn,gi){var gx=L+gi*gw+gw/2-(cfg.series.length*(bw+2))/2;
+      el('text',{x:L+gi*gw+gw/2,y:B+18,'class':'tk','text-anchor':'middle'},s,gn);
+      cfg.series.forEach(function(se,si){var v=se.v[gi];var g=el('g',{},s);if(v==null){el('text',{x:gx+si*(bw+2)+bw/2,y:B-4,'class':'tk','text-anchor':'middle'},g,'n/a');}
+        else{var h=Math.max(B-y(v),1.5);el('path',{d:'M'+(gx+si*(bw+2))+','+B+'V'+(B-h+4)+'q0,-4 4,-4h'+(bw-8)+'q4,0 4,4V'+B+'Z','class':se.c+'f'},g);
+          if(cfg.labels)el('text',{x:gx+si*(bw+2)+bw/2,y:B-h-5,'class':'tk','text-anchor':'middle'},g,cfg.labels(v));}
+        hover(g,'<b>'+gn+'</b><br>'+se.n+': '+(v==null?'not available':cfg.tf(v)));});});
+    var lx=L;cfg.series.forEach(function(se){el('rect',{x:lx,y:4,width:10,height:10,rx:2,'class':se.c+'f'},s);var t=el('text',{x:lx+14,y:13,'class':'dl'},s,se.n);lx+=24+se.n.length*6.4;});
+  }
+  groupBars('v-recall',{groups:['Pulsewatch clinical','AF-only holdouts','Simband','MIMIC-III'],ymax:100,yt:[0,25,50,75,100],yf:function(t){return t+'%';},tf:function(v){return v+'% AF recall';},labels:function(v){return v+'%';},
+    series:[{n:'threshold 0.393 (Youden)',c:'c1',v:[100,97,100,45]},{n:'threshold 0.505 (95% specificity)',c:'c2',v:[95,88,92,15]}]});
+  function drawFA(t){groupBars('v-fa',{groups:['Pulsewatch clinical','Simband','MIMIC-III'],ymax:20,yt:[0,5,10,15,20],yf:function(v){return v+'%';},tf:function(v){return v+'% of windows called AF';},labels:function(v){return v+'%';},
+    series:t==='a'?[{n:'Sinus rhythm windows',c:'c1',v:[8.9,14.3,0.2]},{n:'PAC/PVC windows',c:'c2',v:[18.3,15.4,0.0]}]:[{n:'Sinus rhythm windows',c:'c1',v:[5.3,9.5,0.0]},{n:'PAC/PVC windows',c:'c2',v:[9.8,0.0,0.0]}]});}
+  if($('v-fa')){drawFA('a');[].forEach.call(document.querySelectorAll('[data-fa]'),function(b){b.addEventListener('click',function(){[].forEach.call(document.querySelectorAll('[data-fa]'),function(o){o.setAttribute('aria-pressed',o===b?'true':'false');});drawFA(b.getAttribute('data-fa'));});});}
+  groupBars('v-e2',{groups:['00–06 h','06–12 h','12–18 h','18–24 h'],ymax:50,yt:[0,10,20,30,40,50],yf:function(v){return v+'%';},tf:function(v){return v+'% of segments';},labels:function(v){return v+'%';},
+    series:[{n:'Raw recordings, 8 subjects',c:'c1',v:[22.9,22.3,28.6,26.3]},{n:'Labelled segments',c:'c2',v:[43.3,15.8,15.5,25.4]},{n:'Excluded segments',c:'c3',v:[16.8,22.3,33.7,27.3]}]});
+
+  /* ---------- 10. AUROC dot plot ---------- */
+  (function(){
+    var s=svgIn('v-auc',860,220);if(!s)return;var L=190,R=820,T=34,lo=0.95,hi=1.0;
+    var x=function(v){return L+(v-lo)/(hi-lo)*(R-L);};
+    [0.95,0.96,0.97,0.98,0.99,1.0].forEach(function(t){el('line',{x1:x(t),x2:x(t),y1:T-10,y2:200,'class':'gl'},s);el('text',{x:x(t),y:214,'class':'tk','text-anchor':'middle'},s,t.toFixed(2));});
+    var rows=[['Pulsewatch clinical',[1.000,1.000,1.000],[0.998,0.997,1.000]],['Simband',[0.995,0.989,1.000],[0.968,null,null]],['MIMIC-III',[0.995,0.993,0.997],[1.000,null,null]]];
+    rows.forEach(function(r,i){var yy=T+20+i*55;el('text',{x:L-12,y:yy+4,'class':'lbl','text-anchor':'end'},s,r[0]);
+      [[r[1],'c1',-8,'AF vs rest'],[r[2],'c2',8,'AF vs PAC/PVC']].forEach(function(p){var v=p[0],g=el('g',{},s),yv=yy+p[2];
+        if(v[1]!=null)el('line',{x1:x(v[1]),x2:x(v[2]),y1:yv,y2:yv,'class':'ci '+p[1]+'s'},g);
+        el('circle',{cx:x(v[0]),cy:yv,r:5.5,'class':'pt '+p[1]+(v[1]==null?' hollow':'')},g);el('circle',{cx:x(v[0]),cy:yv,r:12,'class':'hit'},g);
+        hover(g,'<b>'+r[0]+'</b>, '+p[3]+'<br>AUROC '+v[0].toFixed(3)+(v[1]!=null?' (95% CI '+v[1].toFixed(3)+' to '+v[2].toFixed(3)+')':' (CI not estimable)')+'<br>One AF subject in this cohort');});});
+    el('circle',{cx:L,cy:12,r:5,'class':'pt c1'},s);el('text',{x:L+10,y:16,'class':'dl'},s,'AF vs rest');
+    el('circle',{cx:L+110,cy:12,r:5,'class':'pt c2'},s);el('text',{x:L+120,y:16,'class':'dl'},s,'AF vs PAC/PVC');
+    el('circle',{cx:L+250,cy:12,r:5,'class':'pt c2 hollow'},s);el('text',{x:L+260,y:16,'class':'dl'},s,'hollow = CI not estimable');
+  })();
+
+  /* ---------- 11. Simulation range plot ---------- */
+  (function(){
+    var s=svgIn('v-sim',860,250);if(!s)return;
+    var est=['Per-day, per-block rule','Shrinkage, λ = 1 h','Pooled by block (3.4)'];
+    var mis={t:[[2.1,2.5],[1.6,2.0],[1.8,2.1]],p:[[4.2,4.4],[3.1,3.7],[2.7,3.3]]},err={t:[[9.7,10.4],[8.1,8.6],[8.4,8.8]],p:[[19.4,21.2],[14.6,15.4],[13.9,15.1]]};
+    function panel(x0,w,data,max,title,unit){var x=function(v){return x0+v/max*w;};el('text',{x:x0,y:20,'class':'lbl'},s,title);
+      for(var t=0;t<=max;t+=max/5){el('line',{x1:x(t),x2:x(t),y1:30,y2:210,'class':'gl'},s);el('text',{x:x(t),y:226,'class':'tk','text-anchor':'middle'},s,t+unit);}
+      est.forEach(function(e,i){[['t','c1',-7,'typical coverage'],['p','c2',7,'poor coverage']].forEach(function(q){var r=data[q[0]][i],yy=60+i*55+q[2],g=el('g',{},s);
+        el('path',{d:'M'+x(r[0])+','+(yy-4)+'h'+Math.max(x(r[1])-x(r[0]),4)+'v8h'+(-Math.max(x(r[1])-x(r[0]),4))+'z','class':q[1]+'f'},g);el('rect',{x:x(r[0])-6,y:yy-10,width:Math.max(x(r[1])-x(r[0]),4)+12,height:20,'class':'hit'},g);
+        hover(g,'<b>'+e+'</b>, '+q[3]+'<br>'+title+': '+r[0]+unit+' to '+r[1]+unit+' across the 4 scenarios');});});}
+    est.forEach(function(e,i){el('text',{x:180,y:64+i*55,'class':'lbl','text-anchor':'end'},s,e);});
+    panel(200,270,mis,5,'Misclassified at 480/day','%');panel(520,300,err,25,'Median relative error','%');
+    el('rect',{x:200,y:236,width:10,height:10,rx:2,'class':'c1f'},s);el('text',{x:214,y:245,'class':'dl'},s,'typical coverage (blocks worn 95%)');
+    el('rect',{x:470,y:236,width:10,height:10,rx:2,'class':'c2f'},s);el('text',{x:484,y:245,'class':'dl'},s,'poor coverage (75%)');
+  })();
+  var cc=$('calc');if(cc)cc.dispatchEvent(new Event('input'));
 })();
 </script>
