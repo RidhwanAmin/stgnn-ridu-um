@@ -1,6 +1,6 @@
 # Slide sources (full deck copy)
 
-Copy of all 54 slides and the `deck.json` index of the Claude Slides deck https://claude.ai/artifact/4RuYVim5WsRqG5aQLYJGas, last synced on 5 November 2026 at version id 1793845360-9245 (Appendix E added). The deck is the source of truth; this copy is for version history.
+Copy of all 55 slides and the `deck.json` index of the Claude Slides deck https://claude.ai/artifact/4RuYVim5WsRqG5aQLYJGas, last synced on 5 November 2026 at version id 1793848239-ce86 (main slide 19 added). The deck is the source of truth; this copy is for version history.
 
 ## Change history this session
 
@@ -13,6 +13,7 @@ Copy of all 54 slides and the `deck.json` index of the Claude Slides deck https:
 | 1793687949-bd1f | Candidate's revision after the independent review: E1 retention on motion only (outside a gap), pulse deficit as an RO4a-quantified bias, Table 3.4 "Flags and silent loss", slide 18 wording | `ro1-ro2` (14), `ro3` (15), `ro4` (16), `preliminary-icentia` (18), `risks` (19), `app-eq` (31), `app-b3` (42) |
 | 1793727910-976e | Alignment check against the docx: flagged beats "not reweighted" (item 1); "to our knowledge" on first-claims (2); RO2 baselines "classical, rule-based and sequence" (3); new backups Appendix D1 what is counted (PAC vs motion vs AF), D2 one beat to an ESVEA call, D3 hypotheses as If–Then, D4 what each source brings and why the order is fixed, D5 Pulsewatch retention pre-check; divider lists D; speaker-note pointers | `method-overview` (12), `contributions` (21), `thanks` (22), `app-divider` (30), `app-c2` (44), new `app-d1` to `app-d5` (46 to 50); notes on `bg-esvea` (2), `rq-ro` (5), `ro1-ro2` (14) |
 | 1793845360-9245 | Appendix E, implementation plan (not started), drawn against completed work: E1 completed checks linked to planned stages A to E with why each is needed; E2 patient sets P0 to P3 and data volume (labels only); E3 training simulator vs RO4a degradation; E4 schedule, gates and decisions D1 to D7. Built by `build_appendix_e.py` | `app-divider` (30), `thanks` notes (22), new `app-e1` to `app-e4` (51 to 54) |
+| 1793848239-ce86 | New main slide 19 `prelim-next`, "Preliminary Findings (3): From Results to the Full Study": each completed result (filtering loss, pilot, Pulsewatch pre-check, clock-time check) with what it decided and the next step, plus the gates (pipeline reproduces Tables 4.2, 4.3; M3; M4 before P3). Footers renumbered: `risks` 20, `ethics-data` 21, `contributions` 22, `app-eq` 32; slide 18 notes hand off. Built by `build_prelim_next.py` | new 19; renumbered 20 to 22, 32; notes 18 |
 
 The four references removed from the proposal (Kapsecker, Montanaro, Ye, Abedi) were never on the slides.
 
