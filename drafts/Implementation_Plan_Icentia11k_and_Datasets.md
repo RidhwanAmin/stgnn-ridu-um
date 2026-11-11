@@ -1,6 +1,6 @@
-# Implementation plan: from the Icentia11k proof of concept to the full analyses
+# Implementation plan for the next phase: from the proof of concept to the first participant
 
-Prepared 4 November 2026. Source of truth: the proposal docx (`proposal/Ridhwan_Research_Proposal_UM.docx`). Where the proposal leaves a choice open, this plan marks it **Decision** and proposes a default; nothing here changes the proposal.
+Prepared 4 November 2026; extended 11 November 2026 with the readiness track for real-patient data acquisition (sections 10 to 12). Source of truth: the proposal docx (`proposal/Ridhwan_Research_Proposal_UM.docx`). Where the proposal leaves a choice open, this plan marks it **Decision** and proposes a default; nothing here changes the proposal.
 
 ---
 
@@ -10,7 +10,16 @@ The preliminary analysis (§4.2) was a proof of concept on 300 Icentia11k patien
 
 That patient set is now **P0** (Table B.3) and is never reused for testing.
 
-What is not yet built: the hypothesis test H1 in new patients, the full RO1 decomposition, the RO2 estimator, the flag and loss simulator, and the RO4a substitution test. The plan below builds them in the order the proposal fixes.
+What is not yet built: the hypothesis test H1 in new patients, the full RO1 decomposition, the RO2 estimator, the flag and loss simulator, and the RO4a substitution test. Nor is anything yet in place for the cohort: the device has not been received, and no device verification, ethics submission, data pipeline for the Garmin or site arrangement exists.
+
+The next phase therefore runs as **two tracks in parallel**, ending at the go/no-go gate in S4 when the first PPUM participant can be fitted with a watch:
+
+| Track | Covers | Sections | Ends with |
+|---|---|---|---|
+| **1. Modelling (retrospective)** | Icentia11k and Pulsewatch: data pipeline, RO1 and H1, training simulator, RO2 build | 3 to 8 | M3 (RO1 paper, S3); M4 (model frozen, S4) |
+| **2. Readiness for acquisition (prospective)** | Device, verification, Garmin data pipeline, protocol and ethics, PPUM site | 10 | M1 and M2 (S3); go/no-go gate (S4) |
+
+The two tracks meet at three points (section 11): shared coverage and valid-day code, a dry run of the full estimator on real Garmin output, and the motion scale used by π̂(m). RO4a (section 9) follows M4 and is not part of the phase before acquisition.
 
 ---
 
@@ -164,7 +173,91 @@ Freeze and hash: model weights, temperature, π̂(m), θ_block placeholder, simu
 
 ---
 
-## 10. Repository and reproducibility
+## 10. Track 2: readiness for real-patient data acquisition (S2 to S4)
+
+Nothing in the cohort can start until the device is verified (M1) and ethics is approved with the protocol registered (M2), both planned for S3 (Table 6.2). Recruitment and 7-day monitoring begin in S4 (Table 6.1). The steps below are in dependency order.
+
+### R1. Device and data access (S2)
+
+| Task | Why | Done when |
+|---|---|---|
+| Obtain the Garmin watches for verification | The device has not been received; every later step depends on it | Watches in hand, model and firmware recorded |
+| Confirm Garmin Health SDK or API access and its licence terms | Enhanced beat-to-beat intervals, the per-beat confidence flag, gap markers and accelerometer data must be exportable for research | Written access confirmation |
+| Obtain Garmin's 24-hour logging confirmation **in writing** | The proposal currently rests on a personal communication (§3.5) | Written confirmation filed |
+| Set up study-managed, pseudonymous accounts | §3.8: export under study accounts, not participants' personal accounts, where possible | Accounts created, naming scheme fixed |
+
+### R2. Device verification on non-participant wear (S2 to S3; gate M1)
+
+§3.5 requires this before ethics submission. It answers whether the Garmin behaves as the model assumes, and it fixes the thresholds the protocol must state.
+
+| Check | Question | Feeds |
+|---|---|---|
+| Export | Can the intervals, flag, gap marker and accelerometer be exported together, time-stamped? | R3 parser |
+| Flag encoding | Is the flag binary per beat; does it mark abnormally short or long intervals as the specification says? | Training simulator (Stage C); Equation 3.2 inputs |
+| Gap encoding | Are stretches with no beat marked as gaps, distinct from "not recording"? | Observed time τ; coverage gate |
+| 24-hour logging | Are intervals recorded through the day, not only overnight? | Feasibility of day blocks; the whole RO3 design |
+| 7-day battery | Does the watch last 7 days with intervals and accelerometer on, with one short daily charge? | Wear instructions; charging window |
+| **Accelerometer scale** | In what units and at what rate does the Garmin report motion, and how does it map to the Pulsewatch motion bins used for π̂(m)? | Transfer of π̂(m) from Samsung to Garmin (section 11) |
+| Coverage thresholds | What day and night coverage, and what per-block minimum θ_block (proposed about 1 h), are realistic? | Valid-day rule; Equation 3.3; protocol |
+
+Output: a dated verification report and the threshold values written into the protocol. **This is M1.**
+
+### R3. Garmin data pipeline (S3)
+
+Built and tested on the verification data, so it is proven before any participant wears a watch.
+
+1. Export from the study accounts to pseudonymised storage on university infrastructure (PDPA 2010).
+2. Parse into the same beat-table layout as Icentia11k: one row per reported beat with interval, flag, gap marker, accelerometer motion and clock time.
+3. Compute coverage per 6-hour block, the valid-day rule, and the per-block gate (Equation 3.3), using the **same code** as the RO2 estimator.
+4. Log wear time and recording time separately (Table 3.3, adherence logging), so the study team can see during the week whether a participant's data are accumulating.
+
+### R4. Protocol, documents and ethics (S2 to S3; gate M2)
+
+| Document | Content fixed by the proposal |
+|---|---|
+| Study protocol | Eligibility (adults after ischaemic stroke or TIA, no known AF, after discharge); consecutive approach at PPUM; 7-day wear; valid-day rule and θ_block from R2; outcomes RQ3.1 to RQ3.5; progression criteria (red ≤50%, amber 51 to 74%, green ≥75%); sample (recruit about 40, analyse ≥34) |
+| Participant information sheet and consent form | Written informed consent; statement that watch data are not reviewed in real time and the study is not clinical monitoring; rhythm concerns referred through usual care |
+| Data management plan | Pseudonymisation at collection; university storage; PDPA 2010; study-managed accounts |
+| Case report form for routine records | ESUS status; items for CHA₂DS₂-VASc, HAVOC, C₂HEST, AS5F and Brown ESUS-AF (ESUS subgroup only); left atrial volume index, P-wave duration and NT-proBNP (RO4b) |
+| Screening log and wear log | Consecutive approach; wear and charging record |
+
+Submit to the PPUM Medical Research Ethics Committee after M1; register the protocol before recruitment. **Approval plus registration is M2.**
+
+### R5. Site readiness at PPUM (S3)
+
+- Agree the recruitment pathway with the clinical team: where and when patients are approached after discharge.
+- Device logistics: issue, fitting, charging instructions, return, cleaning, and replacement stock.
+- Scheduled contacts during the 7 days (Table 3.6 mitigation for wear tolerance).
+- A first-fit run-through with the study team on the full sequence, from consent to export, before the first participant.
+
+---
+
+## 11. Where the two tracks meet
+
+| Meeting point | From track 1 | From track 2 | Why it matters before acquisition |
+|---|---|---|---|
+| **Coverage and valid-day code** | The coverage gate and Equation 3.3 in the estimator | The valid-day rule and θ_block in the protocol (R2, R4) | One implementation, so the protocol's definitions and the estimator's cannot drift apart |
+| **Dry run on real Garmin output** | An interim RO2 model and the estimator pipeline | Verification wear data through the R3 pipeline | Proves a Garmin export can be read end to end, from intervals to a daily estimate, before patients are enrolled; the frozen model is not needed yet |
+| **Motion scale for π̂(m)** | π̂(m) fitted on Pulsewatch accelerometer magnitude | Garmin accelerometer units and rate (R2) | π̂(m) is applied to Garmin motion; without a mapping between the two scales, the Samsung-to-Garmin transfer cannot be applied at all |
+| **Fallback coverage model** | Coverage modelled from Pulsewatch wear data | Only needed if the gate fails | §3.9: if the cohort cannot start, RO3 becomes device verification with coverage modelled from Pulsewatch; it should exist before S4 so the fallback is immediate |
+
+---
+
+## 12. Go/no-go gate (start of S4)
+
+| Condition | Evidence |
+|---|---|
+| Device verified (M1) | Verification report; thresholds in the protocol |
+| 24-hour interval logging confirmed | R2 result and Garmin's written confirmation |
+| Ethics approved and protocol registered (M2) | Approval letter; registration record |
+| Garmin pipeline proven | R3 run on verification data; dry run of section 11 |
+| Site ready | R5 run-through completed |
+
+**Go:** recruitment and 7-day monitoring start in S4 (Table 6.1). **No-go** (ethics, the device or 24-hour logging not secured by S4): RO3 becomes a device-verification study with coverage modelled from Pulsewatch wear data, RO4a proceeds unchanged and RO4b is deferred (§3.9). RO1, RO2 and RO4a do not depend on the cohort.
+
+---
+
+## 13. Repository and reproducibility
 
 ```
 analysis/
@@ -184,19 +277,19 @@ Rules: five seeds per model; every result regenerated from a config; the loader 
 
 ---
 
-## 11. Sequence against the schedule (Table 6.1)
+## 14. Sequence against the schedule (Table 6.1)
 
-| Semester | Work | Gate |
-|---|---|---|
-| S2 (now) | Lock P0 to P3; pipeline; reproduce §4.2 on P0; D1 sizing note; Pulsewatch permission | Tables 4.2 and 4.3 reproduced |
-| S3 | H1 on P1; RQ1.2 and RQ1.3; RQ1.1 on Pulsewatch; π̂(m); simulator; start RO2 | M3 RO1 paper submitted |
-| S4 | RO2 training, baselines, ablations, H2; freeze | **M4** model frozen; then P3 opened |
-| S5 to S6 | RO4a sweeps; RO3 coverage folded in when available; RO4b | |
-| S6 to S7 | Writing | M7 submission |
+| Semester | Track 1: modelling | Track 2: readiness for acquisition | Gate |
+|---|---|---|---|
+| S2 (now) | Lock P0 to P3; data pipeline; reproduce §4.2 on P0; D1 sizing note | R1 device and data access; start R2 verification; draft R4 documents; Pulsewatch permission | Tables 4.2 and 4.3 reproduced |
+| S3 | H1 on P1; RQ1.2, RQ1.3; RQ1.1 and π̂(m) on Pulsewatch; simulator; RO2 build starts | Finish R2; R3 pipeline; ethics submission after M1; R5 site readiness; section 11 dry run | **M1** device verified; **M2** ethics and registration; M3 RO1 paper |
+| S4 | RO2 baselines, ablations, H2; freeze | Go/no-go; first participants fitted | **Go/no-go**; **M4** model frozen, then P3 opens |
+| S5 to S6 | RO4a on P3 | 7-day monitoring and analysis (RO3); RO4b | M6 recruitment complete (S5) |
+| S6 to S7 | Writing | Writing | M7 submission |
 
 ---
 
-## 12. Decisions to settle with the supervisors
+## 15. Decisions to settle with the supervisors
 
 | ID | Decision | Proposed default |
 |---|---|---|
@@ -207,5 +300,9 @@ Rules: five seeds per model; every result regenerated from a config; the loader 
 | D5 | Window length N, neighbours k, depth L | Choose on validation; report sensitivity |
 | D6 | Training losses | Weighted cross-entropy (event) plus Poisson count loss (rate) |
 | D7 | GPU access | Confirm a faculty server or cloud allocation before S3 |
+| D8 | Who wears the watch for device verification, and whether that needs its own ethics approval | Study team and volunteers; confirm with the PPUM ethics office first |
+| D9 | Where the protocol is registered | A public trial or study registry agreed with the supervisors |
+| D10 | Language versions of the information sheet and consent form | As required by the PPUM ethics committee for the patient population |
+| D11 | Mapping Garmin accelerometer output to the Pulsewatch motion scale | Fixed from the R2 accelerometer check before π̂(m) is applied |
 
-None of D1 to D7 contradicts the proposal: each fills a choice the proposal leaves open (the research map's "Open design choices" list names N, k, L, the losses and the simulator specification).
+None of D1 to D11 contradicts the proposal: each fills a choice the proposal leaves open (the research map's "Open design choices" list names N, k, L, the losses and the simulator specification).

@@ -52,7 +52,7 @@ notes = ('About 1 minute. This slide connects the preliminary work to the study.
          'The pilot shows interval graphs carry rhythm information, and that a threshold set on one device does not hold on another, which is why probabilities are calibrated and substitution is tested under device losses rather than assumed. '
          'Say the pre-check plainly: it did not pass its locked rule; the motion effect is real, but its level depended on the peak detector, so no retention value is claimed and RO2 estimates it with a detector sensitivity analysis. '
          'The clock-time check is why training uses pseudo-days. Then the gates: the full pipeline must first reproduce Tables 4.2 and 4.3; the model is frozen at M4 before the held-out patients are opened. '
-         'Detail for questions: Appendix E1 to E4 (plan), D5 (pre-check).')
+         'Detail for questions: Appendix E1 to E5 (plan and readiness), D5 (pre-check).')
 
 body = (f'<h2 style="font-size:52px;font-weight:700;line-height:1.15">Preliminary Findings (3): From Results to the Full Study</h2>\n'
         f'{table}\n{svg}\n'

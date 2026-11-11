@@ -18,7 +18,7 @@ This index maps every markdown record, from the handover to the latest change, t
 | Proposal (Word) | `proposal/Ridhwan_Research_Proposal_UM.docx` | Candidate's post-review revision, 3 Nov 2026 | Text identical to a fresh build of `proposal/source/content.txt`; 6,986 main-text words |
 | Proposal, handover version (for comparison) | `proposal/Ridhwan_Research_Proposal_UM_handover_2026-11-03.docx` | Handover | Unchanged |
 | Proposal source and build | `proposal/source/` (`content.txt`, `build.js`, `framework.png`, `arch.png`) | Post-review revision | `node build.js` (npm `docx`) |
-| Slide deck (Claude Slides) | https://claude.ai/artifact/4RuYVim5WsRqG5aQLYJGas | Version id 1793848239-ce86 | 55 slides (new slide 19; Appendices D and E added); shared with anyone with the link |
+| Slide deck (Claude Slides) | https://claude.ai/artifact/4RuYVim5WsRqG5aQLYJGas | Version id 1794385399-32f4 | 56 slides (slide 19; Appendices D and E, with E5 readiness track to the first participant); shared with anyone with the link |
 | Slide sources (full copy) | `slides/project/` | Same version | Version history; the deck is the source of truth |
 | Research map page | `index.html` (+ `assets/`), https://claude.ai/artifact/1BnWNir54MvkSfH5uPfMiE | Version 14 (id 1793726522-27a0) | Matches the post-review proposal; prepared panel answer on why the PPUM Garmin cohort cannot replace the Pulsewatch transfer; research objectives section (RQ and RO side by side with matched phrases, outcome restatements, six-characteristic check, dependency check); hypotheses section (problem → question → hypothesis → If–Then → variables → test → objective, criteria check); structured problem statement (general-to-targeted funnel, six-characteristic check, research-question specificity check); 19 figures (8 interactive), including what is counted (PAC vs motion artefact, PAC vs AF; 24 hours to an ESVEA call) and a step-by-step dependency chain; E1 and E11 marked as awaiting confirmation; shared with anyone with the link |
 
@@ -48,6 +48,7 @@ This index maps every markdown record, from the handover to the latest change, t
 | 18 | Applied | `slides/README.md` | Slide change history | Deck |
 | 19 | Review | `drafts/Independent_Review_2026-11-03.md` | Independent review (C1 to C3, M1 to M4) and resolution | E1 revised; Table 3.4; §3.5, §3.9; abstract |
 | 20 | Applied | `proposal/SUPERVISOR_RECONFIRMATION_E1_E11.md` | Current state of E1 and E11 for supervisors | E1, E11 |
+| 21 | Plan | `drafts/Implementation_Plan_Icentia11k_and_Datasets.md` | Next phase in two tracks: modelling (Icentia11k, Pulsewatch, RO2 to M4) and readiness for acquisition (device, verification M1, Garmin pipeline, ethics M2, PPUM site) to the S4 go/no-go; decisions D1 to D11 (proposals, not in the docx) | Deck Appendix E1 to E5 |
 
 ---
 

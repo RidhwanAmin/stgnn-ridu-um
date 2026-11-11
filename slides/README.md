@@ -1,6 +1,6 @@
 # Slide sources (full deck copy)
 
-Copy of all 55 slides and the `deck.json` index of the Claude Slides deck https://claude.ai/artifact/4RuYVim5WsRqG5aQLYJGas, last synced on 11 November 2026 at version id 1794384600-7851 (plain-language glosses). The deck is the source of truth; this copy is for version history.
+Copy of all 56 slides and the `deck.json` index of the Claude Slides deck https://claude.ai/artifact/4RuYVim5WsRqG5aQLYJGas, last synced on 11 November 2026 at version id 1794385399-32f4 (Appendix E5 readiness track). The deck is the source of truth; this copy is for version history.
 
 ## Change history this session
 
@@ -17,6 +17,7 @@ Copy of all 55 slides and the `deck.json` index of the Claude Slides deck https:
 | 1794383362-cc72 | Appendix D5 chart: `<0.05` escaped so the slide parses | `app-d5` |
 | 1794383853-f74a | Dr Bryan's comments on the early deck (`ESVEA_Proposal_Defence1.pptx`) revalidated; the slide-7 critique (advantages column, highlighted limits) applied to slide 8 as well, with a common-thread line | `lit-ppg` (8) |
 | 1794384600-7851 | Plain-language glosses (five words or fewer, in parentheses) at the first use of 52 technical terms in the main talk (clinical, statistical, machine-learning and study-specific); slide 5 also glosses its four core terms. Titles and speaker notes unchanged | slides 2 to 9, 12 to 17, 19 |
+| 1794385399-32f4 | Appendix E5 "Readiness Track, From Now to the First Participant": modelling and readiness tracks S2 to S4 (R1 device and data access, R2 device verification to M1, R3 Garmin pipeline, R4 protocol and ethics to M2, R5 PPUM site readiness), three meeting points tied to completed work, S4 go/no-go with the §3.9 fallback. Divider lists "E · Implementation plan and readiness"; slide 19 notes point to E1 to E5. Built by `build_appendix_e5.py` | `app-divider` (31), `prelim-next` notes (19), new `app-e5` (56) |
 
 The four references removed from the proposal (Kapsecker, Montanaro, Ye, Abedi) were never on the slides.
 
