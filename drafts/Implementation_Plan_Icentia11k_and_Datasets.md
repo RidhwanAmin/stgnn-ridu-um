@@ -1,6 +1,6 @@
 # Implementation plan for the next phase: from the proof of concept to the first participant
 
-Prepared 4 November 2026; extended 11 November 2026 with the readiness track for real-patient data acquisition (sections 10 to 12). Source of truth: the proposal docx (`proposal/Ridhwan_Research_Proposal_UM.docx`). Where the proposal leaves a choice open, this plan marks it **Decision** and proposes a default; nothing here changes the proposal.
+Prepared 4 November 2026; extended 11 November 2026 with the readiness track for real-patient data acquisition (sections 10 to 12). The step-by-step Track 1 runbook to the end of S3, with the initial code in `analysis/`, is `drafts/Track1_Implementation_Runbook_S2_S3.md`. Source of truth: the proposal docx (`proposal/Ridhwan_Research_Proposal_UM.docx`). Where the proposal leaves a choice open, this plan marks it **Decision** and proposes a default; nothing here changes the proposal.
 
 ---
 
@@ -33,7 +33,7 @@ The two tracks meet at three points (section 11): shared coverage and valid-day 
 | RO1 and RO2 use beat annotations, not raw ECG (§3.7: "one GPU suffices, as RO2 uses beat annotations rather than raw signals") | Download annotation and header files only; the raw signal is not needed for the Icentia11k work |
 | Licence CC BY-NC-SA 4.0 | Non-commercial; cite; derived tables shared under the same terms |
 
-**Scale, from the preliminary run.** 298 patients gave about 57 million classified intervals, so the full dataset is roughly **2 billion intervals**. Stored as a compact table (interval in ms, beat classes, segment id), that is in the order of 10 to 20 GB on disk: manageable on one workstation, but it must be streamed, not loaded at once.
+**Scale.** Icentia11k holds 2.77 billion labelled beats, of which about 0.68 billion are unclassifiable (Q), so roughly **2 billion intervals** remain for tallies once intervals touching Q are dropped (298 patients gave about 57 million). Stored as a compact table (interval in ms, beat classes, segment id), that is in the order of 10 to 20 GB on disk: manageable on one workstation, but it must be streamed, not loaded at once.
 
 ---
 

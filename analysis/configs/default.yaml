@@ -1,0 +1,21 @@
+# Settings shared by Track 1 runs. Change only through a dated note in notes/.
+seeds: {models: [11, 12, 13, 14, 15], bootstrap: 2026}
+filter: {thresholds: [0.10, 0.30, 0.01], primary: 0.20, ref_n: 5}
+tally: {rr_min_s: 0.2, rr_max_s: 3.0, exclude_q: true}
+af_stretches: [include, exclude]          # D3: RO1 reported both ways
+burden_bands_per_hour: [0, 1, 10, 30]     # plus quintiles
+pseudodays: {segments_per_day: 20}
+p2_split: [0.70, 0.15, 0.15]              # D2 proposed default
+pulsewatch:
+  match_tol_s: 0.100
+  edge_s: 1.0
+  motion_window_s: 2.0
+  motion_bins: [0.05, 0.2, 0.5, 1.0]
+  lag_search_s: [-3.0, 3.0, 0.02]
+  detector_primary: elgendi_2013
+  detector_alternative: authors_released_peaks
+coverage_rule:                            # placeholders until device verification (M1)
+  min_night_hours: 2.0
+  min_day_hours: 6.0
+  theta_block_hours: 1.0
+  pooled_min_block_hours: 1.0

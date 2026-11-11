@@ -49,6 +49,7 @@ This index maps every markdown record, from the handover to the latest change, t
 | 19 | Review | `drafts/Independent_Review_2026-11-03.md` | Independent review (C1 to C3, M1 to M4) and resolution | E1 revised; Table 3.4; §3.5, §3.9; abstract |
 | 20 | Applied | `proposal/SUPERVISOR_RECONFIRMATION_E1_E11.md` | Current state of E1 and E11 for supervisors | E1, E11 |
 | 21 | Plan | `drafts/Implementation_Plan_Icentia11k_and_Datasets.md` | Next phase in two tracks: modelling (Icentia11k, Pulsewatch, RO2 to M4) and readiness for acquisition (device, verification M1, Garmin pipeline, ethics M2, PPUM site) to the S4 go/no-go; decisions D1 to D11 (proposals, not in the docx) | Deck Appendix E1 to E5 |
+| 22 | Runbook | `drafts/Track1_Implementation_Runbook_S2_S3.md` and `analysis/` | Track 1 to the end of S3, week by week (W1 16 Nov 2026 to W41): work packages T0 to T12 with commands, gates G1 to G7, the handover to Track 2; initial code with 25 unit tests | None (implementation; slides unchanged) |
 
 ---
 
