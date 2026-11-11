@@ -6,17 +6,17 @@
 <h3 style="font-size:24px;font-weight:700">RO1: what is lost (Pulsewatch, Icentia11k)</h3>
 <ul style="font-size:19px;line-height:1.3;display:flex;flex-direction:column;gap:6px">
 <li>Morphology: waveform model vs interval model on the same recordings</li>
-<li>Filtering: share of ectopic beats removed by percent-deviation (Karlsson et al., 2012) and adaptive (Lipponen &amp; Tarvainen, 2019) filters</li>
+<li>Filtering: share of ectopic beats removed by percent-deviation (drops beats far from median) (Karlsson et al., 2012) and adaptive (Lipponen &amp; Tarvainen, 2019) filters</li>
 <li>Origin: all premature beats vs PAC-only count, by burden</li>
 </ul>
 <h3 style="font-size:24px;font-weight:700">RO2: the estimator (shown left)</h3>
 <ul style="font-size:19px;line-height:1.3;display:flex;flex-direction:column;gap:6px">
 <li>Beat-graph per window: temporal chain plus similarity edges</li>
-<li>Epoch-graph over the day: interval graph convolution and state space; on Icentia11k trained on pseudo-days (segments untimed), real order across days tested on Pulsewatch windows</li>
-<li>Quality flag enters as input (Garmin flags abnormal beats and marks gaps); retention corrects only silent loss at motion (Pulsewatch, lag-corrected); pulse deficit is a bias tested in RO4a; coverage gate is a reporting rule (Equations 3.1 to 3.4, appendix)</li>
-<li>Benchmarks: logistic regression, SVM, random forest, Poincaré rule, BiLSTM, GRU-D, transformer; component ablations (Appendix B)</li>
+<li>Epoch-graph over the day: interval graph convolution and state space; on Icentia11k trained on pseudo-days (segments assembled into days; untimed), real order across days tested on Pulsewatch windows</li>
+<li>Quality flag enters as input (Garmin flags abnormal beats and marks gaps); retention corrects only silent loss at motion (Pulsewatch, lag-corrected); pulse deficit (early beat with no pulse) is a bias tested in RO4a; coverage gate is a reporting rule (Equations 3.1 to 3.4, appendix)</li>
+<li>Benchmarks: logistic regression, SVM, random forest (classical classifiers), Poincaré rule (interval scatter-plot rule), BiLSTM, GRU-D, transformer (sequence deep-learning models); component ablations (Appendix B)</li>
 </ul>
-<p style="font-size:19px;line-height:1.3;color:#3a3a3a">Graph structure is tested, not assumed: an MLP slightly outperformed a GCN on visibility-graph beat features (EPMoghaddam et al., 2024).</p>
+<p style="font-size:19px;line-height:1.3;color:#3a3a3a">Graph structure is tested, not assumed: an MLP (simple neural network) slightly outperformed a GCN (graph convolutional network) on visibility-graph beat features (EPMoghaddam et al., 2024).</p>
 </div>
 </div>
 <p style="position:absolute;right:112px;bottom:56px;width:200px;text-align:right;font-size:24px;color:#6b6b6b">14</p>

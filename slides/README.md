@@ -1,6 +1,6 @@
 # Slide sources (full deck copy)
 
-Copy of all 55 slides and the `deck.json` index of the Claude Slides deck https://claude.ai/artifact/4RuYVim5WsRqG5aQLYJGas, last synced on 11 November 2026 at version id 1794383853-f74a (Dr Bryan's early-deck comments revalidated). The deck is the source of truth; this copy is for version history.
+Copy of all 55 slides and the `deck.json` index of the Claude Slides deck https://claude.ai/artifact/4RuYVim5WsRqG5aQLYJGas, last synced on 11 November 2026 at version id 1794384600-7851 (plain-language glosses). The deck is the source of truth; this copy is for version history.
 
 ## Change history this session
 
@@ -16,6 +16,7 @@ Copy of all 55 slides and the `deck.json` index of the Claude Slides deck https:
 | 1793848239-ce86 | New main slide 19 `prelim-next`, "Preliminary Findings (3): From Results to the Full Study": each completed result (filtering loss, pilot, Pulsewatch pre-check, clock-time check) with what it decided and the next step, plus the gates (pipeline reproduces Tables 4.2, 4.3; M3; M4 before P3). Footers renumbered: `risks` 20, `ethics-data` 21, `contributions` 22, `app-eq` 32; slide 18 notes hand off. Built by `build_prelim_next.py` | new 19; renumbered 20 to 22, 32; notes 18 |
 | 1794383362-cc72 | Appendix D5 chart: `<0.05` escaped so the slide parses | `app-d5` |
 | 1794383853-f74a | Dr Bryan's comments on the early deck (`ESVEA_Proposal_Defence1.pptx`) revalidated; the slide-7 critique (advantages column, highlighted limits) applied to slide 8 as well, with a common-thread line | `lit-ppg` (8) |
+| 1794384600-7851 | Plain-language glosses (five words or fewer, in parentheses) at the first use of 52 technical terms in the main talk (clinical, statistical, machine-learning and study-specific); slide 5 also glosses its four core terms. Titles and speaker notes unchanged | slides 2 to 9, 12 to 17, 19 |
 
 The four references removed from the proposal (Kapsecker, Montanaro, Ye, Abedi) were never on the slides.
 
