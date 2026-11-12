@@ -1,6 +1,12 @@
+# Data never go in git (ESVEA_DATA points outside the repository)
 data/
-results/
 *.parquet
+*.npy
+*.pt
+*.ckpt
+results/**/checkpoints/
+# Python
 __pycache__/
 *.egg-info/
 .pytest_cache/
+.venv/
