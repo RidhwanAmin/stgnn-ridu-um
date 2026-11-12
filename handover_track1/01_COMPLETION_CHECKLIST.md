@@ -18,8 +18,8 @@ Keep the **Status** column current: `Not started`, `In progress`, `Done (date, c
 
 | # | Item | Week | Expected result | Done when | Status |
 |---|---|---|---|---|---|
-| A1 | Environment (T0) | W1 | `pytest -q`: 25 passed; `pytest -m network` reads p00000_s00 | Both pass on the local machine | Not started |
-| A2 | Storage (T0) | W2 | About 10 GB for Icentia11k labels and tables; about 340 GB for Pulsewatch | `ESVEA_DATA` set; quota confirmed in writing | Not started |
+| A1 | Environment (T0) | W1 | `pytest -q`: 25 passed; `pytest -m network` reads p00000_s00 | Both pass on the local machine | Done (12 Nov 2026, commit "A1"): 25 passed and network test passed on Python 3.14.3, wfdb 4.3.1; now 28 with three legacy-rule tests |
+| A2 | Storage (T0) | W2 | About 10 GB for Icentia11k labels and tables; about 340 GB for Pulsewatch | `ESVEA_DATA` set; quota confirmed in writing | In progress: interim local `Documents/ridhwan/ESVEA_DATA` (outside git); university quota not yet requested; P0 raw labels took about 0.6 GB, not 0.2 GB |
 | A3 | Legacy code imported (T0) | W1 | Preliminary RO1 script, P0 list, Pulsewatch pre-check scripts under `analysis/legacy/` | Committed with origin noted | Not started |
 | A4 | P0 imported (T1) | W1 | `splits/P0.txt`: 300 ids, seed in header, hash in `SHA256SUMS` | Committed | Not started |
 | A5 | P3 drawn and sealed (T1) | W1 | 300 ids, disjoint from P0; never downloaded before M4 | Committed; `s02_download.py P3` refuses | Not started |
