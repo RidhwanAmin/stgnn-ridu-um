@@ -28,7 +28,7 @@ The deck's content has been checked against the docx several times (see `deck/VE
 
 | Check | What good looks like |
 |---|---|
-| Readability at distance | Body text no smaller than 22 px (slide 14 has 19 px text beside the enlarged figure: check it projects legibly) |
+| Readability at distance | Body text no smaller than 22 px (slide 14 has 19 px text beside the enlarged figure: check it projects legibly; its figure also ends at y = 952, 12 px past the main-slide limit, which predates this handover) |
 | Emphasis | Accent `#9b1c1c` only for the one thing per slide the panel must remember (limits, the gap, the key number) |
 | Figures | Figure 3.1 (framework) and Figure 3.2 (architecture) as large as the slide allows; each figure explained in the notes |
 | Flow | Checklist sequence (FSKTM section 14): title, context, problem, significance, literature, gap, aim and objectives, contribution, framework, methodology, technical detail, evaluation, ethics and risks, outcomes, timeline, conclusion |
@@ -47,5 +47,5 @@ The deck's content has been checked against the docx several times (see `deck/VE
 1. `python tools/check_svg.py deck/project/slides`: prints `ok`.
 2. `node tools/render_slides.js deck/project/slides /tmp/preview <changed ids>`: every slide `ok` (content bottom ≤ 940 main, ≤ 960 appendix). Look at the PNGs.
 3. Page numbers on slides 2 to 22 and `app-eq` match their positions after any insert or removal.
-4. `grep -c "—"` on changed files returns 0 (no em dashes).
+4. No em dash (Unicode U+2014) in any changed file: `grep -c $'\u2014'` returns 0.
 5. After publishing, open the live deck and look at each changed slide; record the new version id in `deck/VERSION_HISTORY.md`.

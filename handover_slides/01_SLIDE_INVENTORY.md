@@ -17,7 +17,7 @@ Words = visible words on the slide excluding charts; Notes = speaker-note words.
 | 11 | `framework` | Conceptual Framework | Main talk | §3.1, Figure 3.1 | 76 | 62 |  |
 | 12 | `method-overview` | Research Methodology: Overview | Main talk | Ch 3 overview | 173 | 58 |  |
 | 13 | `validation-matrix` | Validation Matrix: Where the Truth Comes From | Main talk | Ch 3 (validation table) | 208 | 104 |  |
-| 14 | `ro1-ro2` | RO1 and RO2: Information Loss and the Two-Scale ST-GNN | Main talk | §3.3, §3.4, Figure 3.2 | 194 | 231 | ; notes carry "Pending supervisor reconfirmation" |
+| 14 | `ro1-ro2` | RO1 and RO2: Information Loss and the Two-Scale ST-GNN | Main talk | §3.3, §3.4, Figure 3.2 | 194 | 231 | Figure ends at y = 952 (limit 940); text 19 px; notes carry "Pending supervisor reconfirmation" |
 | 15 | `ro3` | RO3: Deployability Protocol | Main talk | §3.5 | 226 | 176 |  |
 | 16 | `ro4` | RO4: Substitution and Validation | Main talk | §3.6 | 219 | 200 |  |
 | 17 | `preliminary` | Preliminary Findings (1): Cross-Device Pilot | Main talk | §4.1, Table 4.1 | 272 | 215 | ; notes carry "Pending supervisor reconfirmation" |
