@@ -10,3 +10,6 @@ __pycache__/
 *.egg-info/
 .pytest_cache/
 .venv/
+# Icentia11k raw files (never in git; they live under ESVEA_DATA)
+*.hea
+*.atr

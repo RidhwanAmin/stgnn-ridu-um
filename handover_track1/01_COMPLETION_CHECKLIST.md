@@ -23,7 +23,7 @@ Keep the **Status** column current: `Not started`, `In progress`, `Done (date, c
 | A3 | Legacy code imported (T0) | W1 | Preliminary RO1 script, P0 list, Pulsewatch pre-check scripts under `analysis/legacy/` | Committed with origin noted | Done (12 Nov 2026, commit "A3"): `legacy/ORIGIN.md` + `legacy/SHA256SUMS`; legacy per-patient CSVs (`patients.csv`, `retention_by_patient.csv`) not found |
 | A4 | P0 imported (T1) | W1 | `splits/P0.txt`: 300 ids, seed in header, hash in `SHA256SUMS` | Committed | Done (12 Nov 2026, commit "A4"): regenerated from the legacy draw rule `sorted(random.Random(2026).sample(range(11000), 300))` (no stored list found) |
 | A5 | P3 drawn and sealed (T1) | W1 | 300 ids, disjoint from P0; never downloaded before M4 | Committed; `s02_download.py P3` refuses | Not started |
-| A6 | P0 built (T2) | W2 | 300 patients downloaded (about 0.2 GB); 298 analysable | Tables and summary written | Not started |
+| A6 | P0 built (T2) | W2 | 300 patients downloaded (about 0.2 GB); 298 analysable | Tables and summary written | Done (12 Nov 2026, commit "A6"): 300 downloaded, 29,519 files (about 0.6 GB), checksums in `results/p0_raw_MANIFEST.sha256`; 3 .atr files absent on PhysioNet (`results/p0_raw_MISSING.txt`); 298 analysable (p08269 and p10564 contain only Q beats) |
 | A7 | **P0 reproduction (T2, G1)** | W4 | See section E, all values equal | `s04_reproduce_p0.py` exits 0 | Not started |
 | A8 | D1 power note (T3) | W4 | P1 size = smallest with ≥90% power at half the P0 effect [Proposed rule] | `notes/<date>_D1_P1_size.md` committed **before** P1 is drawn | Not started |
 | A9 | P1 drawn (T1) | W4 | Size from A8; disjoint | Committed | Not started |
