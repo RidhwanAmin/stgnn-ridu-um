@@ -1,11 +1,11 @@
 table,row,column,new,docx,equal
-4.2,pac_coupling,n,867752.0,867745.0,True
+4.2,pac_coupling,n,867752.0,867745.0,False
 4.2,pac_coupling,10%,81.5,81.5,True
 4.2,pac_coupling,20%,60.9,60.9,True
 4.2,pac_coupling,30%,37.4,37.4,True
 4.2,pac_coupling,20% ESVEA neg,78.5,78.5,True
 4.2,pac_coupling,20% ESVEA pos,60.0,60.0,True
-4.2,pause_after_pac,n,864833.0,864826.0,True
+4.2,pause_after_pac,n,864833.0,864826.0,False
 4.2,pause_after_pac,10%,74.9,74.9,True
 4.2,pause_after_pac,20%,54.5,54.5,True
 4.2,pause_after_pac,30%,37.3,37.3,True

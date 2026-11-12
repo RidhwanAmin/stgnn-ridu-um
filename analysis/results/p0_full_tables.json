@@ -1,7 +1,23 @@
 {
   "cells": 39,
-  "equal": 33,
+  "equal": 31,
   "differ": [
+    {
+      "table": "4.2",
+      "row": "pac_coupling",
+      "column": "n",
+      "new": 867752.0,
+      "docx": 867745.0,
+      "equal": false
+    },
+    {
+      "table": "4.2",
+      "row": "pause_after_pac",
+      "column": "n",
+      "new": 864833.0,
+      "docx": 864826.0,
+      "equal": false
+    },
     {
       "table": "4.2",
       "row": "pvc_coupling",
