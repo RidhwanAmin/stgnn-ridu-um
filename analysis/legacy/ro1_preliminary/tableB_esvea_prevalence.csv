@@ -1,0 +1,9 @@
+Measure,Value
+Patients analysed,298
+Median monitored hours (IQR),57.5 (55.5 to 58.1)
+Median unclassifiable beat fraction,21.0%
+Median PAC per hour (IQR),1.35 (0.23 to 13.38)
+>= 30 PAC per hour,54 (18.1%)
+>= 480 PAC per day (extrapolated),67 (22.5%)
+Any run of >= 20 PACs,25 (8.4%)
+ESVEA (Binici: rate or run),66 (22.1%)

@@ -1,0 +1,41 @@
+threshold_pct,esvea_any,interval,n,rejected,removed_pct
+10,False,coupling interval ending at PAC (S),44940,41848,93.11971517578995
+10,False,coupling interval ending at PVC (V),256879,210412,81.91093861312136
+10,False,normal-to-normal (N to N),44204036,9025397,20.41758585121051
+10,False,pause after PAC (S),44671,37331,83.56875825479618
+10,True,coupling interval ending at PAC (S),822805,665769,80.91455448131696
+10,True,coupling interval ending at PVC (V),148394,135888,91.57243554321603
+10,True,normal-to-normal (N to N),11002639,2088840,18.984899895379645
+10,True,pause after PAC (S),820155,610132,74.39227950814175
+15,False,coupling interval ending at PAC (S),44940,39916,88.8206497552292
+15,False,coupling interval ending at PVC (V),256879,194071,75.54957781679312
+15,False,normal-to-normal (N to N),44204036,5315627,12.025207381516022
+15,False,pause after PAC (S),44671,30621,68.54782744957579
+15,True,coupling interval ending at PAC (S),822805,584234,71.00515918109394
+15,True,coupling interval ending at PVC (V),148394,130965,88.25491596695284
+15,True,normal-to-normal (N to N),11002639,1479226,13.44428368503229
+15,True,pause after PAC (S),820155,529491,64.55986978071218
+20,False,coupling interval ending at PAC (S),44940,35287,78.5202492211838
+20,False,coupling interval ending at PVC (V),256879,167959,65.38448063095855
+20,False,normal-to-normal (N to N),44204036,3573524,8.084157745233941
+20,False,pause after PAC (S),44671,22379,50.09737861252267
+20,True,coupling interval ending at PAC (S),822805,493519,59.98006818140386
+20,True,coupling interval ending at PVC (V),148394,115658,77.93980888715177
+20,True,normal-to-normal (N to N),11002639,1263493,11.483544993160278
+20,True,pause after PAC (S),820155,449203,54.77050069803879
+25,False,coupling interval ending at PAC (S),44940,28990,64.50823319982199
+25,False,coupling interval ending at PVC (V),256879,142839,55.60555748037014
+25,False,normal-to-normal (N to N),44204036,2757139,6.237301498894807
+25,False,pause after PAC (S),44671,15694,35.13241252714289
+25,True,coupling interval ending at PAC (S),822805,396700,48.21312461640365
+25,True,coupling interval ending at PVC (V),148394,96688,65.15627316468321
+25,True,normal-to-normal (N to N),11002639,1163063,10.570763977623914
+25,True,pause after PAC (S),820155,370894,45.22242746797861
+30,False,coupling interval ending at PAC (S),44940,23003,51.18602581219404
+30,False,coupling interval ending at PVC (V),256879,106551,41.4790621265265
+30,False,normal-to-normal (N to N),44204036,2303019,5.209974491921959
+30,False,pause after PAC (S),44671,11903,26.645922410512412
+30,True,coupling interval ending at PAC (S),822805,301232,36.61037548386312
+30,True,coupling interval ending at PVC (V),148394,81704,55.058829871827704
+30,True,normal-to-normal (N to N),11002639,1115892,10.142039559781976
+30,True,pause after PAC (S),820155,310630,37.8745481037121

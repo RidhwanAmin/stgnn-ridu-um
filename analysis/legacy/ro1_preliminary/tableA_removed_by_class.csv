@@ -1,0 +1,21 @@
+threshold_pct,interval,n,rejected,removed_pct
+10,coupling interval ending at PAC (S),867745,707617,81.54665253040928
+10,coupling interval ending at PVC (V),405273,346300,85.44857417099091
+10,normal-to-normal (N to N),55206675,11114237,20.13205287222967
+10,pause after PAC (S),864826,647463,74.86627367817341
+15,coupling interval ending at PAC (S),867745,624150,71.92781289434107
+15,coupling interval ending at PVC (V),405273,325036,80.20174055513198
+15,normal-to-normal (N to N),55206675,6794853,12.308027969443913
+15,pause after PAC (S),864826,560112,64.76586041585244
+20,coupling interval ending at PAC (S),867745,528806,60.94025318497946
+20,coupling interval ending at PVC (V),405273,283617,69.9817160284549
+20,normal-to-normal (N to N),55206675,4837017,8.761652463221159
+20,pause after PAC (S),864826,471582,54.529119152291905
+25,coupling interval ending at PAC (S),867745,425690,49.05703864614605
+25,coupling interval ending at PVC (V),405273,239527,59.10262958548929
+25,normal-to-normal (N to N),55206675,3920202,7.100956541939901
+25,pause after PAC (S),864826,386588,44.70124626225391
+30,coupling interval ending at PAC (S),867745,324235,37.36523978818662
+30,coupling interval ending at PVC (V),405273,188255,46.45140436199796
+30,normal-to-normal (N to N),55206675,3418911,6.192930474439912
+30,pause after PAC (S),864826,322533,37.29455404902258
