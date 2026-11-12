@@ -70,7 +70,7 @@ new43 = {
 rows += [("4.3", "", k, new43[k], v) for k, v in DOCX_43.items()]
 
 out = pd.DataFrame(rows, columns=["table", "row", "column", "new", "docx"])
-out["equal"] = [bool(np.isclose(a, b)) for a, b in zip(out.new, out.docx)]
+out["equal"] = [bool(a == b) for a, b in zip(out.new, out.docx)]  # exact: values are already rounded to the printed precision
 RESULTS.mkdir(exist_ok=True)
 out.to_csv(RESULTS / "p0_full_tables.csv", index=False)
 (RESULTS / "p0_full_tables.json").write_text(json.dumps(
