@@ -1,0 +1,32 @@
+<section id="ro3" style="background:#ffffff;color:#1a1a1a;font-family:Arial, Helvetica, sans-serif;padding:88px 112px 140px;display:flex;flex-direction:column;gap:24px">
+<h2 style="font-size:52px;font-weight:700;line-height:1.15">RO3: Deployability Protocol</h2>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:start">
+<table style="width:1080px;font-size:24px;color:#1a1a1a;border:1px solid #8a8a8a">
+<tr><th style="width:24%;text-align:left">Element</th><th style="width:76%;text-align:left">Specification</th></tr>
+<tr><td><b>Population</b></td><td>Adults after ischaemic stroke or TIA, no known AF; consecutive sampling; Pusat Perubatan Universiti Malaya (PPUM)</td></tr>
+<tr><td><b>Sample</b></td><td>Recruit about 40 to analyse ≥34 (traffic-light criteria, 90% power; Lewis et al., 2021)</td></tr>
+<tr><td><b>Device</b></td><td>Garmin Enhanced BBI (Garmin beat-to-beat intervals) with binary per-beat confidence, gap markers and accelerometer (published specification; 24-hour logging per Garmin Health, personal communication); device not yet received, verified before ethics</td></tr>
+<tr><td><b>Duration</b></td><td>7 days continuous wear; one short daily charging window</td></tr>
+<tr><td><b>Valid day</b></td><td>Minimum analysable coverage in both a daytime and a night-time block [thresholds pre-specified]</td></tr>
+<tr><td><b>Daily rate</b></td><td>Block-length weighted per day; ESVEA if count pooled by block over valid days ≥480 (Equation 3.4; Haeusler et al., 2025); ≥30 per hour secondary (Binici et al., 2010); runs reported separately</td></tr>
+</table>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;flex-direction:column;gap:10px;padding:24px;border:3px solid #1a1a1a">
+<h3 style="font-size:28px;font-weight:700;line-height:1.2">Primary feasibility outcome</h3>
+<p style="font-size:24px;line-height:1.3">Proportion of participants with ≥3 valid days</p>
+<p style="font-size:24px;line-height:1.3"><b>Red</b> ≤50% · <b>Amber</b> 51 to 74% · <b>Green</b> ≥75%</p>
+<p style="font-size:22px;line-height:1.3"><b>Key secondary:</b> pooled ESVEA count computable (≥1 h per block across the week)</p>
+</div>
+<ul style="font-size:24px;line-height:1.35;display:flex;flex-direction:column;gap:6px">
+<li>RQ3.1 Analysable yield per patient-day</li>
+<li>RQ3.2 Share meeting the daily denominator</li>
+<li>RQ3.3 Stability: ICC(2,1) across days</li>
+<li>RQ3.4 Activity co-variation, incl. flag rate vs motion: mixed model</li>
+<li>RQ3.5 ESVEA proportion vs 25.3%: plausibility check only</li>
+</ul>
+</div>
+</div>
+<p style="font-size:24px;line-height:1.3;color:#3a3a3a">Seven days because sensitivity for high PAC frequency rises from 76.6% on one day to 88.8% by day 7 (Måneheim et al., 2024), matching the up-to-7-day Holter benchmark (Haeusler et al., 2021).</p>
+<p style="position:absolute;right:112px;bottom:56px;width:200px;text-align:right;font-size:24px;color:#6b6b6b">15</p>
+<aside>About 1.5 minutes. Three changes from the earlier draft. One: n is now justified, not conventional. The traffic-light method gives about 34 analysable participants for 90% power to reject the red zone if green is true; recruit about 40 to allow for dropout and wrist discomfort. Two: duration is 7 days, not 4. Three: a valid day needs coverage in both a day and a night block, because analysable time is night-weighted while PACs are day-weighted, and the daily rate is weighted by time of day rather than scaled by 24. ESVEA uses the stroke-cohort criterion of 480 or more supraventricular beats per day, from MonDAFIS, because that is the threshold shown to select stroke patients for prolonged monitoring; Binici's 30 per hour is secondary, and runs are reported separately because filtering breaks them apart. RQ3.5 is a plausibility check: at n = 34 the confidence interval on ESVEA prevalence is too wide to validate anything. Eligibility is broad, not cryptogenic-only, because a cryptogenic-only smartwatch study screened 92.5% of candidates as ineligible (Huntelaar et al., 2024).</aside>
+</section>

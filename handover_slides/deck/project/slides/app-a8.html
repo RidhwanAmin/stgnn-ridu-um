@@ -1,0 +1,10 @@
+<section id="app-a8" style="background:#ffffff;color:#1a1a1a;font-family:Arial, Helvetica, sans-serif;padding:88px 112px 120px;display:flex;flex-direction:column;gap:24px">
+<h2 style="font-size:44px;font-weight:700;line-height:1.15">Appendix A8: Missing Observations and Rate Estimation</h2>
+<table style="width:100%;font-size:24px;color:#1a1a1a;border:1px solid #8a8a8a">
+<tr><th style="width:17%;text-align:left">Author (Year)</th><th style="width:23%;text-align:left">Data / Design</th><th style="width:18%;text-align:left">Approach</th><th style="width:25%;text-align:left">Key findings</th><th style="width:17%;text-align:left">Limitation</th></tr>
+<tr><td><b>Che et al. (2018)</b></td><td>GRU-D; MIMIC-III, PhysioNet, synthetic</td><td>Masking and time interval as inputs</td><td>Exploiting missing patterns reached state-of-the-art performance</td><td>ICU series, not beats</td></tr>
+<tr><td><b>Nijman et al. (2022)</b></td><td>Review of 152 ML prediction-model studies</td><td>Reporting and handling</td><td>56 did not report missing data; 65 of 96 that did used deletion</td><td>Clinical tabular data</td></tr>
+<tr><td><b>Sisk et al. (2023)</b></td><td>Simulation plus critical-care data</td><td>Imputation and missing indicators</td><td>Indicators helped in many cases but harm under outcome-dependent missingness</td><td>Ectopic beats may be flagged more often</td></tr>
+<tr><td><b>Siejko et al. (2025)</b></td><td>Implantable monitor; 89 with 24-h Holter</td><td>Daily PVC burden from beat detection</td><td>Beat sensitivity 80.1%, yet burden r = 0.95 vs Holter</td><td>Ventricular; ECG device</td></tr>
+</table>
+</section>

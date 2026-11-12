@@ -1,0 +1,544 @@
+ABSTRACT
+
+Atrial ectopy burden predicts atrial fibrillation (AF) after ischaemic stroke and helps decide who receives prolonged rhythm monitoring, yet every threshold was derived on Holter electrocardiography (ECG), the scarce resource being allocated. Smartwatches report beat intervals with a per-beat quality flag, but the error of a derived daily ectopic-beat count is unknown, and their analysable data are concentrated at night while premature atrial contractions (PACs) peak in the afternoon. The aim is to establish whether smartwatch beat intervals, analysed with an estimator that models signal quality and unobserved time, can yield a daily atrial ectopy estimate whose error is characterised against ECG labels under simulated smartwatch losses and whose coverage after stroke is adequate, as a step towards comparison with ECG-derived thresholds. The objectives are to investigate the ectopy information lost when a photoplethysmographic (PPG) waveform is reduced to filtered beat intervals (RO1); to develop a two-scale spatio-temporal graph neural network (ST-GNN) that uses the quality flag and unobserved time as inputs (RO2); to evaluate the deployability of a 7-day smartwatch protocol in post-stroke survivors (RO3); and to evaluate and validate substituting a wearable estimate for the ECG count, by how often it reclassifies excessive supraventricular ectopic activity (ESVEA) and how wearable-based selections agree with clinical scores (RO4). The design combines the Pulsewatch and Icentia11k datasets with a prospective cohort of about 40 adults after ischaemic stroke or transient ischaemic attack. In pilot work on 33 held-out subjects from four PPG cohorts, a beat-graph classifier ranked AF above other rhythms well (AUROC 0.995 or higher where non-AF windows existed, one AF subject per cohort), but AF recall at a threshold fixed on validation subjects ranged from 45% to 100% across devices, and in 298 Icentia11k patients a 20% deviation filter removed 60.9% of PAC coupling intervals against 8.8% of normal intervals. The expected contribution is, to our knowledge, the first coverage-aware estimator of daily atrial ectopy from smartwatch intervals, with its error characterised under simulated device losses.
+
+**Keywords:** atrial ectopy; photoplethysmography; graph neural network; informative missingness; stroke; wearable monitoring
+
+PAGEBREAK
+
+# CHAPTER 1: INTRODUCTION
+
+## 1.1 Background of the Study
+
+Excessive supraventricular ectopic activity (ESVEA) marks a remodelled atrium. Binici et al. (2010) defined it as 30 or more supraventricular ectopic complexes per hour, or any run of 20 or more, on ambulatory ECG; stroke cohorts have since used 480 or more supraventricular beats per day, or runs of 10 to 29 seconds (Haeusler et al., 2025). In a meta-analysis of 20 studies, ESVEA was associated with later AF in patients after ischaemic stroke (hazard ratio [HR] 2.91; Yang et al., 2022), and with ischaemic stroke beyond AF itself (HR 1.96; Larsen et al., 2015), but the same meta-analysis found no significant association between ESVEA and recurrent ischaemic stroke or transient ischaemic attack (TIA) (HR 1.24, 95% confidence interval [CI] 0.91 to 1.67). Ectopy is therefore treated as a selector for monitoring, not a recurrence predictor or an indication for anticoagulation (Schnabel et al., 2019).
+
+In MonDAFIS, Holter recordings in 1,435 patients with acute ischaemic stroke found ESVEA in 25.3% but AF in 3.3%; by 24 months, new AF had been detected in 18.5% of patients with ESVEA against 5.9% without (Haeusler et al., 2025). Detecting AF moves a patient from antiplatelet therapy to anticoagulation, with a larger absolute benefit after stroke or TIA (McIntyre et al., 2024; Shoamanesh et al., 2025).
+
+Prolonged monitoring finds more AF, from 5.1% with 72 hours or less to 29.15% with three months (Dussault et al., 2015) and 34% beyond 24 months with implantable monitors (Tsivgoulis et al., 2019), but it is limited. Two routes allocate it. The first is ectopy burden: the 90-day probability of AF rises from under 9% in patients with fewer than 100 atrial premature beats per 24 hours to 40% beyond 1,500 (Gladstone et al., 2015). The second is clinical risk scores, which need no monitoring but discriminate inconsistently, with areas under the receiver operating characteristic curve (AUROC) from 0.54 to 0.94 across cohorts (Kishore et al., 2022) and no model excellent on external validation (Helbitz et al., 2025). One day of ECG is insufficient: first-day sensitivity for ESVEA was 44.6% (Måneheim et al., 2023).
+
+A smartwatch could observe ectopy repeatedly without consuming Holter capacity. Smartwatches already detect AF well at window level (pooled sensitivity 95%, specificity 97%; Barrera et al., 2025). Their coverage, however, is partial: stroke survivors wore the watch on 21.2 of 30 days (Ding et al., 2023), and 22.3% of PPG minutes were unusable against 1.3% of ECG minutes (Gruwez et al., 2021).
+
+## 1.2 Problem Statement
+
+Every atrial ectopy threshold for selecting post-stroke monitoring was derived on Holter ECG, the resource the selection rations. The newest score still takes premature atrial contractions (PACs) from a single Holter (Maille et al., 2026), while scores that need no monitoring rank patients inconsistently across cohorts (Helbitz et al., 2025; Mele et al., 2025).
+
+Beat intervals carry ectopy: PACs are the most common cause of false AF detections on implantable monitors (Mittal et al., 2021), and age with heart rate variability (HRV) from the first hour of stroke-unit ECG predicted AF with an external AUROC of 0.79 against 0.68 for the AS5F score, although that pipeline interpolated over ectopic beats (Schoels et al., 2025). Wearable ectopy performance is reported only as the classification of short windows, with PACs and premature ventricular contractions (PVCs) merged (Han et al., 2026). In its 72 stroke or TIA survivors, PACs and PVCs occupied 11.60% of clean PPG segments, while overall AF burden was 1.68% on PPG against 3.60% on the reference ECG, mainly because fewer PPG segments were clean and the watch recorded intermittently. The error of a derived daily ectopic-beat count, and the loss incurred when pulse morphology is removed and flagged beats are discarded, have not been quantified. Preliminary analysis (Section 4.2) indicates that the filtering loss is large and depends on ectopy burden itself.
+
+Smartwatch observation is also informative rather than random: analysable PPG is night-weighted and falls with activity, while PACs peak in the afternoon and rise with daily activity (Johnson et al., 2021; Larsen et al., 2016; Merschel & Reinhardt, 2022).
+
+Consequently, a smartwatch-derived ectopy value cannot yet be compared with ECG-derived thresholds or used for selection. This study therefore quantifies the information lost from PPG waveform to filtered beat intervals, develops a two-scale spatio-temporal graph neural network (ST-GNN) that estimates the ectopy rate using quality flags and unobserved time as input, and evaluates its deployability and selection value after stroke.
+
+## 1.3 Research Questions and Objectives
+
+The aim of this study is to establish whether smartwatch beat intervals, analysed with an estimator that models signal quality and unobserved time, can yield a daily atrial ectopy estimate whose error is characterised against ECG labels under simulated smartwatch losses and whose coverage in post-stroke survivors is adequate, as a step towards comparison with ECG-derived ESVEA thresholds. Four research questions are paired with objectives (Table 1.1): RO1 measures the loss, RO2 builds an estimator that uses the quality flag, RO3 tests the protocol in the target population, and RO4 asks whether the estimate changes clinical classification.
+
+TABLE|Table 1.1: Research questions and research objectives
+W|50|50
+Research question | Research objective
+RQ1: How much ectopy information is lost when a PPG waveform is reduced to a quality-filtered beat-interval series? | RO1: To investigate the information lost when a PPG waveform is reduced to a filtered beat-interval series, separating the loss from absent pulse morphology from the loss due to beat rejection.
+RQ2: Can a two-scale beat-interval ST-GNN that uses per-beat quality flags as input estimate atrial ectopy rate more accurately than sequence-based baselines? | RO2: To develop and evaluate a two-scale beat-interval ST-GNN (beat-graph and epoch-graph) that estimates atrial ectopy rate from interval sequences and their quality flags.
+RQ3: Can a 7-day smartwatch protocol in post-stroke survivors yield enough analysable and stable data to compute a per-day ESVEA classification? | RO3: To evaluate the deployability of a 7-day smartwatch protocol in post-stroke survivors by analysing data yield, threshold computability and day-to-day stability against pre-specified progression criteria.
+RQ4: Does substituting a smartwatch-derived ectopy estimate for the ECG-derived count change ESVEA classification, and how do wearable-based selections compare with clinical risk scores? | RO4: To evaluate and validate the substitution of a smartwatch-derived ectopy estimate for the ECG-derived count: (a) ESVEA reclassification under simulated device losses, and (b) agreement with score-based selections in post-stroke survivors.
+ENDTABLE
+
+Three hypotheses are tested. H1: in Icentia11k patients not used in the preliminary analysis, PAC retention after filtering varies with ectopy burden, so no single correction factor restores the count. H2: on subject-wise held-out data, the two-scale ST-GNN with the quality flag as input has a lower mean absolute error of the daily-equivalent count (Table B.1) than the best non-graph baseline. H3: at least 75% of participants yield three or more valid days, tested against a null of 50% or below. RQ4 is descriptive and carries no hypothesis. Abbreviations are listed in Appendix D.
+
+## 1.4 Scope and Delimitations
+
+Table 1.2 sets the boundaries. The prospective cohort has no concurrent ECG by design: ECG truth comes from Icentia11k (RO1, RO2 and RO4a), and substitution is answered by simulation.
+
+TABLE|Table 1.2: Scope of the study
+W|20|44|36
+Dimension | Within scope | Outside scope
+Clinical question | Selecting post-stroke survivors for prolonged rhythm monitoring | Predicting recurrence; deciding anticoagulation
+Measured quantity | Atrial ectopy rate per day, the quantity on which ESVEA is defined | Continuous AF burden
+Signal | Beat intervals and per-beat quality flags from a consumer smartwatch | Raw PPG waveform access; on-device ECG
+Population | Adults after ischaemic stroke or TIA without known AF, after discharge | Acute in-hospital monitoring; population screening
+Reference standard | ECG beat labels in Icentia11k; published cohort thresholds | Concurrent Holter recorded alongside the watch
+ENDTABLE
+
+## 1.5 Significance of the Study
+
+**Clinical.** Monitoring capacity is allocated by unstable scores or by an ectopy count that itself consumes monitoring; an estimate from a device the patient already wears breaks that dependency.
+
+**Methodological and measurement.** Treating the quality flag as evidence rather than a deletion rule addresses a frequent flaw in prediction studies (Andaur Navarro et al., 2021), and an error-characterised daily count is needed before any ECG threshold can be transferred (Section 2.8). A coverage gate makes the estimator state when it cannot report a value, a prerequisite for clinical use of consumer wearable data.
+
+## 1.6 Operational Definitions
+
+Appendix B (Table B.1) defines key terms.
+
+PAGEBREAK
+
+# CHAPTER 2: LITERATURE REVIEW
+
+## 2.1 Positioning: From Static Recurrence Prediction to Signal-Based Monitoring
+
+This proposal builds on the candidate's systematic review of machine-learning studies in stroke or TIA survivors (Amin et al., 2026). Of 69 studies from 62 cohorts, 42 predicted recurrence, and only one did so from a physiological signal: an in-hospital composite-outcome model evaluated on monitoring windows. The other 17 signal-based studies predicted AF or atrial ectopy. None used anomaly detection or a patient-specific baseline, four of the 42 recurrence models were externally validated, and only two of the 18 signal studies quantified how much data was lost to poor quality.
+
+The review arranged the missing evidence as a staged framework from acquisition and signal-quality gating to a temporal model and calibrated risk. This study delivers the first stages for one driver: smartwatch beat intervals, signal quality as an input, and a daily ectopy rate.
+
+## 2.2 Atrial Ectopy as a Selector for Prolonged Monitoring
+
+The ectopy and AF association is consistent across populations (Binici et al., 2010; Larsen et al., 2015) and in cryptogenic stroke (Gladstone et al., 2015). A meta-analysis of 12 stroke studies (2,340 patients) found a pooled odds ratio of 4.16 (Tao et al., 2021), and more than 500 PACs per 24 hours carried an adjusted HR of 3.23 for monitor-detected AF (Shimada et al., 2024).
+
+Ectopy has accordingly entered risk scores. PROACTIA retained PACs per 24 hours alongside P-wave and left atrial measures (Skrebelyte-Strøm et al., 2022). The PAVA score assigns two points to more than 200 PACs per 24 hours (c-index 0.79 in internal validation; Maille et al., 2026). In 221 patients with embolic stroke of undetermined source (ESUS), 24-hour atrial ectopic burden alone discriminated AF (AUROC 0.807), with an optimal cut-off of 0.050% (Jeon et al., 2023); this defines the range a wearable estimate must resolve. Each of these measures, however, is taken from a single Holter recording (Table A.1).
+
+
+## 2.3 Clinical Risk Scores as the Alternative Selector
+
+Clinical scores need no monitoring but rank patients unstably. A systematic review of 17 integer-based scores across 23 cohorts reported AUROC from 0.54 to 0.94 (Kishore et al., 2022). In cryptogenic stroke cohorts, the best score changed from study to study, and one group concluded that no score was adequate (Mele et al., 2025; Palaiodimou et al., 2024; Pinnacchio et al., 2026). A meta-analysis of 58 models in 75 studies rated 66% at high risk of bias, found no model excellent on external validation, and identified no clinical impact studies (Helbitz et al., 2025).
+
+## 2.4 Ectopy Detection from Wearable Photoplethysmography
+
+Ectopy disturbs wearable rhythm algorithms: PACs were the commonest cause of false AF on loop recorders (Mittal et al., 2021). Direct PPG ectopy detection has improved (Han et al., 2020; Liu et al., 2022): on Pulsewatch, a recurrent network using PPG, accelerometry and heart rate reached PAC/PVC sensitivity of 83% (Han et al., 2026), while a densely connected network reached only 0.664, falling to 0.143 and 0.373 externally (Chen et al., 2024). Interval sequences alone carry most rhythm information: for AF, a recurrent model on heart-rate series reached AUROC 0.954 against 0.983 for the raw PPG waveform (Aschbacher et al., 2020). Two interval features separated PACs from PVCs at beat level on real PPG (F1 0.76; Vargova et al., 2026). As Table A.1 shows, all of this work classifies windows or beats; none reports a daily count.
+
+
+## 2.5 Coverage, Timing and Informative Missingness
+
+In a randomised trial of 120 stroke survivors aged 50 or older, the watch was worn on 21.2 of 30 days and daily wear fell from 73% to 63% over the month (Ding et al., 2023). After cryptogenic stroke, a median of 38% of smartwatch readings were of insufficient quality, and unconfirmed PPG AF corresponded to noise or premature beats (Huntelaar et al., 2024); valid PPG covered 62.5% of recording time against 96.2% for a patch ECG (Zuo et al., 2026).
+
+The timing of this loss is not random. Analysable smartwatch PPG averaged 71.5% over 24 hours but exceeded 94% between midnight and 6 a.m., correlating with activity at r = −0.64 (Merschel & Reinhardt, 2022). PACs follow the opposite pattern, lowest around 6 a.m. and highest around 3 p.m. in people with frequent ectopy (Larsen et al., 2016). Day-to-day variation compounds this: after three days, daily PAC frequency differed by at least 50% from the 14-day mean in 25% of patients (Måneheim et al., 2024). An estimate that scales analysable hours to a day will therefore be biased low, and most so on active days and in high-burden patients.
+
+## 2.6 Beat-Level Models, Graph Representations and Missing Data
+
+Beat classifiers assume complete, trusted sequences (Hu et al., 2022), and supraventricular beats remain the weakest class: PAC sensitivity ranged from 0.539 to 0.797 even with P waves (Kraft et al., 2026), and a supraventricular positive predictive value (PPV) of 36.8% would inflate any daily count (Dias et al., 2021). Graph structure has not consistently helped: on visibility-graph features of single-lead ECG beats, a multilayer perceptron slightly outperformed a graph convolutional network (EPMoghaddam et al., 2024).
+
+Most machine-learning prediction studies that report missing data use deletion (Nijman et al., 2022), and 41% of analyses handled it inadequately (Andaur Navarro et al., 2021). Methods that treat missingness as input perform better: masking and time since the last observation improved recurrent models over imputation (Che et al., 2018), although missing indicators can harm under outcome-dependent missingness (Sisk et al., 2023). An imperfect beat detector can still yield a usable daily rate: an implanted monitor with PVC beat sensitivity of 80.1% estimated 24-hour PVC burden with r = 0.95 against Holter (Siejko et al., 2025).
+
+## 2.7 Summary of Research Gaps
+
+Searches of PubMed, Consensus and Wiley Scholar Gateway in October 2026 found no smartwatch or PPG-derived daily PAC count validated against ECG, and, in these databases, no graph neural network applied to PPG or inter-beat-interval series for arrhythmia (Table 2.1). Four cited sources are conference abstracts and one is a manufacturer document (Garmin, 2023), marked as such in the references; they inform context and design, not the gap.
+
+TABLE|Table 2.1: Summary of research gaps
+W|14|38|38|10
+Gap | What the literature establishes | What remains unaddressed | RO
+1. Measurement | Beat intervals carry ectopy; window-level PAC/PVC sensitivity 83% to 94% (Han et al., 2026; Bhurane et al., 2026) | Daily-count error and the loss caused by quality filtering | RO1, RO2
+2. Delivery | Wear and PPG quality are partial and night-weighted (Ding et al., 2023; Merschel & Reinhardt, 2022) | Whether a 7-day protocol gives enough coverage and stability after stroke | RO3
+3. Method | Beat models assume complete sequences (Hu et al., 2022; Kraft et al., 2026); missing data are usually deleted (Nijman et al., 2022) | A count model using the quality flag and unobserved time as inputs | RO2
+4. Utility | Scores discriminate inconsistently (Helbitz et al., 2025); ectopy terms remain Holter-based (Maille et al., 2026) | ESVEA reclassification under device losses; agreement with scores | RO4
+ENDTABLE
+
+## 2.8 Closest Prior Work and Contribution
+
+Table 2.2 compares this study with the five closest studies. None estimates a daily atrial ectopy count from wearable intervals, and none treats signal quality or unobserved time as part of estimation.
+
+TABLE|Table 2.2: Closest prior work and what this study adds
+W|17|29|27|27
+Study | What it does | What remains | What this study adds
+Han et al. (2026) | Bi-GRU on Pulsewatch PPG, accelerometer and heart rate; PAC/PVC sensitivity 83% per 30-s window | PACs and PVCs merged; windows, not counts; unobserved time ignored | A daily PAC count with an error profile; unobserved time as input
+Chen et al. (2024) | DenseNet on Pulsewatch PPG spectrograms, subject-independent testing | PAC/PVC sensitivity 0.664, falling to 0.143 and 0.373 externally | Counting evaluated across ectopy burden, with quality-aware retention
+Bhurane et al. (2026) | On-device network on Pulsewatch PPG; accuracy 98.0% | Window classification (full text not accessed) | Count-level validation against ECG truth
+Schoels et al. (2025) | HRV from 1 h of stroke-unit ECG predicts AF (external AUROC 0.79) | In-hospital ECG; ectopic beats interpolated away | Ectopy estimated explicitly from wearable intervals after discharge
+Siejko et al. (2025) | Implanted monitor estimates daily PVC burden (r = 0.95 against Holter) despite 80.1% beat sensitivity | ECG device; PVCs; near-complete recordings | The same count-level logic for PACs on PPG intervals with informative missingness
+ENDTABLE
+
+The contributions are of three types. Methodologically, the study treats the quality flag as evidence: a frozen retention model corrects for beats the device never reports, and a coverage gate decides when a daily value can be reported (Section 3.4, Equations 3.1 to 3.4). Empirically, it decomposes the ectopy lost from waveform to filtered intervals (RO1) and characterises the error of a daily count from smartwatch-like intervals against ECG labels (RO2, RO4a); error on real smartwatch data needs concurrent ECG and is a stated limitation. It also reports whether a 7-day protocol yields enough valid data after stroke (RO3). The graph architecture is a means, tested against baselines, not a claimed contribution.
+
+PAGEBREAK
+
+# CHAPTER 3: RESEARCH METHODOLOGY
+
+## 3.1 Conceptual Framework
+
+Figure 3.1 summarises the framework. Survivors are selected for monitoring by clinical scores or Holter ectopy burden; this study adds smartwatch beat intervals and estimates a daily ectopy rate with an explicit observation model. The independent construct is the observed beat-interval series with its quality flags; the dependent construct is the daily ectopy rate and the ESVEA classification derived from it; and coverage, defined by time of day, moderates the relationship.
+
+FIGURE|framework.png|15|Figure 3.1: Conceptual framework. Bold boxes mark the contribution of this study.
+
+## 3.2 Research Design and Data Sources
+
+The study combines three retrospective secondary-data analyses (RO1, RO2 and RO4a) and one prospective observational cohort (RO3 and RO4b). Pulsewatch provides smartwatch PPG with a reference patch ECG and expert 30-second labels, with PACs and PVCs merged (Han et al., 2026); Icentia11k provides technologist-reviewed beat labels, of which about 24% are unclassifiable and excluded (Tan et al., 2019). Its segments, up to 50 per patient of about 70 minutes, were sampled at random and carry no clock time, so it supports patient-level rates but not time-of-day analysis. Access, licences and status are summarised in Appendix B (Table B.2).
+
+
+Table 3.1 states the ground truth available to each objective and what each cannot claim.
+
+TABLE|Table 3.1: Validation matrix
+W|12|32|28|28
+Objective | Data | Ground truth | Cannot claim
+RO1 | Pulsewatch (PPG with reference ECG); Icentia11k (ECG) | Expert window labels; ECG beat labels | PPG beat loss from Icentia11k, which is ECG RR
+RO2 | Icentia11k with subject-wise splits; Pulsewatch transfer and motion retention | ECG beat labels giving a patient-level reference rate; Pulsewatch window labels and lag-corrected ECG R-peaks | Daily-count accuracy on PPG or Garmin intervals; retention on the Garmin
+RO3 | Prospective cohort; analyse at least 34 | None (no concurrent ECG) | Accuracy of any individual estimate
+RO4a | Held-out Icentia11k patients (Table B.3) degraded to smartwatch-like intervals | ECG beat labels giving reference ESVEA status from the patient-level rate | Real-device performance
+RO4b | Cohort plus routine records | None (agreement only) | Which selection is better
+ENDTABLE
+
+## 3.3 Phase 1: Investigating the Information Loss (RO1)
+
+Beat intervals discard the P wave that separates PACs from other premature beats. RO1 decomposes the resulting loss into three parts. RQ1.1 compares a waveform model with a beat-interval model on identical Pulsewatch recordings, attributing the performance difference to absent morphology. As Pulsewatch labels merge PACs and PVCs in 30-second windows, RQ1.1 measures premature-beat loss; PAC-specific loss is measured on Icentia11k. RQ1.2 applies deployed rejection rules, a percent-deviation filter (Karlsson et al., 2012) and an adaptive threshold (Lipponen & Tarvainen, 2019), to Icentia11k and records the share of annotated ectopic and normal beats removed at each threshold, producing a retention curve. RQ1.3 compares an origin-agnostic premature-beat count with the PAC-only count, stratified by ectopy burden. First results for RQ1.2 are reported in Section 4.2.
+
+## 3.4 Phase 2: The Two-Scale ST-GNN (RO2)
+
+The estimator operates at two scales (Figure 3.2). At the beat scale, the interval stream is split into windows; each window carries a banded temporal-chain graph and a k-nearest-neighbour similarity graph, combined in a gated local block. At the epoch scale, an interval block of graph convolution and a selective state-space layer operates across windows to aggregate the day. As Icentia11k segments are untimed, it trains there on pseudo-days built from each patient's segments, learning aggregation under gaps rather than a diurnal pattern; RQ2.2 is judged against the patient-level rate, and on Pulsewatch windows in real order across days, timed by file-name local time. An event head gives the beat PAC probabilities used in Equations 3.2 to 3.4; a rate head, an auxiliary target for the window PAC count, is not used in reported estimates.
+
+The per-beat quality flag is treated as evidence rather than a deletion rule. The Garmin flag is binary, and it marks both motion-affected beats and any interval the device judges abnormally short or long (Garmin, 2023); a premature beat therefore tends to be flagged as low confidence. The flag is therefore both a quality and a weak ectopy signal, separated using the accelerometer (low-confidence beats at low motion are candidate rhythm events). The flag enters the model as an input, and a separate reliability pathway bypasses both encoders. As the Garmin flags abnormal beats and marks a gap where it gives none (Garmin, 2023), gaps enter the observed time and the pathway corrects only silent loss: retention (Equation 3.1) depends on motion and is estimated on Pulsewatch, which pairs wrist PPG and accelerometer magnitude with reference ECG R-peaks, outside stretches without a detected peak that mirror the Garmin gap rule. A premature beat with no wrist pulse leaves no reported beat to reweight, so pulse deficit is quantified as a bias in RO4a, not corrected. The flag adds no weight, so no beat is corrected twice. A per-session lag corrects the released alignment, which is not beat-accurate; a lag method not needing labelled segments is developed in RO2. A pre-specified check in 8 subjects found beat matching above chance at high motion and falling as motion rose, but absolute retention depended on the peak detector (0.850 vs 0.752), so the estimate will be reported with a detector sensitivity analysis. The primary detector implements Elgendi et al. (2013) on all segments, with the authors' released peaks as the alternative; transfer from Samsung to Garmin signals is a stated assumption. Retention is frozen and reweights reported beats (Equation 3.2); time of day acts only through motion and coverage. Because Equation 3.2 sums probabilities, p̂ᵢ is calibrated on validation subjects by temperature scaling (Guo et al., 2017). Icentia11k has no device flag, so training flags are simulated from this specification and the RO1 results, a stated assumption. A coverage gate, a fixed reporting rule rather than a learned layer, decides whether a daily value is reported at all (Equation 3.3).
+
+Formally, for day d and time-of-day block h, let A(d,h) be the beats the device reports, π̂(m) the probability that a beat outside a gap is reported at motion m, p̂ᵢ the calibrated probability that beat i is a PAC, mᵢ its motion, and τ(d,h) the observed hours in the block. The retention model, daily rate, coverage gate and participant-level rate are:
+
+EQ|π̂(m) = P(beat reported | motion m, outside a gap)|3.1
+EQ|R̂(d) = Σₕ (Lₕ / 24) · [ Σᵢ∈A(d,h) p̂ᵢ / π̂(mᵢ) ] / τ(d,h)|3.2
+EQ|report R̂(d) only if c(d, h) ≥ θ_block for every block h|3.3
+EQ|R̄ = Σₕ (Lₕ / 24) · [ Σ_d∈V Σᵢ∈A(d,h) p̂ᵢ / π̂(mᵢ) ] / Σ_d∈V τ(d,h)|3.4
+
+Here Lₕ = 6 hours is the length of block h (00–06, 06–12, 12–18 and 18–24 h), so the daily count 24 · R̂(d) weights each block by the time it covers, without an external diurnal profile; c(d, h) is the analysable coverage of block h, and θ_block is fixed in the registered protocol after device verification. Per-day values (Equations 3.2 and 3.3) serve day-to-day stability. ESVEA status uses the participant-level count 24 · R̄ (Equation 3.4), which pools each block across the set V of valid days and requires at least 1 analysable hour per block across the week, so a block thin on one day is informed by the same block on other days. In a sensitivity analysis, block rates are instead shrunk towards a published diurnal profile (relative rates 0.87, 0.63, 1.11 and 1.40, read from the figure of median hourly PACs in 66 participants with frequent PACs; Larsen et al., 2016) with strength λ = 1 hour, with 0.5, 2 and 4 hours also reported. A calibrated simulation (Appendix C) found pooling as accurate as shrinkage and better than day-restricted averaging under poor coverage; λ changed ESVEA class in at most 3% of participants.
+
+FIGURE|arch.png|13|Figure 3.2: Two-scale ST-GNN architecture: (a) per-beat features and reliability; (b) window split with chain and similarity graphs; (c) local and interval blocks; (d) event and rate heads, frozen reliability correction and coverage gate.
+
+Graph structure is tested rather than assumed (Table 3.2; Section 2.6).
+
+TABLE|Table 3.2: RO2 comparisons and ablations
+W|34|20|30|16
+Research question | Comparison | Models benchmarked | Isolates
+RQ2.1 Does a graph over beat intervals estimate ectopy more accurately than non-graph models? | Beat-graph vs classical, rule-based and sequence models | Logistic regression, SVM and random forest on RR features; Poincaré rule (Han et al., 2020); BiLSTM; GRU-D (Che et al., 2018); transformer (Hu et al., 2022) | Relational structure
+RQ2.2 Does aggregating over a graph of epochs estimate the daily rate better than direct aggregation? | Epoch-graph vs summation and pooling | Sum over analysable hours; mean pooling; LSTM over epochs | The second scale
+RQ2.3 Which components account for any difference? | Component ablation | Remove chain edges, similarity edges, interval block, retention correction; coverage gate vs always reporting | Each component
+RQ2.4 Does treating the quality flag as an input change accuracy? | Flag as filter vs input vs input with correction | Same encoder under three regimes | Reliability as input
+ENDTABLE
+
+## 3.5 Phase 3: Deployability Study (RO3)
+
+RO3 is a prospective observational feasibility study (Table 3.3). Eligible participants are adults after ischaemic stroke or TIA without known AF, approached consecutively after discharge at Pusat Perubatan Universiti Malaya (PPUM; University of Malaya Medical Centre). Eligibility is broad because a cryptogenic-only smartwatch study found 92.5% of candidates ineligible (Huntelaar et al., 2024), and consecutive sampling avoids enriching for high-risk patients (Pinsky & Gallas, 2012). ESUS status is recorded so that ESUS-specific scores are computed only in that subgroup.
+
+TABLE|Table 3.3: RO3 monitoring protocol
+W|22|78
+Element | Specification
+Device | Garmin Enhanced beat-to-beat intervals with binary per-beat confidence, gap markers and accelerometer (Garmin, 2023)
+Duration | 7 days of continuous wear with one short daily charging window
+Valid day | Pre-specified minimum analysable coverage in both a daytime and a night-time block
+Daily rate | Block-length weighted rate per day (Equation 3.2); ESVEA if the participant's count pooled by block over valid days (Equation 3.4) is 480 or more supraventricular beats per day (Haeusler et al., 2025); 30 or more per hour (Binici et al., 2010) as secondary; runs reported separately
+Primary outcome | Proportion of participants with at least 3 valid days
+Adherence logging | Wear and recording time logged separately (Ding et al., 2023); screening log
+Progression criteria | Red at 50% or below; amber 51% to 74%; green at 75% or above
+Sample | Recruit about 40 to analyse at least 34
+ENDTABLE
+
+The device has not yet been received, so assumptions follow the published specification (Garmin, 2023), which describes overnight intervals, and Garmin's confirmation of 24-hour logging. Before ethics submission, a device verification step on non-participant wear will confirm export, flag and gap encoding, 24-hour interval logging and 7-day battery life, and set the day, night and per-block coverage thresholds. Seven days were chosen because sensitivity for a high daily PAC frequency rises from 76.6% on one day to 88.8% after seven (Måneheim et al., 2024), matching the MonDAFIS Holter duration (Haeusler et al., 2021). Valid days need coverage in both a day and a night block because analysable time is night-weighted while PACs are afternoon-weighted (Larsen et al., 2016; Merschel & Reinhardt, 2022). A valid day counts towards the primary outcome, but a daily count and ESVEA class are reported only when every 6-hour block also meets the per-block minimum (Equation 3.3); the share of valid days meeting it answers RQ3.2. Computability of the pooled count (Equation 3.4) is a key secondary outcome (Appendix C).
+
+The sample size follows the traffic-light method for binary feasibility outcomes. Testing against an upper red boundary of 50% with an expected green value of 75%, at 90% power and one-sided α of 0.05, requires about 34 analysable participants (Lewis et al., 2021). Recruiting about 40 allows for withdrawal (Tse et al., 2024). Secondary questions cover yield (RQ3.1), computability of the daily ESVEA denominator (RQ3.2), day-to-day stability (RQ3.3), activity, including whether the flagged-beat fraction rises with motion as on Pulsewatch (RQ3.4), and the ESVEA proportion as a plausibility check (Haeusler et al., 2025; Teare et al., 2014) (RQ3.5).
+
+## 3.6 Phase 4: Substitution and Validation (RO4)
+
+RO4a tests substitution where ECG truth exists. Reference ESVEA status is computed from the patient-level rate in Icentia11k patients held out from RO1 calibration and RO2 training; their records are degraded to smartwatch-like intervals and re-estimated by the frozen RO2 model. Four degradation operators are applied, each calibrated from measured data (Table 3.4) and sampled independently of the training simulation, and results are reported across a severity sweep for each operator. Such simulation has precedent (Aguilar et al., 2026) but is likely optimistic, because Icentia11k intervals are ECG RR rather than PPG, and Garmin PPG agrees only moderately with ECG for short-term variability after stroke (Theurl et al., 2023).
+
+TABLE|Table 3.4: RO4a degradation operators
+W|20|40|40
+Operator | What it simulates | Calibrated from
+Flags and silent loss | Low-confidence flags on abnormal and motion-affected beats; unflagged beats missed at motion | Garmin (2023) specification; Pulsewatch motion retention
+Coverage gaps | Non-wear, charging and unusable PPG, placed by block on pseudo-days, as segments are untimed | Night-weighted analysable time (Merschel & Reinhardt, 2022); RO3 coverage when available
+Pulse deficit | A premature beat with no detectable wrist pulse, merging two intervals into one | Pulse lost below a coupling interval of about 55% of the sinus RR (Zheng et al., 2008), swept around this value
+Interval timing noise | PPG peak timing that differs from the ECG R-peak | PPG to R-peak offsets on Pulsewatch, swept
+ENDTABLE
+
+No PAC-specific missed-pulse rate has been published (Zheng et al., 2008), so the pulse-deficit threshold is swept. Outcomes are the reclassification rate of ESVEA status, and κ, sensitivity and specificity at the ESVEA cut-off. Preliminary analysis found 67 of 298 Icentia11k patients at or above 480 per day (54 at 30 or more per hour; Section 4.2), so a held-out sample of similar size estimates sensitivity at the cut-off within about ±8 percentage points.
+
+RO4b compares wearable-based selection with CHA2DS2-VASc, HAVOC, C2HEST, AS5F and Brown ESUS-AF (ESUS subgroup only; Kishore et al., 2022) at equal monitoring capacity, meaning each method selects the same number of participants as the wearable classifies ESVEA-positive, in the RO3 cohort, reporting Cohen's κ, Jaccard overlap and the profile of discordant patients. Net reclassification improvement needs observed events (Pencina et al., 2014), and fewer than five AF events are expected, so RO4b is descriptive.
+
+## 3.7 Data Analysis Plan
+
+TABLE|Table 3.5: Traceability and data analysis plan
+W|8|7|28|33|24
+Objective | Hypothesis | Primary metrics | Statistical treatment | Deliverable
+RO1 | H1 | Change in F1 and AUROC between representations; share of ectopic and normal beats removed; count discrepancy | DeLong test for AUROC; paired bootstrap for F1; mixed-effects logistic regression of PAC retention on burden (H1); Bland–Altman bias and limits | Loss decomposition and retention curves (paper 1)
+RO2 | H2 | Beat level: PAC sensitivity, PPV, F1, precision-recall AUC. Patient level: mean absolute error of the daily-equivalent count; calibration slope and intercept across burden levels | Subject-wise splits; seeds averaged; primary contrast (H2) by paired subject-level bootstrap 95% CI; other contrasts and ablations with Holm correction | Estimator, code and daily-count error profile (paper 2)
+RO3 | H3 | Proportion with at least 3 valid days (primary); yield; computability; day-to-day agreement; ESVEA proportion | One-sided test against the red boundary; Wilson 95% CI; intraclass correlation ICC(2,1); linear mixed-effects model for activity | Feasibility report and registered protocol (paper 3)
+RO4a | None | Reclassification of ESVEA status; sensitivity and specificity of wearable ESVEA | Rates with Wilson 95% CI across the severity sweep; κ against ECG-derived status | Reclassification across device-loss severities
+RO4b | None | Agreement and overlap between selections; association with atrial substrate (left atrial volume index, P-wave duration and NT-proBNP from routine records) | Cohen κ and Jaccard index; logistic regression and rank correlation with 95% CI | Selection agreement analysis
+ENDTABLE
+
+Reporting follows PROBAST+AI (Moons et al., 2025), since the candidate's review found calibration reported in only 17 of 69 studies (Amin et al., 2026). Splits are by subject; preprocessing, quality thresholds and any class-imbalance resampling are fitted within training folds, with test folds at natural prevalence (Alsalman et al., 2026). Discarded recordings are reported with reasons, performance is reported per patient and pooled, calibration of the daily count accompanies discrimination, and Pulsewatch provides a window-level external test for RO2, as it lacks beat-level truth.
+
+Models are implemented in Python with PyTorch and PyTorch Geometric. A single graphics processing unit suffices, as RO2 uses beat annotations rather than raw signals. Each model is trained with five random seeds, and sensitivity to window length and graph neighbourhood size is reported. Software versions, configurations and subject-level split lists are recorded; code and split lists will be released on publication, the RO3 protocol and coverage thresholds will be registered before recruitment, and negative or null results will be reported.
+
+## 3.8 Ethical Considerations
+
+Medical research ethics approval will be obtained before recruitment, from the PPUM Medical Research Ethics Committee. Participants will give written informed consent. Data will be pseudonymised at collection, stored on university infrastructure in line with the Personal Data Protection Act 2010. Because watch data are not reviewed in real time, participants are told that the study does not provide rhythm monitoring for clinical care, and any rhythm concern raised during the study is referred through usual care. Device data are exported under study-managed, pseudonymous accounts rather than participants' personal accounts where possible. Any use of generative artificial intelligence tools in preparing the report will be declared as required by university policy (Universiti Malaya, 2025).
+
+## 3.9 Risks and Mitigation
+
+TABLE|Table 3.6: Principal risks, likelihood, impact and mitigation
+W|35|14|11|40
+Risk | Likelihood | Impact | Mitigation
+7-day wear not tolerated (Tse et al., 2024) | Medium | High | Wear log; scheduled contacts; recruit about 40
+Under-recruitment at PPUM (Huntelaar et al., 2024) | Medium | High | Broad eligibility; screening log; fallback design below
+Device not yet received; export, flags and battery unconfirmed | Medium | High | Published specification; device verification before ethics; fallback design below
+ST-GNN no better than baselines (H2 rejected) | Medium | Medium | Retention correction and gate evaluated on the best baseline; negative result reported
+RO4a simulation optimistic because Icentia11k intervals are ECG RR | High | Medium | Calibrated operators; severity sweep; stated as a limitation
+ECG-to-PPG domain shift for the RO2 estimator | High | Medium | Window-level transfer test on Pulsewatch; stated as a limitation
+About 24% of Icentia11k beats unclassifiable | High | Low | Excluded; sensitivity analysis on high-confidence records
+ENDTABLE
+
+If ethics approval, the device or 24-hour interval logging is not secured by semester 4, RO3 becomes a device-verification study with coverage modelled from Pulsewatch wear data, RO4a proceeds unchanged and RO4b is deferred. RO1, RO2 and RO4a do not depend on the prospective cohort, so the central methodological and measurement contributions are preserved.
+
+PAGEBREAK
+
+# CHAPTER 4: PRELIMINARY FINDINGS
+
+## 4.1 Cross-Device Beat-Graph Pilot
+
+A beat-graph ST-GNN on the same interval representation classified rhythm from PPG in 33 held-out subjects: 16 Pulsewatch clinical, 8 Pulsewatch AF-only holdouts, 6 Simband and 3 MIMIC-III (Table 4.1). No subject was shared between training, validation and test, and external labels were re-curated. Thresholds were set once on validation subjects (5 of 17 external) and not re-tuned. AUROCs use the untuned weight of 0.5, but the design was iterated while these holdouts were inspected.
+
+TABLE|Table 4.1: Pilot results in 33 held-out subjects (evaluation mode; re-curated external labels). AUROCs use score weight 0.5, with 95% CIs from 2,000 subject resamples (skipped: clinical 701, Simband 669, MIMIC-III 676). Recall and false alarms use the gfeat-head score, which does not depend on the weight, at thresholds set on validation subjects. False alarms at 0.393 / 0.505, sinus rhythm: clinical 8.9% / 5.3%, Simband 14.3% / 9.5%, MIMIC-III 0.2% / 0.0%; PAC/PVC: clinical 18.3% / 9.8%, Simband 15.4% / 0.0%, MIMIC-III 0.0% / 0.0%. At weight 0.9, AF vs rest AUROC was 0.997, 0.995 and 0.994. The Pulsewatch AF-only holdouts are 3 AF-trial and 5 in-clinic subjects with AF windows only, so only recall can be estimated; three subjects supply 5,430 of their 5,483 windows.
+W|17|17|16|17|17|16
+Held-out cohort | Device | Subjects (AF); windows | AF vs rest AUROC | AF vs PAC/PVC AUROC | AF recall, 0.393 / 0.505
+Clinical (Pulsewatch) | Wrist smartwatch PPG | 16 (1); 48,396 | 1.000 (1.000 to 1.000) | 0.998 (0.997 to 1.000) | 100% / 95%
+Pulsewatch AF-only holdouts | Wrist smartwatch PPG | 8 (8); 5,483 | Not computed | Not computed | 97% / 88%
+Simband | Wrist PPG, motion-affected | 6 (1); 46 | 0.995 (0.989 to 1.000) | 0.968, CI not estimable | 100% / 92%
+MIMIC-III | ICU fingertip PPG | 3 (1); 1,215 | 0.995 (0.993 to 0.997) | 1.000, CI not estimable | 45% / 15%
+ENDTABLE
+
+Ranking transferred but operating points did not: AF vs rest AUROC was at least 0.995 wherever non-AF windows existed, yet recall at the 0.393 threshold fell to 45% on MIMIC-III. PAC/PVC windows raised false AF alarms on Pulsewatch (18.3% against 8.9% for sinus rhythm). Each cohort except the AF-only holdouts had one AF subject. The graph's contribution was not isolated and labels are per-window, so the pilot shows feasibility of the representation, not of counting.
+
+## 4.2 Information Loss from Interval Filtering (RO1 and RO4a)
+
+A first RQ1.2 analysis used beat annotations from 300 randomly sampled Icentia11k patients (fixed seed); 298 were analysed, with a median of 57.5 hours (interquartile range 55.5 to 58.1) each. Unclassifiable beats and intervals touching them were excluded. A filter rejected any interval deviating from the median of the five preceding accepted intervals by more than 10% to 30%, and removals were recorded by adjacent beat class (Table 4.2).
+
+TABLE|Table 4.2: Share of RR intervals removed by a percent-deviation filter in 298 Icentia11k patients (%); ESVEA status by the rate-or-run definition of Binici et al. (2010)
+W|30|14|9|9|9|14|15
+Interval | n | 10% | 20% | 30% | 20%: ESVEA negative | 20%: ESVEA positive
+Coupling interval ending at a PAC | 867,745 | 81.5 | 60.9 | 37.4 | 78.5 | 60.0
+Pause after a PAC | 864,826 | 74.9 | 54.5 | 37.3 | 50.1 | 54.8
+Coupling interval ending at a PVC | 405,273 | 85.4 | 70.0 | 46.5 | 65.4 | 77.9
+Normal to normal | 55,206,675 | 20.1 | 8.8 | 6.2 | 8.1 | 11.5
+ENDTABLE
+
+At the commonly used 20% threshold, the filter removed 60.9% of PAC coupling intervals and 54.5% of the pauses that follow them, about seven times the 8.8% of normal intervals removed. The loss also varied with burden: 78.5% of PAC coupling intervals were removed in ESVEA-negative patients against 60.0% in ESVEA-positive patients, probably because frequent PACs enter the running reference and are then accepted. A single correction factor therefore cannot restore the count after deletion, which supports keeping flagged beats as input (RQ2.4).
+
+TABLE|Table 4.3: ESVEA prevalence in 298 Icentia11k patients
+W|60|40
+Measure | Value
+Median PACs per hour (IQR) | 1.35 (0.23 to 13.38)
+30 or more PACs per hour | 54 (18.1%)
+480 or more PACs per day (extrapolated) | 67 (22.5%)
+Any run of 20 or more PACs | 25 (8.4%)
+ESVEA (rate or run; Binici et al., 2010) | 66 (22.1%)
+ENDTABLE
+
+Icentia11k is a general ambulatory population (Table 4.3), so this is not a stroke estimate; its value is to show that a held-out sample of similar size gives RO4a enough positive cases. Limitations are that intervals are ECG RR rather than PPG, the filter reimplements the deployed rule, and normal intervals include irregular rhythms such as AF.
+
+# CHAPTER 5: EXPECTED RESEARCH OUTCOMES AND CONCLUSION
+
+## 5.1 Expected Research Outcomes
+
+RO1 is expected to quantify, to our knowledge for the first time, how much ectopy information is lost to absent morphology and to filtering. RO2 is expected to produce a coverage-aware two-scale ST-GNN and an error profile for a daily ectopy count under simulated smartwatch losses. RO3 and RO4 are expected to show whether a 7-day protocol meets progression criteria, how often a wearable estimate reclassifies ESVEA under device losses, and how its selections differ from clinical scores. If H2 is rejected, the retention correction and coverage gate are still evaluated on the best baseline, RO1, RO3 and RO4a remain informative, and the negative result is reported as evidence for simpler models.
+
+## 5.2 Conclusion
+
+The clinical decision exists and atrial ectopy addresses it, but the measurement is unvalidated on wearable intervals, its delivery is untested in post-stroke users, and no method treats the observation process as part of estimation. The four objectives follow in that order, the validation design states where ground truth exists for each, and the pilot work indicates that the representation is feasible.
+
+# CHAPTER 6: PROPOSED WORK SCHEDULE
+
+Table 6.1 gives the schedule, working back from thesis submission on 8 May 2029.
+
+TABLE|Table 6.1: Proposed work schedule by semester (S1 = Semester 2, 2025/2026; S7 = Semester 2, 2028/2029)
+W|38|8|8|8|8|8|8|7|7
+Task | RO | S1 | S2 | S3 | S4 | S5 | S6 | S7
+Literature review and proposal |  | ■ | ■ |  |  |  |  |
+Information-loss analyses | RO1 |  | ■ | ■ |  |  |  |
+ST-GNN development and ablations | RO2 |  |  | ■ | ■ |  |  |
+Device verification, ethics and recruitment | RO3 |  | ■ | ■ | ■ |  |  |
+7-day monitoring and analysis | RO3 |  |  |  | ■ | ■ | ■ |
+Substitution and validation analyses | RO4 |  |  |  |  | ■ | ■ |
+Candidature defence |  |  |  |  | ■ |  |  |
+Thesis writing and submission |  |  |  |  |  |  | ■ | ■
+ENDTABLE
+
+Table 6.2 lists milestones.
+
+TABLE|Table 6.2: Milestones
+W|75|25
+Milestone | Semester
+M1 Device verified and coverage thresholds set | S3
+M2 Ethics approval obtained and protocol registered | S3
+M3 RO1 paper submitted | S3
+M4 RO2 model frozen before RO4a | S4
+M5 Candidature defence | S4
+M6 RO3 recruitment complete | S5
+M7 Thesis submitted | S7 (8 May 2029)
+ENDTABLE
+
+Universiti Malaya requires acceptance of at least one indexed publication before graduation. Planned outputs are journal papers on RO1 (S3), RO2 (S5) and RO3 (S6), and a conference paper on the preliminary results (S3), subject to supervisor approval.
+
+PAGEBREAK
+
+# REFERENCES
+
+REF|Aguilar, M., Macle, L., Chamieh, R., Khairy, P., Deyell, M. W., Bennett, R. G., & Andrade, J. G. (2026). Wearable smartwatches for atrial fibrillation detection and burden estimation after ablation: Comparison with continuous monitoring. *Europace, 28*(9), Article euaf280. https://doi.org/10.1093/europace/euaf280
+REF|Alsalman, N. H. K., Al-Ghraibah, A., Sheikh Ghadzi, S. M., Looi, I., Sidek, N. N., Aziz, Z. A., & Harun, S. N. (2026). Prediction of recurrent ischemic stroke using machine learning from real-world data. *BMC Medical Research Methodology, 26*(1), Article 51. https://doi.org/10.1186/s12874-026-02778-4
+REF|Amin, R., Raj, B., & Ahmedy, I. (2026). *From static prediction to continuous monitoring: A taxonomy-based systematic review of machine learning and deep learning for recurrence risk in stroke survivors* [Unpublished manuscript]. Faculty of Computer Science and Information Technology, Universiti Malaya.
+REF|Andaur Navarro, C. L., Damen, J. A. A., Takada, T., Nijman, S. W. J., Dhiman, P., Ma, J., Collins, G. S., Bajpai, R., Riley, R. D., Moons, K. G. M., & Hooft, L. (2021). Risk of bias in studies on prediction models developed using supervised machine learning techniques: Systematic review. *BMJ, 375*, Article n2281. https://doi.org/10.1136/bmj.n2281
+REF|Aschbacher, K., Yilmaz, D., Kerem, Y., Crawford, S., Benaron, D., Liu, J., Eaton, M., Tison, G. H., Olgin, J. E., Li, Y., & Marcus, G. M. (2020). Atrial fibrillation detection from raw photoplethysmography waveforms: A deep learning application. *Heart Rhythm O2, 1*(1), 3–9. https://doi.org/10.1016/j.hroo.2020.02.002
+REF|Barrera, N., Solorzano, M., Jimenez, Y., Kushnir, Y., Gallegos-Koyner, F., & Dagostin de Carvalho, G. (2025). Accuracy of smartwatches in the detection of atrial fibrillation: A systematic review and diagnostic meta-analysis. *JACC: Advances, 4*(11, Pt. 1), Article 102133. https://doi.org/10.1016/j.jacadv.2025.102133
+REF|Bhurane, A. A., Sharma, A. M., Kadu, N. R., Singh, R., Ghasad, P. P., & Kamble, V. M. (2026). Ultra lightweight residual network for multiclass arrhythmia classification using raw smartwatch PPG signals. In *2026 22nd IEEE International Colloquium on Signal Processing & Its Applications (CSPA)* (pp. 206–211). IEEE. https://doi.org/10.1109/CSPA68262.2026.11517622
+REF|Binici, Z., Intzilakis, T., Nielsen, O. W., Køber, L., & Sajadieh, A. (2010). Excessive supraventricular ectopic activity and increased risk of atrial fibrillation and stroke. *Circulation, 121*(17), 1904–1911. https://doi.org/10.1161/CIRCULATIONAHA.109.874982
+REF|Che, Z., Purushotham, S., Cho, K., Sontag, D., & Liu, Y. (2018). Recurrent neural networks for multivariate time series with missing values. *Scientific Reports, 8*(1), Article 6085. https://doi.org/10.1038/s41598-018-24271-9
+REF|Chen, D., Han, D., Mercado-Díaz, L. R., Moon, J., & Chon, K. H. (2024). Smartwatch photoplethysmogram-based atrial fibrillation detection with premature atrial and ventricular contraction differentiation using densely connected convolutional neural networks. In *2024 IEEE 20th International Conference on Body Sensor Networks (BSN)*. IEEE. https://doi.org/10.1109/BSN63547.2024.10780734
+REF|Dias, F. M., Monteiro, H. L. M., Cabral, T. W., Naji, R., Kuehni, M., & Luz, E. J. da S. (2021). Arrhythmia classification from single-lead ECG signals using the inter-patient paradigm. *Computer Methods and Programs in Biomedicine, 202*, Article 105948. https://doi.org/10.1016/j.cmpb.2021.105948
+REF|Ding, E. Y., Tran, K.-V., Lessard, D., Wang, Z., Han, D., Mohagheghian, F., Mensah Otabil, E., Noorishirazi, K., Mehawej, J., Filippaios, A., Naeem, S., Gottbrecht, M. F., Fitzgibbons, T. P., Saczynski, J. S., Barton, B., Chon, K., & McManus, D. D. (2023). Accuracy, usability, and adherence of smartwatches for atrial fibrillation detection in older adults after stroke: Randomized controlled trial. *JMIR Cardio, 7*, Article e45137. https://doi.org/10.2196/45137
+REF|Dussault, C., Toeg, H., Nathan, M., Wang, Z. J., Roux, J.-F., & Secemsky, E. (2015). Electrocardiographic monitoring for detecting atrial fibrillation after ischemic stroke or transient ischemic attack: Systematic review and meta-analysis. *Circulation: Arrhythmia and Electrophysiology, 8*(2), 263–269. https://doi.org/10.1161/CIRCEP.114.002521
+REF|Elgendi, M., Norton, I., Brearley, M., Abbott, D., & Schuurmans, D. (2013). Systolic peak detection in acceleration photoplethysmograms measured from emergency responders in tropical conditions. *PLoS ONE, 8*(10), Article e76585. https://doi.org/10.1371/journal.pone.0076585
+REF|EPMoghaddam, D., Muguli, A., Razavi, M., & Aazhang, B. (2024). A graph-based cardiac arrhythmia classification methodology using one-lead ECG recordings. *Intelligent Systems with Applications, 22*, Article 200385. https://doi.org/10.1016/j.iswa.2024.200385
+REF|Garmin. (2023). *Garmin Enhanced BBI: An example night* [White paper]. Garmin Health. https://www8.garmin.com/garminhealth/news/Garmin-Enhanced-BBI_Final.pdf
+REF|Gladstone, D. J., Dorian, P., Spring, M., Panzov, V., Mamdani, M., Healey, J. S., & Thorpe, K. E. (2015). Atrial premature beats predict atrial fibrillation in cryptogenic stroke: Results from the EMBRACE trial. *Stroke, 46*(4), 936–941. https://doi.org/10.1161/STROKEAHA.115.008714
+REF|Gruwez, H., Evens, S., Desteghe, L., Knaepen, L., Dreesen, P., Wouters, F., Deferm, S., Dauw, J., Smeets, C., Pison, L., Haemers, P., Heidbuchel, H., & Vandervoort, P. (2021). Performance of an artificial intelligence algorithm to detect atrial fibrillation on a 24-hour continuous photoplethysmography recording using a smartwatch: ACURATE study [Abstract]. *European Heart Journal, 42*(Suppl. 1), Article ehab724.0489. https://doi.org/10.1093/eurheartj/ehab724.0489
+REF|Guo, C., Pleiss, G., Sun, Y., & Weinberger, K. Q. (2017). On calibration of modern neural networks. In D. Precup & Y. W. Teh (Eds.), *Proceedings of the 34th International Conference on Machine Learning* (Vol. 70, pp. 1321–1330). PMLR. https://proceedings.mlr.press/v70/guo17a.html
+REF|Haeusler, K. G., Kirchhof, P., Kunze, C., Tütüncü, S., Fiessler, C., Malsch, C., Olma, M. C., Jawad-Ul-Qamar, M., Krämer, M., Wachter, R., Michalski, D., Kraft, A., Rizos, T., Gröschel, K., Thomalla, G., Nabavi, D. G., Röther, J., Laufs, U., Veltkamp, R., . . . Endres, M. (2021). Systematic monitoring for detection of atrial fibrillation in patients with acute ischaemic stroke (MonDAFIS): A randomised, open-label, multicentre study. *The Lancet Neurology, 20*(6), 426–436. https://doi.org/10.1016/S1474-4422(21)00067-3
+REF|Haeusler, K. G., Tütüncü, S., Fiessler, C., Jawad-Ul-Qamar, M., Kunze, C., Schurig, J., Dietzel, J., Krämer, M., Petzold, G. C., Royl, G., Helberg, T., Thomalla, G., Nabavi, D. G., Röther, J., Laufs, U., Veltkamp, R., Heuschmann, P. U., Kirchhof, P., Olma, M. C., & Endres, M. (2025). Excessive supraventricular ectopic activity in patients with acute ischemic stroke is associated with atrial fibrillation detection within 24 months after stroke: A predefined analysis of the MonDAFIS study. *Journal of the American Heart Association, 14*(2), Article e034512. https://doi.org/10.1161/JAHA.123.034512
+REF|Han, D., Bashar, S. K., Mohagheghian, F., Ding, E., Whitcomb, C., McManus, D. D., & Chon, K. H. (2020). Premature atrial and ventricular contraction detection using photoplethysmographic data from a smartwatch. *Sensors, 20*(19), Article 5683. https://doi.org/10.3390/s20195683
+REF|Han, D., Moon, J., Mercado-Díaz, L. R., Chen, D., Williams, D., Mohagheghian, F., Ghetia, O., Peitzsch, A. G., Kong, Y., Nishita, N., Ghutadaria, O., Orwig, T. A., Mensah Otabil, E., Noorishirazi, K., Hamel, A., Dickson, E. L., DiMezza, D., Lessard, D., Wang, Z., . . . Chon, K. H. (2026). Multiclass arrhythmia classification using multimodal smartwatch photoplethysmography signals collected in real-life settings. *IEEE Transactions on Biomedical Engineering, 73*(4), 1679–1693. https://doi.org/10.1109/TBME.2025.3613471
+REF|Helbitz, A., Haris, M., Younsi, T., Romer, E., Ginks, W., Raveendra, K., Hayward, C., Shuweihdi, F., Larvin, H., Cameron, A., Wu, J., Buck, B., Lip, G. Y. H., Nadarajah, R., & Gale, C. P. (2025). Prediction of atrial fibrillation after a stroke event: A systematic review with meta-analysis. *Heart Rhythm, 22*(7), 1637–1645. https://doi.org/10.1016/j.hrthm.2025.01.026
+REF|Hu, R., Chen, J., & Zhou, L. (2022). A transformer-based deep neural network for arrhythmia detection using continuous ECG signals. *Computers in Biology and Medicine, 144*, Article 105325. https://doi.org/10.1016/j.compbiomed.2022.105325
+REF|Huntelaar, M. J., Selder, J. L., Hopman, L. H. G. A., Visser, M. C., & Allaart, C. P. (2024). Photoplethysmography-based atrial fibrillation detection in patients after cryptogenic stroke. *Frontiers in Stroke, 3*, Article 1496003. https://doi.org/10.3389/fstro.2024.1496003
+REF|Jeon, K.-H., Jang, J.-H., Kang, S., Lee, H. S., Lee, M. S., Son, J. M., Jo, Y.-Y., Park, T. J., Oh, I.-Y., Kwon, J.-M., & Lee, J. H. (2023). Identifying atrial fibrillation with sinus rhythm electrocardiogram in embolic stroke of undetermined source: A validation study with insertable cardiac monitors. *Korean Circulation Journal, 53*(11), 758–771. https://doi.org/10.4070/kcj.2023.0009
+REF|Johnson, L. S. B., Napiorkowski, N., Grotek, A., Dziubinski, M., Healey, J. S., & Engstrom, G. (2021). Activity levels influence frequency of premature atrial contractions [Abstract]. *European Heart Journal, 42*(Suppl. 1), Article ehab724.0304. https://doi.org/10.1093/eurheartj/ehab724.0304
+REF|Karlsson, M., Hörnsten, R., Rydberg, A., & Wiklund, U. (2012). Automatic filtering of outliers in RR intervals before analysis of heart rate variability in Holter recordings: A comparison with carefully edited data. *BioMedical Engineering OnLine, 11*, Article 2. https://doi.org/10.1186/1475-925X-11-2
+REF|Kishore, A. K., Hossain, M. J., Cameron, A., Dawson, J., Vail, A., & Smith, C. J. (2022). Use of risk scores for predicting new atrial fibrillation after ischemic stroke or transient ischemic attack: A systematic review. *International Journal of Stroke, 17*(6), 608–617. https://doi.org/10.1177/17474930211045880
+REF|Kraft, D., & Rumm, P. (2026). Automated detection of normal, atrial, and ventricular premature beats from single-lead ECG using convolutional neural networks. *Sensors, 26*(2), Article 513. https://doi.org/10.3390/s26020513
+REF|Larsen, B. S., Kumarathurai, P., Falkenberg, J., Nielsen, O. W., & Sajadieh, A. (2015). Excessive atrial ectopy and short atrial runs increase the risk of stroke beyond incident atrial fibrillation. *Journal of the American College of Cardiology, 66*(3), 232–241. https://doi.org/10.1016/j.jacc.2015.05.018
+REF|Larsen, B. S., Kumarathurai, P., Nielsen, O. W., & Sajadieh, A. (2016). The circadian variation of premature atrial contractions. *Europace, 18*(10), 1573–1580. https://doi.org/10.1093/europace/euv389
+REF|Lewis, M., Bromley, K., Sutton, C. J., McCray, G., Myers, H. L., & Lancaster, G. A. (2021). Determining sample size for progression criteria for pragmatic pilot RCTs: The hypothesis test strikes back! *Pilot and Feasibility Studies, 7*, Article 40. https://doi.org/10.1186/s40814-021-00770-x
+REF|Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for heart rate variability time series artefact correction using novel beat classification. *Journal of Medical Engineering & Technology, 43*(3), 173–181. https://doi.org/10.1080/03091902.2019.1640306
+REF|Liu, Z., Zhou, B., Jiang, Z., Chen, X., Li, Y., Tang, M., & Miao, F. (2022). Multiclass arrhythmia detection and classification from photoplethysmography signals using a deep convolutional neural network. *Journal of the American Heart Association, 11*(7), Article e023555. https://doi.org/10.1161/JAHA.121.023555
+REF|Maille, B., Resseguier, N., Marijon, E., Behar, N., Badoz, M., Vuillier, F., Malrain, C., Grygorowicz, C., Klein, V., Menet, A., Dridi, M., Haddad, C., Calvet, D., Suissa, L., Sposato, L. A., Deharo, J.-C., Bejot, Y., & Guenancia, C. (2026). Identifying patients at low risk for atrial fibrillation after cryptogenic stroke: The PAVA score. *Europace, 28*(9), Article euag183. https://doi.org/10.1093/europace/euag183
+REF|Måneheim, A., Persson, A. P., Slusarczyk, M., Healey, J., Engstrom, G., & Johnson, L. (2023). How reliable are single day electrocardiogram measurements to detect excessive supraventricular ectopic activity? [Abstract]. *European Heart Journal, 44*(Suppl. 2), Article ehad655.303. https://doi.org/10.1093/eurheartj/ehad655.303
+REF|Måneheim, A., Economou Lundeberg, J., Persson, A. P., Edegran, A., Grotek-Cuprjak, A., Juhlin, T., Benezet-Mazuecos, J., Ellenbogen, K. A., Engström, G., Healey, J. S., & Johnson, L. S. (2024). Diagnostic reliability of monitoring for premature atrial and ventricular complexes. *Europace, 26*(8), Article euae198. https://doi.org/10.1093/europace/euae198
+REF|McIntyre, W. F., Benz, A. P., Becher, N., Healey, J. S., Granger, C. B., Rivard, L., Camm, A. J., Goette, A., Zapf, A., Alings, M., Connolly, S. J., Kirchhof, P., & Lopes, R. D. (2024). Direct oral anticoagulants for stroke prevention in patients with device-detected atrial fibrillation: A study-level meta-analysis of the NOAH-AFNET 6 and ARTESiA trials. *Circulation, 149*(13), 981–988. https://doi.org/10.1161/CIRCULATIONAHA.123.067512
+REF|Mele, F., Scopelliti, G., La Volpe, L., Ferrari Aggradi, C., Molitierno, N., Cova, I., Arosio, R., Schiavone, M., Fainardi, E., Salvadori, E., Bertora, P., Forleo, G., & Pantoni, L. (2025). Prediction scores of subclinical atrial fibrillation in patients with cryptogenic stroke and transient ischemic attack. *International Journal of Stroke, 20*(9), 1150–1158. https://doi.org/10.1177/17474930251341101
+REF|Merschel, S., & Reinhardt, L. (2022). Analyzability of photoplethysmographic smartwatch data by the Preventicus Heartbeats algorithm during everyday life: Feasibility study. *JMIR Formative Research, 6*(3), Article e29479. https://doi.org/10.2196/29479
+REF|Mittal, S., Oliveros, S., Li, J., Barroyer, T., Henry, C., & Gardella, C. (2021). AI filter improves positive predictive value of atrial fibrillation detection by an implantable loop recorder. *JACC: Clinical Electrophysiology, 7*(8), 965–975. https://doi.org/10.1016/j.jacep.2020.12.006
+REF|Moons, K. G. M., Damen, J. A. A., Kaul, T., Hooft, L., Andaur Navarro, C., Dhiman, P., Beam, A. L., Van Calster, B., Celi, L. A., Denaxas, S., Denniston, A. K., Ghassemi, M., Heinze, G., Kengne, A. P., Maier-Hein, L., Liu, X., Logullo, P., McCradden, M. D., Liu, N., . . . van Smeden, M. (2025). PROBAST+AI: An updated quality, risk of bias, and applicability assessment tool for prediction models using regression or artificial intelligence methods. *BMJ, 388*, Article e082505. https://doi.org/10.1136/bmj-2024-082505
+REF|Nijman, S. W. J., Leeuwenberg, A. M., Beekers, I., Verkouter, I., Jacobs, J. J. L., Bots, M. L., Asselbergs, F. W., Moons, K. G. M., & Debray, T. P. A. (2022). Missing data is poorly handled and reported in prediction model studies using machine learning: A literature review. *Journal of Clinical Epidemiology, 142*, 218–229. https://doi.org/10.1016/j.jclinepi.2021.11.023
+REF|Palaiodimou, L., Theodorou, A., Triantafyllou, S., Dilaveris, P., Flevari, P., Giannopoulos, G., Kossyvakis, C., Adreanides, E., Tympas, K., Nikolopoulos, P., Zompola, C., Bakola, E., Chondrogianni, M., Magiorkinis, G., Deftereos, S., Giannopoulos, S., Tsioufis, K., Filippatos, G., & Tsivgoulis, G. (2024). Performance of different risk scores for the detection of atrial fibrillation among patients with cryptogenic stroke. *Stroke, 55*(2), 454–462. https://doi.org/10.1161/STROKEAHA.123.044961
+REF|Pencina, K. M., Pencina, M. J., & D’Agostino, R. B. (2014). What to expect from net reclassification improvement with three categories. *Statistics in Medicine, 33*(28), 4975–4987. https://doi.org/10.1002/sim.6286
+REF|Pinnacchio, G., Scacciavillani, R., Narducci, M. L., Perna, F., Bencardino, G., Frisullo, G., Broccolini, A., Della Marca, G., Caliandro, P., Di Giorgi, N., Lenkowicz, J., Carcagnì, A., Calabresi, P., Sanna, T., & Pelargonio, G. (2026). External validation of published scoring systems to predict incident atrial fibrillation after cryptogenic stroke/embolic stroke of undetermined source. *Journal of the American Heart Association, 15*(13), Article e047601. https://doi.org/10.1161/JAHA.125.047601
+REF|Pinsky, P. F., & Gallas, B. (2012). Enriched designs for assessing discriminatory performance: Analysis of bias and variance. *Statistics in Medicine, 31*(6), 501–515. https://doi.org/10.1002/sim.4432
+REF|Schnabel, R. B., Haeusler, K. G., Healey, J. S., Freedman, B., Boriani, G., Brachmann, J., Brandes, A., Bustamante, A., Casadei, B., Crijns, H. J. G. M., Doehner, W., Engström, G., Fauchier, L., Friberg, L., Gladstone, D. J., Glotzer, T. V., Goto, S., Hankey, G. J., Harbison, J. A., . . . Yan, B. (2019). Searching for atrial fibrillation poststroke: A white paper of the AF-SCREEN International Collaboration. *Circulation, 140*(22), 1834–1850. https://doi.org/10.1161/CIRCULATIONAHA.119.040267
+REF|Schoels, M., Krumm, L., Nelde, A., Olma, M. C., Nolte, C. H., Scheitz, J. F., Klammer, M. G., Leithner, C., Meisel, A., Scheibe, F., Krämer, M., Haeusler, K. G., Endres, M., & Meisel, C. (2025). Artificial intelligence for prediction of atrial fibrillation in the stroke unit: A retrospective derivation validation cohort study. *eBioMedicine, 118*, Article 105869. https://doi.org/10.1016/j.ebiom.2025.105869
+REF|Shimada, Y., Todo, K., Doijiri, R., Yamazaki, H., Sonoda, K., Koge, J., Iwata, T., Ueno, Y., Yamagami, H., Kimura, N., Morimoto, M., Kondo, D., Koga, M., Nagata, E., Miyamoto, N., Kimura, Y., Gon, Y., Okazaki, S., Sasaki, T., & Mochizuki, H. (2024). Higher frequency of premature atrial contractions correlates with atrial fibrillation detection after cryptogenic stroke. *Stroke, 55*(4), 946–953. https://doi.org/10.1161/STROKEAHA.123.044813
+REF|Shoamanesh, A., Field, T. S., Coutts, S. B., Sharma, M., Gladstone, D., Hart, R. G., Boriani, G., Wright, D. J., Sticherling, C., Birnie, D. H., Gold, M. R., Erath, J. W., Kutyifa, V., Mian, R., Benz, A. P., Granger, C. B., McIntyre, W. F., Connolly, S. J., Nielsen, J. C., . . . Healey, J. S. (2025). Apixaban versus aspirin for stroke prevention in people with subclinical atrial fibrillation and a history of stroke or transient ischaemic attack: Subgroup analysis of the ARTESiA randomised controlled trial. *The Lancet Neurology, 24*(2), 140–151. https://doi.org/10.1016/S1474-4422(24)00475-7
+REF|Siejko, K. Z., Kupfer, M., Rajan, A., Herrmann, K., & Nair, D. (2025). Premature ventricular contraction detection and estimation of daily burden by an insertable cardiac monitor. *Heart Rhythm O2, 6*(4), 528–536. https://doi.org/10.1016/j.hroo.2025.01.004
+REF|Sisk, R., Sperrin, M., Peek, N., van Smeden, M., & Martin, G. P. (2023). Imputation and missing indicators for handling missing data in the development and deployment of clinical prediction models: A simulation study. *Statistical Methods in Medical Research, 32*(8), 1461–1477. https://doi.org/10.1177/09622802231165001
+REF|Skrebelyte-Strøm, L., Rønning, O. M., Dahl, F. A., Steine, K., & Kjekshus, H. (2022). Prediction of occult atrial fibrillation in patients after cryptogenic stroke and transient ischaemic attack: PROACTIA. *Europace, 24*(12), 1881–1888. https://doi.org/10.1093/europace/euac092
+REF|Tan, S., Androz, G., Chamseddine, A., Fecteau, P., Courville, A., Bengio, Y., & Cohen, J. P. (2019). *Icentia11K: An unsupervised representation learning dataset for arrhythmia subtype discovery* (arXiv:1910.09570). arXiv. https://doi.org/10.48550/arXiv.1910.09570
+REF|Tao, Y., Xu, J., Gong, X., Sun, J., & Yang, D. (2021). Premature atrial complexes can predict atrial fibrillation in ischemic stroke patients: A systematic review and meta-analysis. *Pacing and Clinical Electrophysiology, 44*(9), 1599–1606. https://doi.org/10.1111/pace.14302
+REF|Teare, M. D., Dimairo, M., Shephard, N., Hayman, A., Whitehead, A., & Walters, S. J. (2014). Sample size requirements to estimate key design parameters from external pilot randomised controlled trials: A simulation study. *Trials, 15*, Article 264. https://doi.org/10.1186/1745-6215-15-264
+REF|Theurl, F., Schreinlechner, M., Sappler, N., Toifl, M., Dolejsi, T., Hofer, F., Massmann, C., Steinbring, C., Komarek, S., Mölgg, K., Dejakum, B., Böhme, C., Kirchmair, R., Reinstadler, S., & Bauer, A. (2023). Smartwatch-derived heart rate variability: A head-to-head comparison with the gold standard in cardiovascular disease. *European Heart Journal: Digital Health, 4*(3), 155–164. https://doi.org/10.1093/ehjdh/ztad022
+REF|Tse, T., Mak-Yuen, Y. Y. K., Young, W., & Darzins, S. (2024). Feasibility of accelerometry in a self-directed upper limb activity program of a subacute setting with stroke survivors. *Brain Impairment, 25*(4), Article IB24008. https://doi.org/10.1071/IB24008
+REF|Tsivgoulis, G., Katsanos, A. H., Köhrmann, M., Caso, V., Perren, F., Palaiodimou, L., Deftereos, S., Giannopoulos, S., Ellul, J., Krogias, C., Mavridis, D., Triantafyllou, S., Alexandrov, A. W., Schellinger, P. D., & Alexandrov, A. V. (2019). Duration of implantable cardiac monitoring and detection of atrial fibrillation in ischemic stroke patients: A systematic review and meta-analysis. *Journal of Stroke, 21*(3), 302–311. https://doi.org/10.5853/jos.2019.01067
+REF|Universiti Malaya. (2025). *Policy and guidelines on the use of artificial intelligence (AI) in teaching and learning*. Institute for Advanced Studies, Universiti Malaya. https://ias.um.edu.my/Student%20Affairs/Guideline/Compilation%20Policy%20%26%20GP%20AI%20-%20Final%20V3.pdf
+REF|Vargova, E., Nemcova, A., Saclova, L., Smisek, R., Saleny, V., Sepsi, M., & Nováková, Z. (2026). *Effortless beat-level classification of PACs and PVCs in PPG signals* [Accepted abstract]. Computing in Cardiology 2026. https://cinc.org/2026/Program/accepted/166.html
+REF|Yang, M., Lin, Y., Cheng, H., Zheng, D., Tan, S., Zhu, L., Li, Z., Wang, X., & Yang, J. (2022). Excessive supraventricular ectopic activity and the risk of atrial fibrillation and stroke: A systematic review and meta-analysis. *Journal of Cardiovascular Development and Disease, 9*(12), Article 461. https://doi.org/10.3390/jcdd9120461
+REF|Zheng, D., Allen, J., & Murray, A. (2008). Determination of aortic valve opening time and left ventricular peak filling rate from the peripheral pulse amplitude in patients with ectopic beats. *Physiological Measurement, 29*(12), 1411–1419. https://doi.org/10.1088/0967-3334/29/12/005
+REF|Zuo, S., Zhou, L., Feng, H., Massad, C., Abou Khalil, M., Wang, J., Wang, J., Zhao, Y., Li, F., Kong, X., Jiang, C., Li, X., Xia, S., He, L., Liu, X., Guo, X., Zhou, N., Li, S., Jiang, C., . . . Ma, C. (2026). Validation of smartwatches integrated with photoplethysmography for continuous evaluation of atrial fibrillation burden. *JACC: Clinical Electrophysiology, 12*(9), 2226–2237. https://doi.org/10.1016/j.jacep.2026.03.036
+
+
+PAGEBREAK
+
+# APPENDIX A: LITERATURE COMPARISON MATRIX
+
+TABLE|Table A.1: Comparison of the most relevant prior studies
+W|15|23|22|22|18
+Study | Data and setting | Method and metric | Key finding | Limitation for this study
+Gladstone et al. (2015) | EMBRACE; 237 cryptogenic stroke or TIA; 30-day monitor | Holter atrial premature beats; AF at 30 days, 90 days and 2 years | Only significant AF predictor | Single 24-hour Holter
+Shimada et al. (2024) | 381 cryptogenic stroke; implantable monitor; 8 centres | PAC groups; HR for AF | AF 15.5%, 44.0%, 71.4% per year; HR 3.23 for >500/24 h | Ectopy from one Holter
+Haeusler et al. (2025) | MonDAFIS; 1,435 acute ischaemic stroke | Holter ESVEA; AF at 24 months | ESVEA 25.3%; AF 18.5% vs 5.9% | In-hospital Holter
+Maille et al. (2026) | PAVA; 1,002 cryptogenic stroke; loop recorder | Score; c-index | PAC >200/24 h scores 2 points; c-index 0.79 | Holter-derived; internal validation only
+Jeon et al. (2023) | 221 ESUS; implantable monitor | Ectopic burden; AUROC | Burden alone 0.807; cut-off 0.050% | 24-hour Holter; combined model not validated
+Mittal et al. (2021) | 425 loop-recorder patients | Adjudicated false AF; PPV | PACs the commonest false-AF cause; PPV 53.9% | Subcutaneous ECG, not PPG
+Liu et al. (2022) | 228 ablation patients; 10-s PPG | Deep CNN; accuracy, sensitivity | Accuracy 85.0%; sensitivity 75.8% | In-hospital; segment labels
+Han et al. (2026) | Pulsewatch; 72 stroke/TIA plus 34 AF trial | Bi-GRU; window sensitivity | PAC/PVC sensitivity 83%; AF accuracy 97.31% | PAC and PVC merged; windows
+Chen et al. (2024) | Pulsewatch plus Simband and MIMIC-III | DenseNet; subject-independent | AF sensitivity 0.950; PAC/PVC 0.664 | External PAC/PVC 0.143 and 0.373
+Vargova et al. (2026) | Simulated and real PPG | Two interval features; beat F1 | PAC vs PVC F1 0.76 | Abstract; beat class, not count
+Siejko et al. (2025) | Insertable monitor vs Holter | Beat detection; daily burden r | r = 0.95 despite 80.1% sensitivity | PVCs; ECG device
+Schoels et al. (2025) | 2,068 stroke-unit patients; MonDAFIS external | HRV tree ensemble; AUROC | External AUROC 0.79 vs 0.68 (AS5F) | Ectopy interpolated away
+ENDTABLE
+
+PAGEBREAK
+
+# APPENDIX B: OPERATIONAL DEFINITIONS AND DATA SOURCES
+
+TABLE|Table B.1: Operational definitions used in this study
+W|24|76
+Term | Definition
+Beat-interval series | The sequence of pulse-to-pulse intervals a watch reports, without the waveform
+Per-beat quality flag | The device confidence that a reported interval is a genuine beat
+Coverage | The proportion of a monitoring period with analysable intervals, reported for each 6-hour block and for daytime and night-time
+Valid day | A day meeting the pre-specified minimum coverage in both the daytime and the night-time block
+Ectopy rate | Retention-weighted ectopic beats per analysable hour in each 6-hour block, combined by block length into a daily count
+Daily-equivalent count | 24 times a patient-level rate of ectopic beats per analysable hour; used on Icentia11k, whose segments are untimed, in place of a true daily count
+Pulse deficit | A premature beat that produces no detectable wrist pulse, so the watch reports one long interval instead of two
+ENDTABLE
+
+TABLE|Table B.2: Data sources, access and licences
+W|17|29|31|23
+Dataset | Content | Access and licence | Status
+Icentia11k | Single-lead ECG from 11,000 patients with beat labels | PhysioNet open access; CC BY-NC-SA 4.0 (non-commercial) | Annotations analysed (Section 4.2)
+Pulsewatch | Wrist PPG and accelerometer magnitude (50 Hz); 30-s labels; reference ECG R-peaks (250 Hz) for clinical-trial subjects, without beat types; alignment needs per-session lag correction | Synapse project syn23565056, dataset folder syn64402376, download after a request form; no explicit licence found, citation of the authors required; permitted use to be confirmed with the data contact | Used in pilot work; 8-subject retention check
+Simband; MIMIC-III | Wrist and fingertip PPG with rhythm labels | Research releases; MIMIC-III through credentialed PhysioNet access | Used in pilot work (re-curated labels); fallback external sets
+RO3 cohort | Garmin intervals, flags and accelerometer; routine records | PPUM medical research ethics approval and written consent | Pending device and ethics approval
+ENDTABLE
+
+TABLE|Table B.3: Disjoint sets of Icentia11k patients
+W|18|42|40
+Set | Use | Size and selection
+P0 | Preliminary RO1 analysis (Section 4.2) | 298 analysed of 300 sampled with a fixed seed
+P1 | H1 test of burden-dependent retention | New random sample, size fixed before analysis
+P2 | RO2 training, validation and test, split by subject | Random sample, split lists recorded and released
+P3 | RO4a held-out substitution test | About 300, untouched until the RO2 model is frozen (milestone M4)
+ENDTABLE
+
+PAGEBREAK
+
+# APPENDIX C: SIMULATION FOR THE PARTICIPANT-LEVEL ESTIMATE
+
+A pre-specified simulation generated seven days of four 6-hour blocks per participant to compare the per-day estimate, the pooled participant-level estimate (Equation 3.4) and shrinkage towards the published diurnal profile, before real data exist. Each layer is calibrated to a published value or swept where unknown (Table C.1). Retention and PAC identification were treated as known, so the simulation isolates coverage. Beat loss was set to the 20% filter retention of 0.391, which is pessimistic for a device that flags abnormal beats rather than deleting them (Garmin, 2023); results therefore isolate coverage under heavy beat loss.
+
+TABLE|Table C.1: Simulation layers, sources and calibration
+W|24|46|30
+Layer | Value and source | Simulated (8 scenarios)
+PAC burden | Log-normal; spread from Icentia11k (Table 4.3); 25.3% with ESVEA at 480 per day (Haeusler et al., 2025) | 24.7% to 25.1% ESVEA
+Diurnal pattern | Block shape 0.87, 0.63, 1.11, 1.40 (Larsen et al., 2016, Figure 3); individual deviation swept | Swept
+Day-to-day variation | Calibrated to 76.6% one-day and 88.8% seven-day sensitivity (Måneheim et al., 2024) | 76.0% to 77.7%; 88.3% to 89.4%
+Wear | Daily wear 73% falling to 63% over 30 days (Ding et al., 2023) | 71.6% to 74.2% on day 1
+Usable signal | 71.5% over 24 hours, above 94% at night (Merschel & Reinhardt, 2022) | 71.4% to 71.6%; 93.9% to 94.2%
+Beat loss | PAC coupling intervals kept 39.1% at the 20% filter (Table 4.2) | Fixed
+Unknowns swept | Individual pattern deviation; PAC clustering; block coverage (typical or poor) | Two values each
+ENDTABLE
+
+With typical coverage, misclassification at 480 per day was 2.1% to 2.5% for the per-day estimate and 1.8% to 2.1% for pooling; with poor coverage, 4.2% to 4.4% against 2.7% to 3.3%, with median count error falling from about 20% to about 14%. Varying λ from 0.5 to 4 hours changed ESVEA class in 0.7% to 3.0% of participants. Under poor coverage, 58% to 61% of simulated participants had three or more day/night-valid days, but only 20% to 21% had three or more days meeting the per-block rule; the pooled count remained computable in 87% to 88%.
+
+PAGEBREAK
+
+# APPENDIX D: ABBREVIATIONS
+
+TABLE|Table D.1: Abbreviations
+W|22|78
+Abbreviation | Meaning
+AF | Atrial fibrillation
+AS5F, Brown ESUS-AF, C2HEST, CHA2DS2-VASc, HAVOC | Clinical risk scores for AF or stroke (Kishore et al., 2022)
+AUROC | Area under the receiver operating characteristic curve
+Bi-GRU; BiLSTM | Bidirectional gated recurrent unit; bidirectional long short-term memory network
+c-index | Concordance index
+CI | Confidence interval
+DenseNet | Densely connected convolutional network
+ECG | Electrocardiography
+EMBRACE | 30-Day Event Monitoring Belt for Recording Atrial Fibrillation After a Cerebral Ischemic Event trial
+ESUS | Embolic stroke of undetermined source
+ESVEA | Excessive supraventricular ectopic activity
+GRU-D | Gated recurrent unit with decay for missing values
+HR | Hazard ratio
+HRV | Heart rate variability
+ICC | Intraclass correlation coefficient
+ICU | Intensive care unit
+MIMIC-III | Medical Information Mart for Intensive Care III
+MonDAFIS | Impact of Standardized Monitoring for Detection of Atrial Fibrillation in Ischemic Stroke study
+NT-proBNP | N-terminal pro-B-type natriuretic peptide
+PAC; PVC | Premature atrial contraction; premature ventricular contraction
+PAVA; PROACTIA | AF risk scores including PAC counts (Maille et al., 2026; Skrebelyte-Strøm et al., 2022)
+PPG | Photoplethysmography
+PPV | Positive predictive value
+PROBAST+AI | Prediction model Risk Of Bias Assessment Tool, updated for artificial intelligence
+RO; RQ | Research objective; research question
+RR interval | Interval between successive R waves of the ECG
+ST-GNN | Spatio-temporal graph neural network
+SVM | Support vector machine
+TIA | Transient ischaemic attack
+κ | Cohen's kappa (agreement); λ denotes the shrinkage strength in Section 3.4
+ENDTABLE

@@ -1,0 +1,10 @@
+<section id="app-a7" style="background:#ffffff;color:#1a1a1a;font-family:Arial, Helvetica, sans-serif;padding:88px 112px 120px;display:flex;flex-direction:column;gap:24px">
+<h2 style="font-size:44px;font-weight:700;line-height:1.15">Appendix A7: Beat-Level Models and Graph Representations</h2>
+<table style="width:100%;font-size:24px;color:#1a1a1a;border:1px solid #8a8a8a">
+<tr><th style="width:17%;text-align:left">Author (Year)</th><th style="width:24%;text-align:left">Data / Model</th><th style="width:17%;text-align:left">Output</th><th style="width:25%;text-align:left">Key findings</th><th style="width:17%;text-align:left">Limitation</th></tr>
+<tr><td><b>Dias et al. (2021)</b></td><td>MIT-BIH inter-patient; RR, morphology, higher-order statistics</td><td>N, S, V beats</td><td>Supraventricular sensitivity 89.7%, PPV 36.8% (with simulated R-peak jitter)</td><td>Low PPV would inflate a count</td></tr>
+<tr><td><b>Hu et al. (2022)</b></td><td>ECG DETR transformer; continuous single-lead ECG</td><td>Position and class of every beat</td><td>Accuracy 99.12% (8 labels)</td><td>Within-database CV; ECG</td></tr>
+<tr><td><b>EPMoghaddam et al. (2024)</b></td><td>Visibility graphs; GCN, MLP, random forest</td><td>6 classes incl. PAC</td><td>MLP 99.02% slightly above the GCN</td><td>Graph alone gave no advantage</td></tr>
+<tr><td><b>Kraft et al. (2026)</b></td><td>1D U-Net trained on Icentia11k; 7 external sets</td><td>Normal, PAC, PVC segmentation</td><td>PAC sensitivity 0.539 to 0.797 vs PVC up to 0.986</td><td>Even with P waves, PAC varies</td></tr>
+</table>
+</section>

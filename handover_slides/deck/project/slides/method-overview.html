@@ -1,0 +1,36 @@
+<section id="method-overview" style="background:#ffffff;color:#1a1a1a;font-family:Arial, Helvetica, sans-serif;padding:88px 112px 140px;display:flex;flex-direction:column;gap:28px">
+<h2 style="font-size:52px;font-weight:700;line-height:1.15">Research Methodology: Overview</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:20px">
+<div style="display:flex;flex-direction:column;gap:16px;padding:24px;border:3px solid #1a1a1a">
+<p style="font-size:24px;color:#4a4a4a">Phase 1 · RO1</p>
+<h3 style="font-size:28px;font-weight:700;line-height:1.2">Investigate information loss</h3>
+<p style="font-size:24px;line-height:1.3"><b>Data:</b> Pulsewatch (PPG, window labels); Icentia11k (ECG beat labels)</p>
+<p style="font-size:24px;line-height:1.3"><b>Analyses:</b> waveform vs interval model; filter threshold sweep; premature vs PAC-only count</p>
+<p style="font-size:24px;line-height:1.3"><b>Outputs:</b> morphology loss; share of ectopic beats filtered; count bias by burden</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:16px;padding:24px;border:3px solid #1a1a1a">
+<p style="font-size:24px;color:#4a4a4a">Phase 2 · RO2</p>
+<h3 style="font-size:28px;font-weight:700;line-height:1.2">Develop two-scale ST-GNN</h3>
+<p style="font-size:24px;line-height:1.3"><b>Model:</b> beat-graph per window; epoch-graph over the day; flag as input; frozen retention correction; coverage gate</p>
+<p style="font-size:24px;line-height:1.3"><b>Compared with:</b> classical, rule-based and sequence baselines; ablations (remove a part, retest)</p>
+<p style="font-size:24px;line-height:1.3"><b>Outputs:</b> daily-rate error; bias and limits of agreement</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:16px;padding:24px;border:3px solid #1a1a1a">
+<p style="font-size:24px;color:#4a4a4a">Phase 3 · RO3</p>
+<h3 style="font-size:28px;font-weight:700;line-height:1.2">Evaluate deployability</h3>
+<p style="font-size:24px;line-height:1.3"><b>Cohort:</b> ischaemic stroke or TIA; 7-day continuous wear; recruit about 40, analyse ≥34</p>
+<p style="font-size:24px;line-height:1.3"><b>Measures:</b> yield; computability; day-to-day stability; activity; ESVEA proportion</p>
+<p style="font-size:24px;line-height:1.3"><b>Outputs:</b> feasibility against progression criteria; abstention rate (days left unreported)</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:16px;padding:24px;border:3px solid #1a1a1a">
+<p style="font-size:24px;color:#4a4a4a">Phase 4 · RO4</p>
+<h3 style="font-size:28px;font-weight:700;line-height:1.2">Substitute and validate</h3>
+<p style="font-size:24px;line-height:1.3"><b>4a:</b> held-out (unseen during development) Icentia11k patients degraded to smartwatch-like intervals; validated against ECG labels</p>
+<p style="font-size:24px;line-height:1.3"><b>4b:</b> cohort; wearable vs score-based selections</p>
+<p style="font-size:24px;line-height:1.3"><b>Outputs:</b> reclassification rate; agreement and composition</p>
+</div>
+</div>
+<p style="font-size:24px;line-height:1.3;color:#3a3a3a">Design: three retrospective secondary-data analyses (RO1, RO2, RO4a) and one prospective observational cohort (RO3, RO4b).</p>
+<p style="position:absolute;right:112px;bottom:56px;width:200px;text-align:right;font-size:24px;color:#6b6b6b">12</p>
+<aside>Backup: Appendix D4 (what each source brings; why the order is fixed). About 1 minute. Four phases in order, each feeding the next: RO1 measures the loss, RO2 builds the estimator, RO3 tests delivery in patients, RO4 asks whether it changes classification. RO4 now has a retrospective arm (4a) with ECG truth, and a prospective descriptive arm (4b).</aside>
+</section>
