@@ -27,7 +27,7 @@ Keep the **Status** column current: `Not started`, `In progress`, `Done (date, c
 | A7 | **P0 reproduction (T2, G1)** | W4 | See section E, all values equal | `s04_reproduce_p0.py` exits 0 | Not passed (locked rule); proceeding by decision of 12 Nov 2026, see `analysis/notes/2026-11-12_G1_decision.md` |
 | A8 | D1 power note (T3) | W4 | P1 size = smallest with ≥90% power at half the P0 effect [Proposed rule] | `notes/<date>_D1_P1_size.md` committed **before** P1 is drawn | Done (13 Nov 2026, commit "A8"): `notes/2026-11-13_D1_P1_size.md`; P1 size = 900 (power 0.914 at half the P0 effect; false-positive rate 0.040 at 900); first run invalid (glmm SE bug, fixed in 2bd3374) and discarded; size confirmed 13 Nov 2026 |
 | A9 | P1 drawn (T1) | W4 | Size from A8; disjoint | Committed | Done (13 Nov 2026, commit "A9"): 900 ids, seed 20261113 (rule: date of the draw as YYYYMMDD); 0 overlap with P0 and P3; `sets.verify()` passes |
-| A10 | P2 drawn (T1) | W5 | All remaining patients, split 70/15/15 by patient (D2 [Proposed]) | Three lists committed | Not started |
+| A10 | P2 drawn (T1) | W5 | All remaining patients, split 70/15/15 by patient (D2 [Proposed]) | Three lists committed | Done (13 Nov 2026, commit "A10"): seed 20261114 (rule: the day after the P1 draw date, YYYYMMDD); P2_train 6,650, P2_val 1,425, P2_test 1,425; all six sets pairwise disjoint and cover 11,000; `sets.verify()` passes |
 | A11 | P1 and P2 built (T4) | W5 to W8 | About 10,400 patients; about 49 h serial, about 6 h in 8 jobs; about 6 GB labels | Manifest complete; re-run reports no checksum change | Not started |
 
 ## B. RO1 (T5 to T8e)
