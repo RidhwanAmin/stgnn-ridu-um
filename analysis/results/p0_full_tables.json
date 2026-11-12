@@ -1,0 +1,54 @@
+{
+  "cells": 39,
+  "equal": 33,
+  "differ": [
+    {
+      "table": "4.2",
+      "row": "pvc_coupling",
+      "column": "n",
+      "new": 405800.0,
+      "docx": 405273.0,
+      "equal": false
+    },
+    {
+      "table": "4.2",
+      "row": "pvc_coupling",
+      "column": "20%",
+      "new": 69.9,
+      "docx": 70.0,
+      "equal": false
+    },
+    {
+      "table": "4.2",
+      "row": "pvc_coupling",
+      "column": "30%",
+      "new": 46.4,
+      "docx": 46.5,
+      "equal": false
+    },
+    {
+      "table": "4.2",
+      "row": "pvc_coupling",
+      "column": "20% ESVEA neg",
+      "new": 65.3,
+      "docx": 65.4,
+      "equal": false
+    },
+    {
+      "table": "4.2",
+      "row": "normal",
+      "column": "n",
+      "new": 55218296.0,
+      "docx": 55206675.0,
+      "equal": false
+    },
+    {
+      "table": "4.3",
+      "row": "",
+      "column": "pac_h_q3",
+      "new": 13.35,
+      "docx": 13.38,
+      "equal": false
+    }
+  ]
+}

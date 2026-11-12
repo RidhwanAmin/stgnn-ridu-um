@@ -6,7 +6,7 @@ Keep the **Status** column current: `Not started`, `In progress`, `Done (date, c
 
 | Gate | Week | Passes when | Evidence | Status |
 |---|---|---|---|---|
-| G1 | W4 | New pipeline reproduces Tables 4.2 and 4.3 on P0 exactly | `results/p0_reproduction.json`, script exits 0 | Not started |
+| G1 | W4 | New pipeline reproduces Tables 4.2 and 4.3 on P0 exactly | `results/p0_reproduction.json`, script exits 0 | Not passed (locked rule); proceeding by decision of 12 Nov 2026, see `analysis/notes/2026-11-12_G1_decision.md` |
 | G2 | W8 | P0, P1, P2 (train, val, test) and P3 locked; P1 and P2 downloaded and built | `splits/SHA256SUMS`; `raw/MANIFEST.sha256`; `summary.parquet` | Not started |
 | G3 | W11 | H1 result on P1 | `results/h1_P1.json` + committed pre-analysis note | Not started |
 | G4 | W15 | New lag method passes its pre-set rule | Lag note + result | Not started |
@@ -24,7 +24,7 @@ Keep the **Status** column current: `Not started`, `In progress`, `Done (date, c
 | A4 | P0 imported (T1) | W1 | `splits/P0.txt`: 300 ids, seed in header, hash in `SHA256SUMS` | Committed | Done (12 Nov 2026, commit "A4"): regenerated from the legacy draw rule `sorted(random.Random(2026).sample(range(11000), 300))` (no stored list found) |
 | A5 | P3 drawn and sealed (T1) | W1 | 300 ids, disjoint from P0; never downloaded before M4 | Committed; `s02_download.py P3` refuses | Not started |
 | A6 | P0 built (T2) | W2 | 300 patients downloaded (about 0.2 GB); 298 analysable | Tables and summary written | Done (12 Nov 2026, commit "A6"): 300 downloaded, 29,519 files (about 0.6 GB), checksums in `results/p0_raw_MANIFEST.sha256`; 3 .atr files absent on PhysioNet (`results/p0_raw_MISSING.txt`); 298 analysable (p08269 and p10564 contain only Q beats) |
-| A7 | **P0 reproduction (T2, G1)** | W4 | See section E, all values equal | `s04_reproduce_p0.py` exits 0 | Not started |
+| A7 | **P0 reproduction (T2, G1)** | W4 | See section E, all values equal | `s04_reproduce_p0.py` exits 0 | Not passed (locked rule); proceeding by decision of 12 Nov 2026, see `analysis/notes/2026-11-12_G1_decision.md` |
 | A8 | D1 power note (T3) | W4 | P1 size = smallest with ≥90% power at half the P0 effect [Proposed rule] | `notes/<date>_D1_P1_size.md` committed **before** P1 is drawn | Not started |
 | A9 | P1 drawn (T1) | W4 | Size from A8; disjoint | Committed | Not started |
 | A10 | P2 drawn (T1) | W5 | All remaining patients, split 70/15/15 by patient (D2 [Proposed]) | Three lists committed | Not started |

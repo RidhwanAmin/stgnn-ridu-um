@@ -28,14 +28,28 @@ def apply_filter(ivs: pd.DataFrame, threshold: float) -> np.ndarray:
     return percent_deviation_by_segment(ivs["rr_s"].to_numpy(), ivs["segment"].to_numpy(), threshold)
 
 
+def category_masks(ivs: pd.DataFrame) -> dict[str, np.ndarray]:
+    """Table 4.2 categories as in the preliminary script: each is its own mask and they overlap.
+    An S-S interval counts as PAC coupling and as pause after PAC; an S-V interval counts as PVC
+    coupling and as pause after PAC (legacy/ro1_preliminary/incentia_ro1_prelim.py, aligned for G1)."""
+    st, en = ivs["start_cls"].to_numpy(), ivs["end_cls"].to_numpy()
+    return {
+        "pac_coupling": en == "S",
+        "pause_after_pac": st == "S",
+        "pvc_coupling": en == "V",
+        "normal": (st == "N") & (en == "N"),
+    }
+
+
 def removal_counts(ivs: pd.DataFrame, keep: np.ndarray, af: str = "include") -> pd.DataFrame:
     """Per category: n tallied, n removed. af in {'include', 'exclude'} (Decision D3)."""
-    m = ivs["tally"].to_numpy().copy()
+    m = ivs["tally"].to_numpy().astype(bool)
     if af == "exclude":
-        m &= ~ivs["in_af"].to_numpy()
-    d = pd.DataFrame({"category": ivs["category"].to_numpy()[m], "removed": ~keep[m]})
-    g = d.groupby("category")["removed"].agg(["size", "sum"]).rename(columns={"size": "n", "sum": "removed"})
-    return g.reset_index()
+        m &= ~ivs["in_af"].to_numpy().astype(bool)
+    removed = ~np.asarray(keep, dtype=bool)
+    rows = [{"category": c, "n": int((m & mk).sum()), "removed": int((m & mk & removed).sum())}
+            for c, mk in category_masks(ivs).items()]
+    return pd.DataFrame(rows)
 
 
 def patient_threshold_sweep(pid: str, ivs: pd.DataFrame, thresholds=np.arange(0.10, 0.301, 0.01),

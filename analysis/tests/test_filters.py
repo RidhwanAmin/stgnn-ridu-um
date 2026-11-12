@@ -22,6 +22,14 @@ def test_reference_restarts_per_segment():
     assert not percent_deviation(rr, 0.2)[10]
 
 
+def test_warmup_matches_legacy():
+    """First five intervals are accepted untested (legacy deviation_filter)."""
+    rr = np.array([0.8, 0.4, 0.8, 1.6, 0.8, 0.8, 0.4])
+    keep = percent_deviation(rr, 0.2)
+    assert keep[:5].all()                 # 0.4 and 1.6 inside the warm-up are kept
+    assert keep[5] and not keep[6]        # median of [0.8,0.4,0.8,1.6,0.8] is 0.8
+
+
 def test_adaptive_flags_ectopic():
     pytest.importorskip("neurokit2")
     from esvea.ro1.filters import adaptive_lipponen_tarvainen

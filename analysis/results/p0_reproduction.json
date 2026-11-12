@@ -1,0 +1,40 @@
+{
+  "got": {
+    "n_patients": 298,
+    "removed_pac_coupling": 0.609,
+    "removed_pause_after_pac": 0.545,
+    "removed_pvc_coupling": 0.699,
+    "removed_normal": 0.088,
+    "removed_pac_esvea_neg": 0.785,
+    "removed_pac_esvea_pos": 0.6,
+    "n_esvea_480": 67,
+    "n_esvea_30h": 54,
+    "n_esvea_binici": 66,
+    "median_hours": 57.5,
+    "median_pac_per_hour": 1.35
+  },
+  "target": {
+    "n_patients": 298,
+    "removed_pac_coupling": 0.609,
+    "removed_pause_after_pac": 0.545,
+    "removed_pvc_coupling": 0.7,
+    "removed_normal": 0.088,
+    "removed_pac_esvea_neg": 0.785,
+    "removed_pac_esvea_pos": 0.6,
+    "n_esvea_480": 67,
+    "n_esvea_30h": 54,
+    "n_esvea_binici": 66,
+    "median_hours": 57.5,
+    "median_pac_per_hour": 1.35
+  },
+  "diff": {
+    "removed_pvc_coupling": [
+      0.699,
+      0.7
+    ]
+  },
+  "not_analysable": [
+    "p08269",
+    "p10564"
+  ]
+}

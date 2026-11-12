@@ -1,0 +1,40 @@
+table,row,column,new,docx,equal
+4.2,pac_coupling,n,867752.0,867745.0,True
+4.2,pac_coupling,10%,81.5,81.5,True
+4.2,pac_coupling,20%,60.9,60.9,True
+4.2,pac_coupling,30%,37.4,37.4,True
+4.2,pac_coupling,20% ESVEA neg,78.5,78.5,True
+4.2,pac_coupling,20% ESVEA pos,60.0,60.0,True
+4.2,pause_after_pac,n,864833.0,864826.0,True
+4.2,pause_after_pac,10%,74.9,74.9,True
+4.2,pause_after_pac,20%,54.5,54.5,True
+4.2,pause_after_pac,30%,37.3,37.3,True
+4.2,pause_after_pac,20% ESVEA neg,50.1,50.1,True
+4.2,pause_after_pac,20% ESVEA pos,54.8,54.8,True
+4.2,pvc_coupling,n,405800.0,405273.0,False
+4.2,pvc_coupling,10%,85.4,85.4,True
+4.2,pvc_coupling,20%,69.9,70.0,False
+4.2,pvc_coupling,30%,46.4,46.5,False
+4.2,pvc_coupling,20% ESVEA neg,65.3,65.4,False
+4.2,pvc_coupling,20% ESVEA pos,77.9,77.9,True
+4.2,normal,n,55218296.0,55206675.0,False
+4.2,normal,10%,20.1,20.1,True
+4.2,normal,20%,8.8,8.8,True
+4.2,normal,30%,6.2,6.2,True
+4.2,normal,20% ESVEA neg,8.1,8.1,True
+4.2,normal,20% ESVEA pos,11.5,11.5,True
+4.3,,n_patients,298.0,298.0,True
+4.3,,hours_median,57.5,57.5,True
+4.3,,hours_q1,55.5,55.5,True
+4.3,,hours_q3,58.1,58.1,True
+4.3,,pac_h_median,1.35,1.35,True
+4.3,,pac_h_q1,0.23,0.23,True
+4.3,,pac_h_q3,13.35,13.38,False
+4.3,,n_30h,54.0,54.0,True
+4.3,,pct_30h,18.1,18.1,True
+4.3,,n_480d,67.0,67.0,True
+4.3,,pct_480d,22.5,22.5,True
+4.3,,n_run20,25.0,25.0,True
+4.3,,pct_run20,8.4,8.4,True
+4.3,,n_binici,66.0,66.0,True
+4.3,,pct_binici,22.1,22.1,True

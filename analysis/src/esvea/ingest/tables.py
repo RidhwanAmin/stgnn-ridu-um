@@ -4,8 +4,18 @@ Rules carried over from the preliminary analysis (section 4.2):
 * intervals are formed only between consecutive beats of the same segment (segments are untimed and
   not in chronological order, so no interval crosses a segment boundary);
 * every interval goes through the filter, but tallies exclude intervals touching a Q beat and
-  intervals outside 0.2 to 3.0 s;
-* rate = PACs per analysed hour, where analysed hours are the summed segment durations.
+  intervals outside 0.2 to 3.0 s (strict on both ends);
+* rate = PACs per analysed hour.
+
+Aligned 12 Nov 2026 with legacy/ro1_preliminary/incentia_ro1_prelim.py (G1):
+* segments are read in order s00, s01, ... up to s49 and reading stops at the first missing segment;
+  a patient without s00 is not analysable;
+* a segment with fewer than 2 beats contributes nothing; a segment with fewer than 8 beats
+  (REF_WINDOW + 3) contributes beats and hours but no tallied intervals;
+* analysed hours of a segment = time from its first to its last non-Q beat (not the record length);
+* a patient is analysable if it has at least one non-Q (N, S or V) beat in the segments read
+  (G1 decision, 12 Nov 2026: a coded rule, not a list; on P0 it excludes p08269 and p10564, which
+  contain only Q beats).
 """
 from __future__ import annotations
 
@@ -17,6 +27,14 @@ import wfdb
 
 from ..config import AF_RHYTHMS, BEAT_SYMBOLS, BINICI_RUN_BEATS, ESVEA_PRIMARY_PER_DAY, \
     ESVEA_SECONDARY_PER_HOUR, FS, RR_MAX_S, RR_MIN_S
+
+MAX_SEGMENTS = 50                 # legacy MAX_SEGMENTS
+MIN_BEATS_FOR_INTERVALS = 8       # legacy REF_WINDOW + 3
+
+
+def is_analysable(summ: dict) -> bool:
+    """G1 decision rule: at least one non-Q beat (N, S or V)."""
+    return bool(summ["n_N"] + summ["n_S"] + summ["n_V"] > 0)
 
 
 def beats_from_annotation(sample: np.ndarray, symbol: list[str], aux: list[str]) -> pd.DataFrame:
@@ -48,8 +66,16 @@ def intervals_from_beats(beats: pd.DataFrame, fs: int = FS) -> pd.DataFrame:
     af = beats["in_af"].to_numpy()
     rr = np.diff(s) / fs
     out = pd.DataFrame({"rr_s": rr, "start_cls": c[:-1], "end_cls": c[1:], "in_af": af[:-1] | af[1:]})
-    out["tally"] = (out.start_cls != "Q") & (out.end_cls != "Q") & (out.rr_s >= RR_MIN_S) & (out.rr_s <= RR_MAX_S)
+    out["tally"] = (out.start_cls != "Q") & (out.end_cls != "Q") & (out.rr_s > RR_MIN_S) & (out.rr_s < RR_MAX_S)
+    if len(beats) < MIN_BEATS_FOR_INTERVALS:        # legacy: segment too short for the filter reference
+        out["tally"] = False
     return out
+
+
+def analysed_hours(beats: pd.DataFrame, fs: int = FS) -> float:
+    """Legacy definition: first to last classified (non-Q) beat of the segment."""
+    s = beats.loc[beats["cls"] != "Q", "sample"].to_numpy()
+    return float(s[-1] - s[0]) / fs / 3600.0 if len(s) > 1 else 0.0
 
 
 def interval_category(df: pd.DataFrame) -> pd.Series:
@@ -73,21 +99,33 @@ def longest_run(cls: np.ndarray, symbol: str = "S") -> int:
 def build_patient(pid: str, raw_root: Path) -> tuple[pd.DataFrame, pd.DataFrame, dict]:
     """Read every segment of one patient. Returns (beats, intervals, summary dict)."""
     pdir = raw_root / pid[:3] / pid
-    beat_parts, int_parts, hours, run = [], [], 0.0, 0
-    for hea in sorted(pdir.glob(f"{pid}_s*.hea")):
-        seg = int(hea.stem.split("_s")[1])
-        b, h = read_segment(hea.with_suffix(""))
-        hours += h
+    beat_parts, int_parts, hours, rec_hours, run = [], [], 0.0, 0.0, 0
+    for seg in range(MAX_SEGMENTS):
+        rec = pdir / f"{pid}_s{seg:02d}"
+        if not rec.with_suffix(".hea").exists() or not rec.with_suffix(".atr").exists():
+            break                                    # legacy: stop at the first missing segment
+        b, h = read_segment(rec)
+        if len(b) < 2:
+            continue
+        hours += analysed_hours(b)
+        rec_hours += h
         run = max(run, longest_run(b["cls"].to_numpy()))
         b.insert(0, "segment", seg)
         iv = intervals_from_beats(b)
         iv.insert(0, "segment", seg)
         beat_parts.append(b)
         int_parts.append(iv)
-    beats = pd.concat(beat_parts, ignore_index=True)
-    ivs = pd.concat(int_parts, ignore_index=True)
-    ivs["category"] = interval_category(ivs)
-    return beats, ivs, summarise(pid, beats, hours, run)
+    if not beat_parts:
+        beats = pd.DataFrame(columns=["segment", "sample", "cls", "in_af"])
+        ivs = pd.DataFrame(columns=["segment", "rr_s", "start_cls", "end_cls", "in_af", "tally", "category"])
+    else:
+        beats = pd.concat(beat_parts, ignore_index=True)
+        ivs = pd.concat(int_parts, ignore_index=True)
+        ivs["category"] = interval_category(ivs)
+    summ = summarise(pid, beats, hours, run)
+    summ["record_hours"] = rec_hours
+    summ["analysable"] = is_analysable(summ)
+    return beats, ivs, summ
 
 
 def summarise(pid: str, beats: pd.DataFrame, hours: float, longest_s_run: int) -> dict:

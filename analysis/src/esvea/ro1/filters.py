@@ -4,9 +4,10 @@ percent_deviation: the deployed-style rule used in section 4.2 (Karlsson et al.,
 accepted if it deviates from the median of the last five accepted intervals by at most the threshold.
 The filter runs per segment and restarts at each segment.
 
-STATUS: the warm-up rule (fewer than five accepted intervals) is an assumption. The first check of
-Stage A is that P0 reproduces Tables 4.2 and 4.3; if it does not, align this function with the
-preliminary script before anything else.
+Warm-up rule (checked 12 Nov 2026 against legacy/ro1_preliminary/incentia_ro1_prelim.py,
+`deviation_filter`): the first `ref_n` intervals of a segment are accepted unconditionally and form
+the reference; testing starts at interval `ref_n`. The filter runs on every interval of the segment,
+including intervals that touch a Q beat or fall outside 0.2 to 3.0 s.
 
 adaptive_lipponen_tarvainen: Lipponen and Tarvainen (2019), through NeuroKit2's 'Kubios' method.
 Verify the index convention (interval i ends at peak i) on the unit test before using results.
@@ -24,12 +25,14 @@ def percent_deviation(rr: np.ndarray, threshold: float, ref_n: int = 5) -> np.nd
     keep = np.zeros(len(rr), dtype=bool)
     ref: deque[float] = deque(maxlen=ref_n)
     for i, x in enumerate(rr):
-        if not ref:                       # first interval of a segment seeds the reference
+        if i < ref_n:                     # warm-up: first ref_n intervals accepted untested (legacy rule)
             keep[i] = True
             ref.append(x)
             continue
         m = float(np.median(ref))
-        if abs(x - m) <= threshold * m:
+        # same floating-point expression as the legacy script: RR values are multiples of 4 ms, so
+        # deviations of exactly the threshold are common and |x-m| <= t*m rounds differently
+        if not (abs(x - m) / m > threshold):
             keep[i] = True
             ref.append(x)
     return keep
