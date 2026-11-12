@@ -1,40 +1,119 @@
-"""D1: size of P1 from a power simulation on P0. Writes a dated note to commit BEFORE drawing P1."""
-import datetime as dt
+"""D1: size of P1 from a power simulation on P0. Writes a dated note to commit BEFORE drawing P1.
 
+Rule (unchanged): P1 size = smallest size in the grid with at least 90% power at HALF the P0 effect.
+The script exits with an error, and writes no note, if no size in the grid meets the rule.
+After the grid, the false-positive rate (true b = 0) is checked at the chosen size.
+
+Each (effect, size) cell runs in its own process with a recorded seed (2026 + size for the P0 effect,
+102026 + size for half the effect, 202026 + chunk for the false-positive check).
+"""
+import datetime as dt
+import multiprocessing
+import os
+import time
+from concurrent.futures import ProcessPoolExecutor
+
+os.environ.setdefault("OMP_NUM_THREADS", "1")      # one thread per worker process; set before numpy loads
+os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
 import numpy as np
 import pandas as pd
+from scipy import stats
 
-from esvea.config import NOTES
-from esvea.io import iter_intervals, load_summary
-from esvea.ro1 import glmm
-from esvea.ro1.retention import apply_filter, removal_counts
+SIZES = [300, 500, 700, 900, 1100, 1300, 1500]
+N_SIM = 500
+TARGET = 0.90
+N_SIM_NULL = 1000
+NULL_CHUNKS = 20
 
-s = load_summary(["P0"], "power_d1").set_index("patient")
-rows = []
-for pid, ivs in iter_intervals(["P0"], "power_d1"):
-    rc = removal_counts(ivs, apply_filter(ivs, 0.20)).set_index("category")
-    if "pac_coupling" in rc.index and rc.loc["pac_coupling", "n"] > 0 and s.loc[pid, "n_S"] > 0:
-        n = int(rc.loc["pac_coupling", "n"])
-        rows.append((pid, n - int(rc.loc["pac_coupling", "removed"]), n, np.log(s.loc[pid, "pac_per_hour"])))
-d = pd.DataFrame(rows, columns=["patient", "k", "n", "x"])
-f = glmm.fit(d.k, d.n, d.x)
-sizes = [50, 75, 100, 150, 200, 300]
-# Power for half the P0 effect as well: the P0 effect is an optimistic planning value.
-pw_full = glmm.power(sizes, f.a, f.b, f.sigma, d.x.to_numpy(), d.n.to_numpy(), n_sim=500)
-pw_half = glmm.power(sizes, f.a, f.b / 2, f.sigma, d.x.to_numpy(), d.n.to_numpy(), n_sim=500)
-choice = glmm.smallest_size(pw_half) or max(sizes)
-note = NOTES / f"{dt.date.today()}_D1_P1_size.md"
-note.write_text(f"""# D1: size of P1 (written before P1 is drawn)
 
-P0 fit (20% threshold, PAC coupling retention on log PACs/h, patient random intercept): b = {f.b:.3f}
-(95% CI {f.ci_b[0]:.3f} to {f.ci_b[1]:.3f}), sigma = {f.sigma:.3f}, n patients = {len(d)}.
+def load():
+    from esvea.io import iter_intervals, load_summary
+    from esvea.ro1.retention import apply_filter, removal_counts
 
-Power (500 simulations each, alpha 0.05, two-sided):
+    s = load_summary(["P0"], "power_d1").set_index("patient")
+    rows = []
+    for pid, ivs in iter_intervals(["P0"], "power_d1"):
+        rc = removal_counts(ivs, apply_filter(ivs, 0.20)).set_index("category")
+        if "pac_coupling" in rc.index and rc.loc["pac_coupling", "n"] > 0 and s.loc[pid, "n_S"] > 0:
+            n = int(rc.loc["pac_coupling", "n"])
+            rows.append((pid, n - int(rc.loc["pac_coupling", "removed"]), n, np.log(s.loc[pid, "pac_per_hour"])))
+    return pd.DataFrame(rows, columns=["patient", "k", "n", "x"])
+
+
+def _job(args):
+    size, a, b, sigma, x, n, n_sim, seed = args
+    from esvea.ro1 import glmm
+    return glmm.power([size], a, b, sigma, x, n, n_sim=n_sim, seed=seed)[size]
+
+
+def main():
+    from esvea.config import NOTES
+    from esvea.ro1 import glmm
+
+    t0 = time.time()
+    d = load()
+    x, n = d.x.to_numpy(), d.n.to_numpy()
+    f = glmm.fit(d.k, d.n, d.x)
+    prof = glmm.profile_ci_b(d.k, d.n, d.x, f)
+    print(f"P0 fit: b={f.b:.4f} Wald {f.ci_b[0]:.4f} to {f.ci_b[1]:.4f}, profile {prof[0]:.4f} to {prof[1]:.4f}, "
+          f"sigma={f.sigma:.3f}, n={len(d)}", flush=True)
+
+    jobs = [(m, f.a, f.b, f.sigma, x, n, N_SIM, 2026 + m) for m in SIZES] + \
+           [(m, f.a, f.b / 2, f.sigma, x, n, N_SIM, 102026 + m) for m in SIZES]
+    with ProcessPoolExecutor(max_workers=min(len(jobs), os.cpu_count() or 1)) as ex:
+        res = list(ex.map(_job, jobs))
+    pw_full, pw_half = dict(zip(SIZES, res[:len(SIZES)])), dict(zip(SIZES, res[len(SIZES):]))
+    table = "".join(f"| {m} | {pw_full[m]:.3f} | {pw_half[m]:.3f} |\n" for m in SIZES)
+    print(table, flush=True)
+
+    choice = glmm.smallest_size(pw_half, TARGET)
+    if choice is None:
+        raise SystemExit(f"No size in {SIZES} reaches {TARGET:.2f} power at half the P0 effect; no note written.")
+
+    per = N_SIM_NULL // NULL_CHUNKS
+    null_jobs = [(choice, f.a, 0.0, f.sigma, x, n, per, 202026 + c) for c in range(NULL_CHUNKS)]
+    with ProcessPoolExecutor(max_workers=min(NULL_CHUNKS, os.cpu_count() or 1)) as ex:
+        rej = int(round(sum(ex.map(_job, null_jobs)) * per))
+    fp = rej / N_SIM_NULL
+    fp_lo, fp_hi = stats.binomtest(rej, N_SIM_NULL).proportion_ci(0.95)
+    fp_ok = fp_lo <= 0.05 <= fp_hi
+    print(f"false-positive rate at {choice}: {fp:.3f} (95% CI {fp_lo:.3f} to {fp_hi:.3f})", flush=True)
+
+    note = NOTES / f"{dt.date.today()}_D1_P1_size.md"
+    note.write_text(f"""# D1: size of P1 (written before P1 is drawn)
+
+Date: {dt.date.today():%d %B %Y}. Checklist A8; runbook T3. Generated by `scripts/s05_power_d1.py`.
+
+## P0 fit
+
+H1 model on P0 (20% threshold; PAC coupling intervals retained per patient; logit of retention on log PACs/h
+with a patient random intercept; `esvea.ro1.glmm`), {len(d)} patients with at least one PAC:
+
+* b = {f.b:.4f}; Wald 95% CI {f.ci_b[0]:.4f} to {f.ci_b[1]:.4f} (SE {f.se_b:.4f})
+* profile-likelihood 95% CI {prof[0]:.4f} to {prof[1]:.4f}
+* a = {f.a:.4f}; sigma = {f.sigma:.4f}
+
+## Power
+
+{N_SIM} simulations per cell, alpha 0.05, two-sided Wald test of b. Patients are resampled from P0 (log PACs/h
+and interval count together) and retained counts drawn from the fitted model, with b set to the P0 estimate
+or to half of it. Seeds: 2026 + size (P0 effect), 102026 + size (half effect).
 
 | P1 size | power at P0 effect | power at half the P0 effect |
 |---|---|---|
-""" + "".join(f"| {m} | {pw_full[m]:.2f} | {pw_half[m]:.2f} |\n" for m in sizes) + f"""
-Rule: smallest size with >= 0.90 power at HALF the P0 effect. **P1 size = {choice}.**
-Seed for drawing P1: to be recorded in splits/P1.txt.
+{table}
+Rule: smallest size with at least {TARGET:.2f} power at HALF the P0 effect. **P1 size = {choice}.**
+
+## False-positive check at the chosen size
+
+True b = 0, size {choice}, {N_SIM_NULL} simulations (seeds 202026 to {202026 + NULL_CHUNKS - 1}): rejection rate
+{fp:.3f} (95% CI {fp_lo:.3f} to {fp_hi:.3f}); {"consistent with" if fp_ok else "NOT consistent with"} the nominal 0.05.
+
+Seed for drawing P1: to be recorded in `splits/P1.txt`. Run time {(time.time() - t0) / 60:.0f} min.
 """)
-print(note.read_text())
+    print(note.read_text())
+
+
+if __name__ == "__main__":
+    multiprocessing.freeze_support()
+    main()
