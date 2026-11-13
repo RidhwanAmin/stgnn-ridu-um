@@ -65,6 +65,19 @@ def download_patient(pid: str, out: Path = ICENTIA_RAW, overwrite: bool = False)
     return got
 
 
+def done_patients(manifest: Path) -> set[str]:
+    """Patients already in the manifest. A patient's lines are written only after its download returned,
+    so these are complete and are skipped on a re-run (no repeat requests to PhysioNet)."""
+    if not manifest.exists():
+        return set()
+    out = set()
+    for line in manifest.read_text().splitlines():
+        parts = line.split(maxsplit=1)
+        if len(parts) == 2:
+            out.add(Path(parts[1].strip()).parts[1])     # p00/p00008/p00008_s00.hea -> p00008
+    return out
+
+
 def write_manifest(paths: list[Path], manifest: Path) -> None:
     """Append 'sha256  relative/path' lines so the download can be re-verified later."""
     with manifest.open("a") as fh:
